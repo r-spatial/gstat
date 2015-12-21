@@ -6,4 +6,7 @@ Spatial and spatio-temporal geostatistical modelling, prediction and simulation
 
 See:
 
-* Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.  Computers & Geosciences, 30: 683-691.
+* Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.  Computers & Geosciences, 30: [683-691](http://www.sciencedirect.com/science/article/pii/S0098300404000676).
+* Benedikt Gr\"{a}ler, Edzer Pebesma, Gerard Heuvelink,
+submitted to the R Journal.  [Spatio-Temporal Geostatistics using
+gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf)
