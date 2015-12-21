@@ -1,0 +1,1 @@
+rm -f src/*.o src/gstat.so makefile src/makefile src/lex.l src/parse.y src/tags

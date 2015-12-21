@@ -1,0 +1,355 @@
+%% Document started, Sat Jul  3 19:30:52 CEST 2004, my 37th birthday,
+%% while being stuck for 24 hours at Philadelphia airport, on my way 
+%% back from the joint TIES/Accuracy 2004 symposium in Portland, ME.
+%% Continued, Oct 28, during the Apmosphere mid-term review. Oh, shame.
+
+% \VignetteIndexEntry{ The meuse data set: a tutorial for the gstat R package }
+
+\documentclass[a4paper]{article}
+\usepackage{hyperref}
+
+\newcommand{\code}[1]{{\tt #1}}
+
+\SweaveOpts{echo=TRUE}
+
+\title{The meuse data set: a brief tutorial\\
+for the {\tt gstat} R package }
+\author{\href{mailto:edzer.pebesma@uni-muenster.de}{Edzer Pebesma}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The \code{meuse} data set is a data set comprising of four heavy metals
+measured in the top soil in a flood plain along the river Meuse. The
+governing process seems that polluted sediment is carried by the river,
+and mostly deposited close to the river bank. This document shows a
+geostatistical analysis of this data set.
+
+This tutorial introduced the functionality of the R package \code{gstat},
+used in conjunction with package \code{sp}. Package \code{gstat} provides
+a wide range of univariable and multivariable geostatistical modelling,
+prediction and simulation functions, where package \code{sp} provides
+general purpose classes and methods for defining, importing/exporting
+and visualizing spatial data.
+
+\section{R geostatistics packages}
+Package \code{gstat} (Pebesma, 2004) is an R package that provides basic
+functionality for univariable and multivariable geostatistical analysis,
+including 
+\begin{itemize}
+\item variogram modelling, residual variogram modelling, and cross variogram
+modelling using fitting of parametric models to sample variograms
+\item geometric anisotropy specfied for each partial variogram model
+\item restricted maximum likelihood fitting of partial sills 
+\item variogram and cross variogram maps
+\item simple, ordinary, universal and external drift (co)kriging
+\item (sequential) Gaussian (co)simulation equivalents for each of
+the kriging varieties
+\item indicator (co)kriging and sequential indicator (co)simulation
+\item kriging in a local or global neighbourhood 
+\item block (co)kriging or simulation for each of the varieties, for
+rectangular or irregular blocks
+\end{itemize}
+Other geostatistical packages for R usually lack part of these options
+(e.g. block kriging, local kriging, or cokriging) but provide others:
+e.g. package \code{geoR} and \code{geoRglm} (by Paulo Ribeiro and Ole
+Christensen) provide the model-based geostatistics framework described
+in Diggle et al. (1998), package \code{fields} (Doug Nychka and others)
+provides thin plate spline interpolation, covariance functions for
+spherical coordinates (unprojected data), and routines for network
+design optimization.
+
+\section{Spatial data frames}
+Package \code{gstat} assumes that data are projected, i.e. they should
+not be provided as lattitude/longitude. As an example, we will look
+at the meuse data set, which is a regular data frame that comes with
+package \code{gstat} (remove the 88 from the colour strings to make
+a plot without alpha transparency on windows or X11):
+
+<<fig=FALSE>>=
+library(sp)
+data(meuse)
+class(meuse)
+names(meuse)
+coordinates(meuse) = ~x+y
+class(meuse)
+summary(meuse)
+coordinates(meuse)[1:5,]
+bubble(meuse, "zinc", 
+	col=c("#00ff0088", "#00ff0088"), main = "zinc concentrations (ppm)")
+@
+
+% the following is needed because lattice plots (bubble wraps xyplot) do not
+% show without an explicit print; in order not to confuse users, we hide this:
+<<fig=TRUE,echo=FALSE>>=
+print(bubble(meuse, "zinc", main = "zinc concentrations (ppm)"))
+@
+
+and note the following: 
+\begin{enumerate}
+\item the function \code{coordinates}, when assigned (i.e. on
+the left-hand side of an \verb|=| or \verb|<-| sign), promotes the
+\code{data.frame} meuse into a \code{SpatialPointsDataFrame}, which knows about
+its spatial coordinates; coordinates may be specified by a formula,
+a character vector, or a numeric matrix or data frame with the actual
+coordinates
+\item the function \code{coordinates}, when not assigned, {\em retrieves}
+the spatial coordinates from a \code{SpatialPointsDataFrame}.
+\item the two plotting functions used, \code{plot} and \code{bubble}
+assume that the $x$- and $y$-axis are the spatial coordinates, and
+choose the aspect ratio of the axes such that one unit in $x$
+equals one unit in $y$ (i.e., data are map data, projected).
+\end{enumerate}
+
+\section{Spatial data on a regular grid}
+
+<<fig=TRUE,echo=TRUE>>=
+data(meuse.grid)
+summary(meuse.grid)
+class(meuse.grid)
+coordinates(meuse.grid) = ~x+y
+class(meuse.grid)
+gridded(meuse.grid) = TRUE
+class(meuse.grid)
+image(meuse.grid["dist"])
+title("distance to river (red = 0)")
+library(gstat)
+zinc.idw = idw(zinc~1, meuse, meuse.grid)
+class(zinc.idw)
+spplot(zinc.idw["var1.pred"], main = "zinc inverse distance weighted interpolations")
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(spplot(zinc.idw["var1.pred"], main = "zinc inverse distance weighted interpolations"))
+@
+
+If you compare the bubble plot of zinc measurements with the map with
+distances to the river, it becomes evident that the larger concentrations
+are measured at locations close to the river. This relationship can be
+linearized by log-transforming the zinc concentrations, and taking the
+square root of distance to the river:
+
+<<fig=TRUE,echo=TRUE>>=
+plot(log(zinc)~sqrt(dist), meuse)
+abline(lm(log(zinc)~sqrt(dist), meuse))
+@
+
+\section{Variograms }
+
+Variograms are calculated using the function \code{variogram}, which
+takes a formula as its first argument: \verb|log(zinc)~1| means that we
+assume a constant trend for the variable log(zinc).
+
+<<fig=FALSE>>=
+lzn.vgm = variogram(log(zinc)~1, meuse)
+lzn.vgm
+lzn.fit = fit.variogram(lzn.vgm, model = vgm(1, "Sph", 900, 1))
+lzn.fit
+plot(lzn.vgm, lzn.fit)
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(lzn.vgm, lzn.fit))
+@
+
+Instead of the constant mean, denoted by \verb|~1|, we can specify a
+mean function, e.g. using \verb|~sqrt(dist)| as a predictor variable:
+
+<<fig=FALSE>>=
+lznr.vgm = variogram(log(zinc)~sqrt(dist), meuse)
+lznr.fit = fit.variogram(lznr.vgm, model = vgm(1, "Exp", 300, 1))
+lznr.fit
+plot(lznr.vgm, lznr.fit)
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(lznr.vgm, lznr.fit))
+@
+
+In this case, the variogram of residuals with respect to a fitted mean
+function are shown. Residuals were calculated using ordinary least
+squares.
+
+\section{Kriging}
+
+<<fig=FALSE>>=
+lzn.kriged = krige(log(zinc)~1, meuse, meuse.grid, model = lzn.fit)
+spplot(lzn.kriged["var1.pred"])
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(spplot(lzn.kriged["var1.pred"]))
+@
+
+\section{Conditional simulation}
+<<fig=FALSE>>=
+lzn.condsim = krige(log(zinc)~1, meuse, meuse.grid, model = lzn.fit, 
+    nmax = 30, nsim = 4)
+spplot(lzn.condsim, main = "four conditional simulations")
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(spplot(lzn.condsim, main = "four conditional simulations"))
+@
+
+For UK/residuals:
+
+<<fig=FALSE>>=
+lzn.condsim2 = krige(log(zinc)~sqrt(dist), meuse, meuse.grid, model = lznr.fit, 
+    nmax = 30, nsim = 4)
+spplot(lzn.condsim2, main = "four UK conditional simulations")
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(spplot(lzn.condsim2, main = "four UK conditional simulations"))
+@
+
+\section{Directional variograms}
+The following command calculates a directional sample variogram, where
+directions are binned by direction angle alone. For two point pairs,
+$Z(s)$ and $Z(s+h)$, the separation vector is $h$, and it has a direction.
+Here, we will classify directions into four direction intervals:
+
+<<fig=FALSE>>=
+lzn.dir = variogram(log(zinc)~1, meuse, alpha = c(0, 45, 90, 135))
+lzndir.fit = vgm(.59, "Sph", 1200, .05, anis = c(45, .4))
+plot(lzn.dir, lzndir.fit, as.table = TRUE)
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(lzn.dir, lzndir.fit, as.table = TRUE))
+@
+
+Looking at directions between 180 and 360 degrees will repeat the
+image shown above, because the variogram is a symmetric measure:
+$(Z(s)-Z(s+h))^2=(Z(s+h)-Z(s))^2$.
+
+The first plot gives the variogram in the zero direction, which is
+North; 90 degrees is East. By default, point pairs are assigned to the
+directional variorgram panel with their nearest direction, so North
+contains everything between -22.5 and 22.5 degrees (North-West to
+North-East). After classifying by direction, point pairs are binned by
+separation distance class, as is done in the usual omnidirectional case.
+
+In the figure, the partial sill, nugget and model type of the model are
+equal to those of the omnidirectional model fitted above; the range
+is that in the direction with the largest range (45$^o$), and the
+anisotropy ratio, the range in the 135 direction and the range in the
+45 direction, estimated ``by eye'' by comparing the 45 and 135 degrees
+sample variograms. Gstat does not fit anisotropy parameters automatically.
+
+We do not claim that the model fitted here is ``best'' in some way; in
+order to get to a better model we may want to look at more directions,
+other directions (e.g. try {\tt alpha = c(22, 67, 112, 157) }), and to
+variogram maps (see below). More elaborate approaches may use directions
+in three dimensions, and want to further control the direction tolerance
+(which may be set such that direction intervals overlap).
+
+For the residual variogram from the linear regression model using
+\code{sqrt(dist)} as covariate, the directional dependence is much
+less obvious; the fitted model here is the fitted isotropic model
+(equal in all directions).
+
+<<fig=FALSE>>=
+lznr.dir = variogram(log(zinc)~sqrt(dist), meuse, alpha = c(0, 45, 90, 135))
+plot(lznr.dir, lznr.fit, as.table = TRUE)
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(lznr.dir, lznr.fit, as.table = TRUE))
+@
+
+\section{Variogram maps}
+
+Another means of looking at directional dependence in semivariograms
+is obtained by looking at variogram maps. Instead of classifying
+point pairs $Z(s)$ and $Z(s+h)$ by direction and distance class {\em
+separately}, we can classify them {\em jointly}. If $h=\{x,y\}$ be the
+two-dimentional coordinates of the separation vector, in the variogram
+map the semivariance contribution of each point pair $(Z(s)-Z(s+h))^2$
+is attributed to the grid cell in which $h$ lies. The map is centered
+around $(0,0)$, as $h$ is geographical distance rather than geographical
+location. Cutoff and width correspond to some extent to map extent
+and cell size; the semivariance map is point symmetric around $(0,0)$,
+as $\gamma(h)=\gamma(-h)$.
+
+<<fig=FALSE>>=
+vgm.map = variogram(log(zinc)~sqrt(dist), meuse, cutoff = 1500, width = 100, 
+	map = TRUE)
+plot(vgm.map, threshold = 5)
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(vgm.map, threshold = 5))
+@
+
+The threshold assures that only semivariogram map values based on at
+least 5 point pairs are shown, removing too noisy estimation.
+
+% The plot is plagued by one or two extreme values, corresponding to cells
+% with very small number of point pairs, which should be removed.
+
+\section{Cross variography}
+
+Fitting a linear model of coregionalization.
+
+<<fig=FALSE>>=
+g = gstat(NULL, "log(zn)", log(zinc)~sqrt(dist), meuse)
+g = gstat(g, "log(cd)", log(cadmium)~sqrt(dist), meuse)
+g = gstat(g, "log(pb)", log(lead)~sqrt(dist), meuse)
+g = gstat(g, "log(cu)", log(copper)~sqrt(dist), meuse)
+v = variogram(g)
+g = gstat(g, model = vgm(1, "Exp", 300, 1), fill.all = TRUE)
+g.fit = fit.lmc(v, g)
+g.fit
+plot(v, g.fit)
+vgm.map = variogram(g, cutoff = 1500, width = 100, map = TRUE)
+plot(vgm.map, threshold = 5, col.regions = bpy.colors(), xlab = "", ylab = "")
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(v, g.fit))
+@
+
+<<fig=TRUE,echo=FALSE>>=
+print(plot(vgm.map, threshold = 5, col.regions = bpy.colors(), ylab = "", xlab = ""))
+@
+
+\section*{References}
+\begin{itemize}
+% \item Abrahamsen, P., F. Espen Benth, 2001. Kriging with inequality
+% constraints.  Mathematical Geology 33 (6), 719--744.
+
+% \item Bivand, R.S., 2003. Approaches to classes for spatial data in R.
+% In: K.~Hornik \& F.~Leisch (Eds.), Proceedings of the 3rd International
+% Workshop on Distributed Statistical Computing (DSC 2003) March 20--22,
+% Vienna, Austria. ISSN 1609-395X; available from [1].
+
+\item Diggle, P.J., J.A. Tawn, R.A. Moyeed, 1998. Model-based
+geostatistics. Applied Statistics 47(3), pp 299-350.
+
+% \item Pebesma, E.J., Wesseling, C.G., 1998. Gstat, a program for
+% geostatistical modelling, prediction and simulation. Computers \&
+% Geosciences, 24 (1), pp. 17--31.
+
+\item Pebesma, E.J., 2004.  Multivariable geostatistics in S: the gstat
+package.  Computers \& Geosciences \htmladdnormallink{30: 683-691}{%
+http://www.sciencedirect.com/science/journal/00983004}.
+
+% \item Ver Hoef, J.M., Cressie, N.A.C, 1993. Multivariable Spatial
+% Prediction.  Mathematical Geology, 25 (2), pp. 219--240.
+
+\item Wackernagel, H., 1998. Multivariate Geostatistics; an introduction
+with applications, $2^{\mbox{nd}}$ edn., Springer, Berlin, 291 pp.
+
+\end{itemize}
+
+\end{document}
+
+# g = gstat(NULL, "log.zinc", log(zinc)~1, meuse)
+# g = gstat(g, "log.zinc.res", log(zinc)~sqrt(dist), meuse)
+# lplot(vgm.map[["map"]], c("log.zinc", "log.zinc.res"))
+
+% vim:syntax=tex

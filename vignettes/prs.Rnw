@@ -1,0 +1,190 @@
+%% Document started, Sat Jul  3 19:30:52 CEST 2004, my 37th birthday,
+%% while being stuck for 24 hours at Philadelphia airport, on my way 
+%% back from the joint TIES/Accuracy 2004 symposium in Portland, ME.
+%% Continued, Oct 28, during the Apmosphere mid-term review. Oh, shame.
+
+% \VignetteIndexEntry{ The pairwise relative semivariogram }
+
+\documentclass[a4paper]{article}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{alltt}
+
+\newcommand{\code}[1]{{\tt #1}}
+
+\SweaveOpts{echo=TRUE}
+
+\title{The pairwise relative semivariogram}
+
+\author{ \includegraphics[width=.4\columnwidth]{ifgi-logo_int}\\
+\href{mailto:edzer.pebesma@uni-muenster.de}{Edzer Pebesma}
+}
+\date{\small Aug 29, 2011 }
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+The general relative variogram (Deutsch and Journel, 1997) is defined
+as
+$$
+\gamma(h) = \frac{1}{2N_h} \sum_{i=1}^{N_h} 
+\left(\frac{2(Z(s_i)-Z(s_i+h))}{Z(s_i)+Z(s_i+h)}\right)^2.
+$$
+It is claimed to reveal spatial structure (correlation) better when
+data are skewed and/or clustered. The \code{cluster.dat} data set
+used in this vignette, from the GSLIB distribution\footnote{F77
+source code for Linux, downloaded Aug 28, 2011 from
+\code{http://www.gslib.com/}}, seems to confirm this.
+
+From version 1.02 on, R package \code{gstat} provides computation
+of the {\em pairwise relative semivariogram}. The following code
+provides an example and verification of the computation using direct
+R code and using the GSLIB program \code{gamv}.
+
+The following code imports the \code{cluster.dat} data from GSLIB,
+which has been converted to have a single-line header containing
+column names, packaged with the R gstat package, and converts it
+into a \code{SpatialPointsDataFrame} object:
+<<>>=
+library(gstat)
+cluster = read.table(system.file("external/cluster.txt", package="gstat"),
+	header = TRUE)
+summary(cluster)
+library(sp)
+coordinates(cluster) = ~X+Y
+@
+The following commands specify a sequence of lag boundaries that
+correspond to the GSLIB conventions, and compute a regular variogram
+using these boundaries:
+<<>>=
+bnd = c(0,2.5,7.5,12.5,17.5,22.5,27.5,32.5,37.5,42.5,47.5,52.5)
+variogram(Primary~1, cluster, boundaries = bnd)
+@
+
+To compute the relative pairwise variogram, the logical argument
+\code{PR} ({\em pairwise relative}) needs to be set to \code{TRUE}:
+<<>>=
+variogram(Primary~1, cluster, boundaries=bnd, PR = TRUE)
+@
+Figure \ref{fig:vgm} shows the two variograms, as plots, side by side
+\begin{figure}
+<<echo=FALSE,fig=TRUE>>=
+pl1 = plot(variogram(Primary~1, cluster, boundaries=bnd, PR = FALSE))
+pl2 = plot(variogram(Primary~1, cluster, boundaries=bnd, PR = TRUE))
+print(pl1, split = c(1,1,2,1), more = TRUE)
+print(pl2, split = c(2,1,2,1), more = FALSE)
+@
+\caption{Regular variogram (left) and pairwise relative variogram
+(right) for the GSLIB data set \code{cluster.dat}.}
+\label{fig:vgm}
+\end{figure}
+
+\section{Verification with plain R code}
+
+The following R code reproduces the relative pairwise semivariogram
+values for the first three lags, i.e. 0-2.5, 2.5-7.5 and 7.5-12.5.
+<<>>=
+z = cluster$Primary
+d = spDists(cluster)
+zd = outer(z, z, "-")
+zs = outer(z, z, "+")
+pr = (2 * zd / zs )^2
+prv = as.vector(pr)
+dv = as.vector(d)
+mean(prv[dv > 0 & dv < 2.5])/2
+mean(prv[dv > 2.5 & dv < 7.5])/2
+mean(prv[dv > 7.5 & dv < 12.5])/2
+@
+
+\section{Verification with GSLIB}
+
+In a verification with the GSLIB (Deutsch and Journel, 1997) code
+of \code{gamv}, the following file was used:
+\begin{alltt}
+                  Parameters for GAMV
+                  *******************
+
+START OF PARAMETERS:
+../data/cluster.dat               \\file with data
+1   2   0                         \\   columns for X, Y, Z coordinates
+1   3                             \\   number of varables,column numbers
+-1.0e21     1.0e21                \\   trimming limits
+gamv.out                          \\file for variogram output
+10                                \\number of lags
+5.0                               \\lag separation distance
+2.5                               \\lag tolerance
+1                                 \\number of directions
+0.0  90.0 50.0   0.0  90.0  50.0  \\azm,atol,bandh,dip,dtol,bandv
+0                                 \\standardize sills? (0=no, 1=yes)
+2                                 \\number of variograms
+1   1   1                         \\tail var., head var., variogram type
+1   1   6                         \\tail var., head var., variogram type
+\end{alltt}
+Running this program with these parameters gave the following output:
+\begin{alltt}
+Semivariogram           tail:Primary      head:Primary       direction  1 
+   1         .000       .00000      280        4.35043        4.35043
+   2        1.528     58.07709      298        8.62309        8.62309
+   3        5.473     54.09188     1248        5.41315        5.41315
+   4       10.151     48.85144     1978        4.42758        4.42758
+   5       15.112     40.08909     2498        4.25680        4.25680
+   6       20.033     42.45081     2296        3.74311        3.74311
+   7       25.020     48.60365     2734        4.09575        4.09575
+   8       29.996     46.88879     2622        4.15950        4.15950
+   9       34.907     44.36890     2170        3.77190        3.77190
+  10       39.876     47.34666     1808        4.54173        4.54173
+  11       44.717     38.72725     1222        5.15251        5.15251
+  12       49.387     30.67908      438        4.56539        4.56539
+Pairwise Relative       tail:Primary      head:Primary       direction  1 
+   1         .000       .00000      280        4.35043        4.35043
+   2        1.528       .36084      298        8.62309        8.62309
+   3        5.473       .63071     1248        5.41315        5.41315
+   4       10.151       .83764     1978        4.42758        4.42758
+   5       15.112       .77691     2498        4.25680        4.25680
+   6       20.033       .87746     2296        3.74311        3.74311
+   7       25.020       .89610     2734        4.09575        4.09575
+   8       29.996       .90023     2622        4.15950        4.15950
+   9       34.907       .96043     2170        3.77190        3.77190
+  10       39.876       .90554     1808        4.54173        4.54173
+  11       44.717       .75545     1222        5.15251        5.15251
+  12       49.387       .82268      438        4.56539        4.56539
+\end{alltt}
+As can be seen, the values in the third column (semivariogram for
+the first section, pairwise relative semivariogram for the second)
+correspond to the output generated by \code{variogram} of package
+\code{gstat}.  Two differences with respect to the gstat output are:
+\begin{itemize}
+\item for the first lag with distance zero, GSLIB reports that
+the semivariance value is zero based on 280 point pairs; 
+\item the number of point pairs in GSLIB is double the number reported
+by gstat. 
+\end{itemize}
+
+The ground for these differences seems that the GSLIB \code{gamv}
+uses a single routine for computing variograms as well as
+cross variograms and cross covariances. For cross variograms or
+covariograms, considering two variables $Z_a$ and $Z_b$ each having
+$N$ observations, the $N^2$ point pairs $Z_a(s_i),Z_b(s_i+h)$ and
+$Z_a(s_i+h),Z_b(s_i)$ need to be evaluated, and all contribute
+information. 
+
+For direct (non-cross) variograms or covariograms, $Z_a=Z_b$
+and the $N^2$ pairs considered contain the $N$ trivial pairs
+$(Z(s_i)-Z(s_i))^2=0$, which contribute no information, as well as
+all duplicate pairs, i.e. in addition to $(Z(s_i)-Z(s_i+h))^2$, the
+identical pair $(Z(s_i+h)-Z(s_i))^2$ is also considered. This leads
+to correct variogram value estimates, but incorrect unique point pair
+numbers.  (Data set \code{cluster} contains $N=140$ observations.)
+
+In contrast, \code{gstat} considers (and reports) only the number
+of unique pairs for each lag.
+
+\section*{References}
+\begin{itemize}
+\item Deutsch, C.V., A.G. Journel, 1997.  GSLIB: Geostatistical
+Software Library and User's Guide, second edition.  Oxford University
+Press.
+
+\end{itemize}
+
+\end{document}

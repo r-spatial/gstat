@@ -1,0 +1,441 @@
+%% Document started, Sat Jul  3 19:30:52 CEST 2004, my 37th birthday,
+%% while being stuck for 24 hours at Philadelphia airport, on my way 
+%% back from the joint TIES/Accuracy 2004 symposium in Portland, ME.
+%% Continued, Oct 28, during the Apmosphere mid-term review. Oh, shame.
+
+\documentclass[a4paper]{article}
+\usepackage[colorlinks=true,urlcolor=blue]{hyperref}
+
+\newcommand{\code}[1]{{\tt #1}}
+
+\SweaveOpts{echo=TRUE}
+
+\title{Introduction to Spatio-Temporal Variography }
+% \VignetteIndexEntry{ Introduction to Spatio-Temporal Variography }
+
+\author{ \includegraphics[width=.4\columnwidth]{ifgi-logo_int}\\
+\href{mailto:edzer.pebesma@uni-muenster.de}{Edzer Pebesma},
+\href{mailto:ben.graeler@uni-muenster.de}{Benedikt Gr\"{a}ler}
+}
+\date{\small \today }
+
+\begin{document}
+\setkeys{Gin}{width=0.9\textwidth}
+
+\maketitle
+
+\section{Introduction}
+
+Since \code{gstat} package version 1.0-0, a dependency of gstat on
+the R package \code{spacetime} was introduced, allowing the code in
+\code{gstat} to exploit spatio-temporal data structures from that
+package. This vignette describes the possibilities and limitations
+of the package for spatio-temporal geostatistics.
+
+To understand some of the possibilities and limitations, some
+knowledge of the history of the software is needed. The original
+\code{gstat} software (Pebesma and Wesseling, 1998) was a standalone
+computer {\em program} written in around 25,000 lines of C code, and
+would do geostatistical modelling, prediction and simulation. The
+\code{gstat} R package (Pebesma, 2004) consisted mostly of an R
+interface to this C code, together with convenience functions to
+use R's modelling interface (formula's, see \code{?lm}) and graphic
+capabilities (trellis graphics in package \code{lattice} to show
+cross variogram as matrix plots; interaction with variogram clouds
+using base plots).
+
+Starting 2003, a group of programmers developed a set of classes
+and methods for dealing with spatial data in R (points, lines,
+polygons, grids), which was supported by the publications
+of the well-known ASDAR book (Bivand et al. 2008; see also
+\url{http://www.asdar-book.org/}) and helped convergence in the user
+community, with in 2011 over 2000 subscribers on the {\tt r-sig-geo}
+mailing list.  Package \code{gstat} was one of the first packages
+that adopted and benefited from these classes.
+
+To realize a particular idea, writing code in C typically takes
+about 10-20 times as long as writing it in R. C code can be more
+efficient, gives more control over memory usage, but is also more
+error prone--mistakes in C code make an R session crash, something
+that is hard to do when writing R code.
+
+The original C code of \code{gstat} (Pebesma and Wesseling, 1998)
+provides all kriging varieties (universal, ordinary, simple;
+univariable, or multivariable as in cokriging) for two- or
+three-dimensional data. When the spatial domain is constrained to
+two dimensions (and this might cover over 99\% of the use cases!),
+the third dimension might be used to represent time. As such, the
+{\em metric} variogram model, which allows for geometric anisotropy
+definition in three dimensions, can be used for spatio-temporal
+kriging. When defining the three-dimensional variogram as the
+sum of 2 or more nested variogram (summed) models, one can choose
+anisotropy coefficients for a single model such that this model is
+{\em effectively} zero in some directions, e.g. in space {\em or}
+in time; this allows one to approximate the so-called space-time sum
+model. It should be noted that at the C code there is no knowledge
+whether a third dimension represents space, or time. As such,
+particular characteristics of time cannot be taken care of.
+
+Since the second half of 2010, the development of an R package
+\code{spacetime} started. It provides methods and classes for
+spatio-temporal data, and builds on the spatial data classes in
+\code{sp} and time series classes in \code{xts}. This document will
+explain how data in this form, and methods provided by this package,
+can be used for spatio-temporal geostatistics.
+
+We will work with a data set with air quality (PM10) measurements over
+germany, taken from rural background stations available in the data
+sets provided by the European Environmental Agency.
+<<>>=
+library(spacetime)
+rm(list = ls())
+data(air)
+ls()
+@
+
+\section{Variography}
+
+\subsection{Temporal autocorrelation and cross correlation}
+
+We will look into a subset of the data, ranging from 2005 to 2010, and
+remove stations that have only missing values in this period:
+<<>>=
+if (!exists("rural"))
+	rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
+rr = rural[,"2005::2010"]
+unsel = which(apply(as(rr, "xts"), 2, function(x) all(is.na(x))))
+r5to10 = rr[-unsel,]
+summary(r5to10)
+@
+Next, we will (rather arbitrarily) select four stations, which have the
+following labels:
+<<>>=
+rn = row.names(r5to10@sp)[4:7]
+rn
+@
+
+In the following, autocorrelation functions are computed and plotted.
+The resulting plot is shown in Figure~\ref{fig:acf}.
+<<fig=FALSE,eval=FALSE>>=
+par(mfrow=c(2,2))
+# select 4, 5, 6, 7
+for(i in rn) 
+	acf(na.omit(r5to10[i,]), main = i)
+par(mfrow=c(1,1))
+@
+
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE>>=
+par(mfrow=c(2,2))
+# select 4, 5, 6, 7
+rn = row.names(r5to10@sp)[4:7]
+for(i in rn) 
+	acf(na.omit(r5to10[i,]), main = i)
+@
+\end{center}
+\caption{Autocorrelations for PM10; time lag unit in days.}
+\label{fig:acf}
+\end{figure}
+
+Auto- and cross correlations can be computed when a multivariate time
+series object is passed to {\tt acf}: 
+<<fig=FALSE,echo=TRUE,eval=FALSE>>=
+acf(na.omit(as(r5to10[rn,], "xts")))
+@
+The resulting plot is shown in Figure~\ref{fig:ccf}.
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE>>=
+acf(na.omit(as(r5to10[rn,], "xts")))
+@
+\end{center}
+\caption{autocorrelations (diagonal) and cross correlations (off-diagonal) for
+the four stations selected; time lag unit in days. }
+\label{fig:ccf}
+\end{figure}
+From these graphs one should be able to observe the following
+\begin{itemize}
+\item autocorrelations for lag 0 are always 1
+\item cross correlations for lag 0 are not always 1
+\item cross correlations can be asymmetric, meaning that when
+$\rho_{AB}(h)$ is the correlation between $Z(s_A,t)$ and $Z(s_B,t+h)$,
+$$\rho_{AB}(h) = \rho_{BA}(-h) \ne \rho_{AB}(-h)$$
+with $s_A$ and $s_B$ the two stations between which a cross correlation
+is computed, and $h$ the (directional!) lag between the series.
+\end{itemize}
+The plot further more shows that for these four stations the
+asymmetry is not very strong, but that cross correlations are fairly
+strong and of a similar form of autocorrelations.
+
+This kind of plot does not work very well in layouts of e.g. 10 x 10
+sub-plots; {\tt acf} automatically chooses 4 x 4 as the maximum a
+single plot. To try this out, do a 7 x 7 plot
+<<eval=FALSE>>=
+acf(na.omit(as(r5to10[4:10,], "xts")))
+@
+and note that here we see in the last figure (DESH \& DESN04) a pair
+of plots with nearly no cross correlation. This might have to do with
+the spatial distance between these two stations:
+<<>>=
+library(sp)
+print(spDists(r5to10[4:10,]@sp), digits=3)
+@
+(What is the spatial distance between stations DESH and DESN04?)
+
+\subsection{Spatial correlation, variograms}
+
+In the next steps, we will sample 100 time instances randomly,
+<<>>=
+rs = sample(dim(r5to10)[2], 100)
+@
+we select these instances as a {\tt SpatialPointsDataFrame} and add a
+time index to them. After this we bind them together in a single
+{\tt SpatialPointsDataFrame} which has a time index {\tt ti}:
+<<>>=
+lst = lapply(rs, function(i) { x = r5to10[,i]; x$ti = i; rownames(x@coords) = NULL; x} )
+pts = do.call(rbind, lst)
+@
+Then, we can compute the pooled variogram
+<<>>=
+library(gstat)
+v = variogram(PM10~ti, pts[!is.na(pts$PM10),], dX=0)
+@
+and plot it (Figure~\ref{fig:vgm}):
+<<eval=FALSE>>=
+# plot(v, fit.variogram(v, vgm(1, "Exp", 200, 1)))
+vmod = fit.variogram(v, vgm(100, "Exp", 200))
+plot(v, vmod)
+@
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE>>=
+# plot(v, fit.variogram(v, vgm(1, "Exp", 200, 1)))
+vmod = fit.variogram(v, vgm(100, "Exp", 200))
+print(plot(v, vmod))
+@
+\end{center}
+\caption{sample spatial variogram, averaged over 100 randomly
+chosen time steps}
+\label{fig:vgm}
+\end{figure}
+The fitted model is this:
+<<>>=
+vmod
+@
+One should note that the fit is rather poor, and not forget that
+we only have 53 stations selected. The time resolution is rich
+(1862 days) but the number of stations is small:
+<<>>=
+dim(r5to10)
+@
+
+We can fit a spatio-temporal variogram the usual way, by passing an
+object of class {\tt STFDF} (Pebesma, 2012):
+<<eval=FALSE>>=
+vv = variogram(PM10~1, r5to10, width=20, cutoff = 200, tlags=0:5)
+@
+Alternatively, if 
+this takes too long, a temporal subset can be taken, e.g.
+using the first 200 days:
+<<eval=FALSE>>=
+vv = variogram(PM10~1, r5to10, width=20, cutoff = 200, tlags=0:5)
+@
+taking random days from the full period will lead to the a wrong
+assumption that every time index increment reflect a constant
+lag increase. As an alternative, we will here load the precomputed 
+S/T variogram:
+<<>>=
+data(vv)
+@
+% remove the model column to keep text and figures in line.
+<<echo=FALSE>>=
+vv <- vv[c("np", "dist", "gamma", "id", "timelag", "spacelag")]
+@
+Plotting this object can be done in several ways, two 2D-plots are 
+shown in Figure~\ref{fig:map} and a 3D wireplot is shown in 
+Figure~\ref{fig:wire}:
+<<eval=FALSE>>=
+plot(vv)
+plot(vv, map = FALSE)
+@
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE>>=
+print(plot(vv), split = c(1,1,1,2), more = TRUE)
+print(plot(vv, map = FALSE), split = c(1,2,1,2))
+@
+\end{center}
+\caption{Spatio-temporal sample variogram map (top) and sample 
+variograms for each time lag (bottom); both figures depict the 
+information of object {\tt vv}.}
+\label{fig:map}
+\end{figure}
+
+\subsection{Fitting a spatio-temporal variogram model}
+
+At first, we try to fit a metric model with spatio-temporal anisotropy:
+<<>>==
+metricVgm <- vgmST("metric",
+                   joint=vgm(50,"Exp",100,0),
+                   stAni=50)
+
+metricVgm <- fit.StVariogram(vv, metricVgm)
+@
+As numerical criterion to judge the goodness of fit of model and 
+sample variogram, the root-mean-squared-difference between the 
+surfaces can be obtained by:
+<<>>=
+attr(metricVgm, "optim")$value
+@
+
+The final model can be plotted with the sample variogram (Figure~\ref{fig:mm}):
+
+<<eval=FALSE>>=
+plot(vv, metricVgm)
+@
+
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE,width=8, height=4>>=
+print(plot(vv, metricVgm))
+@
+\end{center}
+\caption{Sample variogram map (left) and fitted metric model (right).}
+\label{fig:mm}
+\end{figure}
+
+\pagebreak 
+
+Now, let us try to fit and plot a separable model (Figure~\ref{fig:sm}):
+<<>>==
+sepVgm <- vgmST("separable",
+                space=vgm(0.9,"Exp", 123, 0.1),
+                time =vgm(0.9,"Exp", 2.9, 0.1),
+                sill=100)
+
+sepVgm <- fit.StVariogram(vv, sepVgm, method = "L-BFGS-B",
+                          lower = c(10,0,0.01,0,1),
+                          upper = c(500,1,20,1,200))
+@
+
+To compare this model with the previous one, we look at the optimized 
+root-mean-squared-differences between the two surfaces and plot sample
+and both models:
+<<>>=
+attr(sepVgm, "optim")$value
+plot(vv, list(sepVgm, metricVgm))
+@
+
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE,width=8,height=4>>=
+print(plot(vv, list(sepVgm, metricVgm)))
+@
+\end{center}
+\caption{Sample variogram map (left), fitted separable model (middle)
+and fittted metric model (right).}
+\label{fig:sm}
+\end{figure}
+A wireframe (3D) plot of sample variogram and fitted variogram models can be obtained e.g. by
+<<eval=FALSE>>=
+library(lattice)
+plot(vv, list(sepVgm, metricVgm), all=T, wireframe=T, zlim=c(0,120),
+     zlab=NULL,
+     xlab=list("distance (km)", rot=30),
+     ylab=list("time lag (days)", rot=-35),
+     scales=list(arrows=F, z = list(distance = 5)))
+@
+which is shown in Figure~\ref{fig:wire}. Further spatio-temporal model
+definitions can be found in the help pages of {\tt fit.StVariogram} 
+and {\tt variogramSurface}. The demo {\tt stkrige} presents further 
+examples and illustrates an interactive 3D-plot of sample variogram 
+and the fitted variogram model. An interactive variogram exploration
+web-tool is avaialble at 
+\url{http://giv-graeler.uni-muenster.de:3838/spacetime/}.
+\begin{figure}[hbt]
+\begin{center}
+<<fig=TRUE,echo=FALSE,width=8,height=8>>=
+library(lattice)
+print(plot(vv, list(sepVgm, metricVgm), all=T, wireframe=T, zlim=c(0,120),
+           zlab=NULL,
+           xlab=list("distance (km)", rot=30),
+           ylab=list("time lag (days)", rot=-35),
+           scales=list(arrows=F, z = list(distance = 5))))
+@
+\end{center}
+\caption{Wireframe plots of sample and fitted space-time variograms.}
+\label{fig:wire}
+\end{figure}
+
+\clearpage 
+
+\section{Spatio-temporal prediction}
+
+The vignette in package \code{spacetime} gives an example of using
+the gstat function \code{krigeST} for spatio-temporal kriging of
+the Irish wind data. The \code{krigeST} function uses global kriging,
+but only needs to invert the purely spatial and purely time covariance
+matrices in the separable case.
+
+For more generic spatio-temporal kriging where space is
+two-dimensional, one could use \code{krige}, defining the
+observations and prediction locations as three-dimensional data sets,
+see for an example
+<<eval=FALSE>>=
+demo(gstat3D)
+@
+It needs to be pointed out that in that case, the time (typically
+the third dimension) needs to be numeric, and three-dimensional
+anisotropy needs to be defined properly (see \code{?vgm}).
+
+In case the data set is too large for global kriging, one could
+try to use local kriging, and select data within some distance, or
+by specifying \code{nmax} (the nearest $n$ observations).  In both
+cases, it is advisable to transform time such that one can use an
+{\em isotropic} variogram model in the three dimensions, as only
+in that case the nearest $n$ observations correspond to the $n$
+most correlated observations. \code{krigeST} provides a solution 
+where a \code{bufferNmax}-times larger neighbourhood is evaluated 
+within the covariance model and the strongest correlated \code{nmax}
+neighbours are selected.
+
+An additional consideration is that in space-time, observations may
+not be regularly spaced. In some cases, the nearest $n$ observations
+may come from a single measurement location, which may lead to sharp
+jumps/boundaries in the interpolated values. This might be solved
+by using larger neighbourhoods, or by setting the \code{omax}
+in \code{krige} or \code{gstat} calls to the neighbourhood size
+to select {\em per octant} (this should be combined with specifying
+\code{maxdist}).
+
+%\section{Spatio-temporal simulation}
+
+\section*{References}
+\begin{itemize}
+\item Bivand, R., E. Pebesma and V. Gomez-Rubio, 2008. Applied
+Spatial Data Analysis with R. Springer.
+
+\item Cressie, N.A.C., 1993. Statistics for Spatial Data. Wiley.
+
+\item Cressie, N. and C. Wikle, 2011. Statistics for Spatio-temporal
+Data. Wiley.
+
+\item Pebesma, E., 2012. spacetime: Spatio-Temporal Data
+in R. Journal of Statistical Software, volume 51, issue 7;
+\href{http://www.jstatsoft.org/v51/i07/}{1-30}.
+
+\item Pebesma, E.J., Wesseling, C.G., 1998. Gstat, a program for
+geostatistical modelling, prediction and simulation. Computers \&
+Geosciences, 24 (1), pp. 17--31.
+
+\item Pebesma, E.J., 2004.  Multivariable geostatistics
+in S: the gstat package.  Computers \& Geosciences
+\href{http://www.sciencedirect.com/science/journal/00983004}{30:
+683-691}
+
+\item Ver Hoef, J.M., Cressie, N.A.C, 1993. Multivariable Spatial
+Prediction.  Mathematical Geology, 25 (2), pp. 219--240.
+\end{itemize}
+
+\end{document}

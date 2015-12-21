@@ -1,0 +1,12 @@
+Package: gstat
+Version: 1.1-1
+Date: 2015-12-21
+Title: Spatial and Spatio-Temporal Geostatistical Modelling, Prediction and Simulation
+Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de"),
+             person("Benedikt", "Graeler", role = "aut"))
+Description: Variogram modelling; simple, ordinary and universal point or block (co)kriging; spatio-temporal kriging; sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions.
+Depends: R (>= 2.10)
+Imports: utils, stats, graphics, methods, lattice, sp (>= 0.9-72), zoo, spacetime (>= 1.0-0), FNN
+Suggests: rgdal (>= 0.5.2), rgeos, fields, mapdata, maptools, xts
+License: GPL (>= 2.0)
+URL: https://r-forge.r-project.org/projects/gstat/

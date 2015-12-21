@@ -1,0 +1,49 @@
+
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(gstat)
+Loading required package: sp
+> d=expand.grid(x=c(-.5,.5), y=c(-.5,.5))
+> d$z=1:4
+> vv=vgm(model = "Tab",  covtable = 
++ 	variogramLine(vgm(1, "Sph", 1), 1, n=1e4,min = 0, covariance = TRUE))
+> vv
+  model psill maxdist
+1   Tab     0       1
+covariance table:
+[1] 1.0000000 0.7039712 0.4319496 0.2080384 0.0560108 0.0000000
+> krige(z~1,~x+y,d,data.frame(x=0,y=0),vgm(1, "Sph", 1))
+[using ordinary kriging]
+  x y var1.pred var1.var
+1 0 0       2.5 1.017767
+> krige(z~1,~x+y,d,data.frame(x=0,y=0),vv)
+[using ordinary kriging]
+  x y var1.pred var1.var
+1 0 0       2.5 1.017863
+> krige(z~1,~x+y,d[1:2,],data.frame(x=0,y=0),vgm(1, "Sph", 1))
+[using ordinary kriging]
+  x y var1.pred var1.var
+1 0 0       1.5 1.267767
+> krige(z~1,~x+y,d[1:2,],data.frame(x=0,y=0),vv)
+[using ordinary kriging]
+  x y var1.pred var1.var
+1 0 0       1.5 1.267863
+> 
+> proc.time()
+   user  system elapsed 
+  0.440   0.028   0.465 

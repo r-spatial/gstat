@@ -1,0 +1,27 @@
+a2p			area-to-point kriging with krige0
+block		block kriging -- effect of block size and irregular blocks
+blue		how to get BLUE coefficients out of a predict.gstat call
+cokriging	fitting a linear model of coregionalization and cokriging
+comp_geoR	compare gstat kriging output with that obtained from geoR
+cosimulation	fitting a linear model of coregionalization and cosimulation
+depend		check gstat package dependencies
+examples	how to do the original gstat example files in S
+grass		example grass/R/gstat run; requires grass meuse data set installed
+gstat3D		example of 3D interpolation of random points
+ikr			example indicator kriging on zinc w. threshold 500 ppm
+krige		sample run of ordinary and universal kriging
+lhs			create latin hypercube sample of Gaussian random field
+lnsim		carry out log-normal kriging, based on conditional simulation
+sic2004		part of sic2004 excercise; see ?sic2004
+pcb			pcb North Sea data analysis as used for geoENV2004 paper; see ?pcb
+fulmar		analysis of Fulmaris glacialis data on Dutch part of the North Sea
+uisim		unconditional indicator simulation, 2 and 3 category examples
+ugsim		unconditional Gaussian simulation
+snow		parallel kriging using package snow (not on Windows)
+line		examples for lines support prediction
+weight		compute (the expensive way) kriging weights for a single prediction location
+wind		space-time kriging with the Irish wind data sets
+rep			10 x 10 matrix of fitted variograms from 100 simulated fields
+stkrige		space-time kriging
+localKrigeST  locally krige an irregular spatio-temporal data set to a regular spatio-temporal grid
+zonal		approximate zonal anisotropy with geometrically anistropic model

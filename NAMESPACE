@@ -1,0 +1,87 @@
+useDynLib(gstat, 
+	gstat_debug_level,
+	gstat_exit,
+	gstat_fit_variogram,
+	gstat_get_variogram_models,
+	gstat_init,
+	gstat_load_ev,
+	gstat_load_variogram,
+	gstat_new_data,
+	gstat_new_dummy_data,
+	gstat_predict,
+	gstat_set_merge,
+	gstat_set_method,
+	gstat_set_set,
+	gstat_variogram,
+	gstat_variogram_values
+)
+
+importFrom(utils, setTxtProgressBar, stack, txtProgressBar)
+importFrom(stats, as.formula, cor, cov2cor, delete.response, .getXlevels, 
+	lm, median, model.extract, model.frame, model.matrix, na.exclude, 
+	na.fail, na.omit, na.pass, optim, optimise, optimize, predict, 
+	residuals, terms)
+importFrom(graphics, image.default, lines, locator, text)
+import(methods)
+import(lattice)
+importFrom(zoo, zoo, is.regular)
+import(sp)
+import(spacetime)
+import(FNN)
+
+export(as.vgm.variomodel,
+	cross.name,
+	fit.lmc,
+	fit.variogram,
+	fit.variogram.reml,
+	fit.variogram.gls,
+	fit.StVariogram,
+	estiStAni,
+	get.contr,
+	get_gstat_progress,
+	gstat,
+	gstat.cv,
+	"[.gstat",
+	hscat,
+	idw0,
+	krigeTg,
+	krige0, krigeST,
+	map.to.lev,
+	ossfim,
+	show.vgms,
+	spplot.vcov,
+	variogram,
+	variogramST,
+	extractPar,
+	extractParNames,
+	variogramLine,
+	variogramSurface,
+	vgm, vgmArea, vgmST,
+	vgm.panel.xyplot,
+	panel.pointPairs,
+	set_gstat_progress,
+	xyz2img)
+
+exportMethods(krige, idw, krige.cv)
+
+S3method(as.data.frame, variogramCloud)
+
+S3method(image, data.frame)
+
+S3method(plot, pointPairs)
+S3method(plot, gstatVariogram)
+S3method(plot, variogramMap)
+S3method(plot, variogramCloud)
+S3method(plot, StVariogram)
+
+S3method(predict, gstat)
+
+S3method(print, gstat)
+S3method(print, gstatVariogram)
+S3method(print, variogramCloud)
+S3method(print, variogramModel)
+S3method(print, StVariogramModel)
+
+S3method(variogram, default)
+S3method(variogram, formula)
+S3method(variogram, gstat)

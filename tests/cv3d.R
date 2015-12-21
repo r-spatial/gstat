@@ -1,0 +1,5 @@
+set.seed(1131)
+d = data.frame(x=runif(50),y=runif(50),z=runif(50),v=rnorm(50))
+library(gstat)
+xx = krige.cv(v~1,~x+y+z,d,model=vgm(1,"Exp",1), verbose=F, set=list(debug=0))
+summary(xx)

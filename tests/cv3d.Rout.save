@@ -1,0 +1,49 @@
+
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
+Copyright (C) 2012 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> set.seed(1131)
+> d = data.frame(x=runif(50),y=runif(50),z=runif(50),v=rnorm(50))
+> library(gstat)
+Loading required package: sp
+> xx = krige.cv(v~1,~x+y+z,d,model=vgm(1,"Exp",1), verbose=F, set=list(debug=0))
+> summary(xx)
+   var1.pred          var1.var         observed          residual       
+ Min.   :-1.1633   Min.   :0.1163   Min.   :-2.2396   Min.   :-2.17554  
+ 1st Qu.:-0.5713   1st Qu.:0.1748   1st Qu.:-0.8760   1st Qu.:-0.78811  
+ Median :-0.2006   Median :0.1921   Median :-0.2194   Median : 0.11750  
+ Mean   :-0.1651   Mean   :0.2079   Mean   :-0.1418   Mean   : 0.02327  
+ 3rd Qu.: 0.1614   3rd Qu.:0.2396   3rd Qu.: 0.5005   3rd Qu.: 0.85076  
+ Max.   : 1.0846   Max.   :0.4257   Max.   : 1.8566   Max.   : 2.52242  
+     zscore             fold             x                  y           
+ Min.   :-5.1678   Min.   : 1.00   Min.   :0.006784   Min.   :0.003404  
+ 1st Qu.:-1.8749   1st Qu.:13.25   1st Qu.:0.239662   1st Qu.:0.246573  
+ Median : 0.2453   Median :25.50   Median :0.486683   Median :0.452500  
+ Mean   : 0.0167   Mean   :25.50   Mean   :0.499664   Mean   :0.496887  
+ 3rd Qu.: 2.0201   3rd Qu.:37.75   3rd Qu.:0.747297   3rd Qu.:0.739427  
+ Max.   : 7.3541   Max.   :50.00   Max.   :0.987538   Max.   :0.987169  
+       z           
+ Min.   :0.001641  
+ 1st Qu.:0.186459  
+ Median :0.448503  
+ Mean   :0.471422  
+ 3rd Qu.:0.724035  
+ Max.   :0.994198  
+> 
+> proc.time()
+   user  system elapsed 
+  0.852   0.056   0.891 

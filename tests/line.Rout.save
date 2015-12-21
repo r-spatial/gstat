@@ -1,0 +1,206 @@
+
+R version 3.0.1 (2013-05-16) -- "Good Sport"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> options(digits=5)
+> library(sp)
+> data(meuse.grid)
+> gridded(meuse.grid) = ~x+y
+> data(meuse)
+> coordinates(meuse) = ~x+y
+> 
+> # choose arbitrary line over the grid:
+> image(meuse.grid["dist"],axes=T)
+> pp = rbind(c(180000,331000),c(180000,332000),c(181000,333500))
+> Sl = SpatialLines(list(Lines(list(Line(pp)), "a")))
+> plot(Sl,add=T,col='green')
+> 
+> # use the default spsample arguments of predict.gstat:
+> pts=spsample(Sl,n=500,'regular',offset=c(.5,.5))
+> plot(pts, pch=3, cex=.2, add=T)
+> 
+> library(gstat)
+> v = vgm(.6, "Sph", 900, .06)
+> out1 = krige(log(zinc)~1, meuse, Sl, v)
+[using ordinary kriging]
+> out1
+An object of class "SpatialLinesDataFrame"
+Slot "data":
+       x      y var1.pred var1.var
+a 180333 332167    6.1618 0.008025
+
+Slot "lines":
+[[1]]
+An object of class "Lines"
+Slot "Lines":
+[[1]]
+An object of class "Line"
+Slot "coords":
+       [,1]   [,2]
+[1,] 180000 331000
+[2,] 180000 332000
+[3,] 181000 333500
+
+
+
+Slot "ID":
+[1] "a"
+
+
+
+Slot "bbox":
+     min    max
+x 180000 181000
+y 331000 333500
+
+Slot "proj4string":
+CRS arguments: NA 
+
+> 
+> points(180333,332167,pch=3,cex=2)
+> 
+> # use the same line as block discretization, and predict for (0,0)
+> # (because the block discretizing points are not centered)
+> out2 = krige(log(zinc)~1, meuse, SpatialPoints(matrix(0,1,2)), v, block=coordinates(pts))
+[using ordinary kriging]
+> out2
+  coordinates var1.pred var1.var
+1      (0, 0)    6.1618 0.008025
+> 
+> compare.krigingLines = function(formula, data, newdata, model) {
++ 	out1 = krige(formula, data, newdata, model)
++ 	pts = spsample(newdata, n=500, 'regular', offset=.5)
++ 	out2 = krige(formula, data, SpatialPoints(matrix(0,1,2)), model, block = coordinates(pts))
++ 	print("difference:")
++ 	as.data.frame(out1)[3:4]- as.data.frame(out2)[3:4]
++ }
+> 
+> compare.krigingLines(log(zinc)~1, meuse, Sl, v)
+[using ordinary kriging]
+[using ordinary kriging]
+[1] "difference:"
+  var1.pred var1.var
+a         0        0
+> 
+> # one line, consisting of two line segments:
+> pp2 = rbind(c(181000,333500),c(181000,332500))
+> Sl2 = SpatialLines(list(Lines(list(Line(pp),Line(pp2)), "a")))
+> krige(log(zinc)~1, meuse, Sl2, v)
+[using ordinary kriging]
+An object of class "SpatialLinesDataFrame"
+Slot "data":
+       x      y var1.pred  var1.var
+a 180667 332583    6.0424 0.0053191
+
+Slot "lines":
+[[1]]
+An object of class "Lines"
+Slot "Lines":
+[[1]]
+An object of class "Line"
+Slot "coords":
+       [,1]   [,2]
+[1,] 180000 331000
+[2,] 180000 332000
+[3,] 181000 333500
+
+
+[[2]]
+An object of class "Line"
+Slot "coords":
+       [,1]   [,2]
+[1,] 181000 333500
+[2,] 181000 332500
+
+
+
+Slot "ID":
+[1] "a"
+
+
+
+Slot "bbox":
+     min    max
+x 180000 181000
+y 331000 333500
+
+Slot "proj4string":
+CRS arguments: NA 
+
+> compare.krigingLines(log(zinc)~1, meuse, Sl2, v)
+[using ordinary kriging]
+[using ordinary kriging]
+[1] "difference:"
+  var1.pred var1.var
+a         0        0
+> 
+> # two seperate line segments:
+> Sl3 = SpatialLines(list(Lines(list(Line(pp)), "a"),Lines(list(Line(pp2)),"b")))
+> krige(log(zinc)~1, meuse, Sl3, v)
+[using ordinary kriging]
+An object of class "SpatialLinesDataFrame"
+Slot "data":
+       x      y var1.pred var1.var
+a 180333 332167    6.1618 0.008025
+b 181000 333000    5.7060 0.011043
+
+Slot "lines":
+[[1]]
+An object of class "Lines"
+Slot "Lines":
+[[1]]
+An object of class "Line"
+Slot "coords":
+       [,1]   [,2]
+[1,] 180000 331000
+[2,] 180000 332000
+[3,] 181000 333500
+
+
+
+Slot "ID":
+[1] "a"
+
+
+[[2]]
+An object of class "Lines"
+Slot "Lines":
+[[1]]
+An object of class "Line"
+Slot "coords":
+       [,1]   [,2]
+[1,] 181000 333500
+[2,] 181000 332500
+
+
+
+Slot "ID":
+[1] "b"
+
+
+
+Slot "bbox":
+     min    max
+x 180000 181000
+y 331000 333500
+
+Slot "proj4string":
+CRS arguments: NA 
+
+> 
+> proc.time()
+   user  system elapsed 
+  1.444   0.064   1.513 

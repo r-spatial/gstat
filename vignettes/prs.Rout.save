@@ -1,0 +1,95 @@
+
+> library(gstat)
+
+> cluster = read.table(system.file("external/cluster.txt", 
++     package = "gstat"), header = TRUE)
+
+> summary(cluster)
+       X               Y            Primary         Secondary      
+ Min.   : 0.50   Min.   : 0.50   Min.   : 0.060   Min.   : 0.1800  
+ 1st Qu.: 9.50   1st Qu.:14.25   1st Qu.: 0.700   1st Qu.: 0.7875  
+ Median :25.50   Median :27.00   Median : 2.195   Median : 2.3750  
+ Mean   :23.32   Mean   :25.61   Mean   : 4.350   Mean   : 4.1402  
+ 3rd Qu.:35.50   3rd Qu.:36.50   3rd Qu.: 5.327   3rd Qu.: 5.5800  
+ Max.   :48.50   Max.   :48.50   Max.   :58.320   Max.   :22.4600  
+ Declustering_Weight
+ Min.   :0.252      
+ 1st Qu.:0.445      
+ Median :1.012      
+ Mean   :1.000      
+ 3rd Qu.:1.416      
+ Max.   :2.023      
+
+> library(sp)
+
+> coordinates(cluster) = ~X + Y
+
+> bnd = c(0, 2.5, 7.5, 12.5, 17.5, 22.5, 27.5, 32.5, 
++     37.5, 42.5, 47.5, 52.5)
+
+> variogram(Primary ~ 1, cluster, boundaries = bnd)
+     np      dist    gamma dir.hor dir.ver   id
+1   149  1.527974 58.07709       0       0 var1
+2   624  5.472649 54.09188       0       0 var1
+3   989 10.150607 48.85144       0       0 var1
+4  1249 15.112173 40.08909       0       0 var1
+5  1148 20.033244 42.45081       0       0 var1
+6  1367 25.020160 48.60365       0       0 var1
+7  1311 29.996102 46.88879       0       0 var1
+8  1085 34.907219 44.36890       0       0 var1
+9   904 39.876469 47.34666       0       0 var1
+10  611 44.716540 38.72725       0       0 var1
+11  219 49.387310 30.67908       0       0 var1
+
+> variogram(Primary ~ 1, cluster, boundaries = bnd, 
++     PR = TRUE)
+     np      dist     gamma dir.hor dir.ver   id
+1   149  1.527974 0.3608431       0       0 var1
+2   624  5.472649 0.6307083       0       0 var1
+3   989 10.150607 0.8376443       0       0 var1
+4  1249 15.112173 0.7769083       0       0 var1
+5  1148 20.033244 0.8774599       0       0 var1
+6  1367 25.020160 0.8961016       0       0 var1
+7  1311 29.996102 0.9002297       0       0 var1
+8  1085 34.907219 0.9604305       0       0 var1
+9   904 39.876469 0.9055426       0       0 var1
+10  611 44.716540 0.7554474       0       0 var1
+11  219 49.387310 0.8226759       0       0 var1
+
+> pl1 = plot(variogram(Primary ~ 1, cluster, boundaries = bnd, 
++     PR = FALSE))
+
+> pl2 = plot(variogram(Primary ~ 1, cluster, boundaries = bnd, 
++     PR = TRUE))
+
+> print(pl1, split = c(1, 1, 2, 1), more = TRUE)
+
+> print(pl2, split = c(2, 1, 2, 1), more = FALSE)
+
+> z = cluster$Primary
+
+> d = spDists(cluster)
+
+> zd = outer(z, z, "-")
+
+> zs = outer(z, z, "+")
+
+> pr = (2 * zd/zs)^2
+
+> prv = as.vector(pr)
+
+> dv = as.vector(d)
+
+> mean(prv[dv > 0 & dv < 2.5])/2
+[1] 0.3608431
+
+> mean(prv[dv > 2.5 & dv < 7.5])/2
+[1] 0.6307083
+
+> mean(prv[dv > 7.5 & dv < 12.5])/2
+[1] 0.8376443
+
+ *** Run successfully completed ***
+> proc.time()
+   user  system elapsed 
+  1.584   0.040   1.626 

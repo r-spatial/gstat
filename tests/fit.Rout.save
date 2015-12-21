@@ -1,0 +1,37 @@
+
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(sp)
+> data(meuse)
+> library(gstat)
+> v=variogram(log(zinc)~1,~x+y,meuse,cutoff=500,wi=100)
+> v$gamma=c(0.5,1,2,3,3)
+> fit.variogram(v, vgm(1, "Sph", 300, 0),warn.if.neg=TRUE)
+  model    psill   range
+1   Nug 0.000000    0.00
+2   Sph 7.878195 1567.77
+Warning message:
+In fit.variogram(v, vgm(1, "Sph", 300, 0), warn.if.neg = TRUE) :
+  partial sill or nugget fixed at zero value
+> fit.variogram(v, vgm(1, "Sph", 300, 0),warn.if.neg=FALSE)
+  model    psill   range
+1   Nug 0.000000    0.00
+2   Sph 7.878195 1567.77
+> 
+> proc.time()
+   user  system elapsed 
+  0.708   0.244   0.718 

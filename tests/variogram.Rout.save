@@ -1,0 +1,69 @@
+
+R version 3.0.1 (2013-05-16) -- "Good Sport"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library(sp)
+> library(gstat)
+> data(meuse)
+> variogram(log(zinc)~1, ~x+y, meuse)
+    np       dist     gamma dir.hor dir.ver   id
+1   57   79.29244 0.1234479       0       0 var1
+2  299  163.97367 0.2162185       0       0 var1
+3  419  267.36483 0.3027859       0       0 var1
+4  457  372.73542 0.4121448       0       0 var1
+5  547  478.47670 0.4634128       0       0 var1
+6  533  585.34058 0.5646933       0       0 var1
+7  574  693.14526 0.5689683       0       0 var1
+8  564  796.18365 0.6186769       0       0 var1
+9  589  903.14650 0.6471479       0       0 var1
+10 543 1011.29177 0.6915705       0       0 var1
+11 500 1117.86235 0.7033984       0       0 var1
+12 477 1221.32810 0.6038770       0       0 var1
+13 452 1329.16407 0.6517158       0       0 var1
+14 457 1437.25620 0.5665318       0       0 var1
+15 415 1543.20248 0.5748227       0       0 var1
+> 
+> coordinates(meuse) <- ~ x + y                               
+> variogram(log(zinc)~1, meuse)
+    np       dist     gamma dir.hor dir.ver   id
+1   57   79.29244 0.1234479       0       0 var1
+2  299  163.97367 0.2162185       0       0 var1
+3  419  267.36483 0.3027859       0       0 var1
+4  457  372.73542 0.4121448       0       0 var1
+5  547  478.47670 0.4634128       0       0 var1
+6  533  585.34058 0.5646933       0       0 var1
+7  574  693.14526 0.5689683       0       0 var1
+8  564  796.18365 0.6186769       0       0 var1
+9  589  903.14650 0.6471479       0       0 var1
+10 543 1011.29177 0.6915705       0       0 var1
+11 500 1117.86235 0.7033984       0       0 var1
+12 477 1221.32810 0.6038770       0       0 var1
+13 452 1329.16407 0.6517158       0       0 var1
+14 457 1437.25620 0.5665318       0       0 var1
+15 415 1543.20248 0.5748227       0       0 var1
+> 
+> ind=seq(1,155,2)
+> var1= meuse[ind,]
+> var2= meuse[-ind,]
+> g <- gstat(NULL, id = "lead", form = lead ~ 1, data=var1)
+> g <- gstat(g, id = "zinc", form = zinc ~ 1, data=var2)
+> v.cross <- variogram(g)
+> plot(v.cross)
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  1.528   0.076   1.612 

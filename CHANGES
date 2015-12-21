@@ -1,0 +1,9 @@
+Dec 5, 2002: started porting gstat to R
+
+Tue Dec 17 14:35:26 CET 2002
+	- added multivariate gstat(), 
+
+Tue Aug 12 14:42:16 CEST 2003
+	- see src/CHANGES file in main gstat directory for more information
+
+
