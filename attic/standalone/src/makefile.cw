@@ -1,0 +1,439 @@
+#######
+# makefile.in: derived from the gnuplot 3.6 (beta) Makefile.in
+# at ftp://cmpc1.phys.soton.ac.uk/
+# configure will change this into a (hopefully) suitable makefile. 
+#######
+
+# default target
+# DEBUGGER=debug
+all: gstat
+	cp gstat ${PCRTREE}/bin/${BUILD_TYPE}
+	cp makefile makefile.cw
+	. diffTest
+
+# 	runapp aguila id_pr.*
+
+# this tells GNU make not to export variables into the environment
+# But other makes dont understand its significance, so it must
+# not be the first target in the file. So it is here, before
+# any variables are created, but after the default target
+
+.NOEXPORT:
+
+srcdir = .
+top_srcdir = ..
+prefix = /usr/local
+exec_prefix = ${prefix}
+
+bindir = ${exec_prefix}/bin
+datadir = ${prefix}/share
+includedir = ${prefix}/include
+infodir = ${prefix}/info
+libdir = ${exec_prefix}/lib
+mandir = ${prefix}/man/man1
+
+VERSION = 2.4.2
+
+PATCHLEVEL = @patchlevel@
+
+top_builddir = .
+
+INSTALL = /usr//bin/install -c
+INSTALL_PROGRAM = ${INSTALL}
+INSTALL_DATA = ${INSTALL} -m 644
+LEX = flex
+YACC = yacc
+STATIC = gstat-$(VERSION)-static
+
+CC     =    gcc
+# modify/add *Your Favourite Compiler Option* to CFLAGS:
+CFLAGS =    -g -O2
+CFLAGS+= -W -Wall -Wconversion -Wmissing-prototypes
+
+DEFS =      -DHAVE_CONFIG_H -DHAVE_EXT_DBASE
+EXT_DBASE_I =  -I/home/cees/projects-cees/pqdb -I$(PCRTREE)/include
+CPPFLAGS =  -I../include   -I/usr/include/ncurses $(EXT_DBASE_I)
+LDFLAGS =   -L../lib -L$(PCRTREE)/bin/develop
+
+#  -lmeschach to link to meschach matrix library (required)
+#  -lcurses to link to curses
+#  -lncurses to link to ncurses
+#  -lefence to link electric fence, etc. 
+#  -L/usr/somewhere/gd -lgd  if gd graphics library is used
+#  -L../lib -lcsf to link csf (pcraster) map library
+EXT_DBASE_LIBS = -lpqdbase -lstdc++
+LIBS = $(EXT_DBASE_LIBS) -lmeschach  -lncurses -lcsf -lm
+
+#
+# You probably don't need to change anything below here.
+#
+
+ACLOCAL = $(top_srcdir)/aclocal.m4
+ACCONFIG = acconfig.h
+CONFIG_HEADER_IN = config.hin
+CONFIG_HEADER = config.h
+
+####################################################################
+# definitions for macros used in makefile.all (updated automatically)
+# O is the object file extension
+
+O=o
+
+LIBOBJS = 
+
+####################################################################
+OBJS = \
+	ext_dbase.$(O) \
+	block.$(O) \
+	data.$(O) \
+	direct.$(O) \
+	fig.$(O) \
+	fit.$(O) \
+	getest.$(O) \
+	gls.$(O) \
+	glvars.$(O) \
+	gstat.$(O) \
+	lex.$(O) \
+	lm.$(O) \
+	map2fig.$(O) \
+	map2gd.$(O) \
+	mapio.$(O) \
+	maputils.$(O) \
+	msim.$(O) \
+	nsearch.$(O) \
+	ossfim.$(O) \
+	palet.$(O) \
+	parse.$(O) \
+	plot.$(O) \
+	polygon.$(O) \
+	pqueue.$(O) \
+	predict.$(O) \
+	random.$(O) \
+	read.$(O) \
+	reml.$(O) \
+	report.$(O) \
+	sample.$(O) \
+	select.$(O) \
+	sem.$(O) \
+	sem_main.$(O) \
+	sim.$(O) \
+	stat.$(O) \
+	ui.$(O) \
+	userio.$(O) \
+	utils.$(O) \
+	vario.$(O) \
+	vario_fn.$(O) \
+	vario_io.$(O) \
+	writecmd.$(O) \
+	xvalid.$(O)
+
+MESCHACH_OBJS = \
+	../meschach/chfactor.$(O) \
+	../meschach/copy.$(O) \
+	../meschach/err.$(O) \
+	../meschach/hsehldr.$(O) \
+	../meschach/init.$(O) \
+	../meschach/ivecop.$(O) \
+	../meschach/lufactor.$(O) \
+	../meschach/machine.$(O) \
+	../meschach/matop.$(O) \
+	../meschach/matrixio.$(O) \
+	../meschach/meminfo.$(O) \
+	../meschach/memory.$(O) \
+	../meschach/memstat.$(O) \
+	../meschach/mfunc.$(O) \
+	../meschach/norm.$(O) \
+	../meschach/otherio.$(O) \
+	../meschach/pxop.$(O) \
+	../meschach/qrfactor.$(O) \
+	../meschach/solve.$(O) \
+	../meschach/sparse.$(O) \
+	../meschach/sparseio.$(O) \
+	../meschach/spbkp.$(O) \
+	../meschach/spchfctr.$(O) \
+	../meschach/splufctr.$(O) \
+	../meschach/sprow.$(O) \
+	../meschach/spswap.$(O) \
+	../meschach/submat.$(O) \
+	../meschach/vecop.$(O) \
+	../meschach/version.$(O)
+
+####################################################################
+# List of source files
+SOURCES = \
+	block.c \
+	data.c \
+	direct.c \
+	fig.c \
+	fit.c \
+	getest.c \
+	gls.c \
+	glvars.c \
+	gstat.c \
+	lex.l \
+	lm.c \
+	map2fig.c \
+	map2gd.c \
+	mapio.c \
+	maputils.c \
+	msim.c \
+	nsearch.c \
+	ossfim.c \
+	palet.c \
+	parse.y \
+	plot.c \
+	polygon.c \
+	pqueue.c \
+	predict.c \
+	random.c \
+	read.c \
+	reml.c \
+	report.c \
+	sample.c \
+	select.c \
+	sem.c \
+	sem_main.c \
+	sim.c \
+	stat.c \
+	ui.c \
+	userio.c \
+	utils.c \
+	vario.c \
+	vario_fn.c \
+	vario_io.c \
+	writecmd.c \
+	xvalid.c 
+
+####################################################################
+# List of header files
+HEADERS = \
+	block.h \
+	config.h \
+	data.h \
+	debug.h \
+	defaults.h \
+	defs.h \
+	direct.h \
+	fig.h \
+	fit.h \
+	getest.h \
+	gls.h \
+	glvars.h \
+	lm.h \
+	map2fig.h \
+	map2gd.h \
+	mapio.h \
+	maputils.h \
+	msim.h \
+	nsearch.h \
+	ossfim.h \
+	palet.h \
+	parse.h \
+	plot.h \
+	polygon.h \
+	pqueue.h \
+	predict.h \
+	random.h \
+	read.h \
+	reml.h \
+	report.h \
+	sample.h \
+	select.h \
+	sem.h \
+	sem_main.h \
+	sim.h \
+	stat.h \
+	ui.h \
+	ui_help.h \
+	userio.h \
+	utils.h \
+	vario.h \
+	vario_fn.h \
+	vario_io.h \
+	version.h \
+	writecmd.h \
+	xvalid.h
+
+LIBHEADERS = \
+	config.h \
+	data.h \
+	debug.h \
+	defs.h \
+	fit.h \
+	glvars.h \
+	lex.h \
+	sem.h \
+	userio.h \
+	utils.h \
+	vario.h \
+	version.h \
+	writecmd.h
+
+#########################################################################
+gstat: $(OBJS) $(LIBOBJS)
+	$(CC) -o $@ $(OBJS) $(LIBOBJS) $(LDFLAGS) $(LIBS)
+
+static:
+	$(CC) -static -o $(STATIC) $(OBJS) $(LIBOBJS) $(LDFLAGS) $(LIBS)
+	strip $(STATIC)
+	
+$(OBJS):	config.h
+
+parse.h:	parse.y
+	$(YACC) -p gstat_yy -d parse.y
+	mv y.tab.c parse.c
+	mv y.tab.h parse.h
+
+parse.c:	parse.y
+	$(YACC) -p gstat_yy -d parse.y
+	mv y.tab.c parse.c
+	mv y.tab.h parse.h
+
+lex.c:	parse.h lex.l
+	$(LEX) -Pgstat_yy -t lex.l > lex.c
+
+gstat-lib:	$(OBJS)
+	ar vru ../lib/libgstat.a $(OBJS)
+	cp $(LIBHEADERS) ../gstatinc
+
+gstat.so: $(OBJS)
+	gcc -c -I/usr/lib/R/include -DUSING_R s.c
+	# R CMD SHLIB -o gstat.so *.o
+	gcc -shared -o gstat.so $(OBJS) s.o $(MESCHACH_OBJS) -L/usr/lib/R/bin -lR
+
+S.so:
+	./Smake $(OBJS) s.o
+	Splus61 make -f makefile.Spl S.so
+
+mapio-lib:	utils.o read.o
+	$(CC) -c $(CFLAGS) -D MAPIO_LIB -D HAVE_LIBCSF -I../include mapio.c
+	# ar vru libmapio.a userio.o mapio.o utils.o read.o
+	$(CC) -o mapio userio.o mapio.o utils.o read.o -L../lib -lm -lcsf
+	rm mapio.o
+
+.c.o:
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(DEFS) $<
+
+clean:
+	rm -f gstat $(OBJS)
+
+gstat.exe:	gstat # for go32 only
+	coff2exe gstat
+
+ctags:
+	ctags *.c *.h *.y *.l
+
+man:
+	c2man -i '"mapio.h"' -Th -o../man mapio.c
+	c2man -i '"sem.h"' -Th -o../man sem.c
+
+doc:
+	doxygen gstat.dox
+
+queue:	pqueue.c pqueue.h
+	$(CC) -o queue -Wall -g -DQUEUE_MAIN pqueue.c
+
+palet:	palet.c
+	$(CC) -o palet -Wall palet.c -lm
+
+# the next target requires ``date'' and back-quote substitution
+version:
+	echo '/* automatically generated from makefile: make version */' > version.h
+	echo "#define VERSION    \"$(VERSION) (`date '+%d %B %Y'`)\"" >> version.h
+	echo "#define LASTMOD    \"`date`\"" >> version.h
+
+update_cr:; sh Update.cr 25 block.c data.c direct.c fit.c \
+	getest.c gls.c glvars.c gstat.c lhs.c lm.c map2gd.c mapio.c \
+	reml.c msim.c palet.c plot.c predict.c random.c read.c report.c select.c \
+	sem.c sem_main.c sim.c stat.c ui.c userio.c utils.c vario.c \
+	vario_fn.c vario_io.c writecmd.c xvalid.c
+	@echo "update parse.y and lex.l manually"
+
+wc:;	@wc $(SOURCES)
+
+lint:;	lint $(CFLAGS) $(DEFS) $(CPPFLAGS) *.c -lm
+
+depend:;	makedepend -fmakefile.in -Y../include $(SOURCES)
+
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+block.o: defs.h config.h userio.h debug.h data.h utils.h glvars.h block.h
+data.o: defs.h config.h data.h mapio.h userio.h utils.h block.h debug.h
+data.o: read.h glvars.h polygon.h random.h defaults.h lm.h gls.h nsearch.h
+direct.o: defs.h config.h userio.h data.h utils.h debug.h defaults.h glvars.h
+direct.o: direct.h
+fig.o: defs.h config.h userio.h utils.h palet.h mapio.h glvars.h data.h fig.h
+fit.o: defs.h config.h defaults.h userio.h data.h utils.h read.h debug.h
+fit.o: vario.h sem.h plot.h glvars.h reml.h lm.h fit.h
+getest.o: defs.h config.h data.h utils.h mapio.h userio.h debug.h vario.h
+getest.o: glvars.h lm.h gls.h sim.h msim.h stat.h block.h polygon.h getest.h
+gls.o: config.h defs.h data.h utils.h select.h lm.h vario.h vario_io.h
+gls.o: glvars.h userio.h plot.h debug.h gls.h
+glvars.o: defs.h config.h userio.h debug.h data.h utils.h vario.h lex.h
+glvars.o: random.h predict.h defaults.h writecmd.h glvars.h gls.h polygon.h
+gstat.o: defs.h config.h
+gstat.o: userio.h debug.h data.h utils.h vario.h
+gstat.o: glvars.h xvalid.h read.h lex.h sem_main.h sem.h reml.h fit.h plot.h
+gstat.o: stat.h random.h ui.h predict.h mapio.h maputils.h polygon.h
+gstat.o: map2fig.h map2gd.h palet.h sample.h ossfim.h version.h
+lex.o: defs.h config.h userio.h utils.h read.h parse.h lex.h
+lm.o: defs.h config.h userio.h data.h utils.h debug.h select.h glvars.h
+lm.o: lm.h
+map2fig.o: defs.h config.h userio.h utils.h palet.h mapio.h data.h read.h
+map2fig.o: fig.h map2fig.h
+map2gd.o: defs.h config.h utils.h mapio.h userio.h palet.h read.h map2gd.h
+mapio.o: defs.h config.h
+mapio.o: glvars.h utils.h debug.h read.h userio.h
+mapio.o: mapio.h
+maputils.o: defs.h config.h
+maputils.o: glvars.h utils.h debug.h read.h userio.h
+maputils.o: mapio.h stat.h maputils.h
+msim.o: defs.h config.h debug.h random.h data.h utils.h vario.h glvars.h
+msim.o: predict.h userio.h mapio.h gls.h sim.h msim.h
+nsearch.o: defs.h config.h userio.h debug.h data.h utils.h glvars.h mapio.h
+nsearch.o: predict.h nsearch.h pqueue.h
+ossfim.o: defs.h config.h userio.h debug.h data.h vario.h utils.h glvars.h
+ossfim.o: select.h nsearch.h parse.h read.h lex.h block.h mapio.h map2gd.h
+ossfim.o: plot.h gls.h
+palet.o: defs.h config.h utils.h userio.h palet.h
+parse.o: defs.h config.h data.h vario.h debug.h glvars.h userio.h utils.h
+parse.o: lex.h
+plot.o: defs.h config.h userio.h debug.h data.h utils.h vario.h glvars.h
+plot.o: sem.h version.h plot.h
+polygon.o: defs.h config.h data.h utils.h debug.h userio.h read.h polygon.h
+polygon.o: glvars.h
+pqueue.o: defs.h config.h userio.h data.h utils.h nsearch.h pqueue.h
+predict.o: defs.h config.h mapio.h userio.h data.h utils.h debug.h block.h
+predict.o: report.h glvars.h random.h version.h getest.h msim.h sim.h
+predict.o: select.h predict.h
+random.o: defs.h config.h utils.h debug.h userio.h random.h
+read.o: defs.h config.h utils.h userio.h glvars.h read.h
+reml.o: defs.h config.h userio.h debug.h data.h utils.h vario.h glvars.h
+reml.o: select.h lm.h reml.h
+report.o: defs.h config.h userio.h data.h utils.h debug.h glvars.h stat.h
+report.o: predict.h report.h
+sample.o: defs.h config.h random.h utils.h userio.h mapio.h
+select.o: defs.h config.h userio.h data.h utils.h debug.h vario.h defaults.h
+select.o: glvars.h nsearch.h select.h polygon.h
+sem.o: defs.h config.h read.h mapio.h userio.h data.h utils.h debug.h vario.h
+sem.o: glvars.h select.h gls.h lm.h defaults.h direct.h version.h sem.h
+sem_main.o: defs.h config.h userio.h debug.h read.h lex.h data.h utils.h
+sem_main.o: vario.h glvars.h defaults.h direct.h sem.h sem_main.h
+sim.o: defs.h config.h random.h debug.h glvars.h userio.h data.h gls.h
+sim.o: utils.h lm.h sim.h
+stat.o: defs.h config.h userio.h data.h utils.h debug.h lex.h read.h glvars.h
+stat.o: stat.h
+ui.o: defs.h config.h userio.h debug.h data.h vario.h glvars.h read.h sem.h
+ui.o: fit.h plot.h defaults.h direct.h version.h gls.h writecmd.h xvalid.h
+ui.o: predict.h lex.h ui.h utils.h ui_help.h
+userio.o: defs.h config.h debug.h utils.h version.h userio.h
+utils.o: defs.h config.h userio.h utils.h glvars.h
+utils.o: debug.h
+vario.o: defs.h config.h userio.h data.h utils.h debug.h vario.h vario_fn.h
+vario.o: glvars.h lex.h read.h lm.h
+vario_fn.o: userio.h vario_fn.h
+vario_io.o: userio.h debug.h data.h glvars.h vario.h block.h vario_io.h
+writecmd.o: defs.h config.h debug.h version.h data.h utils.h vario.h
+writecmd.o: defaults.h glvars.h random.h userio.h writecmd.h
+xvalid.o: defs.h config.h userio.h data.h utils.h debug.h glvars.h getest.h
+xvalid.o: select.h stat.h report.h xvalid.h

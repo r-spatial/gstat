@@ -1,0 +1,4 @@
+newgraph
+title : 1 Pow(0.25)
+newline pts
+	shell : gstat -e semivariance '1 pow(0.25)' 0 4 100

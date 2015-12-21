@@ -1,0 +1,6 @@
+dir=$1
+shift
+for f
+do
+	../src/gstat -e mapdiff ./$f $dir/$f
+done

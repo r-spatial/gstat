@@ -1,0 +1,91 @@
+# Makefile for PCRaster build system
+
+first: all
+	@cp Makefile Makefile.pcr
+
+APP_TARGET=gstatQ
+
+NO_DEPENDENCIES=1
+
+PQDB_PATH=$(PCRTREE)/../projects-cees/pqdb
+
+ADD_DEFS += -DHAVE_CONFIG_H -DHAVE_EXT_DBASE -I../meschach -I$(PQDB_PATH) -DBORLANDC -DYY_NO_UNISTD_H
+# EXT_DBASE_I =  -I/home/cees/projects-cees/pqdb -I$(PCRTREE)/include
+# CPPFLAGS =  -I../include   -I/usr/include/ncurses $(EXT_DBASE_I)
+# LDFLAGS =   -L../lib -L$(PCRTREE)/bin/develop
+
+#  -lmeschach to link to meschach matrix library (required)
+#  -lcurses to link to curses
+#  -lncurses to link to ncurses
+#  -lefence to link electric fence, etc. 
+#  -L/usr/somewhere/gd -lgd  if gd graphics library is used
+#  -L../lib -lcsf to link csf (pcraster) map library
+
+EXT_LIBS = -lmeschach -lpqdbase
+# -lstdc++ -lm
+PCRLIBS+=csf misc
+
+config.h: config.h.bcc
+	cp config.h.bcc config.h
+
+parse.h:	parse.y
+	$(YACC) -p gstat_yy -d parse.y
+	mv y.tab.c parse.c
+	mv y.tab.h parse.h
+
+parse.c:	parse.y
+	$(YACC) -p gstat_yy -d parse.y
+	mv y.tab.c parse.c
+	mv y.tab.h parse.h
+
+lex.c:	parse.h lex.l
+	flex -Pgstat_yy -t lex.l > lex.c
+
+OBJS = getopt.o
+
+OBJS += \
+	ext_dbase.o \
+	block.o \
+	data.o \
+	direct.o \
+	fig.o \
+	fit.o \
+	getest.o \
+	gls.o \
+	glvars.o \
+	gstat.o \
+	lex.o \
+	lm.o \
+	map2fig.o \
+	map2gd.o \
+	mapio.o \
+	maputils.o \
+	msim.o \
+	nsearch.o \
+	ossfim.o \
+	palet.o \
+	parse.o \
+	plot.o \
+	polygon.o \
+	pqueue.o \
+	predict.o \
+	random.o \
+	read.o \
+	reml.o \
+	report.o \
+	sample.o \
+	select.o \
+	sem.o \
+	sem_main.o \
+	sim.o \
+	stat.o \
+	ui.o \
+	userio.o \
+	utils.o \
+	vario.o \
+	vario_fn.o \
+	vario_io.o \
+	writecmd.o \
+	xvalid.o
+
+include $(PCRTREE)/template/make/epilog

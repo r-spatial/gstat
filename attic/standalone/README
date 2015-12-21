@@ -1,0 +1,58 @@
+gstat is a program for geostatistical modelling, prediction and
+simulation; its main references are
+
+E.J. Pebesma and C.G. Wesseling, 1998.  Gstat, a
+program for geostatistical modelling, prediction and
+simulation.  Computers & Geosciences 24 (1), 17--31.
+http://dx.doi.org/10.1016/S0098-3004(97)00082-4}
+
+E.J. Pebesma, 2004. Multivariable geostatistics in S: the
+gstat package. Computers & Geosciences 30 (7), 683-691.
+http://dx.doi.org/10.1016/j.cageo.2004.03.012
+
+gstat now comes in two flavours: a stand-alone executable, and a package
+that can be used from within R. Both share a common set of C source code,
+which is held in subdirectory src. All R related files are held under
+subdirectory S. The source R package files are in S/man (manual pages),
+S/src (R / S code), S/test, S/demo, S/data. To produce the R package, all
+needed code is copied (and partially filtered) from gstat/src directory
+and all source directories under gstat/S to relevant directories under
+gstat/S/R/gstat, from where the actual sources reside.
+
+the gstat stand-alone manual and other information at the gstat home
+page, http://www.gstat.org/ . R package manual pages are installed
+automatically.
+
+source distribution -- contents of the directories:
+===================================================
+src       : gstat sources code, copyright notice
+meschach  : meschach matrix library (basic/dense/sparse routines)
+include   : include file directory
+lib       : where the compiled libraries go (libcsf.a, libmeschach.a)
+cmd       : example command files
+S         : gstat R package and S-Plus library directories
+
+to build gstat stand-alone, type:
+
+	./configure
+	make
+
+and to install the software, type:
+
+	make install
+
+to check which command make would invoke, try:
+
+	make install -n
+
+(note that configure takes several options; try
+
+	./configure --help
+
+for a list)
+
+To build and check the gstat R package, type:
+	
+	cd S
+	make r-build
+	make r-check

@@ -1,0 +1,59 @@
+\section{Example 1. Variogram modelling }
+\label{ex:1}
+@include ../cmd/ex01.cmd
+\section{Example 2. Variogram modelling of two variables }
+\label{ex:2}
+@include ../cmd/ex02.cmd
+\section{Example 3. Inverse distance interpolation }
+\label{ex:3}
+@include ../cmd/ex03.cmd
+\section{Example 4. Ordinary block kriging}
+\label{ex:4}
+@include ../cmd/ex04.cmd
+\section{Example 5. Simple kriging on a mask map }
+\label{ex:5}
+@include ../cmd/ex05.cmd
+\section{Example 6. Unconditional simulation }
+\label{ex:6}
+@include ../cmd/ex06.cmd
+\section{Example 7. Conditional simulation }
+\label{ex:7}
+@include ../cmd/ex07.cmd
+\section{Example 8. Ordinary block kriging on a mask map }
+\label{ex:8}
+@include ../cmd/ex08.cmd
+\section{Example 9. Map values at point locations }
+\label{ex:9}
+@include ../cmd/ex09.cmd
+\section{Example 10. Multiple kriging }
+\label{ex:10}
+@include ../cmd/ex10.cmd
+\section{Example 11. Multivariable kriging (cokriging) }
+\label{ex:11}
+@include ../cmd/ex11.cmd
+\section{Example 12. Stratified ordinary kriging }
+\label{ex:12}
+@include ../cmd/ex12.cmd
+\section{Example 13. Universal kriging (a) }
+\label{ex:13}
+\indent using the model $Z(x)=\beta_1 + D(x) \beta_2 +e(x)$:\\
+@include ../cmd/ex13.cmd
+\section{Example 14. Universal kriging (b) }
+\label{ex:14}
+@include ../cmd/ex14.cmd
+\indent using the model $Z(x)= D(x) \beta_1 + I_A (x) \beta_2 + I_B (x) \beta_3 +e(x)$:\\
+\section{Example 14a. Stratified universal kriging }
+\label{ex:14a}
+\indent using the model $Z_i (x)=\beta_{i,1} + D(x) \beta_{i,2} +e_i (x)$,
+$i$ being the category number:\\
+@include ../cmd/ex14a.cmd
+\section{Example 15. Linear model prediction (OLS) }
+\label{ex:15}
+\indent using the model $Z(x)=\beta_1 + D(x) \beta_2 +e(x)$:\\
+@include ../cmd/ex15.cmd
+\section{Example 16. Multivariable (cumulative) indicator simulation}
+\label{ex:16}
+@include ../cmd/ex16.cmd
+\section{Example 17. Trend surface prediction}
+\label{ex:17}
+@include ../cmd/ex17.cmd

@@ -1,0 +1,8 @@
+# 0.33 mm white
+awk '{print(\
+"newcurve marktype circle gray 1 marksize "17.3+4.4*sqrt($3)" pts "$1,$2,"\n" \
+"newcurve marktype circle fill 0 marksize "4.4*sqrt($3)" pts "$1,$2 \
+)}' zinc.srt > tmp
+cat map.jgr tmp > tmp.jgr
+jgraph tmp.jgr > zn_map.eps
+rm tmp tmp.jgr

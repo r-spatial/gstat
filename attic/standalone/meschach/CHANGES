@@ -1,0 +1,19 @@
+Changes, made by Edzer Pebesma:
+
+added this file
+removed all files z* (not used), except for zmatrix.h and zmatrix2.h
+
+MACHINES/Linux/machine.h:
+	removed (uncommented) #define COMPLEX 1
+	added #include <math.h>
+
+makefile.in
+	renamed target `sparse' to `with-sparse' (gnu make tries to build
+	a program sparse from sparse.o if this is not done)
+
+MACHINES/RS6000/machine.h:
+	removed (uncommented) #define COMPLEX 1
+	added #include <math.h>
+MACHINES/RS6000/makefile:
+	remove -O
+	target sparse --> with-sparse

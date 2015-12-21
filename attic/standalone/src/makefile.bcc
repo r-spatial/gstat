@@ -1,0 +1,40 @@
+OBJS = getopt.o \
+	block.o \
+	data.o \
+	direct.o \
+	fit.o \
+	getest.o \
+	gls.o \
+	glvars.o \
+	gstat.o \
+	lex.o \
+	lm.o \
+	map2gif.o \
+	mapio.o \
+	msim.o \
+	parse.o \
+	plot.o \
+	polygon.o \
+	pqueue.o \
+	predict.o \
+	random.o \
+	read.o \
+	reml.o \
+	report.o \
+	sample.o \
+	search.o \
+	select.o \
+	sem.o \
+	sem_main.o \
+	sim.o \
+	stat.o \
+	ui.o \
+	userio.o \
+	utils.o \
+	vario.o \
+	vario_fn.o \
+	vario_io.o \
+	writecmd.o \
+	xvalid.o
+
+DEFINES = -DBORLANDC -DWIN32 -DNO_STD_IN_OUT

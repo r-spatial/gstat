@@ -1,0 +1,94 @@
+\BOOKMARK [0][-]{chapter.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.1.1}{gstat mailing lists}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{gstat for R and S-PLUS}{chapter.1}% 3
+\BOOKMARK [1][-]{section.1.3}{Further reading}{chapter.1}% 4
+\BOOKMARK [0][-]{chapter.2}{Getting started}{}% 5
+\BOOKMARK [1][-]{section.2.1}{Invoking gstat}{chapter.2}% 6
+\BOOKMARK [1][-]{section.2.2}{Data formats}{chapter.2}% 7
+\BOOKMARK [1][-]{section.2.3}{Default program action}{chapter.2}% 8
+\BOOKMARK [1][-]{section.2.4}{Modelling spatial dependence}{chapter.2}% 9
+\BOOKMARK [1][-]{section.2.5}{Prediction}{chapter.2}% 10
+\BOOKMARK [1][-]{section.2.6}{Simulation}{chapter.2}% 11
+\BOOKMARK [1][-]{section.2.7}{Linear models in gstat}{chapter.2}% 12
+\BOOKMARK [0][-]{chapter.3}{Prediction modes and change of support}{}% 13
+\BOOKMARK [1][-]{section.3.1}{Modes}{chapter.3}% 14
+\BOOKMARK [1][-]{section.3.2}{Multiple mode}{chapter.3}% 15
+\BOOKMARK [1][-]{section.3.3}{Multivariable mode}{chapter.3}% 16
+\BOOKMARK [1][-]{section.3.4}{Stratified mode}{chapter.3}% 17
+\BOOKMARK [1][-]{section.3.5}{Change of support \(block prediction\)}{chapter.3}% 18
+\BOOKMARK [0][-]{chapter.4}{Command file syntax}{}% 19
+\BOOKMARK [1][-]{section.4.1}{Commands}{chapter.4}% 20
+\BOOKMARK [2][-]{subsection.4.1.1}{General options}{section.4.1}% 21
+\BOOKMARK [2][-]{subsection.4.1.2}{Variogram modelling options}{section.4.1}% 22
+\BOOKMARK [2][-]{subsection.4.1.3}{Prediction or simulation options}{section.4.1}% 23
+\BOOKMARK [1][-]{section.4.2}{`data'}{chapter.4}% 24
+\BOOKMARK [2][-]{subsection.4.2.1}{General options}{section.4.2}% 25
+\BOOKMARK [2][-]{subsection.4.2.2}{Variogram modelling options}{section.4.2}% 26
+\BOOKMARK [2][-]{subsection.4.2.3}{Prediction or simulation options}{section.4.2}% 27
+\BOOKMARK [1][-]{section.4.3}{`variogram'}{chapter.4}% 28
+\BOOKMARK [1][-]{section.4.4}{`set'}{chapter.4}% 29
+\BOOKMARK [2][-]{subsection.4.4.1}{General options}{section.4.4}% 30
+\BOOKMARK [2][-]{subsection.4.4.2}{Variogram modelling options}{section.4.4}% 31
+\BOOKMARK [2][-]{subsection.4.4.3}{Prediction or simulation options}{section.4.4}% 32
+\BOOKMARK [1][-]{section.4.5}{`method'}{chapter.4}% 33
+\BOOKMARK [0][-]{chapter.5}{Further control}{}% 34
+\BOOKMARK [1][-]{section.5.1}{Start-up}{chapter.5}% 35
+\BOOKMARK [1][-]{section.5.2}{Command line options}{chapter.5}% 36
+\BOOKMARK [1][-]{section.5.3}{Random number generators}{chapter.5}% 37
+\BOOKMARK [1][-]{section.5.4}{Special file names}{chapter.5}% 38
+\BOOKMARK [1][-]{section.5.5}{Execute \(-e\) actions}{chapter.5}% 39
+\BOOKMARK [1][-]{section.5.6}{Compiling and installing gstat}{chapter.5}% 40
+\BOOKMARK [0][-]{chapter.6}{Example command files}{}% 41
+\BOOKMARK [1][-]{section.6.1}{Example 1. Variogram modelling }{chapter.6}% 42
+\BOOKMARK [1][-]{section.6.2}{Example 2. Variogram modelling of two variables }{chapter.6}% 43
+\BOOKMARK [1][-]{section.6.3}{Example 3. Inverse distance interpolation }{chapter.6}% 44
+\BOOKMARK [1][-]{section.6.4}{Example 4. Ordinary block kriging}{chapter.6}% 45
+\BOOKMARK [1][-]{section.6.5}{Example 5. Simple kriging on a mask map }{chapter.6}% 46
+\BOOKMARK [1][-]{section.6.6}{Example 6. Unconditional simulation }{chapter.6}% 47
+\BOOKMARK [1][-]{section.6.7}{Example 7. Conditional simulation }{chapter.6}% 48
+\BOOKMARK [1][-]{section.6.8}{Example 8. Ordinary block kriging on a mask map }{chapter.6}% 49
+\BOOKMARK [1][-]{section.6.9}{Example 9. Map values at point locations }{chapter.6}% 50
+\BOOKMARK [1][-]{section.6.10}{Example 10. Multiple kriging }{chapter.6}% 51
+\BOOKMARK [1][-]{section.6.11}{Example 11. Multivariable kriging \(cokriging\) }{chapter.6}% 52
+\BOOKMARK [1][-]{section.6.12}{Example 12. Stratified ordinary kriging }{chapter.6}% 53
+\BOOKMARK [1][-]{section.6.13}{Example 13. Universal kriging \(a\) }{chapter.6}% 54
+\BOOKMARK [1][-]{section.6.14}{Example 14. Universal kriging \(b\) }{chapter.6}% 55
+\BOOKMARK [1][-]{section.6.15}{Example 14a. Stratified universal kriging }{chapter.6}% 56
+\BOOKMARK [1][-]{section.6.16}{Example 15. Linear model prediction \(OLS\) }{chapter.6}% 57
+\BOOKMARK [1][-]{section.6.17}{Example 16. Multivariable \(cumulative\) indicator simulation}{chapter.6}% 58
+\BOOKMARK [1][-]{section.6.18}{Example 17. Trend surface prediction}{chapter.6}% 59
+\BOOKMARK [0][-]{chapter.7}{The gstat S package}{}% 60
+\BOOKMARK [1][-]{section.7.1}{Introduction}{chapter.7}% 61
+\BOOKMARK [1][-]{section.7.2}{Differences from the stand-alone program}{chapter.7}% 62
+\BOOKMARK [0][-]{appendix.A}{Equations}{}% 63
+\BOOKMARK [1][-]{section.A.1}{Spatial dependence}{appendix.A}% 64
+\BOOKMARK [1][-]{section.A.2}{Prediction equations}{appendix.A}% 65
+\BOOKMARK [1][-]{section.A.3}{Change of support: details}{appendix.A}% 66
+\BOOKMARK [1][-]{section.A.4}{Latin hypercube sampling}{appendix.A}% 67
+\BOOKMARK [0][-]{appendix.B}{Using polylines with gstat}{}% 68
+\BOOKMARK [1][-]{section.B.1}{Implementation aspects}{appendix.B}% 69
+\BOOKMARK [1][-]{section.B.2}{Formats available for input}{appendix.B}% 70
+\BOOKMARK [1][-]{section.B.3}{New keywords}{appendix.B}% 71
+\BOOKMARK [1][-]{section.B.4}{Using point-in-polygon test}{appendix.B}% 72
+\BOOKMARK [1][-]{section.B.5}{Using polylines with interpolation}{appendix.B}% 73
+\BOOKMARK [1][-]{section.B.6}{Distance calculation with boundaries}{appendix.B}% 74
+\BOOKMARK [0][-]{appendix.C}{Trouble shooting}{}% 75
+\BOOKMARK [1][-]{section.C.1}{Error messages}{appendix.C}% 76
+\BOOKMARK [2][-]{subsection.C.1.1}{From gstat}{section.C.1}% 77
+\BOOKMARK [2][-]{subsection.C.1.2}{From meschach}{section.C.1}% 78
+\BOOKMARK [1][-]{section.C.2}{Strange results}{appendix.C}% 79
+\BOOKMARK [1][-]{section.C.3}{The value of zero}{appendix.C}% 80
+\BOOKMARK [1][-]{section.C.4}{Debug information}{appendix.C}% 81
+\BOOKMARK [0][-]{appendix.D}{Grid map and data formats}{}% 82
+\BOOKMARK [1][-]{section.D.1}{PCRaster maps}{appendix.D}% 83
+\BOOKMARK [1][-]{section.D.2}{Idrisi data and maps}{appendix.D}% 84
+\BOOKMARK [1][-]{section.D.3}{ArcInfo/Arcview grid maps}{appendix.D}% 85
+\BOOKMARK [2][-]{subsection.D.3.1}{asciigrid}{section.D.3}% 86
+\BOOKMARK [2][-]{subsection.D.3.2}{floatgrid}{section.D.3}% 87
+\BOOKMARK [1][-]{section.D.4}{ER-Mapper maps}{appendix.D}% 88
+\BOOKMARK [1][-]{section.D.5}{GMT grid maps}{appendix.D}% 89
+\BOOKMARK [1][-]{section.D.6}{Surfer grid maps}{appendix.D}% 90
+\BOOKMARK [0][-]{bibliography.0}{Bibliography}{}% 91
+\BOOKMARK [0][-]{section.D.6}{Bibliography}{}% 92
+\BOOKMARK [0][-]{index.0}{Index}{}% 93
+\BOOKMARK [0][-]{appendix*.29}{Index}{}% 94

@@ -1,0 +1,6 @@
+s/zinc.eas/\\htmladdnormallink{zinc.eas}{WWWzinc.html}/g
+s/zincat0.eas/\\htmladdnormallink{zincat0.eas}{WWWzincat0.html}/g
+s/zincat1.eas/\\htmladdnormallink{zincat1.eas}{WWWzincat0.html}/g
+s/zincmap.eas/\\htmladdnormallink{zincmap.eas}{WWWzincmap.html}/g
+s/locs.eas/\\htmladdnormallink{locs.eas}{WWWlocs.html}/g
+s/zincok.out/\\htmladdnormallink{zincok.out}{WWWzincok.html}/g

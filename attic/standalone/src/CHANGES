@@ -1,0 +1,1066 @@
+/*
+CHANGES log (summary)
+============================
+Changes written after a version number apply to the next the version.
+date: version (program name)
+
+dec 92, spil 2.06:
+	added method ossfim, dump_cvv(); dynamic data maximum.
+jan 93, spil 2.07:
+	dynamic allocation data, unbounded maximum.
+mar 93, spil 2.08:
+	corrected block discretizing
+apr 93, spil 2.09:
+	added lex variogram expression parsing (rd_vario.[lc]) ## later removed
+apr 93, spil 3.0:
+	added full command file parser with lexical analyser
+	added sample variogram calculation (sem)
+
+jun 93, gstat 0.99
+	spil 3.0 + sem -> gstat 0.99; "gstat [-]sem" ## later: -e semivariance
+
+jun 93, gstat 0.99c:
+	removed bug in local/ordinary kriging
+jun 93, gstat 0.99d:
+	coupled gstat with meschach library; removed numerical recip matrix code.
+jun 93, gstat 0.99e:
+	solved bug in semi().
+aug 93, gstat 0.99f:
+	added MapSign().
+aug 93, gstat 0.99g:
+	added time coordinate to data, distance(x,t) not solved.
+	corrected distance bug when d->force in select.c
+	added variogram->max_[range/sill] 
+aug 93, gstat 0.99h
+	added max_ldl structure, and correction with -L option
+sep 93, gstat 0.99i
+	dynamic allocation of nested variogram models (unbounded maximum)
+sep 93, gstat 0.99j
+	added universal kriging
+oct 93, gstat 1.0  
+	release without univ.kr., added variography check (ic,lmc).
+nov 93, gstat 1.1  
+	renewed error handling, corrected variography check
+	corrected bug in memory allocation in ReadLegend();
+	released gstat 1.1 on dec 1, 1993
+
+dec 93, gstat 1.2 
+	changed the VARIOGRAM structure, using V_model and V_model_type;
+	[ check UK, consider REML? ]
+	added 4x4 Gauss quadrature block descretizing (Carr & Palmer)
+	removed the attr2 field from POINT, changed semi() accordingly
+	removed bug in positioning results from ID, if n_vars > 1
+	changed UK, added LM. def: with intercept, other variables with X
+	revised sem.c , added sem_main.c, made CheckX();
+apr 94, gstat 1.2a 
+	removed bug in sem_main.c (log, and I for data2);
+	removed bug in do_mask.c, warning for coordinates when PT_XY
+	removed bug in direct.c (117), added ER_DOMAIN
+apr 94, gstat 1.2b
+	added gram_sch.c: Gram_Schmidt checking of matrices: option -g
+	added # comment-style and flex -l compatability (GNU flex 2.4.6)
+	removed bug in header cross semivariogram (pseudo <--> symmetric)
+	changed Quant() and Quantile, so they equal Splus' quantile()
+june 94, gstat 1.2c
+	removed bug when using both Valid and XValid (reversed order)
+	removed method tin, lss, ... added method xy
+june 94, gstat 1.2d
+	removed bug in Skrige() (Oops, I forgot to subtract sk_mean)
+june 94, gstat 1.2e
+	added reading `points(xxx):"map.csf"'; points from csf map.
+    released 1.2f
+june 94, gstat 1.2g 
+	corrected bug in lm.c: pred. variance, depending on block size
+	placed '#' on start of the 8 header lines of semivariograms, 
+	to make life easier for gnuplot support
+aug 94, gstat 1.2h
+	added 'par:fit=1,gnuplot="file.gp"; functionality: see sem.c, 
+	sem_fit.c this is for wls fitting of sill-nugget, and variogram 
+	plotting using gnuplot. (added # in variogram header!)
+aug 94, gstat 1.3 
+	Added mivque.[ch], for mi[nv]que univariate covariance fitting
+aug 94, gstat 1.3a
+	added global kriging in [s]krige.c. Up to 80 times faster. Wow.
+aug 94, gstat 1.3b
+	added `area: "discr.dat",x=1,y=2', user defined area discretising
+sep 94, gstat 1.3c
+	fixed bug in CovSem_AB(): remember both within-block cov. and sem.
+oct 94, gstat 1.3d
+	added menu; corrected CheckX() for points();, but see 1.4b...
+	added noaverage/average instead of "average=1"
+	added "square" to use square neigborhood selections (no circle)
+	changed variogram structure, now functions as part of structure.
+	removed bug in getest, functions for MVS/MED, added par:quantile=..
+dec 94, gstat 1.3e 
+	menu evolved... added '#','?','-','&' options (try ?);
+	added recalculation only at options Data, Calculate, cUtoff, &
+
+----------gstat, 1995:
+jan 94, gstat 1.4  
+	menu.c elm-like, major rewrite. No hidden options, help added.  
+jan 94, gstat 1.4a 
+	corrected compile with STRICT_KR2 (no HAVE_CURSES)
+	menu faster (incomplete screen rewrite after each key pressed)
+	env. variable GNUPROLOG may define a prolog for gnuplot
+jan 94, gstat 1.4b 
+	corrected bug in select.c (cs with no range defined)
+	env. variable GNUPLOT points gnuplot out, GSTATFMT "%g" variogram
+	menu enhancements (echo Yes/No, Show)
+	Yet another nasty bug in CheckX()!
+feb 94, gstat  1.4c 
+	header of variogram cloud corrected. Found bug in mopen.c (csf-lib)
+	IsEas(): now use rewind() instead of fopen()+fclose().
+	partial fitting: 0.2 @Nug() + 1 Sph(30) will now only fit Sph part.
+	(removed obsolete Wls_fit_Sill())
+	-L : allow local residuals.
+	added dX to DATA: max X-distance allowed for semivar. calculation
+	(removed obsolete `factor' from DATA. This can now be done
+	in a more general fashion with X and dX).
+	menu options: 'J': jgraph file; `&' jgraph-eps; '!': shell command.
+Mar 94, gstat 1.4d 
+	cleaned up random.c, removed rn.[ch] and Ran[0-3]()
+	corrected estimation of sample variance (lm->s2) for weighted lm.
+ 	EnterData() (menu.c) now does not return without valid data read.
+	temporary file names now come from tmpnam() or tempnam() [on UNIX];
+	added MODE mode: more flexibility now (stratify whenever suitable)
+	Fixed bug in Xvalid(): where.X, NA's on uk/lm for secondary vars
+	Fixed bug (weights) in CalcLM(); added 's', and '+/-' in menu.
+	Added DATE in date.h, changed program heading: -V now includes date.
+	Now mean variances (V=..) are subtracted in variogram calculation.
+Apr 94, gstat 1.4.e
+	Made lm->SSR the corrected SS for mean, with p-1 df (Christensen p. 89)
+	Added more.c (callable from menu). (removed later on...)
+	syntax change: `pars:x=value;' to `set x=value;' (like gnuplot)
+	Made `width' and `cutoff' global variables (`set cutoff=15,width=1').
+	fit.c: now use lm.c routines for the fitting (estimation),
+	Changed convergence criterion in WlsFit(), Mivque():
+	gl_fit_limit: Wlsfit max ||delta RSS||, Mivque max||delta teta||
+	gl_iter: max. nr of iterations. Warning if reached without converg.
+	added 'direction' menu option, ev->is_directional added, winds.
+	changed usage of MAX_FLT (problems without the ..F on HP-UX).
+	repaired bug in StoreArgv() (oops, non-initialised string!!!)
+	gnufit: let gnuplot (v. 3.6) do the non-linear fitting!
+	.. and added @ to fix variogram ranges (don't let gnuplot fit them).
+	added #ifdef GNUPLOT36 around all gnufit 3.6 sensitive stuff
+	Towards one makefile? (stolen from gnuplot)
+	Found memory leak in meschach library: m_inverse()'s A_cp. (MIVQUE)
+	Bug in gstat.c: repeat GetDATA() right before FreeDATA(),
+	since it's changed in Menu().
+	Refit automatically only on iterative fit if not converged.
+	syntax change: `set gnuplot="filename;"' is now `plot: "filename";'
+	syntax change: removed `set delimiters=" ,";', now only def. " \t,\n"
+	syntax change: `set ..' now only accepts int or float variables
+	Added limit checks in ParseSet(), non-negative etc.
+Mon Apr 17 00:42:17 WET DST 1995 -> 1.4f. When will 1.5 ship?
+	fixed bug in fit.c: infinite weights now only if fabs(s) < 1.0e-10.
+	fixed bug in fit.c, gnufit.c: weights are now N[h]/(model(h)**2)
+	added `set zeroaxis' to gnuplot (plot.c)
+	variogram cloud now in memory, more like sample variogram, and
+	number display gives the pair of original observation numbers.
+	Added gl_dots, `set dots=300': if more then this number of est. are drawn,
+	switch from points (+) to dots (.) on gnuplot displays (def. 300).
+Sat May  6 15:34:02 WET DST 1995 -> 1.4g
+	changed all function names to lower case, structures to UPPER case.
+	cleaned up dump_cvv.c, added some enum's in vario.h.
+	added zonal anisotropy (`zonal(90,0.25)'), similar to regional (`anis(..)').
+	added almost_equals (STRAE() macro) for abbreviations (pr, pre, predictions)
+	changed efopen() to include fstat'ing when fopen returns NULL. 
+	added gnufit.c stuff to fit.c.
+	solved bug for Per() variogram: max_range must be infinite.
+Sat May 20 11:58:46 WET DST 1995 ->1.4h
+	changed prediction structure: now one loop for mask/points():
+	(predict.c now replaces cs.c, mask.c and valid_points() in xvalid.c)
+	set_seed in main(), to set seed or time_seed. (400 code lines saving)
+	mask loops now on cell basis (non-buffered),
+	now using Rdup(), and coords <--> row/col routines from csf.
+	now LX_SYMBOL is returned by lex to catch errors from the menu.
+	method:map; now works for many masks (<=n_outfl), what_is_outfile adapted
+	vgm in glvars.c now not one array, but a pointer array (no need to
+	allocate cross variograms if they're not needed: it's n**2 behavior!)
+	added set_key (gnuplot36) for smart key placement.
+	now '&' uses system() to call jgraph: portable.
+	for `method:cs' made mask map count to 100%, dummy data works (select.c).
+	when quitting the menu with `q', prompt for save settings.
+	removed GNUPLOT36, added command line option -g gp35 (for display)
+Sat Jun 10 15:07:08 WET DST 1995
+	this is now gstat 1.5 alfa
+	changed get_line() to accept incomplete last lines (no newline before EOF)
+	changed n_ok to n_uk
+	changed all `alfa' to `alpha'
+	added `set jgraph=1;' to output jgraph plot on plot: 'file';
+	in get_est(): if stratum >= n_vars, return;
+	if variance=0, get_weights returns weights 1 (and prints warning).
+	plot.c: gnuplot_variogram [xy]range %g -> %e (for gnuplot 3.5 dos)
+	changed gnuplot's fit driver (uncertainties are error standard deviations)
+Thu Jun 22 14:55:44 METDST 1995 [1.5a -> Marc, Gerard]
+	now stratification mask may be UINT1 or UINT2 (up to 65534 strata) 
+	dX in manual; command line option -s for complete silence.
+	<Tab> directly shows plot (menu.c)
+	read $GSTATRC or $HOME/.gstatrc as initialisation file, before c.l.options
+	(this replaces references to GNUPLOT, -g, GSTATFMT, GNUPROLOG)
+	added to set-command: `intervals', `fraction', `pager', `prolog',
+	`gnuplot', `gnuplot35', `format', `plot', `output'.
+	I put all set-options in an ordered table structure, minimized
+	abbrev. length; added @Index entries to manual; warning on `null
+	character(s)' now appears only once or twice
+	Bug in getest.c (1.5a) removed: neglect stratum when get_mode() != STRATIFY.
+	percent_done() now outputs once a second at most.
+	merged gl_verbose into debug_level; c.l.o. -d # or -s
+	added variogram map, when method:sem|cov; and mask:'map';
+	removed minor `buglet' in getest.c: where->X += ..n_X; without resetting.
+	now added efficient multiple/stratified global kriging by attaching the
+	kriging matrix and permutation matrix on the data structure.
+Mon Jul  3 13:43:20 WET DST 1995 [1.5b -> Marc, Gerard]
+	hp-lint checks.
+	removed bug: predict() called select_at() when stratum >= get_n_vars()
+	Indicator simulation when method: is; (in sim.c) using cumulative
+	indicators (set cdf=1;) or disjunct indicators (default).
+	in menu: MIVQUE is now optional only for direct [co]variograms; fitting
+	with weights (..., N(h)/gamma(h) )  only for variograms.
+Sat Jul 29 15:55:51 WET DST 1995
+	Created variogram tables, and removed them: effect too small.
+	vario.h (Covariance): fixed macro bug, probably has effect on Mivque().
+	Fixed the variogram vs. covariogram problems: now variograms are true
+	variograms, even in covariance fitting; covariograms show variogram
+	models, drawn as covariogram.
+	sem.c (INDEX): distance 5 now in interval <4..5], not [5..6>
+	error.c (ErrMsg): changed appearance of error messages (file/line: -d2)
+	error.c (pr_warning): no NL before warning
+	error.c (ErrMsg): ER_NULL gives a bug message.
+	sem.c (semivariance): check d->colnvariance before subtracting variances
+	sem.c (covariance, cross_semivariance): handle data->variances.
+	select.c (select_at) select_at(..., NULL) always gives global selection.
+	utils.c: added string_prompt(): command reading from stdin, prompt gstat>,
+	or non-interactively from stdin, without prompt: at `gstat -' only.
+	removed bell, rotate symbol, time coordinate in DATA.
+Wed Aug  2 11:24:12 METDST 1995 -> towards v. 1.6
+-	minor beaty modifications in mivque.c; call it reml throughout.
+-	DEF_fit_limit changed from 1.0e-7 to 1.0e-5 (should be enough!)
+-	fit.c: correction for (vp->ev->zero == ZERO_AVOID)
+-	fit.c: wls_fit(): added PERM to select rows with nh > 0, to aid
+	singularity detection
+-	added wls.c: wls_trend() and make_residuals_wls() (the last step...)
+-	Now `kriging the trend', or WLS estimation of x0'beta, and wls residuals.
+-	Optimized mivque() and wls_trend() by not using m_inverse()
+-	sem.c: corrected default behaviour at distance zero 
+-	fit.c: added R2 to fit diagnostics
+-	lm.c: removed m_inverse(), now only solve X'X beta =X'X y and x0'(X'X)- x0
+-	glvars.c: optimized max_block_dimension()
+-	fit.c: if v->part[i].sill == 0.0, set it to 1.0 
+-	gstat.h: wrapped around some debug options
+-	lm.c: corrected SSReg with weights
+-	skrige.c, krige.c, wls.c, lm.c, mivque.c:
+	now all use symmetry of matrices -> LDLfactor or CHfactor, and solve.
+-	(..., vario.[ch], data.[ch]): removed references to asymmetric variogram
+	models and zonal anysotropy (never used or tested).
+-	fit.c: variogram cloud fitting, weights n_h -> unweighted fitting;
+-	plot.c: variogram numbers display: only when n_est <= gl_dots
+-	changed DEF_dots to 500
+(24/8/95: 1.6 pre release + man -> Derkjan)
+-	gstat.c: always exit after start_menu() returned (residuals would mess up).
+-	writecmd.c/glvars.c: dump_all() and write_cmd() now both call write_glvars().
+- 	fit.c: set 0 sill par. to 1. only when fit
+-	lex.l: added `new_source': initialize lastnl each time a new source is set.
+-	mivque.c: add `set nll=1;', print neg. log-likelyhood for every iteration
+-	utils.c: added HAVE_GNU_READLINE: readline() & add_history
+-	sem.c: bug (no index++) in cross cov. and pseudo cross sem. clouds
+-	vario.h: removed ???_h0, nh now unsigned long (ul).
+-	sem.[ch]: replaced 65536 references with macros using (1 << sizeof(ul))
+-	sem.c: divide() do process cloud (bug)
+-	menu.c: added use_pipe: use popen() only when DISPLAY is set (X11)
+-	menu.c: call initscr() only at start, refresh() after subsequent endwin()s.
+	(now works well with gnuplot beta 224, term linux)
+-	krige.c: the way to handle C in estimation (co)variance is now clearer,
+	more consistent (now I use `generalized covariance' C-gamma everywhere)
+-	vario_fn.c: fn_intercept() returns 1.0 always
+-	vario.h: Covariance() macro: when model is INTERCEPT, return 1.0, not 0.0
+	(would cause a singularity in fitting) [[so INTERCEPT is a real intercept
+	and therefore indeed different for variogram or covariograms!!]]
+-	merged krige.c, skrige.c and wls.c into gls.c; modified getest.c
+	accordingly.
+-	vario.c, check_variography(): added function is_posdef(VARIOGRAM *)
+-	vario.h: VARIOGRAM structure elements sum_sills, max_val, min_val
+-	vario_io.h: macro GCV (generalized covariance): max_val - SEMIVARIANCE(..)
+Sun Oct  8 16:55:07 WET 1995
+-	gls.c: added make_gls_residuals(): only univariable residuals.
+-	gls.c: removed bug in filling X0 for empty neighbourhoods
+-	gls.c: removed tracecatch()'s, added gram_schmidt checking
+-	data.c: cleaned up list/sel printing on empty list
+Fri Oct 20 11:05:18 WET 1995
+-	menu.c: keep gl_fit, gl_cutoff, gl_iwidth in track with menu changes
+	`fit model' -> `fit method'
+-	syntax: added `bounds: 0,0.5,1.5,10;' or `bounds: "bound_file";' 
+	to specify upper boundaries (inclusive) for variogram intervals.
+	(affects sem.c, parsecmd.c, glvars.[ch], defaults.h, writecmd.c, menu.c)
+Thu Oct 26 16:42:32 WET 1995
+-	getest.c: Inverse Distance now also calculates block averages
+-	predict.c, gstat.c: when stratified, start counting strata at the
+	minimum value of the map -> int strata_min (was: start at 0)
+Wed Nov  1 11:42:32 WET 1995
+-	select.c: if get_method()==SPREAD, sort selection always on distances 
+-	glvars.[ch], writecmd.c: added gl_number; number display in variogram plots
+-	menu.[ch]: changed references to `increment' to `(interval) width'
+-	parsecmd.c: removed possibility of leaving out the (id) part: syntax error
+Tue Nov 14 16:50:03 MET 1995
+-	menu.c: changed `next or previous' to `choose variable'
+Sat Nov 18 17:51:52 WET 1995
+-	menu.c: added some close_curses() before system(), for __PDCURSES__ only
+-	defs.c: added CSF ENDIAN-nes macros; #if __DJGPP==2 #then os = dpmi
+-	predict.c: cleaned a bit; now loop over all map cells and write MV's
+	(which makes a RputAllMV() obsolete)
+-	gstat.c: when `set plot', but no `set output': error message (useless).
+-	predict.c: added Rcompare() multiple mask map comparison check
+-	several: RreadAs() -> RuseAs() if CSF2, except for mask map checking.
+-	gstat.c: do not allow options following '-m' (don't combine -m and files)
+-	polygon.c (data.[ch], getest.c): added point-in-polygon stuff.
+Mon Dec  4 15:42:40 MET 1995
+-	menu.c: added help_menu entries, PDCurses choked on the long lines
+Mon Dec 11 12:08:09 MET 1995
+-	sem.c: wrapped #ifdef ADJUST_VARIANCE around data->list[i]->variance
+	adjustments
+Tue Jan  2 12:39:35 MET 1996
+-	wrapped #ifdef WITH_POLYGON around polygon code
+-	added 1996 to Copyrights
+Mon Jan 22 15:44:51 MET 1996
+-	data.[ch]: added at_area_centre in DATA; function area_centre()
+	now default to prediction at `area' when no points() or mask is specified
+	(set one point in points() at area centre; then centre area to (0,0,0)
+-	glvars.[ch], parsecmd.c, read.c: added gl_mv_string, to enable global
+	setting of the MV-string, e.g. for expressions like: set mv="MisVal";
+	also acts on writing output;
+Wed Feb 15 10:37:47 MET 1995, while porting to IBM/RS 6000
+-	utils.c: fgets() returns int (EOF, errs on unsigned char!)
+-	makefile: -DGSTAT_UNIX: don't define _POSIX_SOURCE (delimits name space)
+-	updated cr and Copyright, created shell script Update.cr
+Fri Feb 23 13:20:52 WET 1996: added per-model sill or range anisotropy
+-	vario.h, vario.c: added anisotropy structures
+-	vario_rd.c: rewrote variogram model parser
+-	lex.l: +, - now don't have to be succeeded by white space {e.g., +(1.5,.. }
+-	gram_sch.c: added containts_intercept(), check if X contains an intercept
+-	lm_type.h: added MSReg, dFReg, has_intercept, ...
+-	lm.c: print ANOVA table; distinguish whether LM * has an intercept or not.
+-	vario.h: added struct { double x,y,z; } direction to VARIOGRAM structure;
+	this is filled in fit_variogram() from gl_[alpha,beta] and used in the
+	calculations in wls_fit().
+	plot.c: adapted fprint_variogram_() to account for directional parameter
+	adjustment, when a parameter is not fitted.
+-	data.[ch], parsecmd.c, sem.c: added data->residual (default 1), decides
+	whether residuals will be calculated before (co)variogram calculation
+	(irrespective the value of dX).
+Thu Mar 22 12:03:04     1996
+-	removed all references to tm_sill (tm_range can manage geometric anis.)
+Wed Mar 27 13:19:46     1996
+-	plot.c: direction variogram plotting in plot.c
+-	defs.h: name clashes with curses on dec/osf: OS->GSTAT_OS, CR->GSTAT_CR
+Wed Apr  3 15:02:32     1996
+-	sem.h: 1 -> 1UL (on Dec/Alpha, 1<<32 becomes 0, unlike 1UL<<32)
+-	sem.c: added load_ev();
+-	parsecmd.c: set load = 'file.sem'; -> loads precalculated variogram
+-	menu.c: prompt_for() handles prompts starting with '\r' (AIX can't)
+Tue Apr 23 16:40:19 WET DST 1996
+-	cmd/faq: started a faq, with non-manual like questions.	
+Thu Apr 25 11:37:28 WET DST 1996
+-	plot.c: added multiple (x11) plot window support (gnuplot 3.6 feature)
+	this can be surpressed by setting the env. variable GNUTERM to x11
+Tue Jun  4 11:52:22 WET DST 1996
+-	data.[ch], parsecmd.c: added POLI_ entries, allows use of x,y,z,x2,xy,...
+	in definition of X, to simplify coordinate-polinomial trend modelling.
+-	lex.l: allow ~!@$%, but no & in IDENTIFIER (to split up ..,X=x2&xy&y2,)
+Tue Jun 11 08:56:00 WET DST 1996
+-	added GNU Public Licence statements in Copyright, cr and COPYING,
+	and in top of source files (Update.cr)
+	first release on ftp/net, 1.9b
+----1.9c starts:
+Tue Jul  2 15:38:36 WET DST 1996
+-	added mapio.[ch]: transparent functions for multiple map formats;
+	removed most of the csf.h/csftypes.h from source files (now only
+	utils.c uses the [SET|IS]_MV_REAL[4|8] macro's; mapio uses csf.h).
+Wed Jul 17 14:09:06 WET DST 1996
+-	data.c: added read_idrisi_...() functions, for reading idrisi vector
+	(point) files (.vec, .vdc). Don't think writing such files is necessary.
+	also added `set mapformat=3', to force map format conversion.
+----1.9d starts:
+Mon Jul 22 10:20:32 WET DST 1996
+	& -> && in plot.c (270); modified help reference in menu
+Thu Aug 15 11:45:43 WET DST 1996
+	changed DEFAULT_RANGEN to 2, when #ifdef HAVE_RAND48
+Thu Aug 22 15:26:11 WET DST 1996
+	added several routines in sim.c; reshaped GS/IS part in getest.c in
+	order to allow multiple simulations following one single random path.
+	Syntax: set nsim=1000; (seems to work now).
+	added `set gifsize=0.75;' -- let gnuplot produce gif output instead of eps.
+Mon Aug 26 15:26:43 WET DST 1996
+	sim.c: added lhs() latin hypercube sample reordering scheme.
+	Syntax: set lhs = 1;
+	repared bug in mivque.c; fit method `reml' works fine again
+	restructured mivque.c; removed gl_nll references (now -d DB_ORDER)
+Thu Aug 29 12:00:21 WET DST 1996
+	made the keyword `set' obsolete, both `output:'file';' and `set
+	output:'file';' are now accepted
+Thu Sep  5 10:50:03 WET DST 1996
+	added get_minmax_y() to plot.c, max_y depends now on max_x.
+	variogram(a): 1lin(0); --> linear with slope 1, for all h
+Wed Sep 18 11:08:33 WET DST 1996
+	added tracecatch() around meschach matrix routine calls (factor & solve) 
+	mapio.c: main() for mapconv; file size check for binary file
+Fri Sep 20 11:40:15 WET DST 1996
+	gls.c: added sparse matrix factorisation of C (spC) using set sparse = 10;
+	with sparse the (estimated) initial number of non-zero columns per row;
+	only the lower triangular part of C or spC are filled now.
+	../meschach: moved to version 1.2b; added it's sparse matrix routines.
+Sat Sep 21 16:26:48 WET DST 1996
+	mapio.c: added write_gnuplot_binary() {some day, for variogram map display?}
+	plot.c: reorganized eps/gif handling somewhat
+Sun Sep 22 13:36:07 WET DST 199
+	sim.c: added orvc(): order relation violation correction as in GSLIB
+Mon Sep 23 12:26:24 WET DST 1996
+	parsecmd.c: changed `points()' into `data()' (points remains valid).
+	sim.c, order relation violation correction: gl_order: 1 for orvc when
+	IS is done (default), 2 also for indicator (co-) kriging (not default).
+Tue Sep 24 15:15:33 WET DST 1996
+	bug get_map_location(): if a map had only one cell, it was ignored
+	bug get_maskX(): now handles mask values x&xy&x2 etc. correctly
+Thu Sep 26 12:45:43 WET DST 1996
+	data.[ch]: added DATA_TYPE, now the data() file type is reported.
+	report.c: default no GeoEAS output on data(), #one-line header added
+	mapio.c: gstat -M ... now calls mapconvert() for map format conversion.
+Mon Sep 30 10:17:59 WET 1996
+	fit.c: now does nonlinear fit, using Levenberg-Marquardt (L-M) algorithm
+	lm_types.h: added lambda, for diagonal multiplication of XtX (for L-M)
+	vario_fn.c: added several da_ functions (not all tested)
+Wed Oct  2 09:53:56 WET 1996
+	mapio.c: gl_mapformat is now +/- type; - means binary; corrected _gnuplot()
+	plot.c: added GIF_COLORS
+Mon Oct  7 16:37:27 WET 1996
+	sim.c: changed naming convention of series simulated CSF maps;
+	mapio.c: added mapconv -M b, to idrisi binary
+	../cmd/ex??.cmd: make map file names to max 8 characters, for Idrisi/ms-dos
+	../cmd/makefile: added make idrisi-binary etc.: demo other map formats
+	sem.c: if max_distance == 0, ev->cutoff = 1;
+Wed Oct  9 17:20:35 WET 1996
+	removed separate stratum variable: now part of POINT (test for data(): s=1).
+	data.c: POINT elements x,y,z,attr: float --> double (sizeof(POINT): 52)
+	push_point(): changed memory allocation strategy (now malloc pieces of 64K)
+	data.c, predict.c: now handle s=<strata col> in data() defs.
+Mon Oct 14 16:50:44 WET 1996
+	random.[ch]: renamed [pqr]_distribution() functions; added _triangular().
+	added `f' to menu: toggle fixing of ranges on/off.
+Mon Oct 21 10:55:43 WET 1996
+	data.h/data.c: fixed length strings in DATA structure are now dynamic,
+	push_point(): fixed bug after erealloc'ing P_base and X_base arrays.
+Tue Oct 22 13:43:08 WET 1996
+	created lhs.c from sim.c: multiple simulations dbase+outp; latin hypercube
+	updated manual, added Latin Hypercube Sampling appendix.
+Thu Oct 24 15:44:11 WET 1996
+	lhs.c: removed memory leak in write_output_maps();
+	lhs.c: write_to_ascii(): added STRATIFY case;
+	mapio.c: repaired mapconv().
+Mon Oct 28 11:14:31 WET 1996
+	predict.c, parsecmd.c: added blocks; -> default block size + warning
+	condition for stratifying: mincell - maxcell > 1
+	added GLM structure to gls.c, to hide permanent structures from DATA.
+	renamed menu.[ch] -> ui.[ch]
+Wed Oct 30 13:00:32 WET 1996
+	lhs.c: added sim_min_max(), corrected write_to_ascii().
+	predict.c: get_next_location: now randomizes val_data->list pointers;
+	glvars.[ch]: added gl_rp (def. 1): 0 suppresses simulation random path
+	data.[ch]: added cubic regression terms x3, y2z, xz2 etc.
+Mon Nov 11 09:55:05 WET 1996
+	predict.c: percent_done now updates on non-missing cells only
+	data.c: now allow white space after n_cols on line 2 in GeoEAS files
+	select.c, predict.c, mapio.c: blocked memory allocation (#ifdef SEGMENTED)
+	data.c: added ``d=1'' coordinate polynomial degree setting.
+	vario.c: added tm_range comparison to lmc check
+
+Wed Nov 13 16:51:46 WET 1996 ############ released 1.9f, started 1.9g
+	getest.c: corrected where.X shift on stratified UK/LM/LSLM
+	gl_coincide: do, for all data variables, spatial locations coincide (1)
+	 or do they not (0) or should we determine it experimentally (-1, def.).
+	select_at(): remember index (order) of selected points in POINTX array,
+	reuse this to update neighbourhood on secondary variables with equal locs
+Mon Nov 18 11:45:31 WET 1996
+	stat.c, select.c, report.c, lhs.c: changed qsort cmp function declaration
+Thu Nov 28 14:49:15 WET 1996
+	sim.c: report nr of corrected order relation violations at exit.
+
+Wed Nov 29 1996 ############ released 1.9g, started 1.9h
+	Gregoire Dubois announces gstat on ai-geostat and his www-geostats softfaq
+Tue Dec  3 16:13:59 WET 1996
+	added n_merge and mtbl entries to DATA structure. Now allow constructs like
+	merge zinc_a (0) with zinc_b(1); # define common parameters in beta.
+Wed Dec  4 12:00:34 WET 1996
+	data.c: removed bug in calc_polynomials, now min/max coordinate
+	values are fixed
+	gls.c: X0 now filled correctly when regressors are merged.
+Mon Dec  9 12:25:06 WET 1996
+	allow syntax: -1nug() - 1sph(30); - 1 nug() -1sph(30); etc.
+	allow syntax: predictions: 'map.pr'; # -> first output variable
+	allow syntax: variances:  'map.pr'; # -> first output variable
+Wed Dec 11 11:52:53 WET 1996
+	decide_on_coincide(): also consider neighbourhood selection criteria (!)
+	fit.c: reorganized analysis and evaluation of L-M step;
+	gls.c: added kriging weights matrix calculation & report, if DEBUG_COV.
+	parse_marginals: sizeof(char) must be sizeof(char *).
+Tue Dec 17 13:54:16 WET 1996
+	ui.c: variogram model, change per parameter, incl. anisotropy pars.
+	(arrow-left or `h' still has old functionality, typing complete string).
+	plot.c: corrected gif plotting, corresponding to gnuplot 3.6 pl 322+
+Mon Dec 30 15:02:42 WET 1996
+	lm.c: made get_X(), get_y() and get_X0() all multivariable, and made
+	them cope with X column merge tables.
+	lm.c, getest.c: LSLM is now multivariable, if merged variables occur.
+Thu Jan  2 12:16:53 WET 1997
+	vario.c/parsecmd.c/glvars.[ch]/defaults.h:
+	added `set nocheck = 1' to avoid error + exit if no IC/LMC is found
+Mon Jan 13 11:38:01 WET 1997
+	added gnuplot output of kriging weights if `set plot' plot file is set.
+	added masks/output maps/data() to write_cmd().
+Mon Jan 27 14:45:19 WET 1997
+	changed some read_int() calls that had unsigned int arg 2 (HP complains)
+	made n_done global to predict.c, resets every time predict() is called;
+	added T2 format (MIKE SHE grid maps) to mapio.c (use -DHAVE_T2)
+	mapio.c: added map_utils -> convert, cover, nominal
+	text: i.d. interp. -> i.d. weighted iterpolation; regress. -> base fnct.
+	lm.c: repaired some bugs when empty neighbourhoods occured.
+Thu Jan 30 17:17:41 WET 1997 ############ released 1.9i, started 1.9j
+	lm.c: (last ?) bug if more that one regression model is defined
+	added -l logfile command line option; most reports on DEBUG_NORMAL
+	written to logfile (only progress % not)
+	ui.c/plot.c: 'p' prints to gnuplot plot file, term externally controlled
+	(e.g. with GNUTERM set to fig).
+Fri Feb  7 10:57:02 WET 1997
+	mapio.c: with -D STANDALONE (+ utils.o, error.o and read.o) -> mapio libr.
+	added `make map', map utility/conversion program (convert, nominal, cover)
+	added map2gif.c (uses gd 1.2 gif library, http://www.boutell.com/gd/)
+	glvars.c: removed SIGSEG causing strcmp(NULL, NULL)
+	predict.c: percent_done() now cannot exceed 100 (was 101).
+	manual: book form, added ``Getting started'' chapter.
+Wed Feb 26 17:18:22 WET 1997
+	file name: getdiscr.? -> block.?
+	predict.c, data.c: if needed, calculate block average coord. polynomials, 
+	using block_discr().
+	gstat:getopt(): added -p plot_file; checked kriging weights plotting,
+	removed -v, -b (removed dump_cvv.? -- obsolete)
+Mon Mar  3 10:26:50 WET 1997
+	removed all gram_schmidt stuff (now in lm.c); replaced it with cn_max.
+	Now, if cn_max is set, the condition number is estimated (LUcondest());
+	if this estimate exceeds cn_max, a warning is printed.
+	gls.c: in case of (near) singularity of C or X'C-1X, the prediction is
+	skipped.
+	added `make lex.c' to basic makefile (copies lex.c_ to lex.c)
+	Default cn_max is set to 1.0/sqrt(MACHEPS) for singularity checks in
+	fit.c and contains_intercept().
+Sun Mar  9 20:04:43 WET 1997
+	gstat.c: removed -n option; gl_nblockdiscr < 2 -> error in check_gl_vars()
+	Added stratified universal kriging with user-specified base functions.
+	data.c: allow one or more empty lines or lines with only delimiters at
+	end of column or GeoEAS file.
+Fri Mar 14 12:15:11 WET 1997
+	lhs.c: added print_name_nr, support output CSF names containing '/' or '\'.
+Mon Mar 17 12:12:43 WET 1997
+	changed POINT into DPOINT (MSC compiler has POINT predifined).
+	added target `sparc-gcc' to makefile and ../makefile
+----Mar 17: Announced 1.9j on ai-geostats; 1.9k starts:
+	mapio.c: isolated write_csf() and dup_csf() as a function;
+	shifted #ifdef'd functions one place
+	utils.c: allow pipe '| gnuplot' or append '> logfile' file names
+	sem_main.c: char c; -> int c : infinite loop if char unsigned (AIX).
+Mon Mar 24 16:33:02 WET 1997
+	glvars.c: added ->force field to check on identical search conditions
+	mapio.c: added blocked I/O for CSF maps (single fread() per map).
+	data.[ch]: added data->sel_index, to indexes the list DPOINTs in sel -->>
+	sim.c: split restore_data_sim into restore_data_sel and restore_data_list
+	(restore_data_sim introduced quadratic behaviour in the simulation!)
+Tue Apr  1 09:36:51 WET DST 1997
+	bug in lm.c: get_weights() for the multivariable weighted case.
+	lm_type.h, LM *: removed LDL, lambda, tmp; added no_variance
+	lm.c: reshaped calc_lm(), using X = QR decomposition; now X and y are
+	pre-multiplied with V^{-1/2} to simplify the weighted case.
+	utils.c: restructured file recording
+	fit.c: modified to new LM * structure.
+	gstat.c: placed read_gstatrc() before atexit(remove_tmp).
+	sem.c: changed load_ev(), but still buggy
+	vario.[ch]: made init_ev() non-static
+	data.c: error when V= variance field is <= 0
+	fit.c: fit_ranges(), max step size (2-norm) 10% of current values.
+	gstat.c: added gstat -e [action] [args], includes execution of
+	cover/convert/nominal/variogram/covariogram/map2gif
+	lhs.c, getest.c: removed bugs on multiple simulation.
+Fri Apr  4 20:52:57 WET DST 1997
+	vario.c: added pos.def. constraint to Intrinsic Correlation test
+	lm.c: use QRfactor and CHsolve(), X = QR -> R = L'; LL' = X'X.
+	data.c: don't use rewind(), buffer lines 1 and 2 for GeoEAS detection.
+	mapio.c, alloc_mv_grid(): replace set_mv_float() with memset(0xFF)
+	ui.c: vgm_model() first prompt for new model, then for parameter values.
+	utils.c: file '-' becomes stdout (write mode) or stdin (read mode).
+	sem.c: calc_variogram() does file opening/closing.
+	glvars.c: check_global_vars(): if gl_load -> o_filename = gl_load.
+Tue Apr 15 10:16:19 WET DST 1997
+	data.h: removed is_block; added bitfield: holds both is_block boolean
+	and index; added a set of macro's to set and get index/is_block.
+	block.c, select.c, getest.c: modified IS_BLOCK/IS_AREA references;
+	select.c, lhs.c: removed sel_index entries, used GET_INDEX() instead.
+	integrated search.[ch], contributed by Steve Joyce.
+	added field gridsize to data structure (grid size for gridded ascii data):
+	setting this field will help to set up a better search tree structure.
+Mon Apr 21 15:47:29 WET DST 1997
+	push_point(): if data has only an intercept, allocate a single X for all
+	subsequent points, in order to save memory usage (8 bytes per point).
+	removed DATA->square option;
+	variogram distance (vdist) search after selection on euclidian range;
+	init_predictions(): fill in dummy data coordinate dimensions
+	vario_io.h: added short-cut macro for POINT-POINT semi/covariances,
+	to avoid all those block_discr() calls;
+Thu Apr 24 14:40:02 WET DST 1997
+	select.c: added secant/quadrant/octant search; syntax: ..., omax = 2, ...
+	method: spread returns # non-empty octants as variance value;
+	search.c: choose optimal top bbox
+	select.c: vdist now handled after euclidian radius;
+	mapio.c: added byte grid map support (Idrisi, CSF)
+Thu May  1 12:04:51 WET DST 1997
+	ui.c: restore screen (DJGPP) only on ui exit, not inbetween plots.
+Tue May  6 11:53:08 WET DST 1997
+	parse.y: rewrote command parser in yacc-able form (BNF) -> yyparse()
+Mon May 12 09:41:32 WET DST 1997
+	data(xx), allow xx identifiers to be any of the ID_whatever tokens.
+	fit.c: get fit.log values, allow perfect fit (n==p).
+Wed May 28 11:37:17 WET DST 1997
+	lhs.c: bug in allocating sim_values (on 64 bits CPU only)
+	utils.c: bug in is_mv_.. without #included csftypes.h 
+	sim.c: allow mvn simulation at data locations, check prediction variances
+	(using gl_zero, which can be set) 
+Fri Jul  4 13:44:07 WET DST 1997
+	Namechange: lhs.[ch] -> msim.[ch]; dolhs.c -> lhs.c
+	msim.c: some cleaning up
+	ui.c/plot.c: added window_nr (control multiple x11 Gnuplot windows)
+Tue Jul  8 12:23:04 WET DST 1997
+	defaults.h: gl_zero defaults to 10 * DBL_EPSILON (about 2.2e-15)
+	msim.c/predict.c: cleaned up stratified prediction on data();
+	implemented simulation with data values on simulation locations.
+	Changed use of float to double; sim_values[][] now optionally double.
+	parse.y: added '@' support in variogram syntax (forgot)
+	sem_main.c: added -B boundary_file option
+Wed Jul 16 14:15:53 WET DST 1997
+	data.[ch]/sem.c: added semivariogram_grid(), for gridded data (fast!!)
+	sem.c: incremental memory usage for v.clouds (was: maximum possible).
+	parse.y: bug in area() command syntax;
+	data.c: data_area_centre() did not set a couple of things (fname, type)
+Tue Jul 29 09:35:46 WET DST 1997
+	search.c: bug on bbox: simulation on a single data() point -> size = 0.
+	select.c: added spiral search (set spiral = 1; togrid in data defs).
+	data.[ch]: added togrid field (move data points to grid centres).
+	stat.c: added command line options to -e statistics action.
+Mon Aug 25 12:45:40 WET DST 1997
+	predict.c: bug in predict.c: strata_min was not always set (!)
+	parse.y: corrected piped command file input (no response)
+	various: clean ansi compile on AIX 
+	added configure script in top directory (../.), makefile.in, config.hin
+Thu Sep  4 10:20:48 WET DST 1997
+	added v_models[] table to vario.[ch]; methods[] table to glvars.[ch]:
+	(easier to add items; less prone to errors)
+	added method DIV (diversity and range in neighbourhood selection).
+Mon Sep  8 17:25:29 WET DST 1997
+	added square neighbourhood selection again...
+Tue Sep 23 12:25:19 WET DST 1997
+	HP-UX port. param.h (:limits.h:data.h) below utils.h warns for redef of
+	MIN() and MAX() macros. Solution: all data.h decl. before any utils.h
+	Added ``cut'' execute action, to cut a square portion from a map.
+	configure stuff: --with-csf and --without-csf (default) now work.
+	map2gif.c: added #ifdef HAVE_LIBCSF conditional parts.
+Thu Sep 25 11:45:49 WET DST 1997
+	configure+compile works on hp, SunOS (sparc, gcc), linux and AIX.
+	(SunOS: had to manually set YYTEXT_POINTER to 1)
+Fri Sep 26 10:30:44 WET DST 1997
+	made map2gif.[ch] a separate module. reorganized configure --with options.
+	set lhs = 2; -> take \xi_{ij} as 0.5 (i.e. lattice sampling, cf. Owen).
+	added secure mode: prevent system(), popen() and remove().
+	report.c: output_line() now print spaces before figures.
+Sun Nov  9 16:08:37 WET 1997
+	Work on latex manual, including latex2html links/anchors.
+	-e statistics: print usage & exit if stdin is a tty.
+Wed Nov 26 21:38:37 WET 1997
+	latex2html html version of manual is getting there...
+	NO_LEX=1 NO_YACC=1 ./configure # excludes lex/yacc, uses *.c_ files
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Fri Nov 28 00:01:16 WET 1997 -- release of gstat 2.0 + online html manual 
+
+Thu Dec 18 12:39:37 WET 1997
+	removed gl_load, now load/save sample variogram with one of
+		variogram(a): 'file.est' : 1 sph(320);
+		variogram(a): 'file.est'; # loaded only when a is dummy 
+	dummy field of data now obsolete -> set if no file name was specified
+Mon Dec 29 22:25:33 WET 1997
+	lhs.c: added warning for disturbed joint distributions when gl_nsim <= 15
+Mon Jan  5 14:52:26 WET 1998
+	mapio.[ch], data.[ch]: integrated Steve Joyce's ermapper i/o routines
+Fri Jan  9 11:15:57 WET 1998, after some tests on Dec/Alpha
+	mapio.c: repaired map_cut()
+	glvars.[ch], etc. OK/UK -> OKR, UKR etc. to avoid name clashes with curses.h
+	data.[ch], parse.y: data->average became an int (again)
+	ui.c: moved #include files around
+	predict.c/msim.c/lhs.c: allow mask map to be empty if nsim > 1
+Mon Jan 12 13:22:39 WET 1998
+	Updated copyright statement; GSTAT_CR -> 1998; email at ruu
+	aclocal.m4: added check for unsigned char yytext[] vs. char yytext[]
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Mon Jan 12 17:00 WET 1998 -- Release of sources patch level 2.0a start 2.0b:
+Fri Jan 23 12:52:32 WET 1998
+	replaced pp_norm() and point_norm() functions with 1D/2D/3D versions
+Mon Jan 26 15:28:51 WET 1998
+	wrote queue.[ch], one day I ...
+	#ifdef'd all SPIRAL references (to be removed...)
+Tue Feb 10 11:05:56 MET 1998
+	repaired bug in parse.y on , X=x, in data() defs.
+Mon Feb 16 21:19:45 WET 1998
+	string_file(): avoid binary operations, msdos/djgpp messes things up.
+	(Now only ascii files are read, and file_size() is not called.)
+	cross_valid: repaired neighbourhood selection;
+	now exclude for a cross validation all points at that location
+	fprint_lm(): write out full linear model equation with coefficients.
+[[Mon Feb 16 1998 -- Release of msdos binaries 2.0b for GEOS course]]
+[[start of 2.0c]]
+Wed Feb 25 12:03:32 MET 1998
+	rearranges DATA_TYPES type, to force valid use of names
+	started incorporation of the GMT/netcdf routines, as contributed by
+	Konstantin Malakhanov
+	data.h: added \r to field delimiters (those damned ms-dos files!)
+	vario.c: removed bug in fprint_variogram (use v->id1 instead of v->id)
+	removed write_map(), added ->write function to GRIDMAP struct instead.
+	map_convert: do not assign ->misval to missing valued cells (i/o does)
+Fri Mar 13 11:01:05 WET 1998
+	applied Konstantin Malakhanov's diffs to direct.c and sem.c (now faster)
+	structured polynomial stuff in data.[ch] some more;
+	'd=2', trend degree is now written by print_data_line
+Thu Mar 26 11:13:35 WET 1998
+	multiple (cross/co) variograms can now be calculated in batch;
+	variogram(a): 'a.map' : 'a.nh' : 1nug();
+	# defines a.map as variogram map, and a.nh as corresponding numbers map Nh.
+	removed gl_percell
+	added pairs storage to SAMPLE_VGM, if gl_register_pairs != 0
+	GH, manual anisotropy section: r and s -> s and t
+	data.c: average_duplicates now averages points if pp_norm(a,b) < gl_zero;
+Tue Apr  7 20:46:35 WET DST 1998
+	implemented the priority queue stuff for neighbourhood selections:
+		rewrote select.c; modified search.c
+		added BBOX to each qtree search node
+		removed QTREE_ROOT structure (now obsolete)
+	changed all p[pb]_norm to p[pb]_norm2 functions, avoid sqrt
+	(for speed -- the distances are used for comparison only anyway).
+[[Thu May 28 10:27:38 MET DST 1998: put 2.0c sources on the web site.]]
+[[start of 2.0d]]
+	efree() bug in data.c, pop_point() (with -DSEGMENTED)
+	bug in get_nearest (search.c), and parse.y (missing ; -- hp yacc).
+Thu Jun  4 11:25:13 MET DST 1998
+	[started some documentation of functions using c2man format]
+	added assert() statements in mapio.c and sem.c
+[[June 16: put 2.0d on www (no links); start of 2.0e]]
+Thu Jun 25 13:18:24 MET DST 1998
+	changed int -> usigned long in TO_NH macro's of sem.c (64-bit platforms)
+[[June 23: sent 2.0e to Shuguang Mao]]
+	glvars.c and everywhere else: changed `data' from array to pointer array,
+	to enable deletion of individual data items;
+	clean_up() and remove_id(id) now seem to work.
+	allow for \r as token delimiter in esri-grid mapio.c functions
+	utils.h, LTI macro's changed `/2' into `>>1'
+	bison/hp-yacc conflict: 
+	  only distribute parse.h_ (parse.h depends on yacc/bison);
+	  create parse.h before lex.l is compiled into lex.c
+	added map_diff()
+[[Jul 16: released 2.0f on the web site; started version 2.0g]]
+	mapio.c/utils.c: two fixes to make gcc -ansi -pedantic compile silent
+	(avoid using strdup() -- it doesn't exit on out-of-memory) 
+	ksh or bash command is:
+	make veryclean; CC="gcc -Wall -ansi -pedantic" ./configure; make
+Mon Jul 27 10:15:46 MET DST 1998
+	utils.c: removed bug in string_file() on zero sized files (/dev/null)
+	parse.y: added error recovery rule for variogram models
+	gstat.tex: documented every use of gl_zero (except for fit.c)
+	added max_data_diagonal() to data.c
+Thu Aug 20 13:23:46 MET DST 1998
+	gstat.c: added meschach matrix error handling routine; 
+	print helpfull hints in case of E_SING, E_MEM and E_FLOAT errors
+Tue Aug 25 09:42:12 MET DST 1998
+	mapio.c (2167): changed arguments of ErrMsg() macro
+	added Err() ``measurement error'' variogram model
+	(Cressie, 1993, eq. 3.2.25--3.2.27)
+Mon Sep 21 13:41:32 MET DST 1998
+	removed [lex|parse].[c|h]_ from makefile, just use .c and .h files
+	(this led to too many problems wrt incompatible lex/yacc versions)
+Fri Oct  9 09:33:09 MET DST 1998
+	removed bug in data.c:report_data() when filename was longer than 21 chars
+	latex2html gstat.tex works again.
+Tue Oct 20 11:06:02 MET DST 1998
+	removed gl_mapformat (this didn't work; now use gstat -e convert)
+	mapio.c: removed #defined CSF_V1 parts
+	variogram(xx): 'a', 'b', model; is now valid syntax
+	added GNU Scientific Library random number generators
+	updated manual (Err, variogram syntax, RNG, search neighbourhood)
+	data(xx); # now defines dummy variable.
+Mon Nov  9 09:24:21 MET 1998
+	mivque.c: A is now kept constant during iteration : X (X'X)-1 X' 
+	added `c' and `Category' members to data() defs for categorical indicator
+	transforms
+	[documentation updates]
+[[Nov 30: released 2.0g on the web -- starting 2.0h:]]
+Tue Dec  1 13:49:53 MET 1998
+	removed `c'  data member (`v' is sufficient to do this...)
+	update makefile.in, configure.in to accomodate lex.c, parse.* :
+	LEXYACC=1 ./configure now activates lex/yacc usage
+	bug in ../meschach/itersym.c (header, if --with-sparse)
+	dist_cmp and node_cmp now return [-1|0|1] instead of [-1|1]
+Mon Dec  7 10:07:22 MET 1998
+	data.c: category was not NULL itialised (bad bug)
+	stat.c/parse.c: use read_vector() to read in values, removed yylex() calls
+	and made YYTEXT_POINTER etc. obsolete.
+	configure.in: reset lex/yacc detection; 
+	setting LEXYACC now removes src/lex.c and src/parse.[ch]
+[[Dec 7: released 2.0h sources on the web -- starting 2.0i:]]
+Fri Jan  1 21:07:14 WET 1999
+	replaced sk_mean with beta parameter vector, used in conjunction with X.
+Tue Jan 19 16:17:11 MET 1999
+	update of C++ wrappers in ./qt/
+	update of error handlers, set_[error|warning]_handler() functions,
+		use them in ui.c
+	configure: allow exclusion of all external libraries (csf/netcdf/gd/
+	curses/gsl) by using --without-xxx (replace xxx with the library name)
+Thu Mar  4 09:30:15 GMT+1 1999
+	removed curses_open decl from ui.h (Servet Ahmet Cizmeli, AIX/xlc build)
+Thu Mar 25 12:09:04 MET 1999
+	gstatw build using Qt & Kor de Jong's plot libraries:--
+	+ fprintf(logfile, ...) is now replaced by printlog(...);
+	+ print_variogram, print_cmd etc now all print to string;
+	+ ALL (?) output to stderr or stdout is now directed through wrapper
+	  functions (pr_warning, printlog, Errmsg) that can be set to another
+	  function by set_gstat_[error|warning|progress]_handler() functions
+Fri Mar 26 11:53:59 WET 1999
+	added print_progress() calls in fit.c and reml.c
+	ui.c: now use the set_gstat_*_handler() functions; show progress
+	getopt() -> opterr = 0; handle errors by ErrClo(optopt). (avoid stderr prnt)
+	glvars.c: initialisation block is now in init_global_vars()
+Fri Apr  9 13:01:58 MET DST 1999
+	parse.y: now check whether commands (gstat.c) or numbers (stat.c, -e stat)
+	are present in the input.
+	removed [min|max]_sim + functions (data.c/h, msim.c/h)
+Mon Apr 19 16:47:17 MET DST 1999
+	added edges/polygons patches from Konstantin Malakhanov & Steve Joyce
+	rewrote msim.c; added set_beta function for GSUM simulations.
+	removed bug (only for GSL) p_normal called a pdf instead of a cdf!
+	plot.c: now uses inline data if no estimates file was set (gnuplot 3.7)
+	parse.y: added gl_numbers (oops!)
+Thu May  6 11:52:33 MET DST 1999
+	implemented VarFunction option -- mean-dependent covariance functions
+	corrected plot symbols (+), gnuplot terminal data base in plot.c
+Fri Jun 18 12:33:32 CEST 1999
+	allow seed > INT_MAX: set useed = 3057282920U;
+	msim.c: corrected reproduction of data at simulation locations (rtest/rt1)
+	error message when nsim > 1 and no simulation is requested
+	document random number seed in simulation output map (comment)
+	limited con.pal reading in map2gif.c to cases where PCR_DIR env.var. is set
+	corrected WIN32 stuff in plot.c
+	added CYGWIN platform; did cygwin port using -mno-cygwin 
+	 (link to mingw32 libs) to get working system() calls
+[[Jun 22: released 2.1 pl beta as WIN32 binary only. -- starting 2.1 pl beta2:]]
+	gls.c, DEBUG_COV: in addition to Cov(beta) now print Corr(beta) as well
+	removed all #ifdef SEGMENTED sections
+	cleanup in mapio.c, added celltype to GRIDMAP, removed read_binary_grid.
+	--with-csf is again the default behaviour (sources are provided after all)
+	msim.c: corrected error for stratified multiple (Gaussian) simulation
+	mapio.c: corrected bug in idrisi .doc input (empty file title) and
+	output (missing newline when file title was given)
+Wed Jul  7 00:41:43 CEST 1999
+	mapio.c: added surfer DSAA (ascii) grid support
+Mon Jul 12 15:37:40 CEST 1999
+	revised fit.c: we're back to Gauss-Newton! (verified with S-Plus)
+	changed behaviour: weights n(h)/gamma(h)**2 now stay constant during
+	one fit
+Wed Jul 14 22:30:00 CEST 1999
+	plot.c/fit.c: corrected bug during gnuplot fit of 1Lin().
+	utils.c: added save_string() -- will at least catch some buffer overflows
+	userio.c: added [v]asprintf usage to avoid buffer overflow.
+Thu Jul 22 16:24:06 CEST 1999
+	updated manual for 2.1 release... html version... included edges stuff...
+Wed Jul 28 00:42:09 CEST 1999
+	time for 2.1.0...
+Thu Aug 26 20:12:08 CEST 1999
+	moved is_pt[] assessment to a place where IS can profit from it as well.
+	solved bug in lhs().
+	repaired rewritten msim.c in case data are at simulation locations.
+[[Aug 31 1999: released 2.1.0 -- starting 2.1.1]]
+	map2gif.c: updated CSF map legend handling
+	split up mapio.c into mapio.c and maputils.c -- see map*.h files
+	added -e lnh execute action (undocumented)
+	repaired da_fn_power() -- power model fitting now works
+	repaired small bug in writecmd.c (duplicate printing of variograms)
+Thu Nov 11 21:31:18 CET 1999
+	added a few portability issues for SGI and Dec/Alpha; 
+	now better handling of enums (no enum = int assignments just
+	use switch (int) statements.
+	changed map2gif into map2png + all that's related (replaced gif
+	support with png support, following gd's development)
+	added EEPIC gnuplot term driver to ui.c ('E')
+	added palet.c; added colour palettes to map2png
+Tue Dec 14 15:30:38 PST 1999
+	worked on the PDF manual
+	added GSLIB grid support
+	added nscore='ns' option to data -> normal score transform + table to file
+	uploaded snapshot 2.1.1 to www.geog.uu.nl
+Tue Jan 25 15:08:59 PST 2000
+	fig.c/map2fig.c: added fig stuff (map or point data + legend -> xfig file)
+	sem.c: corrected progress total_steps overflow (now divide first)
+Mon Mar  6 21:00:09 PST 2000
+	update to libgsl 0.5 -- several configure related things 
+		(I assume it's in /usr/local).
+Mon Apr  3 17:06:36 PDT 2000
+	error in predict.c: sometimes wrong ALL data outside map limits warning
+	sem.c: EVFMT %... lu instead of %... ld (unsigned!)
+Thu Apr 27 13:25:42 PDT 2000
+	map2png.[ch] is now map2gd.[ch]: support either map2png or map2gif,
+		if gd is found.
+Wed May  3 08:05:09 PDT 2000
+	-e convert: removed bug when input map is CSF
+Mon Jun  5 05:56:48 PDT 2000
+	sem.c: semivariogram from grid map now works (again?)
+	data.[ch]: added `prob', `every' and `offset' fields to sample data files
+	put gifmerge thing back in map2gd (#if HAVE_GDIMAGEGIF)
+Mon Oct 30 14:50:20 EST 2000
+	moved search.[ch] to nsearch.[ch] because conflicts with a compiler-
+	 specific search.h in Borland compiler.
+	gls.c: plot_weights -- added equal x/y ratio
+	updated getopt.h to include the extern's.
+Tue Nov 21 15:29:42 EST 2000 --- released 2.2.1 binary/sources
+	(curses interface doesn't seem to work on some Windows versions)
+
+	Started 2.3.0:
+	added new variogram fit weight criterion: N(h)/(h*h)
+	data.c bug: setting the distance function for 3D simulation of
+	  a dummy variable was set to a 2D function.
+	mapio.c: added \r delimiter for DSAA .grd files.
+Fri Dec  1 11:27:20 EST 2000
+	lex.l: added ^] character to WS -- PDCurses thing at shift key
+	mapio.c: removed white second line at Idrisi .doc file
+	msim.c: removed error message when map not removed
+	predict.c: now either write series of simulations or single maps;
+	ui.c: added simple mouse support for interactive user interface.
+Thu Jan 18 12:13:18 CET 2001
+	added ossfim.c ossfimcgi back end and cgi stuff at http://gstat.org/ossfim.html
+	plot.c: frprint_gnuplot_variogram can now also plot 
+		variogram model only (for ossfim).
+Started 2.3.3:
+Fri Feb 16 15:07:06 CET 2001
+	built-in of support for different grid cell size in x- and y-direction.
+Mar 2001:
+	build support for GRASS 5 float (FCELL) maps and site lists (input only)
+Tue Apr  3 11:21:36 CEST 2001
+    Today's word count (cd src; make wc): 25000   99702  696231 total
+Mon Apr 23 17:01:02 CEST 2001
+	Sent 2.3.3 message to GRASS-lists grass5 and grasslist.
+Wed Jun  6 09:52:18 CEST 2001
+	Error in plot_weights() for cokriging, reported by Ate Visser.
+Started 2.3.4
+Thu Jun 21 12:16:21 CEST 2001
+	make read_grass_data() produce some more debug info
+	made read_grass_data() more robust; read floats from string fields as well.
+Fri Jul  6 10:59:56 CEST 2001
+	made report.c to write grass sites as well; 
+	added error conditions to read_grass_data(), v=? field checks.
+Mon Oct 29 15:18:37 CET 2001
+	now reject CSF (PCRaster) maps where Y increases from bottom to top
+Mon Jan 28 16:16:59 CET 2002
+	corrected bug wrt set fit=7; entering the user interface.
+
+TODO: gstat -x ex05.cmd "crashes"
+
+Mon Mar  4 11:54:10 CET 2002
+	added mkstemp() call as first option in make_temp wrapper
+Thu Apr 25 14:12:06 CEST 2002
+	read_surfer_header: corrected bug missed xlo/xhi by half a cell size
+	(Lars Nebel)
+	read_grass_data: now read correctly z-data, and track min/max values.
+Tue Jul  9 15:31:35 CEST 2002
+	merged KS' routines for reading/writing Idrisi32 maps into mapio.[ch]
+Mon Aug 26 11:33:56 CEST 2002
+	for grass, check env.variable LOCATION or LOCATION_NAME (apart from the
+	others)
+Wed Oct 30 10:04:38 CET 2002: released 2.3.8
+	removed bug in 2.3.7, efopen -> fopen (cannot read something.vdc)
+Wed Oct 30 10:04:38 CET 2002: started 2.3.9
+	don't mess around with temp file names anymore; now needs gstat.plt
+	temporary file in working directory.
+	changed gnuplot window order: 0,1,2,3,4,... instead of 0,2,5,9,...
+Wed Dec 18 15:28:47 CET 2002
+	glvars.c: made get_n_beta() re-entrant.
+Fri Jan  3 17:08:31 CET 2003
+	reorganized random.c; now use GSL, drand48 or Marsaglia, in that order;
+	removed -r command line option. I bet nobody ever used it, besides me.
+Mon Jan 20 08:57:21 CET 2003
+	--with-sparse failed on missing logfile in gls.c -- corrected
+	removed bug in gls.c, affecting multivariate simulation of beta
+Tue Jan 21 09:48:13 CET 2003
+	2.3.13 had a bug; data[0]->list[0]->X was changed;
+Wed Jan 29 20:07:44 CET 2003
+	several source files to be linked to dmalloc
+	gstat.c: allow multiple command files to loop over
+	gls.c: free memory static in gls() when called with NULL arguments;
+RELEASE 2.4.0
+Tue Mar  4 19:59:28 CET 2003
+	now gstat -c *.cmd processes all command files;
+	interactive command files allowed in list
+	configure + sources: removed all as[v]printf, mkstemp and tempnam
+Mon Mar 24 16:25:23 CET 2003
+	added [v]snprintf to configure, use [v]sprintf if not there.
+	S-Plus Win 6.x port with MinGW: add -m rtd and __cdecl stuff; thanks to BDR.
+Wed Apr  2 12:00:48 CEST 2003 2.4.2
+	added GDAL support (still pretty experimental)
+	libcsf is now external; autodetected by configure
+	GRASS can read point data from rasters as well.
+Tue Apr  8 19:51:16 CEST 2003
+	read_grass(): corrected bug to read DCELL maps (8-byte doubles).
+	GDAL support now does write GeoTransform data, and deals with CT_UINT8
+	(GDT_Byte, in case of indicator simulation) maps.
+Thu May  8 15:55:26 CEST 2003
+	lm.c: take care of singular LS regression case where X->m < X->n
+	sem.c: if d->every > 1 or d->prob < .5, use _list() instead of _grid().
+	sem.c: initialized b.z to 0 to make re-calculation on semivariogram_grid()
+	work.
+Thu May 22 16:49:36 CEST 2003
+	lm.c: take care of zero weights: adjust lm->dfE to exclude these obs.
+	lm.c: added lm->Cov, which contains OLS parameter covariance of beta
+	lm_type.h: removed file, added contents to lm.h
+	msim.c: add simulation of beta using OLS (univariate); added make_ols()
+	gl_sim_beta now can be 0 (multiv GLS), 1 (univ GLS), 2 (univ OLS)
+Fri May 23 20:58:49 CEST 2003
+	gstat.c: added getop_long(), adding double-hashed options (--help)
+Mon May 26 16:44:07 CEST 2003
+	getest.c: added method "skew", returns skewness/kurtosis;
+	parse.y: allow for zero value for quantile (min/max).
+Tue Jun 2/3 16:56:40 CEST 2003
+	parse.y/data.[ch]/s.c: added "mu^2" and "mu^3" variance functions
+	getest.c: allow locally fitted variogram model parameters, or local
+	sample variogram values (method: lsem).
+Fri Jun  6 20:33:32 CEST 2003
+	mapio: added #ifdef CSF_ROWWISE stuff -- works for _very_ large grid maps:
+	e.g. one 400Mb CR_REAL4 map in and out.
+Fri Jul  4 12:10:34 CEST 2003
+	nsearch.c: introduced maximum recursion depth (11)
+Tue Aug 12 14:42:53 CEST 2003
+	s.c: added nmin argument; gstat.predict.q: made maxdist argument work
+Thu Oct 30 16:19:22 CET 2003
+	mapio.c: allow tabs as delimiter in asciigrid/floatgrid ascii headers/maps
+	(a la gdal)
+Tue Nov 11 09:05:25 CET 2003
+	allow data(xx): ... , average = 1, average = 0, ... ; besides
+	data(xx): ..., average, noaverage, ... ;
+Tue Jan 20 09:18:29 CET 2004
+	'make queue' works again -- priority queue demo
+Wed Mar 31 09:24:40 CEST 2004
+	map_xy2rowcol returned one too large row/col for points on right/top edge
+	(and this hurt the variogram map code badly!)
+Fri Jan 21 14:45:48 CET 2005 released gstat 2.4.4
+	... with support for grass 6 (where site_lists became vector).
+Wed Feb 16 09:52:08 CET 2005
+	added Exc (exponential class) variogram model, with shape factor 0 < alpha <= 2
+	(special cases for alpha = 1 the exponential, for alpha = 2 the Gaussian)
+Tue Mar 28 14:35:50 CEST 2006
+	read.c: reset errno to 0 before calls to strtol() etc. functions, to prevent
+	previous errors to be caught.
+*/

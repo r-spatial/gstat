@@ -1,0 +1,408 @@
+\begin{theindex}
+
+  \item \code{plotting kriging weights}, \hyperpage{44}
+
+  \indexspace
+
+  \item actions, \hyperpage{50}
+  \item \texttt  {alpha}, \hyperpage{41}
+  \item anisotropy
+    \subitem geometric, \hyperpage{39}
+    \subitem zonal, \hyperpage{40}
+  \item arc-info, \hyperpage{12}
+  \item \texttt  {area}, \hyperpage{33}
+  \item asciigrid, \hyperpage{12}
+  \item \texttt  {average}, \hyperpage{34}
+  \item awk, \hyperpage{49}
+
+  \indexspace
+
+  \item \texttt  {b}, \hyperpage{35}
+  \item base functions, \hyperpage{22, 23}
+    \subitem arbitrary, \hyperpage{23}
+    \subitem at mask map locations, \hyperpage{32}
+    \subitem coordinate polynomials, \hyperpage{23}
+  \item \texttt  {beta}, \hyperpage{42}
+  \item block discretization, \hyperpage{29}
+  \item block discretization, \code{nblockdiscr}, \hyperpage{44}
+  \item blocksize
+    \subitem specifying, \hyperpage{29}
+  \item \texttt  {blocksize}, \hyperpage{32}
+  \item \texttt  {bounds}, \hyperpage{32}
+
+  \indexspace
+
+  \item \texttt  {Category}, \hyperpage{34}
+  \item category indicator transform, \hyperpage{34}
+  \item change of support, \hyperpage{29}
+  \item \texttt  {cn\_max}, \hyperpage{41}
+  \item command file
+    \subitem comment, \hyperpage{31}
+  \item command file syntax, \hyperpage{31}
+  \item command files, \hyperpage{11}
+  \item command line options, \hyperpage{47}
+  \item configure, \hyperpage{51}
+  \item \texttt  {convert}, \hyperpage{50}
+  \item \texttt  {covariance}, \hyperpage{50}
+  \item \texttt  {covariances}, \hyperpage{32}
+  \item covariogram
+    \subitem sample, \hyperpage{45}
+      \subsubitem equations, \hyperpage{69}
+      \subsubitem non-interactive, \hyperpage{16}
+    \subitem symmetric or asymmetric, \hyperpage{43}
+  \item \texttt  {covariogram}, \hyperpage{45}
+  \item \texttt  {cover}, \hyperpage{50}
+  \item \texttt  {Cressie}, \hyperpage{42}
+  \item cross validation, \iskey{xvalid}, \hyperpage{45}
+  \item \texttt  {cutoff}, \hyperpage{42}
+
+  \indexspace
+
+  \item \texttt  {d}, \hyperpage{33}
+  \item data
+    \subitem averaging coinciding points, \hyperpage{34}
+    \subitem base functions
+      \subsubitem known coefficients, \hyperpage{35}
+      \subsubitem omit intercept, \hyperpage{34}
+    \subitem base functions, \code{X}, \hyperpage{34}
+    \subitem category indicator transform, \hyperpage{34}
+    \subitem data weights, \code{V}, \hyperpage{35}
+    \subitem dummy, \hyperpage{36}
+    \subitem empty variable, \code{dummy}, \hyperpage{36}
+    \subitem indicator-transform, \hyperpage{34}
+    \subitem known regression coefficients, \hyperpage{35}
+    \subitem log-transform, \hyperpage{34}
+    \subitem measurement error, \code{V}, \hyperpage{35}
+    \subitem missing value, \hyperpage{33}
+    \subitem neigbourhood, \hyperindexformat{\see{neighbourhood}}{36}
+    \subitem normal score transform, \hyperpage{34}
+    \subitem sampling, \code{every}, \code{offset}, \code{prob}, 
+		\hyperpage{35}
+    \subitem standardise, \hyperpage{34}
+    \subitem strata column, \code{s}, \hyperpage{36}
+    \subitem trend order, \code{d}, \hyperpage{33}
+    \subitem x-coordinate, \hyperpage{33}
+    \subitem y-coordinate, \hyperpage{33}
+    \subitem z-coordinate, \hyperpage{33}
+  \item \texttt  {data}, \hyperpage{33}
+  \item data format, \hyperpage{12}
+  \item \texttt  {debug}, \hyperpage{41}
+  \item default program action, \hyperpage{13}
+  \item directional variogram, 
+		\hyperindexformat{\see{\iskey{alpha}, \iskey{beta}, \isXkey{tol\_hor}{tolXhor}, \isXkey{tol\_ver}{tolXver}}}{41}
+  \item \texttt  {distance}, \hyperpage{46}
+  \item distance to prediction locations, \hyperpage{46}
+  \item \texttt  {div}, \hyperpage{46}
+  \item \texttt  {dots}, \hyperpage{42}
+  \item \texttt  {dummy}, \hyperpage{36}
+  \item \texttt  {dX}, \hyperpage{35}
+
+  \indexspace
+
+  \item \texttt  {edges}, \hyperpage{32}
+  \item \texttt  {estimates}, \hyperpage{32}
+  \item \texttt  {every}, \hyperpage{35}
+  \item example command files, \hyperpage{53}
+  \item external drift, \hyperpage{22}
+
+  \indexspace
+
+  \item \texttt  {fit}, \hyperpage{42}
+  \item \texttt  {fit\_limit}, \hyperpage{42}
+  \item floatgrid, \hyperpage{12}
+  \item \texttt  {force}, \hyperpage{36}
+  \item \texttt  {format}, \hyperpage{42}
+  \item \texttt  {fraction}, \hyperpage{42}
+
+  \indexspace
+
+  \item Gaussian simulation, \iskey{gs}, \hyperpage{45}
+  \item generalised least squares, \hyperpage{24}
+  \item \texttt  {gls}, \hyperpage{43}
+  \item gnuplot, \hyperpage{15}
+    \subitem output device, \code{gpterm}, \hyperpage{43}
+  \item \texttt  {gnuplot}, \hyperpage{42}
+  \item \texttt  {gnuplot35}, \hyperpage{43}
+  \item \texttt  {gpterm}, \hyperpage{43}
+  \item grid map format, \hyperpage{12}
+  \item gridded prediction locations, \hyperpage{32}
+  \item \texttt  {gs}, \hyperpage{45}
+
+  \indexspace
+
+  \item height of mask map, \hyperpage{45}
+
+  \indexspace
+
+  \item \texttt  {I}, \hyperpage{34}
+  \item identifiers, \hyperpage{31}
+  \item \texttt  {idp}, \hyperpage{44}
+  \item idrisi, \hyperpage{12}
+  \item indicator simulation, \hyperpage{21}
+    \subitem categorical, \hyperpage{21}
+    \subitem cumulative, \hyperpage{21}
+    \subitem independent, \hyperpage{21}
+    \subitem order relation violations, \hyperpage{22}
+  \item indicator transform, \hyperpage{34}
+  \item installing
+    \subitem gnuplot, \hyperpage{51}
+    \subitem gstat, \hyperpage{51}
+  \item interactive variogram modelling, \hyperpage{14}
+  \item \texttt  {intervals}, \hyperpage{43}
+  \item inverse distance power, \code{idp}, \hyperpage{44}
+  \item inverse distance weighted interpolation, \hyperpage{17}
+  \item invoking gstat, \hyperpage{11}
+  \item \texttt  {is}, \hyperpage{45}
+  \item \texttt  {iter}, \hyperpage{43}
+
+  \indexspace
+
+  \item kriging, \hyperpage{17}
+    \subitem at mask map locations, \hyperpage{32}
+    \subitem block, \hyperpage{29}
+    \subitem equations, \hyperpage{71}
+    \subitem local, \hyperpage{17}
+    \subitem simple kriging mean, \code{sk\_mean}, \hyperpage{36}
+    \subitem universal, \hyperpage{22}
+  \item kriging, ordinary, \hyperpage{17}
+  \item kriging, simple, \hyperpage{17}
+
+  \indexspace
+
+  \item Latin hypercube sampling, \hyperpage{45}
+  \item \texttt  {lhs}, \hyperpage{45}
+  \item library
+    \subitem csf, \hyperpage{51}
+    \subitem gd, \hyperpage{51}
+    \subitem meschach, \hyperpage{51}
+  \item linear model
+    \subitem independent residuals, \hyperpage{24}
+  \item linear models, \hyperpage{22}
+  \item local diversity, \code{div}, \hyperpage{46}
+  \item local neighbourhood, \hyperpage{17}
+  \item local quantile estimation, \hyperpage{44}
+  \item \texttt  {log}, \hyperpage{34}
+  \item log-transform data, \hyperpage{34}
+  \item \texttt  {logfile}, \hyperpage{41}
+
+  \indexspace
+
+  \item \texttt  {map}, \hyperpage{46}
+  \item map format, \hyperpage{12}
+  \item map values at data locations, \hyperpage{46}
+  \item \texttt  {map2fig}, \hyperpage{50}
+  \item \texttt  {map2gif}, \hyperpage{50}
+  \item \texttt  {map2png}, \hyperpage{50}
+  \item \texttt  {marginals}, \hyperpage{41}
+  \item \texttt  {mask}, \hyperpage{32}
+  \item \texttt  {max}, \hyperpage{36}
+  \item measurements, see data, \hyperpage{33}
+  \item \texttt  {med}, \hyperpage{46}
+  \item \texttt  {merge}, \hyperpage{33}
+  \item meschach matrix library, \hyperpage{51}
+  \item \texttt  {method}, \hyperpage{45}
+  \item \texttt  {min}, \hyperpage{36}
+  \item missing value
+    \subitem number, \code{mv}, \hyperpage{33}
+    \subitem string, \code{set mv}, \hyperpage{41}
+  \item multiple realisations, \hyperpage{44}
+  \item \texttt  {mv}, \hyperpage{33}
+
+  \indexspace
+
+  \item \texttt  {nblockdiscr}, \hyperpage{44}
+  \item neighbourhood
+    \subitem force minimum size, \hyperpage{36}
+    \subitem max nr observations, \hyperpage{36}
+    \subitem min nr observations, \hyperpage{36}
+    \subitem octant search, \hyperpage{36}
+    \subitem quadrant search, \hyperpage{36}
+    \subitem radius, \hyperpage{36}
+    \subitem selection, \hyperpage{17}
+    \subitem size as prediction value \iskey{nr}, \hyperpage{46}
+    \subitem square, \hyperpage{36}
+    \subitem variogram distance, \code{vdist}, \hyperpage{36}
+  \item \texttt  {nocheck}, \hyperpage{45}
+  \item \texttt  {nominal}, \hyperpage{50}
+  \item \texttt  {noresidual}, \hyperpage{35}
+  \item normal score transform, \hyperpage{34}
+  \item \texttt  {nr}, \hyperpage{46}
+  \item \texttt  {ns}, \hyperpage{34}
+  \item \texttt  {nsim}, \hyperpage{44}
+  \item \texttt  {n\_uk}, \hyperpage{44}
+
+  \indexspace
+
+  \item observations, see data, \hyperpage{33}
+  \item \texttt  {offset}, \hyperpage{35}
+  \item \texttt  {omax}, \hyperpage{36}
+  \item \texttt  {order}, \hyperpage{44}
+  \item ordinary least squares, \hyperpage{24}
+  \item \texttt  {output}, \hyperpage{41}
+  \item \code{output} file name, \hyperpage{41}
+
+  \indexspace
+
+  \item \texttt  {pager}, \hyperpage{43}
+  \item pcraster, \hyperpage{12}
+  \item pipes, \hyperpage{49}
+  \item \texttt  {plotfile}, \hyperpage{41}
+  \item plotting kriging weights, \hyperpage{41}
+  \item \texttt  {plotweights}, \hyperpage{44}
+  \item \texttt  {point-in-polygon}, \hyperpage{46}
+  \item prediction, \hyperpage{17}
+    \subitem at mask map locations, \hyperpage{32}
+    \subitem common parameters, \hyperpage{33}
+    \subitem equations, \hyperpage{71}
+    \subitem local, \hyperpage{17}
+    \subitem method, \hyperpage{45}
+    \subitem modes, \hyperpage{27}
+    \subitem multiple, \hyperpage{27}
+    \subitem multivariable, \hyperpage{28}
+    \subitem non-gridded, \code{data()}, \hyperpage{32}
+    \subitem output maps, \hyperpage{32}
+    \subitem stratified, \hyperpage{28}
+  \item \texttt  {predictions}, \hyperpage{32}
+  \item \texttt  {prob}, \hyperpage{35}
+  \item program action, default, \hyperpage{13}
+
+  \indexspace
+
+  \item \texttt  {quantile}, \hyperpage{44}
+  \item quantile estimation, \hyperpage{44}
+
+  \indexspace
+
+  \item \texttt  {radius}, \hyperpage{36}
+  \item random number \code{seed}, \code{useed}, \hyperpage{45}
+  \item random number generators, \hyperpage{48}
+  \item random path, \code{rp}, \hyperpage{44}
+  \item residuals, generalised least squares, \hyperpage{43}
+  \item robust variogram estimator, \iskey{Cressie}, \hyperpage{42}
+  \item \texttt  {rp}, \hyperpage{44}
+
+  \indexspace
+
+  \item \texttt  {s}, \hyperpage{36}
+  \item sample covariogram, \hyperpage{45}
+  \item sample variogram, \hyperpage{45}
+  \item sampling data, \code{every}, \code{offset}, \code{prob}, 
+		\hyperpage{35}
+  \item save variogram plot, \hyperpage{15}
+  \item \texttt  {secure}, \hyperpage{43}
+  \item \texttt  {seed}, \hyperpage{45}
+  \item \texttt  {semivariance}, \hyperpage{50}
+  \item \texttt  {semivariogram}, \hyperpage{45}
+  \item \texttt  {set}, \hyperpage{40}
+  \item set {\em parameter} = {\em value}, \hyperpage{40}
+  \item simple kriging mean, \code{sk\_mean}, \hyperpage{36}
+  \item simulation, \hyperpage{19}
+    \subitem at mask map locations, \hyperpage{32}
+    \subitem block, \hyperpage{29}
+    \subitem block averages, \hyperpage{21}
+    \subitem Gaussian, \iskey{gs}, \hyperpage{45}
+    \subitem indicator, \hyperpage{21}
+    \subitem indicator, \iskey{is}, \hyperpage{45}
+    \subitem local neighbourhood, \hyperpage{20}
+    \subitem multiple, \hyperpage{27}
+    \subitem multiple realisations, \hyperpage{44}
+    \subitem multivariable, \hyperpage{28}
+    \subitem non-gridded, \code{data()}, \hyperpage{32}
+    \subitem number of realizations, \hyperpage{20}
+    \subitem random path, \hyperpage{20}
+    \subitem sequential, \hyperpage{19}
+    \subitem stratified, \hyperpage{28}
+    \subitem variogram reproduction, \hyperpage{20}
+    \subitem varying mean, \hyperpage{20}
+  \item \texttt  {skew}, \hyperpage{46}
+  \item \texttt  {sk\_mean}, \hyperpage{36}
+  \item \texttt  {sparse}, \hyperpage{45}
+  \item special file names, \hyperpage{49}
+  \item \texttt  {square}, \hyperpage{36}
+  \item \texttt  {standard}, \hyperpage{34}
+  \item standardise data variable, \hyperpage{34}
+  \item start up files, \hyperpage{47}
+  \item \texttt  {statistics}, \hyperpage{51}
+  \item support, change of, \hyperpage{29}
+  \item \texttt  {sym}, \hyperpage{43}
+
+  \indexspace
+
+  \item temporary files, \hyperpage{49}
+  \item \texttt  {tol\_hor}, \hyperpage{43}
+  \item \texttt  {tol\_ver}, \hyperpage{43}
+  \item trend, \hyperpage{22}
+    \subitem arbitrary base functions, \hyperpage{23}
+    \subitem constant, \hyperpage{22}
+    \subitem coordinate polynomials, \hyperpage{23}
+    \subitem estimation, \hyperpage{45}
+    \subitem generalised least squares, \hyperpage{24}
+    \subitem order, \code{d}, \hyperpage{33}
+    \subitem ordinary least squares, \hyperpage{24}
+    \subitem varying, \hyperpage{22}
+    \subitem weighted least squares, \hyperpage{24}
+  \item \texttt  {trend}, \hyperpage{45}
+
+  \indexspace
+
+  \item universal kriging, \hyperpage{22}
+  \item \texttt  {useed}, \hyperpage{45}
+
+  \indexspace
+
+  \item \texttt  {V}, \hyperpage{35}
+  \item \texttt  {v}, \hyperpage{33}
+  \item \texttt  {variances}, \hyperpage{32}
+  \item variogram
+    \subitem cressie's robust estimator, \hyperpage{42}
+    \subitem cutoff, max. distance, \hyperpage{42}
+    \subitem directional, \hyperindexformat{\see{directional}}{41}
+    \subitem geometric anisotropy, \hyperpage{39}
+    \subitem interval \code{width}, \hyperpage{43}
+    \subitem maps, \hyperpage{16}
+    \subitem max distance, \code{intervals}, \hyperpage{43}
+    \subitem modelling, \hyperpage{14}
+      \subsubitem fit method, \hyperpage{42}
+      \subsubitem iterations in fitting, \hyperpage{43}
+    \subitem models
+      \subsubitem figure, \hyperpage{39}
+      \subsubitem table, \hyperpage{38}
+    \subitem near replicates, \code{dX}, \hyperpage{35}
+    \subitem number of intervals, \code{intervals}, \hyperpage{43}
+    \subitem OLS/WLS/GLS residual, \hyperpage{25}
+    \subitem pooled, \code{dX}, \hyperpage{35}
+    \subitem residual, \hyperpage{35}
+    \subitem sample, \hyperpage{45}
+      \subsubitem equations, \hyperpage{69}
+      \subsubitem irregular interval bounds, \hyperpage{32}
+      \subsubitem non-interactive, \hyperpage{16}
+    \subitem save plot as, \hyperpage{15}
+    \subitem symmetric or asymmetric, \hyperpage{43}
+    \subitem zonal anisotropy, \hyperpage{40}
+  \item \texttt  {variogram}, \hyperpage{36}
+  \item variogram modelling, \hyperpage{14}
+  \item \texttt  {vdist}, \hyperpage{36}
+
+  \indexspace
+
+  \item weighted least squares, \hyperpage{24}
+  \item \texttt  {width}, \hyperpage{43}
+
+  \indexspace
+
+  \item \texttt  {X}, \hyperpage{34}
+  \item \texttt  {x}, \hyperpage{33}
+  \item \texttt  {xvalid}, \hyperpage{45}
+
+  \indexspace
+
+  \item \texttt  {y}, \hyperpage{33}
+
+  \indexspace
+
+  \item \texttt  {z}, \hyperpage{33}
+  \item \texttt  {zero}, \hyperpage{41}
+  \item \texttt  {zero\_dist}, \hyperpage{43}
+  \item \texttt  {zmap}, \hyperpage{45}
+
+\end{theindex}

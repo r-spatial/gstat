@@ -1,0 +1,92 @@
+\contentsline {chapter}{\numberline {1}Introduction}{7}{chapter.1}
+\contentsline {section}{\numberline {1.1}gstat mailing lists}{8}{section.1.1}
+\contentsline {section}{\numberline {1.2}gstat for R and S-PLUS}{9}{section.1.2}
+\contentsline {section}{\numberline {1.3}Further reading}{9}{section.1.3}
+\contentsline {chapter}{\numberline {2}Getting started}{11}{chapter.2}
+\contentsline {section}{\numberline {2.1}Invoking gstat}{11}{section.2.1}
+\contentsline {section}{\numberline {2.2}Data formats}{12}{section.2.2}
+\contentsline {section}{\numberline {2.3}Default program action}{13}{section.2.3}
+\contentsline {section}{\numberline {2.4}Modelling spatial dependence}{14}{section.2.4}
+\contentsline {section}{\numberline {2.5}Prediction}{17}{section.2.5}
+\contentsline {section}{\numberline {2.6}Simulation}{19}{section.2.6}
+\contentsline {section}{\numberline {2.7}Linear models in gstat}{22}{section.2.7}
+\contentsline {chapter}{\numberline {3}Prediction modes and change of support}{27}{chapter.3}
+\contentsline {section}{\numberline {3.1}Modes}{27}{section.3.1}
+\contentsline {section}{\numberline {3.2}Multiple mode}{27}{section.3.2}
+\contentsline {section}{\numberline {3.3}Multivariable mode}{28}{section.3.3}
+\contentsline {section}{\numberline {3.4}Stratified mode}{28}{section.3.4}
+\contentsline {section}{\numberline {3.5}Change of support (block prediction)}{29}{section.3.5}
+\contentsline {chapter}{\numberline {4}Command file syntax}{31}{chapter.4}
+\contentsline {section}{\numberline {4.1}Commands}{31}{section.4.1}
+\contentsline {subsection}{\numberline {4.1.1}General options}{31}{subsection.4.1.1}
+\contentsline {subsection}{\numberline {4.1.2}Variogram modelling options}{32}{subsection.4.1.2}
+\contentsline {subsection}{\numberline {4.1.3}Prediction or simulation options}{32}{subsection.4.1.3}
+\contentsline {section}{\numberline {4.2}`\texttt {{data}}'}{33}{section.4.2}
+\contentsline {subsection}{\numberline {4.2.1}General options}{33}{subsection.4.2.1}
+\contentsline {subsection}{\numberline {4.2.2}Variogram modelling options}{35}{subsection.4.2.2}
+\contentsline {subsection}{\numberline {4.2.3}Prediction or simulation options}{36}{subsection.4.2.3}
+\contentsline {section}{\numberline {4.3}`\texttt {{variogram}}'}{36}{section.4.3}
+\contentsline {section}{\numberline {4.4}`\texttt {{set}}'}{40}{section.4.4}
+\contentsline {subsection}{\numberline {4.4.1}General options}{41}{subsection.4.4.1}
+\contentsline {subsection}{\numberline {4.4.2}Variogram modelling options}{41}{subsection.4.4.2}
+\contentsline {subsection}{\numberline {4.4.3}Prediction or simulation options}{44}{subsection.4.4.3}
+\contentsline {section}{\numberline {4.5}`\texttt {{method}}'}{45}{section.4.5}
+\contentsline {chapter}{\numberline {5}Further control}{47}{chapter.5}
+\contentsline {section}{\numberline {5.1}Start-up}{47}{section.5.1}
+\contentsline {section}{\numberline {5.2}Command line options}{47}{section.5.2}
+\contentsline {section}{\numberline {5.3}Random number generators}{48}{section.5.3}
+\contentsline {section}{\numberline {5.4}Special file names}{49}{section.5.4}
+\contentsline {section}{\numberline {5.5}Execute ({\tt -e}) actions}{50}{section.5.5}
+\contentsline {section}{\numberline {5.6}Compiling and installing gstat}{51}{section.5.6}
+\contentsline {chapter}{\numberline {6}Example command files}{53}{chapter.6}
+\contentsline {section}{\numberline {6.1}Example 1. Variogram modelling }{55}{section.6.1}
+\contentsline {section}{\numberline {6.2}Example 2. Variogram modelling of two variables }{55}{section.6.2}
+\contentsline {section}{\numberline {6.3}Example 3. Inverse distance interpolation }{55}{section.6.3}
+\contentsline {section}{\numberline {6.4}Example 4. Ordinary block kriging}{55}{section.6.4}
+\contentsline {section}{\numberline {6.5}Example 5. Simple kriging on a mask map }{56}{section.6.5}
+\contentsline {section}{\numberline {6.6}Example 6. Unconditional simulation }{56}{section.6.6}
+\contentsline {section}{\numberline {6.7}Example 7. Conditional simulation }{57}{section.6.7}
+\contentsline {section}{\numberline {6.8}Example 8. Ordinary block kriging on a mask map }{57}{section.6.8}
+\contentsline {section}{\numberline {6.9}Example 9. Map values at point locations }{57}{section.6.9}
+\contentsline {section}{\numberline {6.10}Example 10. Multiple kriging }{58}{section.6.10}
+\contentsline {section}{\numberline {6.11}Example 11. Multivariable kriging (cokriging) }{58}{section.6.11}
+\contentsline {section}{\numberline {6.12}Example 12. Stratified ordinary kriging }{59}{section.6.12}
+\contentsline {section}{\numberline {6.13}Example 13. Universal kriging (a) }{59}{section.6.13}
+\contentsline {section}{\numberline {6.14}Example 14. Universal kriging (b) }{60}{section.6.14}
+\contentsline {section}{\numberline {6.15}Example 14a. Stratified universal kriging }{60}{section.6.15}
+\contentsline {section}{\numberline {6.16}Example 15. Linear model prediction (OLS) }{61}{section.6.16}
+\contentsline {section}{\numberline {6.17}Example 16. Multivariable (cumulative) indicator simulation}{61}{section.6.17}
+\contentsline {section}{\numberline {6.18}Example 17. Trend surface prediction}{62}{section.6.18}
+\contentsline {chapter}{\numberline {7}The gstat S package}{65}{chapter.7}
+\contentsline {section}{\numberline {7.1}Introduction}{65}{section.7.1}
+\contentsline {section}{\numberline {7.2}Differences from the stand-alone program}{65}{section.7.2}
+\contentsline {chapter}{\numberline {A}Equations}{69}{appendix.A}
+\contentsline {section}{\numberline {A.1}Spatial dependence}{69}{section.A.1}
+\contentsline {section}{\numberline {A.2}Prediction equations}{71}{section.A.2}
+\contentsline {section}{\numberline {A.3}Change of support: details}{74}{section.A.3}
+\contentsline {section}{\numberline {A.4}Latin hypercube sampling}{76}{section.A.4}
+\contentsline {chapter}{\numberline {B}Using polylines with gstat}{79}{appendix.B}
+\contentsline {section}{\numberline {B.1}Implementation aspects}{79}{section.B.1}
+\contentsline {section}{\numberline {B.2}Formats available for input}{86}{section.B.2}
+\contentsline {section}{\numberline {B.3}New keywords}{86}{section.B.3}
+\contentsline {section}{\numberline {B.4}Using \emph {point-in-polygon} test{}}{87}{section.B.4}
+\contentsline {section}{\numberline {B.5}Using polylines with interpolation}{87}{section.B.5}
+\contentsline {section}{\numberline {B.6}Distance calculation with boundaries}{89}{section.B.6}
+\contentsline {chapter}{\numberline {C}Trouble shooting}{91}{appendix.C}
+\contentsline {section}{\numberline {C.1}Error messages}{91}{section.C.1}
+\contentsline {subsection}{\numberline {C.1.1}From gstat}{91}{subsection.C.1.1}
+\contentsline {subsection}{\numberline {C.1.2}From meschach}{93}{subsection.C.1.2}
+\contentsline {section}{\numberline {C.2}Strange results}{93}{section.C.2}
+\contentsline {section}{\numberline {C.3}The value of zero}{95}{section.C.3}
+\contentsline {section}{\numberline {C.4}Debug information}{95}{section.C.4}
+\contentsline {chapter}{\numberline {D}Grid map and data formats}{97}{appendix.D}
+\contentsline {section}{\numberline {D.1}PCRaster maps}{97}{section.D.1}
+\contentsline {section}{\numberline {D.2}Idrisi data and maps}{97}{section.D.2}
+\contentsline {section}{\numberline {D.3}ArcInfo/Arcview grid maps}{98}{section.D.3}
+\contentsline {subsection}{\numberline {D.3.1}asciigrid}{98}{subsection.D.3.1}
+\contentsline {subsection}{\numberline {D.3.2}floatgrid}{98}{subsection.D.3.2}
+\contentsline {section}{\numberline {D.4}ER-Mapper maps}{98}{section.D.4}
+\contentsline {section}{\numberline {D.5}GMT grid maps}{99}{section.D.5}
+\contentsline {section}{\numberline {D.6}Surfer grid maps}{100}{section.D.6}
+\contentsline {chapter}{Bibliography}{101}{section.D.6}
+\contentsline {chapter}{Index}{104}{appendix*.29}

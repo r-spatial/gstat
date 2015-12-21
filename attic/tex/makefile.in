@@ -1,0 +1,173 @@
+FILES = exam.awk example.tex gstat.tex \
+		hyper.sed makefile mapnames sed.awk sedkeys sednames sedcomment \
+		locs.html variograms.html zinc.html zincat0.html zincat1.html \
+		zincmap.html zincok.html
+
+CMD = ../cmd/ex01.cmd ../cmd/ex02.cmd ../cmd/ex03.cmd ../cmd/ex04.cmd \
+	../cmd/ex05.cmd ../cmd/ex06.cmd ../cmd/ex07.cmd ../cmd/ex08.cmd \
+	../cmd/ex09.cmd ../cmd/ex10.cmd ../cmd/ex11.cmd ../cmd/ex12.cmd \
+	../cmd/ex13.cmd ../cmd/ex14.cmd ../cmd/ex14a.cmd ../cmd/ex15.cmd \
+	../cmd/ex16.cmd ../cmd/ex17.cmd
+
+DIR = ./manual
+
+VERSION = @version@
+
+# default target:
+# all:;	latex gstat
+
+gstat.dvi:	gstat.tex example.tex gstat.bbl gstat.ind
+	(cd eps; make)
+	rm -f gstat.ind gstat.toc
+	make gstat.ind
+	latex gstat
+	latex gstat
+	latex gstat
+
+gstat.pdf:	gstat.tex pdf/decis1.pdf
+	rm -f gstat.toc gstat.ind # the one latex made...
+	pdflatex gstat
+	make gstat.ind
+	bibtex gstat
+	pdflatex gstat
+	pdflatex gstat
+
+gstat.tex:	 example.tex titlepage.tex version.tex
+
+pdf/decis1.pdf:	eps/decis1.eps
+	make all2pdf
+
+example.tex:	lf.sed q1.sed q2.sed char.sed example.in exam.awk mapnames $(CMD)
+	@echo "% DO NOT EDIT--Automatically generated from example.in" > example.all
+	awk -f exam.awk example.in >> example.all
+	sed -f q1.sed example.all | sed -f char.sed | sed -f q2.sed > example.tex
+	rm example.all
+
+qnames:	mapnames
+	sed 's/_/Q/g' mapnames > qnames
+
+q1.sed:	qnames mapnames q1.awk
+	paste -d ' ' mapnames qnames | awk -f q1.awk > q1.sed
+
+char.sed:	sedkeys sedcomment
+	cat sedkeys sedcomment > char.sed
+
+q2.sed:	qnames http.sh sednames
+	sh ./http.sh > q2.sed
+	sed 's/WWW/http:\\\/\\\/www.geog.uu.nl\\\/gstat\\\/manual\\\//g' sednames >> q2.sed
+
+version.tex:	version.in makefile
+	sed "s/VERSION/${VERSION}/g" version.in > version.tex
+
+clean:
+	(cd pdf; rm -f *\.pdf)
+	rm -f q1.sed char.sed q2.sed gstat.pdf gstat.dvi qnames example.tex
+	rm -f gstat.aux gstat.log gstat.bbl gstat.blg gstat.idx gstat.out gstat.ps gstat.toc
+
+print:
+	dvips gstat
+
+gstat.ps:	gstat.dvi
+	dvips -Z -D600 -o gstat.ps gstat.dvi
+
+gstat.bbl:	gstat.bib
+	latex gstat
+	bibtex gstat
+
+gstat.ind:	gstat.idx
+	makeindex gstat
+
+wc:;	wc $(FILES)
+
+bu:;	@tar zcvf man.tgz $(FILES)
+
+flop:;	mcopy man.tgz a:
+
+2:;		latex gstat; latex gstat
+
+html:	gstat.tex gstat.aux gstat.bbl
+	rm -fr $(DIR)
+	TEXINPUTS=".::" latex2html -t 'gstat users manual' \
+		-up_title "gstat home page" -up_url "../index.html" \
+		-local_icons -dir $(DIR) -split +2 gstat # 2&>1 >errs
+	cp *\.html $(DIR)
+	make vgm-pngs map-pngs tilde
+	cp -r png gif $(DIR)
+	(cd $(DIR); ln index.html Welcome.html)
+	chmod -R a+r $(DIR)
+
+tilde:
+	sh ./tilde-url.sh fjasj manual/node58.html
+	sh ./tilde-url.sh orourke manual/node58.html
+
+xxx:
+	make vgm-pngs map-pngs
+	cp -r png $(DIR)
+	(cd $(DIR); ln index.html Welcome.html)
+	chmod -R a+r $(DIR)
+
+sample-html:
+	TEXINPUTS=".::" latex2html -t 'spatial sampling software' \
+		-local_icons -split +1 sample # 2&>1 >errs
+
+ftp:	
+	# gstat.ps
+	# cp gstat.ps gstat-$(VERSION).ps
+	# rm gstat-$(VERSION).ps.gz
+	# gzip -9 gstat-$(VERSION).ps
+	tar czf gstat-$(VERSION).html.tar.gz manual
+
+vgm-pngs:
+	gnuplot vgm2png.plt
+
+map-pngs:
+	sh ./map2png.sh
+
+pngs:
+	gnuplot zn_map.plt
+	gnuplot scat.plt
+
+html.tgz:	$(DIR)
+	tar czf html.tgz $(DIR)
+
+files: zincmap.html zinc.html zincat0.html zincat1.html \
+	zincok.html locs.html
+
+nofiles: 
+	rm -f zincmap.html zinc.html zincat0.html zincat1.html \
+	zincok.html locs.html
+
+zincmap.html:	file2html ../cmd/zincmap.eas example.sed example.awk 
+	./file2html ../cmd/zincmap.eas | awk -f example.awk > zincmap.html
+	
+zinc.html:	file2html ../cmd/zinc.eas example.sed example.awk 
+	./file2html ../cmd/zinc.eas | awk -f example.awk > zinc.html
+	
+zincat0.html:	file2html ../cmd/zincat0.eas example.sed example.awk 
+	./file2html ../cmd/zincat0.eas | awk -f example.awk > zincat0.html
+	
+zincat1.html:	file2html ../cmd/zincat1.eas example.sed example.awk 
+	./file2html ../cmd/zincat1.eas | awk -f example.awk > zincat1.html
+
+zincok.html:	file2html ../cmd/zincok.out example.sed example.awk
+	./file2html ../cmd/zincok.out | awk -f example.awk > zincok.html
+
+locs.html:	file2html ../cmd/locs.eas example.sed example.awk
+	./file2html ../cmd/locs.eas | awk -f example.awk > locs.html
+
+eps:;	jgraph scat.jgr > scat.eps
+		dojgr
+		make.jgr
+
+ell.eps:	ell.jgr
+		jgraph ell.jgr > ell.eps
+
+nbh.eps:	nbh.jgr
+		jgraph nbh.jgr > nbh.eps
+
+all2pdf:
+	(cd pdf; cp ../eps/*\.eps . ; rm make.eps; ./all2pdf ; rm -fr *\.eps)
+
+pdfxx:
+	pdflatex gstat
+	pdflatex gstat

@@ -1,0 +1,187 @@
+# 
+# gstat makefile, mostly copied from gnuplot's (3.6) makefile
+# ./configure will convert this file into ./makefile
+#
+all:	src/gstat
+
+.NOEXPORT:
+
+srcdir = @srcdir@
+top_srcdir = @top_srcdir@
+VPATH = @srcdir@
+prefix = @prefix@
+exec_prefix = @exec_prefix@
+
+bindir = @bindir@
+datadir = @datadir@
+includedir = @includedir@
+infodir = @infodir@
+libdir = @libdir@
+mandir = @mandir@/man1
+
+top_builddir = .
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+DEST = bin
+INSTALLDIR = @prefix@
+BINDIR = @prefix@/bin
+VERSION = @version@
+MACHINE =
+
+LINUXFILES = /usr/local/bin/gstat \
+	/usr/local/bin/gnuplot \
+	/usr/local/bin/gnuplot_x11 \
+	/usr/local/share/gnuplot.gih \
+ 	./COPYING 
+
+MESCHACH_HDRS = err.h machine.h matrix.h matrix2.h meminfo.h sparse.h sparse2.h
+
+src/gstat:	@LIB_MESCHACH@
+	(cd src; make)
+
+#configure:	configure.in
+#	autoconf
+
+makefile:		makefile.in configure
+	./configure
+
+install:	src/gstat
+	strip src/gstat
+	$(INSTALL) src/gstat -t $(BINDIR)
+
+config:;	if [ -f meschach/config.status ]; \
+			then echo "already configured"; \
+			else (cd meschach; ./configure @WITH-SPARSE@); \
+			fi;
+
+test:
+	(cd cmd; make)
+
+lib/libmeschach.a:	lib meschach/meschach.a
+	 cp meschach/meschach.a lib/libmeschach.a
+
+meschach/meschach.a:
+	(cd meschach; \
+	./configure @WITH_SPARSE_OPT@ --cache-file=../config.cache; \
+	make @MESCHACH_TARGET@; \
+	cp -p $(MESCHACH_HDRS) ../include)
+
+$(DEST):;	mkdir $(DEST)
+
+lib:;		mkdir lib
+
+gd:	lib/libgd.a
+
+lib/libgd.a:	lib gd1.2
+	(cd gd1.2; make libgd.a)
+	mv gd1.2/libgd.a lib
+	cp gd1.2/gd*.h include
+
+gd1.2:
+	@echo "obtained the gd gif library from http://www.boutell.com/gd"
+	@echo "and install it in ./gd1.2"
+
+maputils:
+	(cd src; make maputils; mv map ../bin)
+
+byteorder:
+	(cd cmd; cc -o byteord byteord.c; byteord; rm -f byteord)
+
+clean:
+	(cd meschach; make clean; rm -f *\.a)
+	(cd cmd; make clean)
+	(cd src; make clean)
+
+veryclean:
+	make clean
+	rm -f makefile config.status meschach/config.status config.log config.cache
+	(cd meschach; rm -f config.cache config.log meschach.a macheps maxint)
+	rm -f ./src/makefile ./src/config.h ./lib/*\.a ./bin/*
+	(cd include; rm -f $(MESCHACH_HDRS))
+
+manual:
+	(cd tex; make gstat.ps)
+
+demo:;	(cd cmd; make mask; make)
+
+dist:	configure
+	tar zcf gstat.tgz `cat ./FILES ./DIV ./MAIL` `find ./rtest`
+	scp gstat.tgz gstat@www.gstat.org:
+
+snapshot:	configure
+	rm -f gstat-$(VERSION).tar.gz
+	make ftp-src
+	scp gstat-$(VERSION).tar.gz gstat@www.gstat.org:data/bin
+
+version:
+	(cd src; make version)
+
+cl:
+	svn2cl -i -a -r 'HEAD:1' -o ChangeLog.svn
+	cat ChangeLog.svn ChangeLog.cvs > ChangeLog
+
+www:;	tar zcf html.tgz html
+
+tgz:; tar zcf gstat-$(VERSION).tar.gz `cat ./FILES`
+
+unpack:
+	gunzip -c gstat.tgz | tar xf -
+
+flop:;	mcopy gstat.tgz a:
+
+ftp:
+	make ftp-src ftp-linux ftp-manual
+
+ftp-src:
+	tar cf gstat.tar `cat ./FILES`
+	(mkdir gstat-$(VERSION); cd gstat-$(VERSION); tar xf ../gstat.tar)
+	tar zcf gstat-$(VERSION).tar.gz gstat-$(VERSION)
+	rm -r gstat-$(VERSION) gstat.tar
+
+ftp-linux:
+	mkdir linux
+	cp $(LINUXFILES) linux
+	tar cf gstat-$(VERSION).linux.tar linux
+	gzip -f9 gstat-$(VERSION).linux.tar
+	rm -r linux
+
+ftp-manual:
+	make manual
+	gzip -f9 tex/gstat.ps
+	mv tex/gstat.ps.gz gstat-$(VERSION).man.ps.gz
+
+ftp-install:
+	install --mode=644 gstat-$(VERSION).tar.gz /home/ftp/pub
+	install --mode=644 gstat-$(VERSION).man.ps.gz /home/ftp/pub
+	install --mode=644 gstat-$(VERSION).linux.tar.gz /home/ftp/pub
+	install --mode=644 gstat.zip /home/ftp/pub
+
+ftp-clean:
+	rm -fr gstat-$(VERSION).tar.gz \
+		gstat-$(VERSION).man.ps.gz \
+		gstat-$(VERSION).linux.tar.gz \
+		linux gstat-$(VERSION)
+
+ftp-dos:
+	rm -f gstat.zip
+	cp /dosc/c/dst/src/gstat.exe .
+	cp /dosc/bin/gnuplot.exe .
+	cp /dosc/bin/gnuplot.gih .
+	cp /dosc/djgpp/bin/cwsdpmi.exe .
+	cp /dosc/djgpp/bin/emu387.dxe .
+	cp COPYING copying
+	cp readme.dos readme
+	zip gstat.zip readme copying gstat.exe gnuplot.exe cwsdpmi.exe emu387.dxe \
+		gnuplot.gih `grep '/cmd/' FILES`
+	rm copying readme gstat.exe gnuplot.exe gnuplot.gih cwsdpmi.exe emu387.dxe
+
+bcc:
+	mv makefile.pcr makefile
+	(cd src; mv config.h.bcc config.h)
+	(cd meschach; mv machine.h.bcc machine.h)
+
+.backup:	FILES DIV
+	cat FILES DIV > .backup

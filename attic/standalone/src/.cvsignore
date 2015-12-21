@@ -1,0 +1,6 @@
+config.h
+gstat
+makefile
+lex.c
+parse.c
+parse.h

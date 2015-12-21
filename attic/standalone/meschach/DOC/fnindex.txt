@@ -1,0 +1,404 @@
+
+			      FUNCTION INDEX
+			      ==============
+
+In the descriptions below, matrices are represented by capital letters,
+vectors by lower case letters and scalars by alpha.
+
+ Function	Description
+
+band2mat()	Convert band matrix to dense matrix
+bd_free()	Deallocate (destroy) band matrix
+bd_get()	Allocate and initialise band matrix
+bd_transp()	Transpose band matrix
+bd_resize()	Resize band matrix
+bdLDLfactor()	Band  LDL^T  factorisation
+bdLDLsolve()	Solve  Ax=b  using band  LDL^T  factors
+bdLUfactor()	Band  LU  factorisation
+bdLUsolve()	Solve  Ax=b  using band  LU  factors
+bisvd()		SVD of bi-diagonal matrix
+BKPfactor()	Bunch-Kaufman-Parlett factorisation
+BKPsolve()	Bunch-Kaufman-Parlett solver
+catch()		Catch a raised error (macro)
+catchall()	Catch any raised error (macro)
+catch_FPE()	Catch floating point error (sets flag)
+CHfactor()	Dense Cholesky factorisation
+CHsolve()	Cholesky solver
+d_save()	Save real in MATLAB format
+Dsolve()	Solve  Dx=y ,  D  diagonal
+ERRABORT()	Abort on error (sets flag, macro)
+ERREXIT()	Exit on error (sets flag, macro)
+error()		Raise an error (macro, see  ev_err())
+err_list_attach()	 Attach new list of errors
+err_list_free()	         Discard list of errors
+err_is_list_attached()	 Checks for an error list
+ev_err()	Raise an error (function)
+fft()		Computes Fast Fourier Transform
+finput()	Input a simple data item from a stream
+fprompter()	Print prompt to  stderr
+get_col()	Extract a column from a matrix
+get_row()	Extract a row from a matrix
+givens()	Compute Givens parameters
+hhtrcols()	Compute  AP^T  where  P  is a Householder matrix
+hhtrrows()	Compute  PA  where  P  is a Householder matrix
+hhtrvec()	Compute  Px  where  P  is a Householder matrix
+hhvec()		Compute parameters for a Householder matrix
+ifft()		Computes inverse FFT
+in_prod()	Inner product of vectors
+input()		Input a simple data item from  stdin (macro)
+iter_arnoldi()	Arnoldi iterative method
+iter_arnoldi_iref()	Arnoldi iterative method with refinement
+iter_ATx()	Set  A^T  in ITER structure
+iter_Ax()	Set  A  in ITER structure
+iter_Bx()	Set preconditioner in ITER structure
+iter_cg()	Conjugate gradients iterative method
+iter_cgne()     Conjugate gradients for normal equations
+iter_cgs()	CGS iterative method
+iter_copy()	Copy ITER data structures
+iter_copy2()	Shallow copy of ITER data structures
+iter_dump()	Dump ITER data structure to a stream
+iter_free()	Free (deallocate) ITER structure
+iter_get()	Allocate ITER structure
+iter_gmres()    GMRES iterative method
+iter_lanczos()	Lanczos iterative method
+iter_lanczos2()	Lanczos method with Cullum and Willoughby extensions
+iter_lsqr()	LSQR iterative method
+iter_mgcr()	MGCR iterative method
+iter_resize()	Resize vectors in an ITER data structure
+iter_spcg()	Sparse matrix CG method
+iter_spcgne()   Sparse matrix CG method for normal equations
+iter_spcgs()	Sparse matrix CGS method
+iter_spgmres()  Sparse matrix GMRES method
+iter_splsqr()	Sparse matrix LSQR method
+iter_spmgcr()	Sparse matrix MGCR method
+iv_add()	Add integer vectors
+iv_copy()	Copy integer vector
+iv_dump()	Dump integer vector to a stream
+iv_finput()	Input integer vector from a stream
+iv_foutput()	Output integer vector to a stream
+IV_FREE()	Free (deallocate) an integer vector (macro)
+iv_free()	Free (deallocate) integer vector (function)
+iv_free_vars()	Free a list of integer vectors
+iv_get()	Allocate and initialise an integer vector
+iv_get_vars()	Allocate list of integer vectors
+iv_input()	Input integer vector from  stdin (macro)
+iv_output()	Output integer vector to  stdout (macro)
+iv_resize()	Resize an integer vector
+iv_resize_vars()	Resize a list of integer vectors
+iv_sub()	Subtract integer vectors
+LDLfactor()	LDL^T  factorisation
+LDLsolve()	LDL^T  solver
+LDLupdate()	Update  LDL^T  factorisation
+Lsolve()	Solve  Lx=y ,  L  lower triangular
+LTsolve()	Solve  L^Tx=y ,  L  lower triangular
+LUcondest()	Estimate a condition number using  LU  factors
+LUfactor()	Compute  LU  factors with implicit scaled partial pivoting
+LUsolve()	Solve  Ax=b  using  LU  factors
+LUTsolve()	Solve  A^Tx=b  usng  LU  factors
+m_add()	        Add matrices
+makeQ()	        Form Q matrix for QR factorisation
+makeR()	        Form R matrix for QR factorisation
+mat2band()	Extract band matrix from dense matrix
+MCHfactor()	Modified Cholesky factorisation 
+		(actually factors A+D, D diagonal, instead of A)
+m_copy()	Copy dense matrix
+m_dump()	Dump matrix data structure to a stream
+mem_attach_list()	Adds a new family of types
+mem_bytes()	        Notify change in memory usage (macro)
+mem_bytes_list()	Notify change in memory usage
+mem_free_list()	        Frees a family of types
+mem_info_bytes()	Number of bytes used by a type
+mem_info_numvar()	Number of structures of a type
+mem_info_file()	        Print memory info to a stream
+mem_info_is_on()	Is memory data being accumulated?
+mem_info_on()	        Turns memory info system on/off
+mem_is_list_attached()	Is list of types attached?
+mem_numvar()	        Notify change in number of structures allocated (macro)
+mem_numvar_list()	Notify change in number of structures allocated
+mem_stat_dump()	Prints information on registered workspace
+mem_stat_free()	Frees (deallocates) static workspace
+mem_stat_mark()	Sets mark for workspace
+MEM_STAT_REG()	Register static workspace (macro)
+mem_stat_show_mark()	Current workspace group
+m_exp()		Computes matrix exponential
+m_finput()	Input matrix from a stream
+m_foutput()	Output matrix to a stream
+M_FREE()	Free (deallocate) a matrix (macro)
+m_free()	Free (deallocate) matrix (function)
+m_free_vars()	Free a list of matrices
+m_get()	        Allocate and initialise a matrix
+m_get_vars()	Allocate list of matrices
+m_ident()	Sets matrix to identity matrix
+m_input()	Input matrix from  stdin (macro)
+m_inverse()	Invert matrix
+m_load()	Load matrix in MATLAB format
+m_mlt()	        Multiplies matrices
+mmtr_mlt()	Computes  AB^T 
+m_norm1()	Computes  ||A||_1  of a matrix
+m_norm_frob()	Computes the Frobenius norm of a matrix
+m_norm_inf()	Computes  ||A||_inf  of a matrix
+m_ones()	Set matrix to all 1's
+m_output()	Output matrix to stdout (macro)
+m_poly()	Computes a matrix polynomial
+m_pow()		Computes integer power of a matrix
+mrand()		Generates pseudo-random real number
+m_rand()	Randomise entries of a matrix
+mrandlist()	Generates array of pseudo-random numbers
+m_resize()	Resize matrix
+m_resize_vars()	Resize a list of matrices
+m_save()	Save matrix in MATLAB format
+m_sub()		Subtract matrices
+m_transp()	Transpose matrix
+mtrm_mlt()	Computes  A^TB 
+mv_mlt()	Computes  Ax 
+mv_mltadd()	Computes  y <- Ax+y 
+m_zero()	Zero a matrix
+ON_ERROR()	Error handler (macro)
+prompter()	Print prompt message to  stdout
+px_cols()	Permute the columns of a matrix
+px_copy()	Copy permutation
+px_dump()	Dump permutation data structure to a stream
+px_finput()	Input permutation from a stream
+px_foutput()	Output permutation to a stream
+PX_FREE()	Free (deallocate) a permutation (macro)
+px_free()	Free (deallocate) permutation (function)
+px_free_vars()	Free a list of permutations
+px_get()	Allocate and initialise a permutation
+px_get_vars()	Allocate a list of permutations
+px_ident()	Sets permutation to identity
+px_input()	Input permutation from  stdin (macro)
+px_inv()	Invert permutation
+pxinv_vec()	Computes  P^Tx  where  P  is a permutation matrix
+pxinv_zvec()	Computes  P^Tx  where  P  is a permutation matrix (complex)
+px_mlt()	Multiply permutations
+px_output()	Output permutation to  stdout (macro)
+px_resize()	Resize a permutation
+px_resize_vars()	Resize a list of permutations
+px_rows()	Permute the rows of a matrix
+px_sign()	Returns the sign of the permutation
+px_transp()	Transpose a pair of entries
+px_vec()	Computes  Px  where  P  is a permutation matrix
+px_zvec()	Computes  Px  where  P  is a permutation matrix (complex)
+QRCPfactor()	QR factorisation with column pivoting
+QRfactor()	QR factorisation
+QRsolve()	Solve  Ax=b  using  QR  factorisation
+QRTsolve()	Solve  A^Tx=b  using  QR  factorisation
+QRupdate()	Update explicit  QR  factors
+rot_cols()	Apply Givens rotation to the columns of a matrix
+rot_rows()	Apply Givens rotation to the rows of a matrix
+rot_vec()	Apply Givens rotation to a vector
+rot_zvec()	Apply complex Givens rotation to a vector
+schur()		Compute real Schur form
+schur_evals()	Compute eigenvalues from the real Schur form
+schur_vecs()	Compute eigenvectors from the real Schur form
+set_col()	Set the column of a matrix to a given vector
+set_err_flag()	Control behaviour of  ev_err()
+set_row()	Set the row of a matrix to a given vector
+sm_mlt()	Scalar-matrix multiplication
+smrand()	Set seed for mrand()
+spBKPfactor()	Sparse symmetric indefinite factorsiation
+spBKPsolve()	Sparse symmetric indefinite solver
+spCHfactor()	Sparse Cholesky factorisation
+spCHsolve()	Sparse Cholesky solver
+spCHsymb()	Symbolic sparse Cholesky factorisation 
+		(no floating point operations)
+sp_col_access()	Sets up column access paths for a sparse matrix
+sp_compact()	Eliminates zero entries in a sparse matrix
+sp_copy()	Copies a sparse matrix
+sp_copy2()	Copies a sparse matrix into another
+sp_diag_access()	Sets up diagonal access paths for a sparse matrix
+sp_dump()	Dump sparse matrix data structure to a stream
+sp_finput()	Input sparse matrix from a stream
+sp_foutput()	Output a sparse matrix to a stream
+sp_free()	Free (deallocate) a sparse matrix
+sp_get()	Allocate and initialise a sparse matrix
+sp_get_val()	Get the  (i,j)  entry of a sparse matrix
+spICHfactor()	Sparse incomplete Cholesky factorisation
+sp_input()	Input a sparse matrix form  stdin
+spLUfactor()	Sparse  LU  factorisation using partial pivoting
+spLUsolve()	Solves  Ax=b  using sparse  LU  factors
+spLUTsolve()	Solves  A^Tx=b  using sparse  LU  factors
+sp_mv_mlt()	Computes  Ax  for sparse  A 
+sp_output()	Outputs a sparse matrix to a stream (macro)
+sp_resize()	Resize a sparse matrix
+sprow_add()	Adds a pair of sparse rows
+sprow_foutput()	Output sparse row to a stream
+sprow_get()	Allocate and initialise a sparse row
+sprow_get_idx()	Get location of an entry in a sparse row
+sprow_merge()	Merge two sparse rows
+sprow_mltadd()	Sparse row vector multiply-and-add
+sprow_set_val()	Set an entry in a sparse row
+sprow_smlt()	Multiplies a sparse row by a scalar
+sprow_sub()	Subtracts a sparse row from another
+sprow_xpd()	Expand a sparse row
+sp_set_val()	Set the  (i,j)  entry of a sparse matrix
+sp_vm_mlt()	Compute  x^TA  for sparse  A 
+sp_zero()	Zero (but do not remove) all entries of a sparse matrix
+svd()		Compute the SVD of a matrix
+sv_mlt()	Scalar-vector multiply
+symmeig()	Compute eigenvalues/vectors of a symmetric matrix
+tracecatch()	Catch and re-raise errors (macro)
+trieig()	Compute eigenvalues/vectors of a symmetric tridiagonal matrix
+Usolve()	Solve  Ux=b  where  U  is upper triangular
+UTsolve()	Solve  U^Tx=b  where  U  is upper triangular
+v_add()		Add vectors
+v_conv()	Convolution product of vectors
+v_copy()	Copy vector
+v_dump()	Dump vector data structure to a stream
+v_finput()	Input vector from a stream
+v_foutput()	Output vector to a stream
+V_FREE()	Free (deallocate) a vector (macro)
+v_free()	Free (deallocate) vector (function)
+v_free_vars()	Free a list of vectors
+v_get()		Allocate and initialise a vector
+v_get_vars()	Allocate list of vectors
+v_input()	Input vector from  stdin (macro)
+v_lincomb()	Compute  sum of a_i x_i  for an array of vectors
+v_linlist()	Compute  sum of a_i x_i  for a list of vectors
+v_map()		Apply function componentwise to a vector
+v_max()		Computes max vector entry and index
+v_min()		Computes min vector entry and index
+v_mltadd()	Computes  y <- alpha*x+y  for vectors  x ,  y 
+vm_mlt()	Computes  x^TA 
+vm_mltadd()	Computes  y^T <- y^T+x^TA 
+v_norm1()	Computes  ||x||_1  for a vector
+v_norm2()	Computes  ||x||_2  (the Euclidean norm) of a vector
+v_norm_inf()	Computes  ||x||_inf  for a vector
+v_ones()	Set vector to all 1's
+v_output()	Output vector to  stdout (macro)
+v_pconv()	Periodic convolution of two vectors
+v_rand()	Randomise entries of a vector
+v_resize()	Resize a vector
+v_resize_vars()	Resize a list of vectors
+v_save()	Save a vector in MATLAB format
+v_slash()	Computes componentwise ratio of vectors
+v_sort()	Sorts vector components
+v_star()	Componentwise vector product
+v_sub()		Subtract two vectors
+v_sum()		Sum of components of a vector
+v_zero()	Zero a vector
+zabs()		Complex absolute value (modulus)
+zadd()		Add complex numbers
+zconj()		Conjugate complex number
+zdiv()		Divide complex numbers
+zexp()		Complex exponential
+z_finput()	Read complex number from file or stream
+z_foutput()	Prints complex number to file or stream
+zgivens()	Compute complex Givens' rotation
+zhhtrcols()	Apply Householder transformation:  PA  (complex)
+zhhtrrows()	Apply Householder transformation:  AP  (complex)
+zhhtrvec()	Apply Householder transformation:  Px  (complex)
+zhhvec()	Compute Householder transformation
+zin_prod()	Complex inner product
+z_input()	Read complex number from stdin
+zinv()		Computes  1/z  (complex)
+zLAsolve()	Solve  L^*x=b ,  L  complex lower triangular
+zlog()		Complex logarithm
+zLsolve()	Solve  Lx=b ,  L  complex lower triangular
+zLUAsolve()	Solve  A^*x=b  using complex LU factorisation 
+		(A^* - adjoint of A, A is complex)
+zLUcondest()	Complex LU condition estimate
+zLUfactor()	Complex LU factorisation
+zLUsolve()	Solve  Ax=b  using complex LU factorisation
+zm_add()	Add complex matrices
+zm_adjoint()	Computes adjoint of complex matrix
+zmake()		Construct complex number from real and imaginary parts
+zmakeQ()	Construct  Q  matrix for complex  QR 
+zmakeR()	Construct  R  matrix for complex  QR 
+zmam_mlt()	Computes  A^*B  (complex)
+zm_dump()	Dump complex matrix to stream
+zm_finput()	Input complex matrix from stream
+ZM_FREE()	Free (deallocate) complex matrix (macro)
+zm_free()	Free (deallocate) complex matrix (function)
+zm_free_vars()	Free a list of complex matrices
+zm_get()	Allocate complex matrix
+zm_get_vars()	Allocate a list of complex matrices
+zm_input()	Input complex matrix from stdin
+zm_inverse()	Compute inverse of complex matrix
+zm_load()	Load complex matrix in MATLAB format
+zmlt()		Multiply complex numbers
+zmma_mlt()	Computes  AB^*  (complex)
+zm_mlt()	Multiply complex matrices
+zm_norm1()	Complex matrix 1-norm
+zm_norm_frob()	Complex matrix Frobenius norm
+zm_norm_inf()	Complex matrix infinity-norm
+zm_rand()	Randomise complex matrix
+zm_resize()	Resize complex matrix
+zm_resize_vars()	Resize a list of complex matrices
+zm_save()	Save complex matrix in MATLAB format
+zm_sub()	Subtract complex matrices
+zmv_mlt()	Complex matrix-vector multiply
+zmv_mltadd()	Complex matrix-vector multiply and add
+zm_zero()	Zero complex matrix
+zneg()		Computes  -z  (complex)
+z_output()	Print complex number to stdout
+zQRCPfactor()	Complex  QR  factorisation with column pivoting
+zQRCPsolve()	Solve  Ax = b  using complex  QR  factorisation
+zQRfactor()	Complex  QR  factorisation
+zQRAsolve()	Solve  A^*x = b  using complex  QR  factorisation
+zQRsolve()	Solve  Ax = b  using complex  QR  factorisation
+zrot_cols()	Complex Givens' rotation of columns
+zrot_rows()	Complex Givens' rotation of rows
+z_save()	Save complex number in MATLAB format
+zschur()	Complex Schur factorisation
+zset_col()	Set column of complex matrix
+zset_row()	Set row of complex matrix
+zsm_mlt()	Complex scalar-matrix product
+zsqrt()		Square root  z  (complex)
+zsub()		Subtract complex numbers
+zUAsolve()	Solve  U^*x=b ,  U  complex upper triangular
+zUsolve()	Solve  Ux=b ,  U  complex upper triangular
+zv_add()	Add complex vectors
+zv_copy()	Copy complex vector
+zv_dump()	Dump complex vector to a stream
+zv_finput()	Input complex vector from a stream
+ZV_FREE()	Free (deallocate) complex vector (macro)
+zv_free()	Free (deallocate) complex vector (function)
+zv_free_vars()	Free a list of complex vectors
+zv_get()	Allocate complex vector
+zv_get_vars()	Allocate a list of complex vectors
+zv_input()	Input complex vector from a stdin
+zv_lincomb()	Compute  sum of a_i x_i  for an array of vectors
+zv_linlist()	Compute  sum of a_i x_i  for a list of vectors
+zv_map()	Apply function componentwise to a complex vector
+zv_mlt()	Complex scalar-vector product
+zv_mltadd()	Complex scalar-vector multiply and add
+zvm_mlt()	Computes  A^*x  (complex)
+zvm_mltadd()	Computes  A^*x+y  (complex)
+zv_norm1()	Complex vector 1-norm	vnorm1()
+zv_norm2()	Complex vector 2-norm  (Euclidean norm)
+zv_norm_inf()	Complex vector infinity- (or supremum) norm
+zv_rand()	Randomise complex vector
+zv_resize()	Resize complex vector
+zv_resize_vars()	Resize a list of complex vectors
+zv_save()	Save complex vector in MATLAB format
+zv_slash()	Componentwise ratio of complex vectors
+zv_star()	Componentwise product of complex vectors
+zv_sub()	Subtract complex vectors
+zv_sum()	Sum of components of a complex vector
+zv_zero()	Zero complex vector
+
+
+
+			    Low level routines
+
+
+ Function	Description
+
+__add__()	Add arrays
+__ip__()	Inner product of arrays
+MEM_COPY()	Copy memory (macro)
+MEM_ZERO()	Zero memory (macro)
+__mltadd__()	Forms  x+ alpha*y  for arrays
+__smlt__()	Scalar-vector multiplication for arrays
+__sub__()	Subtract an array from another
+__zadd__()	Add complex arrays
+__zconj__()	Conjugate complex array
+__zero__()	Zero an array
+__zip__()	Complex inner product of arrays
+__zmlt__()	Complex array scalar product
+__zmltadd__()	Complex array saxpy
+__zsub__()	Subtract complex arrays
+__zzero__()	Zero a complex array
+
+

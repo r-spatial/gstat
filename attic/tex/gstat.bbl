@@ -1,0 +1,172 @@
+\begin{thebibliography}{26}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Carr and Palmer(1993)]{carr93}
+J.R. Carr and J.A. Palmer.
+\newblock Revisiting the accurate calculation of block-sample covariances using
+  gauss quadrature.
+\newblock \emph{Mathematical Geology}, 25\penalty0 (5):\penalty0 507--524,
+  1993.
+
+\bibitem[Christensen(1993)]{christensen93}
+R.~Christensen.
+\newblock Quadratic covariance estimation and equivalence of predictions.
+\newblock \emph{Mathematical Geology}, 25\penalty0 (5):\penalty0 541--558,
+  1993.
+
+\bibitem[Christensen(1996)]{christensen96}
+R.~Christensen.
+\newblock \emph{Plane answers to complex questions: the theory of linear
+  models}.
+\newblock Springer-Verlag, New York, second edition, 1996.
+
+\bibitem[Cressie(1985)]{cressie85}
+N.~Cressie.
+\newblock Fitting variogram models by weighted least squares.
+\newblock \emph{Mathematical Geology}, 17\penalty0 (5):\penalty0 563--586,
+  1985.
+
+\bibitem[Cressie(1993)]{cressie93}
+N.~Cressie.
+\newblock \emph{Statistics for Spatial Data, Revised edition}.
+\newblock John Wiley and Sons, Inc., 1993.
+
+\bibitem[Davis(1987)]{davis87}
+M.~Davis.
+\newblock Production of conditional simulation via the lu triangular
+  decomposition of the covariance matrix.
+\newblock \emph{Mathematical Geology}, 19\penalty0 (2):\penalty0 99--107, 1987.
+
+\bibitem[Delhomme(1978)]{delhomme78}
+J.P. Delhomme.
+\newblock Kriging in the hydrosciences.
+\newblock \emph{Advances in Water Resources}, 1\penalty0 (5):\penalty0
+  251--266, 1978.
+
+\bibitem[Deutsch and Journel(1992)]{deutsch92}
+C.~Deutsch and A.G. Journel.
+\newblock \emph{GSLIB: Geostatistical Software Library and User's Guide}.
+\newblock Oxford University Press, New York, 1992.
+
+\bibitem[G\'{o}mez-Hern\'{a}ndez and Journel(1993)]{gomez93}
+J.J. G\'{o}mez-Hern\'{a}ndez and A.~G. Journel.
+\newblock Joint sequential simulation of multigaussian fields.
+\newblock In A.~Soares, editor, \emph{Geostatistics Troia '92, I.}, pages
+  85--94, 1993.
+
+\bibitem[Goovaerts(1997)]{goovaerts97}
+P.~Goovaerts.
+\newblock \emph{Geostatistics for natural resources evaluation}.
+\newblock Oxford University Press, 1997.
+
+\bibitem[Hjaltason and Samet(1995)]{hjaltason95}
+G.~Hjaltason and H.~Samet.
+\newblock Ranking in spatial databases.
+\newblock In M.~J. Egenhofer and J.~R. Herring, editors, \emph{Advances in
+  Spatial Databases - 4th Symposium, SSD'95}, number 951 in Lecture Notes in
+  Computer Science, pages 83--95. Springer-Verlag, Berlin, 1995.
+
+\bibitem[Isaaks and Strivastava(1989)]{isaaks}
+E.H. Isaaks and R.M. Strivastava.
+\newblock \emph{An introduction to Applied Geostatistics}.
+\newblock Oxford University Press, 1989.
+
+\bibitem[Journel and Huijbregts(1978)]{journel78}
+A.G. Journel and Ch.J. Huijbregts.
+\newblock \emph{Mining Geostatistics}.
+\newblock Academic Press, London, 1978.
+
+\bibitem[Joyce et~al.(1997)Joyce, Wallerman, and Olson]{joyce97:edges}
+Stephen Joyce, J\"{o}rgen Wallerman, and H{\aa}kan Olson.
+\newblock Edges and raster surfaces -- a new mix of data structures for
+  representing forestry information.
+\newblock In \emph{18th ICA/ACI International Cartographic Conference},
+  Stockholm, Sweden, June 23-27 1997.
+\newblock Available at \url{http://www.resgeom.slu.se/~fjasj/iCC-97.htm}.
+
+\bibitem[Kitanidis(1985)]{kitanidis85}
+P.~Kitanidis.
+\newblock Minimum-variance quadratic estimation of covariances of regionalized
+  variables.
+\newblock \emph{Mathematical Geology}, 17\penalty0 (2):\penalty0 195--208,
+  1985.
+
+\bibitem[McKay et~al.(1979)McKay, Beckman, and Conover]{mckay79}
+M.D. McKay, R.J. Beckman, and W.J. Conover.
+\newblock A comparison of three methods for selecting values of input variables
+  in the analysis of output from a computer code.
+\newblock \emph{Technometrics}, 21\penalty0 (2):\penalty0 239--245, 1979.
+
+\bibitem[Myers(1989)]{myers89}
+D.E. Myers.
+\newblock Vector conditional simulation.
+\newblock In M.~Armstrong (ed.), editor, \emph{Geostatistics}, pages 282--293,
+  1989.
+
+\bibitem[O'Rourke(1998)]{rourke:compgeom}
+Joseph O'Rourke.
+\newblock \emph{Computational Geometry in C}.
+\newblock Cambridge University Press, 2 edition, September 1998.
+\newblock Software available at
+  \url{http://cs.smith.edu/~orourke/books/ftp.html}.
+
+\bibitem[O'Rourke(year missing)]{faq:cg}
+Joseph O'Rourke.
+\newblock Computational {G}eometry {FAQ}, year missing.
+\newblock \url{http://www.exaflop.org/docs/cgafaq}.
+
+\bibitem[Pebesma(1996)]{pebesma96}
+E.J. Pebesma.
+\newblock \emph{Mapping Groundwater Quality in the Netherlands}, volume 199 of
+  \emph{Netherlands Geographical Studies}.
+\newblock Utrecht University, 1996.
+\newblock (Ordering information available at \htmladdnormallink
+  {\code{http://www.geog.uu.nl/ngs/ngs.html}}
+  {http://www.geog.uu.nl/ngs/ngs.html}).
+
+\bibitem[Pebesma and Heuvelink(1999)]{pebesmalhs98}
+E.J. Pebesma and G.B.M. Heuvelink.
+\newblock Latin hypercube sampling of multigaussian random fields.
+\newblock \emph{Technometrics}, 41\penalty0 (4):\penalty0 303--312, 1999.
+
+\bibitem[Pebesma and Wesseling(1998)]{pebesma98}
+E.J. Pebesma and C.G. Wesseling.
+\newblock Gstat, a program for geostatistical modelling, prediction and
+  simulation.
+\newblock \emph{Computers and Geosciences}, 24\penalty0 (1):\penalty0 17--31,
+  1998.
+
+\bibitem[Stein(1987)]{stein87}
+M.L. Stein.
+\newblock Large sample properties of simulations using latin hypercube
+  sampling.
+\newblock \emph{Technometrics}, 29\penalty0 (2):\penalty0 143--151, 1987.
+
+\bibitem[Stewart and Leyk(1994)]{stewart94}
+D.E. Stewart and Z.~Leyk.
+\newblock \emph{Meschach: Matrix Computations in C}.
+\newblock Proceedings of the Centre for Mathematics and its Applications,
+  Volume 32. Australian National University, 1994.
+\newblock Online information available at \htmladdnormallink
+  {\code{ftp://thrain.anu.edu.au/pub/meschach}}
+  {ftp://thrain.anu.edu.au/pub/meschach}.
+
+\bibitem[Van~Deursen and Wesseling(1992)]{vandeursen92}
+W.P.A. Van~Deursen and C.G. Wesseling.
+\newblock \emph{The PC-RASTER Package}.
+\newblock Department of Physical Geography, University of Utrecht, 1992.
+\newblock Online information available at \htmladdnormallink
+  {\code{http://www.geog.uu.nl/pcraster.html}}
+  {http://www.geog.uu.nl/pcraster.html}.
+
+\bibitem[Ver~Hoef and Cressie(1993)]{verhoef93}
+J.M. Ver~Hoef and N.~Cressie.
+\newblock Multivariable spatial prediction.
+\newblock \emph{Mathematical Geology}, 25\penalty0 (2):\penalty0 219--240,
+  1993.
+
+\end{thebibliography}

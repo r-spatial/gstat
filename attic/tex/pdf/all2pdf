@@ -1,0 +1,5 @@
+for f in `ls *eps`
+do
+ echo $f
+ epstopdf $f
+done

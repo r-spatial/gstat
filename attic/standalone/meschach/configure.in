@@ -1,0 +1,82 @@
+dnl Meschach autoconf script
+dnl Copyright (C) Brook Milligan and David Stewart, 1993
+dnl $Id: configure.in,v 1.1.1.1 2003-06-23 18:32:07 cees Exp $
+dnl ----------------------------------------------------------------------
+dnl Start of configure.in proper
+dnl ----------------------------------------------------------------------
+AC_INIT(err.c)
+AC_CONFIG_HEADER(machine.h:machine.hin)
+PROGS=""
+AC_SUBST(PROGS)dnl
+AC_PROG_CC
+AC_PROG_CPP
+AC_AIX
+AC_MINIX
+AC_ISC_POSIX
+dnl
+dnl Brook Milligan's prototype check
+dnl Check if $(CC) supports prototypes in function declarations and structures
+define(LOCAL_HAVE_PROTOTYPES,
+[AC_COMPILE_CHECK([function prototypes], ,
+[extern int test (int i, double x);],
+AC_DEFINE(HAVE_PROTOTYPES))
+AC_COMPILE_CHECK([function prototypes in structures], ,
+[struct s1 {int (*f) (int a);};
+struct s2 {int (*f) (double a);};],
+AC_DEFINE(HAVE_PROTOTYPES_IN_STRUCT))])dnl
+dnl
+AC_PROG_RANLIB
+AC_HAVE_HEADERS(memory.h)
+AC_STDC_HEADERS
+AM_C_PROTOTYPES
+AC_C_CONST
+dnl this shell variable is set to no if above failed to set
+dnl compiler to ansi mode (see aclocal.m4)
+if test "$am_cv_prog_cc_stdc" != no; then
+  AC_DEFINE(ANSI_C)
+fi
+AC_HEADER_CHECK(complex.h, AC_DEFINE(HAVE_COMPLEX_H),)
+AC_HEADER_CHECK(malloc.h, AC_DEFINE(HAVE_MALLOC_H),)
+AC_HEADER_CHECK(varargs.h, AC_DEFINE(VARARGS),)
+AC_DEFINE(NOT_SEGMENTED)
+AC_SIZE_T
+AC_CONST
+AC_WORDS_BIGENDIAN
+AC_ARG_WITH(complex, [  --with-complex     incorporate complex functions], AC_DEFINE(COMPLEX))
+AC_ARG_WITH(sparse,  [  --with-sparse      incorporate sparse matrix functions], AC_DEFINE(SPARSE))
+AC_ARG_WITH(all,     [  --with-all         both of the above], AC_DEFINE(COMPLEX)
+ AC_DEFINE(SPARSE))
+AC_ARG_WITH(unroll,  [  --with-unroll      unroll low level loops on vectors], AC_DEFINE(VUNROLL))
+AC_ARG_WITH(munroll, [  --with-munroll     unroll low level loops on matrices], AC_DEFINE(MUNROLL))
+AC_ARG_WITH(segmem,  [  --with-segmem      segmented memory], AC_DEFINE(SEGMENTED))
+AC_ARG_WITH(float,   [  --with-float       single precision], AC_DEFINE(REAL_FLT))
+AC_ARG_WITH(double,  [  --with-double      double precision (default)], AC_DEFINE(REAL_DBL))
+LIBS="$LIBS -lm"
+AC_COMPILE_CHECK([u_int],[#include <stdio.h>
+#ifdef __STDC__
+#include <stdlib.h>
+#endif
+#include <setjmp.h>],[u_int i; i = 1;], AC_DEFINE(U_INT_DEF))
+echo 'computing machine epsilon(s)'
+echo $CC -o macheps dmacheps.c
+$CC -o macheps dmacheps.c
+AC_DEFINE_UNQUOTED(D_MACHEPS,`./macheps`)
+echo $CC -o macheps fmacheps.c
+$CC -o macheps fmacheps.c
+AC_DEFINE_UNQUOTED(F_MACHEPS,`./macheps`)
+echo computing M_MAX_INT
+echo $CC -o maxint maxint.c
+$CC -o maxint maxint.c
+AC_DEFINE_UNQUOTED(M_MAX_INT,`./maxint`)
+echo checking char '\\0' vs. float zeros
+AC_PROGRAM_EGREP(yes,[main() {
+    char	*cp = "\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0";
+    double	*dp;
+    dp = (double *)cp;
+    if ( *dp == 0.0 ) printf("yes\n");  }
+],AC_DEFINE(CHAR0ISDBL0))
+AC_HAVE_FUNCS(bcopy bzero)
+LOCAL_HAVE_PROTOTYPES
+AC_OUTPUT(makefile)
+
+# configure.in copyright (C) Brook Milligan and David Stewart, 1993

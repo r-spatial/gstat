@@ -1,0 +1,4 @@
+newgraph
+title : 1 Per(1)
+newline pts
+	shell : gstat -e semivariance '1 per(1)' 0 2 100

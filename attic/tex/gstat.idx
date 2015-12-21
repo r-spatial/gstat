@@ -1,0 +1,315 @@
+\indexentry{invoking gstat|hyperpage}{11}
+\indexentry{command files|hyperpage}{11}
+\indexentry{data format|hyperpage}{12}
+\indexentry{map format|hyperpage}{12}
+\indexentry{grid map format|hyperpage}{12}
+\indexentry{pcraster|hyperpage}{12}
+\indexentry{idrisi|hyperpage}{12}
+\indexentry{arc-info|hyperpage}{12}
+\indexentry{asciigrid|hyperpage}{12}
+\indexentry{floatgrid|hyperpage}{12}
+\indexentry{program action, default|hyperpage}{13}
+\indexentry{default program action|hyperpage}{13}
+\indexentry{variogram modelling|hyperpage}{14}
+\indexentry{interactive variogram modelling|hyperpage}{14}
+\indexentry{variogram!modelling|hyperpage}{14}
+\indexentry{save variogram plot|hyperpage}{15}
+\indexentry{variogram!save plot as|hyperpage}{15}
+\indexentry{gnuplot|hyperpage}{15}
+\indexentry{variogram!sample!non-interactive|hyperpage}{16}
+\indexentry{covariogram!sample!non-interactive|hyperpage}{16}
+\indexentry{variogram!maps|hyperpage}{16}
+\indexentry{prediction|hyperpage}{17}
+\indexentry{inverse distance weighted interpolation|hyperpage}{17}
+\indexentry{kriging|hyperpage}{17}
+\indexentry{kriging, ordinary|hyperpage}{17}
+\indexentry{kriging, simple|hyperpage}{17}
+\indexentry{kriging, simple|hyperpage}{17}
+\indexentry{kriging!local|hyperpage}{17}
+\indexentry{prediction!local|hyperpage}{17}
+\indexentry{neighbourhood!selection|hyperpage}{17}
+\indexentry{local neighbourhood|hyperpage}{17}
+\indexentry{simulation|hyperpage}{19}
+\indexentry{simulation!sequential|hyperpage}{19}
+\indexentry{simulation!local neighbourhood|hyperpage}{20}
+\indexentry{simulation!number of realizations|hyperpage}{20}
+\indexentry{simulation!random path|hyperpage}{20}
+\indexentry{simulation!variogram reproduction|hyperpage}{20}
+\indexentry{simulation!varying mean|hyperpage}{20}
+\indexentry{simulation!block averages|hyperpage}{21}
+\indexentry{simulation!indicator|hyperpage}{21}
+\indexentry{indicator simulation|hyperpage}{21}
+\indexentry{indicator simulation!categorical|hyperpage}{21}
+\indexentry{indicator simulation!cumulative|hyperpage}{21}
+\indexentry{indicator simulation!independent|hyperpage}{21}
+\indexentry{indicator simulation!order relation violations|hyperpage}{22}
+\indexentry{linear models|hyperpage}{22}
+\indexentry{trend|hyperpage}{22}
+\indexentry{trend!constant|hyperpage}{22}
+\indexentry{trend!varying|hyperpage}{22}
+\indexentry{external drift|hyperpage}{22}
+\indexentry{universal kriging|hyperpage}{22}
+\indexentry{kriging!universal|hyperpage}{22}
+\indexentry{base functions|hyperpage}{22}
+\indexentry{base functions|hyperpage}{23}
+\indexentry{base functions!coordinate polynomials|hyperpage}{23}
+\indexentry{trend!coordinate polynomials|hyperpage}{23}
+\indexentry{base functions!arbitrary|hyperpage}{23}
+\indexentry{trend!arbitrary base functions|hyperpage}{23}
+\indexentry{linear model!independent residuals|hyperpage}{24}
+\indexentry{trend!ordinary least squares|hyperpage}{24}
+\indexentry{trend!weighted least squares|hyperpage}{24}
+\indexentry{ordinary least squares|hyperpage}{24}
+\indexentry{weighted least squares|hyperpage}{24}
+\indexentry{trend!generalised least squares|hyperpage}{24}
+\indexentry{generalised least squares|hyperpage}{24}
+\indexentry{variogram!OLS/WLS/GLS residual|hyperpage}{25}
+\indexentry{prediction!modes|hyperpage}{27}
+\indexentry{prediction!multiple|hyperpage}{27}
+\indexentry{simulation!multiple|hyperpage}{27}
+\indexentry{prediction!multivariable|hyperpage}{28}
+\indexentry{simulation!multivariable|hyperpage}{28}
+\indexentry{prediction!stratified|hyperpage}{28}
+\indexentry{simulation!stratified|hyperpage}{28}
+\indexentry{change of support|hyperpage}{29}
+\indexentry{support, change of|hyperpage}{29}
+\indexentry{kriging!block|hyperpage}{29}
+\indexentry{simulation!block|hyperpage}{29}
+\indexentry{blocksize!specifying|hyperpage}{29}
+\indexentry{block discretization|hyperpage}{29}
+\indexentry{command file syntax|hyperpage}{31}
+\indexentry{identifiers|hyperpage}{31}
+\indexentry{command file!comment|hyperpage}{31}
+\indexentry{variogram!sample!irregular interval bounds|hyperpage}{32}
+\indexentry{bounds@\texttt  {bounds}|hyperpage}{32}
+\indexentry{prediction!at mask map locations|hyperpage}{32}
+\indexentry{kriging!at mask map locations|hyperpage}{32}
+\indexentry{simulation!at mask map locations|hyperpage}{32}
+\indexentry{mask@\texttt  {mask}|hyperpage}{32}
+\indexentry{gridded prediction locations|hyperpage}{32}
+\indexentry{base functions!at mask map locations|hyperpage}{32}
+\indexentry{prediction!output maps|hyperpage}{32}
+\indexentry{predictions@\texttt  {predictions}|hyperpage}{32}
+\indexentry{estimates@\texttt  {estimates}|hyperpage}{32}
+\indexentry{variances@\texttt  {variances}|hyperpage}{32}
+\indexentry{covariances@\texttt  {covariances}|hyperpage}{32}
+\indexentry{prediction!non-gridded, \code{data()}|hyperpage}{32}
+\indexentry{simulation!non-gridded, \code{data()}|hyperpage}{32}
+\indexentry{blocksize@\texttt  {blocksize}|hyperpage}{32}
+\indexentry{edges@\texttt  {edges}|hyperpage}{32}
+\indexentry{area@\texttt  {area}|hyperpage}{33}
+\indexentry{prediction!common parameters|hyperpage}{33}
+\indexentry{merge@\texttt  {merge}|hyperpage}{33}
+\indexentry{data@\texttt  {data}|hyperpage}{33}
+\indexentry{observations, see data|hyperpage}{33}
+\indexentry{measurements, see data|hyperpage}{33}
+\indexentry{v@\texttt  {v}|hyperpage}{33}
+\indexentry{data!x-coordinate|hyperpage}{33}
+\indexentry{x@\texttt  {x}|hyperpage}{33}
+\indexentry{data!y-coordinate|hyperpage}{33}
+\indexentry{y@\texttt  {y}|hyperpage}{33}
+\indexentry{data!z-coordinate|hyperpage}{33}
+\indexentry{z@\texttt  {z}|hyperpage}{33}
+\indexentry{data!trend order, \code{d}|hyperpage}{33}
+\indexentry{trend!order, \code{d}|hyperpage}{33}
+\indexentry{d@\texttt  {d}|hyperpage}{33}
+\indexentry{data!missing value|hyperpage}{33}
+\indexentry{missing value!number, \code{mv}|hyperpage}{33}
+\indexentry{mv@\texttt  {mv}|hyperpage}{33}
+\indexentry{data!averaging coinciding points|hyperpage}{34}
+\indexentry{average@\texttt  {average}|hyperpage}{34}
+\indexentry{data!log-transform|hyperpage}{34}
+\indexentry{log-transform data|hyperpage}{34}
+\indexentry{log@\texttt  {log}|hyperpage}{34}
+\indexentry{data!indicator-transform|hyperpage}{34}
+\indexentry{indicator transform|hyperpage}{34}
+\indexentry{I@\texttt  {I}|hyperpage}{34}
+\indexentry{data!category indicator transform|hyperpage}{34}
+\indexentry{category indicator transform|hyperpage}{34}
+\indexentry{Category@\texttt  {Category}|hyperpage}{34}
+\indexentry{data!normal score transform|hyperpage}{34}
+\indexentry{normal score transform|hyperpage}{34}
+\indexentry{ns@\texttt  {ns}|hyperpage}{34}
+\indexentry{data!standardise|hyperpage}{34}
+\indexentry{standardise data variable|hyperpage}{34}
+\indexentry{standard@\texttt  {standard}|hyperpage}{34}
+\indexentry{data!base functions, \code{X}|hyperpage}{34}
+\indexentry{X@\texttt  {X}|hyperpage}{34}
+\indexentry{data!base functions!omit intercept|hyperpage}{34}
+\indexentry{data!base functions!known coefficients|hyperpage}{35}
+\indexentry{data!known regression coefficients|hyperpage}{35}
+\indexentry{b@\texttt  {b}|hyperpage}{35}
+\indexentry{data!data weights, \code{V}|hyperpage}{35}
+\indexentry{data!measurement error, \code{V}|hyperpage}{35}
+\indexentry{V@\texttt  {V}|hyperpage}{35}
+\indexentry{data!sampling, \code{every}, \code{offset}, \code{prob}|hyperpage}{35}
+\indexentry{sampling data, \code{every}, \code{offset}, \code{prob}|hyperpage}{35}
+\indexentry{every@\texttt  {every}|hyperpage}{35}
+\indexentry{offset@\texttt  {offset}|hyperpage}{35}
+\indexentry{prob@\texttt  {prob}|hyperpage}{35}
+\indexentry{variogram!residual|hyperpage}{35}
+\indexentry{noresidual@\texttt  {noresidual}|hyperpage}{35}
+\indexentry{variogram!pooled, \code{dX}|hyperpage}{35}
+\indexentry{variogram!near replicates, \code{dX}|hyperpage}{35}
+\indexentry{dX@\texttt  {dX}|hyperpage}{35}
+\indexentry{data!neigbourhood|hyperindexformat{\see{neighbourhood}}}{36}
+\indexentry{neighbourhood!radius|hyperpage}{36}
+\indexentry{radius@\texttt  {radius}|hyperpage}{36}
+\indexentry{neighbourhood!max nr observations|hyperpage}{36}
+\indexentry{max@\texttt  {max}|hyperpage}{36}
+\indexentry{neighbourhood!min nr observations|hyperpage}{36}
+\indexentry{min@\texttt  {min}|hyperpage}{36}
+\indexentry{neighbourhood!octant search|hyperpage}{36}
+\indexentry{neighbourhood!quadrant search|hyperpage}{36}
+\indexentry{omax@\texttt  {omax}|hyperpage}{36}
+\indexentry{neighbourhood!square|hyperpage}{36}
+\indexentry{square@\texttt  {square}|hyperpage}{36}
+\indexentry{neighbourhood!variogram distance, \code{vdist}|hyperpage}{36}
+\indexentry{vdist@\texttt  {vdist}|hyperpage}{36}
+\indexentry{neighbourhood!force minimum size|hyperpage}{36}
+\indexentry{force@\texttt  {force}|hyperpage}{36}
+\indexentry{data!strata column, \code{s}|hyperpage}{36}
+\indexentry{s@\texttt  {s}|hyperpage}{36}
+\indexentry{kriging!simple kriging mean, \code{sk\_mean}|hyperpage}{36}
+\indexentry{simple kriging mean, \code{sk\_mean}|hyperpage}{36}
+\indexentry{skXmean@\texttt  {sk\_mean}|hyperpage}{36}
+\indexentry{data!dummy|hyperpage}{36}
+\indexentry{data!empty variable, \code{dummy}|hyperpage}{36}
+\indexentry{dummy@\texttt  {dummy}|hyperpage}{36}
+\indexentry{variogram@\texttt  {variogram}|hyperpage}{36}
+\indexentry{variogram!models!table|hyperpage}{38}
+\indexentry{variogram!models!figure|hyperpage}{39}
+\indexentry{variogram!geometric anisotropy|hyperpage}{39}
+\indexentry{anisotropy!geometric|hyperpage}{39}
+\indexentry{variogram!zonal anisotropy|hyperpage}{40}
+\indexentry{anisotropy!zonal|hyperpage}{40}
+\indexentry{set@\texttt  {set}|hyperpage}{40}
+\indexentry{set {\em parameter} = {\em value}|hyperpage}{40}
+\indexentry{debug@\texttt  {debug}|hyperpage}{41}
+\indexentry{cnXmax@\texttt  {cn\_max}|hyperpage}{41}
+\indexentry{logfile@\texttt  {logfile}|hyperpage}{41}
+\indexentry{missing value!string, \code{set mv}|hyperpage}{41}
+\indexentry{output file name@\code{output} file name|hyperpage}{41}
+\indexentry{output@\texttt  {output}|hyperpage}{41}
+\indexentry{plotting kriging weights|hyperpage}{41}
+\indexentry{plotfile@\texttt  {plotfile}|hyperpage}{41}
+\indexentry{zero@\texttt  {zero}|hyperpage}{41}
+\indexentry{marginals@\texttt  {marginals}|hyperpage}{41}
+\indexentry{directional variogram|hyperindexformat{\see{\iskey{alpha}, \iskey{beta}, \isXkey{tol\_hor}{tolXhor}, \isXkey{tol\_ver}{tolXver}}}}{41}
+\indexentry{variogram!directional|hyperindexformat{\see{directional}}}{41}
+\indexentry{alpha@\texttt  {alpha}|hyperpage}{41}
+\indexentry{beta@\texttt  {beta}|hyperpage}{42}
+\indexentry{robust variogram estimator, \iskey{Cressie}|hyperpage}{42}
+\indexentry{variogram!cressie's robust estimator|hyperpage}{42}
+\indexentry{Cressie@\texttt  {Cressie}|hyperpage}{42}
+\indexentry{variogram!cutoff, max. distance|hyperpage}{42}
+\indexentry{cutoff@\texttt  {cutoff}|hyperpage}{42}
+\indexentry{dots@\texttt  {dots}|hyperpage}{42}
+\indexentry{variogram!modelling!fit method|hyperpage}{42}
+\indexentry{fit@\texttt  {fit}|hyperpage}{42}
+\indexentry{fitXlimit@\texttt  {fit\_limit}|hyperpage}{42}
+\indexentry{format@\texttt  {format}|hyperpage}{42}
+\indexentry{fraction@\texttt  {fraction}|hyperpage}{42}
+\indexentry{gnuplot@\texttt  {gnuplot}|hyperpage}{42}
+\indexentry{gnuplot35@\texttt  {gnuplot35}|hyperpage}{43}
+\indexentry{gnuplot!output device, \code{gpterm}|hyperpage}{43}
+\indexentry{gpterm@\texttt  {gpterm}|hyperpage}{43}
+\indexentry{variogram!number of intervals, \code{intervals}|hyperpage}{43}
+\indexentry{variogram!max distance, \code{intervals}|hyperpage}{43}
+\indexentry{intervals@\texttt  {intervals}|hyperpage}{43}
+\indexentry{variogram!modelling!iterations in fitting|hyperpage}{43}
+\indexentry{iter@\texttt  {iter}|hyperpage}{43}
+\indexentry{pager@\texttt  {pager}|hyperpage}{43}
+\indexentry{secure@\texttt  {secure}|hyperpage}{43}
+\indexentry{variogram!symmetric or asymmetric|hyperpage}{43}
+\indexentry{covariogram!symmetric or asymmetric|hyperpage}{43}
+\indexentry{sym@\texttt  {sym}|hyperpage}{43}
+\indexentry{tolXhor@\texttt  {tol\_hor}|hyperpage}{43}
+\indexentry{tolXver@\texttt  {tol\_ver}|hyperpage}{43}
+\indexentry{variogram!interval \code{width}|hyperpage}{43}
+\indexentry{width@\texttt  {width}|hyperpage}{43}
+\indexentry{residuals, generalised least squares|hyperpage}{43}
+\indexentry{gls@\texttt  {gls}|hyperpage}{43}
+\indexentry{zeroXdist@\texttt  {zero\_dist}|hyperpage}{43}
+\indexentry{inverse distance power, \code{idp}|hyperpage}{44}
+\indexentry{idp@\texttt  {idp}|hyperpage}{44}
+\indexentry{block discretization, \code{nblockdiscr}|hyperpage}{44}
+\indexentry{nblockdiscr@\texttt  {nblockdiscr}|hyperpage}{44}
+\indexentry{simulation!multiple realisations|hyperpage}{44}
+\indexentry{multiple realisations|hyperpage}{44}
+\indexentry{nsim@\texttt  {nsim}|hyperpage}{44}
+\indexentry{nXuk@\texttt  {n\_uk}|hyperpage}{44}
+\indexentry{order@\texttt  {order}|hyperpage}{44}
+\indexentry{\code{plotting kriging weights}|hyperpage}{44}
+\indexentry{plotweights@\texttt  {plotweights}|hyperpage}{44}
+\indexentry{local quantile estimation|hyperpage}{44}
+\indexentry{quantile estimation|hyperpage}{44}
+\indexentry{quantile@\texttt  {quantile}|hyperpage}{44}
+\indexentry{random path, \code{rp}|hyperpage}{44}
+\indexentry{rp@\texttt  {rp}|hyperpage}{44}
+\indexentry{random number \code{seed}, \code{useed}|hyperpage}{45}
+\indexentry{seed@\texttt  {seed}|hyperpage}{45}
+\indexentry{useed@\texttt  {useed}|hyperpage}{45}
+\indexentry{sparse@\texttt  {sparse}|hyperpage}{45}
+\indexentry{cross validation, \iskey{xvalid}|hyperpage}{45}
+\indexentry{xvalid@\texttt  {xvalid}|hyperpage}{45}
+\indexentry{height of mask map|hyperpage}{45}
+\indexentry{zmap@\texttt  {zmap}|hyperpage}{45}
+\indexentry{Latin hypercube sampling|hyperpage}{45}
+\indexentry{lhs@\texttt  {lhs}|hyperpage}{45}
+\indexentry{nocheck@\texttt  {nocheck}|hyperpage}{45}
+\indexentry{method@\texttt  {method}|hyperpage}{45}
+\indexentry{prediction!method|hyperpage}{45}
+\indexentry{simulation!Gaussian, \iskey{gs}|hyperpage}{45}
+\indexentry{Gaussian simulation, \iskey{gs}|hyperpage}{45}
+\indexentry{gs@\texttt  {gs}|hyperpage}{45}
+\indexentry{simulation!indicator, \iskey{is}|hyperpage}{45}
+\indexentry{is@\texttt  {is}|hyperpage}{45}
+\indexentry{variogram!sample|hyperpage}{45}
+\indexentry{sample variogram|hyperpage}{45}
+\indexentry{semivariogram@\texttt  {semivariogram}|hyperpage}{45}
+\indexentry{covariogram!sample|hyperpage}{45}
+\indexentry{sample covariogram|hyperpage}{45}
+\indexentry{covariogram@\texttt  {covariogram}|hyperpage}{45}
+\indexentry{trend!estimation|hyperpage}{45}
+\indexentry{trend@\texttt  {trend}|hyperpage}{45}
+\indexentry{map values at data locations|hyperpage}{46}
+\indexentry{map@\texttt  {map}|hyperpage}{46}
+\indexentry{distance to prediction locations|hyperpage}{46}
+\indexentry{distance@\texttt  {distance}|hyperpage}{46}
+\indexentry{neighbourhood!size as prediction value \iskey{nr}|hyperpage}{46}
+\indexentry{nr@\texttt  {nr}|hyperpage}{46}
+\indexentry{local diversity, \code{div}|hyperpage}{46}
+\indexentry{div@\texttt  {div}|hyperpage}{46}
+\indexentry{med@\texttt  {med}|hyperpage}{46}
+\indexentry{skew@\texttt  {skew}|hyperpage}{46}
+\indexentry{point-in-polygon@\texttt  {point-in-polygon}|hyperpage}{46}
+\indexentry{start up files|hyperpage}{47}
+\indexentry{command line options|hyperpage}{47}
+\indexentry{random number generators|hyperpage}{48}
+\indexentry{special file names|hyperpage}{49}
+\indexentry{temporary files|hyperpage}{49}
+\indexentry{pipes|hyperpage}{49}
+\indexentry{awk|hyperpage}{49}
+\indexentry{actions|hyperpage}{50}
+\indexentry{cover@\texttt  {cover}|hyperpage}{50}
+\indexentry{convert@\texttt  {convert}|hyperpage}{50}
+\indexentry{nominal@\texttt  {nominal}|hyperpage}{50}
+\indexentry{map2fig@\texttt  {map2fig}|hyperpage}{50}
+\indexentry{map2gif@\texttt  {map2gif}|hyperpage}{50}
+\indexentry{map2png@\texttt  {map2png}|hyperpage}{50}
+\indexentry{semivariance@\texttt  {semivariance}|hyperpage}{50}
+\indexentry{covariance@\texttt  {covariance}|hyperpage}{50}
+\indexentry{statistics@\texttt  {statistics}|hyperpage}{51}
+\indexentry{configure|hyperpage}{51}
+\indexentry{installing!gstat|hyperpage}{51}
+\indexentry{installing!gnuplot|hyperpage}{51}
+\indexentry{library!csf|hyperpage}{51}
+\indexentry{library!meschach|hyperpage}{51}
+\indexentry{library!gd|hyperpage}{51}
+\indexentry{meschach matrix library|hyperpage}{51}
+\indexentry{example command files|hyperpage}{53}
+\indexentry{variogram!sample!equations|hyperpage}{69}
+\indexentry{covariogram!sample!equations|hyperpage}{69}
+\indexentry{kriging!equations|hyperpage}{71}
+\indexentry{prediction!equations|hyperpage}{71}

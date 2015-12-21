@@ -1,0 +1,41 @@
+first: all
+
+LIB_TARGET=meschach
+
+machine.h: machine.h.bcc
+	cp machine.h.bcc machine.h
+
+# 	mfunc.o 
+
+# minimal stuff copied from makefile in gstat/src
+OBJS = \
+	chfactor.o \
+	copy.o \
+	err.o \
+	hsehldr.o \
+	init.o \
+	ivecop.o \
+	lufactor.o \
+	machine.o \
+	matop.o \
+	matrixio.o \
+	meminfo.o \
+	memory.o \
+	memstat.o \
+	norm.o \
+	otherio.o \
+	pxop.o \
+	qrfactor.o \
+	solve.o \
+	sparse.o \
+	sparseio.o \
+	spbkp.o \
+	spchfctr.o \
+	splufctr.o \
+	sprow.o \
+	spswap.o \
+	submat.o \
+	vecop.o \
+	version.o
+
+include $(PCRTREE)/template/make/epilog

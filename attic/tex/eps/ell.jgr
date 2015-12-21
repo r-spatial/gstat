@@ -1,0 +1,19 @@
+newgraph
+title : range ellipse for 1 Sph(2, 30, 0.5)
+xaxis min -4 max 4 label : x-direction
+yaxis min -4 max 4 label : y-direction
+newcurve marktype ellipse fill 1
+marksize 4 8
+mrotate -30
+pts 0 0
+newline pts 0 0 0 1
+newcurve marktype text : p
+font Courier 
+pts 0.15 0.75 
+newcurve marktype text : Y
+font Courier 
+pts 0 1.25
+newline rarrow
+  pts 0 0 2.0 3.4641
+newline rarrow
+  pts 0 0 1.732 -1.0 

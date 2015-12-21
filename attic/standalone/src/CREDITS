@@ -1,0 +1,28 @@
+credits
+-------
+(is you feel this list is incomplete, please report this to me,
+mailto:e.pebesma@geog.uu.nl)
+
+Code contributions:
+------------------
+Steve Joyce (idea and original search.c; now nsearch.c)
+Konstantin Malakahanov (GMT support; bug fixes; improvements on sem.c)
+Karl M. Syring (#define WIN32 parts)
+
+Contribution of ideas & bug reports:
+-----------------------------------
+Cees Wesseling
+Derk-Jan Karssenberg
+Gerard Heuvelink
+Chris Lloyd
+Andreas Hamann
+Peter Burrough
+Lars Nebel (surfer rasters header error)
+Javier Andres (grass z data)
+
+Configuration/porting: 
+---------------------
+Karl M. Syring (Win32)
+Yetta Jager (Dec Alpha)
+Corrina Prietzsch (sgi)
+Barbara Jackson (SunOS)

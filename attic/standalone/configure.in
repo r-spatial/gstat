@@ -1,0 +1,262 @@
+dnl Process this file with autoconf to produce a configure script.
+AC_INIT(./src/gstat.c)
+version=2.5.2
+AC_SUBST(version)
+target=`uname -m`
+AC_SUBST(target)
+
+AC_CONFIG_HEADER(src/config.h:src/config.hin)
+
+dnl cache_file=/dev/null
+
+define([AC_CACHE_LOAD], )
+define([AC_CACHE_SAVE], )
+define([AC_CACHE_VAL], [
+$2
+])
+
+GDAL_CONFIG="gdal-config"
+
+AC_ARG_WITH([gdal-config],
+	AC_HELP_STRING([--with-gdal-config=GDAL_CONFIG],
+		[the location of gdal-config]),
+		[gdal_config=$withval])
+if test [ -n "$gdal_config" ] ; then
+    AC_SUBST([GDAL_CONFIG],["${gdal_config}"])
+fi
+echo "gdal-config: ${GDAL_CONFIG}"
+if test `${GDAL_CONFIG} --version`;
+then
+    CPPFLAGS="$CPPFLAGS `${GDAL_CONFIG} --cflags`"
+    LIBS="$LIBS `${GDAL_CONFIG} --libs`"
+	AC_DEFINE(HAVE_LIBGDAL)
+fi
+
+DEBUG_FLAG="-g -O2"
+rm -f ./libgstat
+
+dnl Checks for programs.
+AC_PROG_CC
+AC_PROG_RANLIB
+AC_PROG_INSTALL
+# AC_ISC_POSIX
+# AC_AIX
+
+AC_HEADER_STDC
+AM_C_PROTOTYPES
+AC_C_CONST
+dnl this shell variable is set to no if above failed to set
+dnl compiler to ansi mode (see aclocal.m4)
+if test "$am_cv_prog_cc_stdc" != no; then
+  AC_DEFINE(ANSI_C)
+fi
+dnl AC_MSDOS
+
+if test xx"$LEXYACC" != xx; then
+ rm -f ./src/lex.c ./src/parse.c ./src/parse.h
+fi
+
+AC_PROG_LEX
+AC_PROG_YACC
+
+dnl Checks for header files.
+AC_CHECK_HEADERS(stat.h unistd.h getopt.h)
+
+dnl Checks for typedefs, structures, and compiler characteristics.
+# no checks
+
+# check for <sys/time.h>, for gettimeofday function
+AC_HEADER_TIME
+
+dnl Checks for library functions:
+AC_FUNC_MEMCMP
+AC_FUNC_VPRINTF
+AC_CHECK_FUNCS(strstr strtod strtol popen drand48 gettimeofday snprintf vsnprintf getopt_long)
+
+dnl Add getopt.o to LIBOBJS if getopt is not found in a default lib:
+AC_REPLACE_FUNCS(getopt)
+
+dnl Checks for compiler characteristics (not suitable when cross compiling)
+AC_C_BIGENDIAN
+# AC_ARG_WITH(readline,
+# [  --with-readline         use gnu readline for command line editing], 
+# AC_DEFINE(HAVE_LIBREADLINE))
+
+# exclude curses-related parts?
+AC_ARG_WITH(curses,
+[  --without-curses        exclude user interface anyway (default: detect)],
+if test "$with_curses" = yes; then
+ AC_CHECK_LIB(ncurses, main, AC_DEFINE(HAVE_LIBNCURSES) \
+ LIBS="$LIBS -lncurses"
+ INCLUDES="$INCLUDES -I/usr/include/ncurses", 
+ AC_CHECK_LIB(curses, main, AC_DEFINE(HAVE_LIBCURSES) LIBS="$LIBS -lcurses"))
+fi,
+AC_CHECK_LIB(ncurses, main, AC_DEFINE(HAVE_LIBNCURSES) \
+LIBS="$LIBS -lncurses"
+INCLUDES="-I/usr/include/ncurses", 
+AC_CHECK_LIB(curses, main, AC_DEFINE(HAVE_LIBCURSES) LIBS="$LIBS -lcurses"))
+)
+
+AC_ARG_WITH(gd,      [  --with-gd               include gd png library],
+if test "$with_gd" = yes; then
+ AC_DEFINE(HAVE_LIBGD)
+# AC_CHECK_FUNCS(gdImagePng) -- don't check, but let's trust that it's there:
+ AC_DEFINE(HAVE_GDIMAGEPNG)
+ LIBS="$LIBS -lgd -lpng -lz"
+else
+ if test "$with_gd" != no; then
+  echo "using libgd path: $with_gd"
+  AC_DEFINE(HAVE_LIBGD)
+  AC_DEFINE(HAVE_GDIMAGEGIF)
+  INCLUDES="$INCLUDES -I$with_gd" 
+  LIBS="$LIBS -L$with_gd -lgd -lpng -lz"
+ fi
+fi,
+ AC_CHECK_LIB(gd, gdImagePng, \
+  AC_CHECK_LIB(png, main, \
+   AC_CHECK_LIB(z, main, \
+   AC_DEFINE(HAVE_LIBGD)
+   AC_DEFINE(HAVE_GDIMAGEPNG)
+   LIBS="$LIBS -lgd -lpng -lz")),
+  AC_CHECK_LIB(gd, gdImageGif, \
+   AC_DEFINE(HAVE_LIBGD) \
+   AC_DEFINE(HAVE_GDIMAGEGIF) \
+   LIBS="$LIBS -lgd" \
+  ) \
+ )
+)
+
+AC_ARG_WITH(extdbase,  [  --with-extdbase         include ext-dbase headers],
+if test "$with_extdbase" = yes; then
+ AC_DEFINE(HAVE_EXT_DBASE)
+ LIBS="$LIBS -lpqdbase -lstdc++"
+fi,
+)
+
+
+AC_ARG_WITH(netcdf,  [  --with-netcdf           include netcdf library],
+if test "$with_netcdf" = yes; then
+ AC_DEFINE(HAVE_LIBNETCDF)
+ LIBS="$LIBS -lnetcdf"
+fi,
+AC_CHECK_LIB(netcdf, main)
+)
+
+AC_ARG_WITH(gdal,  [  --with-gdal             include gdal library],
+if test "$with_gdal" = yes; then
+ AC_DEFINE(HAVE_LIBGDAL)
+ LIBS="$LIBS -lgdal"
+fi,
+AC_CHECK_LIB(gdal, GDALAllRegister)
+)
+
+AC_ARG_WITH(debug,   [  --with-debug            use debug option (-g) ],
+DEBUG_FLAG="-g -Wall"
+)
+
+AC_SUBST(INCLUDES)
+AC_SUBST(DEBUG_FLAG)
+
+AC_ARG_WITH(libgstat,[  --with-libgstat         compile to libgstat.a ],
+AC_DEFINE(LIBGSTAT)
+)
+
+# Link meschach library? Default: yes.
+AC_ARG_WITH(meschach,  [  --with-meschach         use local meschach lib (default: include)],
+if test "$with_meschach" = yes; then
+ LIB_MESCHACH="lib/libmeschach.a"
+else
+ LIB_MESCHACH=""
+fi,
+ dnl Detect:
+ AC_CHECK_LIB(meschach, QRfactor, 
+  LIB_MESCHACH=""
+  INCLUDES="$INCLUDES -I/usr/include/meschach",
+  LIB_MESCHACH="lib/libmeschach.a") 
+)
+AC_SUBST(LIB_MESCHACH)
+
+dnl Check for inclusion of sparse matrix routines:
+MESCHACH_TARGET="basic"
+AC_ARG_WITH(sparse,  [  --with-sparse           include sparse matrix routines],
+ AC_DEFINE(HAVE_SPARSE)
+ WITH_SPARSE_OPT="--with-sparse"
+ MESCHACH_TARGET="with-sparse"
+)
+
+AC_SUBST(WITH_SPARSE_OPT)
+AC_SUBST(MESCHACH_TARGET)
+
+# Link csf library? Default: detect.
+AC_ARG_WITH(csf,  [  --with-csf              link to csf library (default: detect)],
+if test "$with_csf" != no; then
+ if test -d $with_csf ; then
+  INCLUDES="$INCLUDES -I$with_csf/include" 
+  LIBS="$LIBS -L $with_csf/lib -lcsf"
+ else
+  INCLUDES="$INCLUDES -I$/usr/local/include" 
+  LIBS="$LIBS -L $/usr/local/lib -lcsf"
+ fi
+ AC_DEFINE(HAVE_LIBCSF)
+fi,
+ AC_CHECK_LIB(csf, MgetVersion, \
+  AC_DEFINE(HAVE_LIBCSF) \
+  LIBS="$LIBS -lcsf" \
+ )
+)
+
+AC_ARG_WITH(grass6,  [  --with-grass6=path       define path to grass (look up GISBASE) ],
+if test -d $with_grass6 ; then
+ AC_DEFINE(HAVE_LIBGIS)
+ LDFLAGS="$LDFLAGS -L$with_grass6/lib"
+ INCLUDES="$INCLUDES -I$with_grass6/include" 
+ GISLIB="-lgrass_gis -lgrass_datetime -lgrass_sites -lgrass_dbmiclient -lgrass_dbmibase -lgrass_vect -lgrass_dig2 -lgrass_dgl -lgrass_rtree -lgrass_linkm"
+ LIBS="$LIBS $GISLIB -lz"
+fi,
+)
+
+AC_ARG_WITH(grass,  [  --with-grass            link to grass library  
+  --with-grass=path       define path to grass (look up GISBASE) ],
+if test "$with_grass" = yes; then
+ AC_DEFINE(HAVE_LIBGIS)
+ LIBS="$LIBS -L/usr/local/grass5/lib"
+ INCLUDES="$INCLUDES -I/usr/local/grass5/include" 
+ AC_CHECK_LIB(grass_gis,G_gisinit,GISLIB="-lgrass_gis -lgrass_datetime",
+  AC_CHECK_LIB(gis, G_gisinit, GISLIB="-lgis -ldatetime"))
+ LIBS="$LIBS $GISLIB -lz"
+else
+ if test -d $with_grass ; then
+  AC_DEFINE(HAVE_LIBGIS)
+  LIBS="$LIBS -L $with_grass/lib"
+  INCLUDES="$INCLUDES -I$with_grass/include" 
+  AC_CHECK_LIB(grass_gis, G_gisinit, GISLIB="-lgrass_gis -lgrass_datetime -lgrass_sites",
+   AC_CHECK_LIB(gis, G_gisinit, GISLIB="-lgis -ldatetime"))
+  LIBS="$LIBS $GISLIB -lz"
+ fi
+fi,
+)
+
+AC_ARG_WITH(gsl,     [  --with-gsl              include gnu scientific library (gsl)
+  --with-gsl=PATH         define path to gsl library subdirs (e.g., /usr/local)],
+if test "$with_gsl" = yes; then
+ AC_DEFINE(HAVE_LIBGSL)
+ LIBS="$LIBS -lgsl -lgslcblas"
+else
+ if test -d $with_gsl ; then
+  AC_DEFINE(HAVE_LIBGSL)
+  LIBS="$LIBS -L $with_gsl -lgsl -lgslcblas"
+ fi
+fi,
+ AC_CHECK_LIB(gsl, main, \
+  AC_DEFINE(HAVE_LIBGSL) \
+  LIBS="$LIBS -lgsl -lgslcblas" \
+ )
+)
+
+dnl Add math library:
+LIBS="$LIBS -lm"
+# dnl Replace `main' with a function in -lreadline: (doesn't link with ncurses)
+# AC_CHECK_LIB(readline, main)
+
+# process target files, apart from the config.h files:
+AC_OUTPUT(makefile src/makefile doc/tex/makefile)

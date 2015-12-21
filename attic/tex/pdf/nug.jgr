@@ -1,0 +1,7 @@
+newgraph
+title : 1 Nug(0)
+yaxis min 0 max 1
+newline pts
+	shell : gstat -e semivariance '1 nug(0)' 1e-10 2 100
+newcurve marktype circle fill 0 pts 0 0
+newcurve marktype circle fill 1 pts 0 1

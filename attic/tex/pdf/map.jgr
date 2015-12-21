@@ -1,0 +1,17 @@
+newgraph
+(* legend top *)
+xaxis min 178400 max 181600 nodraw size 2.4 label : Easting (m)
+yaxis min 329400 max 333800 nodraw size 4.4 label : Northing (m)
+newcurve marktype circle marksize 44 label : 100 ppm
+newcurve marktype circle marksize 62 label : 200 ppm
+newcurve marktype circle marksize 88 label : 400 ppm
+newcurve marktype circle marksize 124 label : 800 ppm
+newcurve marktype circle marksize 176 label : 1600 ppm
+newcurve marktype box gray 0.5 marksize 120 30 label : River Maas bank
+newcurve marktype box gray 0.5 marksize 20 20 pts shell : cat maas.xyz
+newline pts 180600 329500 181600 329500
+newline pts 180600 329480 180600 329520
+newline pts 181600 329480 181600 329520
+newstring x 180600 y 329600 : 0
+newstring x 181600 y 329600 : 1
+newstring hjl x 181650 y 329600 : km.

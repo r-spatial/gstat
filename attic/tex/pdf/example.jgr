@@ -1,0 +1,34 @@
+newgraph
+legend top
+xaxis min 0 max 15 label : distance
+yaxis min 0 max 22 label : semivariance
+newline label : variogram(example): 8 Nug(0) + 12 Sph(10);
+pts shell : gstat -e semivariance '8 Nug(0) + 12 Sph(10)' 1e-4 15 100
+
+newline rarrow pts 10 3.5 10 0
+newline rarrow pts 10 4.5 10 8
+newstring hjc vjc x 10 y 4 : 8
+
+newline rarrow pts 10 14.5 10 20
+newline rarrow pts 10 13.5 10 8
+newstring hjc vjc x 10 y 14 : 12 
+
+newline rarrow pts 4.5 8 0 8
+newline rarrow pts 5.5 8 10 8
+newstring hjc vjc x 5 y 8 : 10
+
+(*
+newline rarrow pts 12 10.5 12 20
+newline rarrow pts 12 9.5 12 0
+newstring hjc vjc x 12 y 10 : 20
+*)
+
+newcurve marktype circle fill 0 pts 0 0
+newcurve marktype circle fill 1 pts 0 8
+
+(*
+newstring hjl vjc x 1 y 4 : nugget variance
+newstring hjc vjc x 5 y 1 : range
+newstring hjc vjc x 12 y 10 : total sill
+newstring hjc vjc x 10 y 14 : partial sill
+*)

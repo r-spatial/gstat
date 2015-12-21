@@ -1,0 +1,163 @@
+newgraph
+newcurve
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype circle fill .9 marksize 6 pts 0 0
+newcurve marktype cross pts
+-1 -.1
+-1 -2
+0.1 2.5
+-0.1 2
+1.2 0.2
+1.2 2
+1 -0.5
+-0.5 -0.5
+0.2 -2.7
+2.5 2.3
+2.7 -2.5
+newline pts 0 0 -1 -.1
+newline pts 0 0 -1 -2
+newline pts 0 0 0.1 2.5
+newline pts 0 0 -0.1 2
+newline pts 0 0 1.2 0.2
+newline pts 0 0 1.2 2
+newline pts 0 0 1 -0.5
+newline pts 0 0 -0.5 -0.5
+newline pts 0 0 0.2 -2.7
+newstring fontsize 12 hjl vjb x -3 y 3.1 : radius = 10
+newcurve marktype circle fill 1 marksize .2 pts 0 0
+
+newgraph
+x_translate 3.5
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype cross pts
+-1 -.1
+-1 -2
+0.1 2.5
+-0.1 2
+1.2 0.2
+1.2 2
+1 -0.5
+-0.5 -0.5
+0.2 -2.7
+2.5 2.3
+2.7 -2.5
+newline pts 0 0 -1 -.1
+newline pts 0 0 -1 -2
+newline pts 0 0 0.1 2.5
+newline pts 0 0 -0.1 2
+newline pts 0 0 1.2 0.2
+newline pts 0 0 1.2 2
+newline pts 0 0 1 -0.5
+newline pts 0 0 -0.5 -0.5
+newstring fontsize 12 hjl vjb x -3 y 3.1 : max = 8
+newcurve marktype circle fill 1 marksize .2 pts 0 0
+
+newgraph
+x_translate 7
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype circle fill .9 marksize 6 pts 0 0
+newcurve marktype cross pts
+-1 -.1
+-1 -2
+0.1 2.5
+-0.1 2
+1.2 0.2
+1.2 2
+1 -0.5
+-0.5 -0.5
+0.2 -2.7
+2.5 2.3
+2.7 -2.5
+newline pts 0 0 -1 -.1
+newline pts 0 0 -1 -2
+newline pts 0 0 0.1 2.5
+newline pts 0 0 -0.1 2
+newline pts 0 0 1.2 0.2
+newline pts 0 0 1.2 2
+newline pts 0 0 1 -0.5
+newline pts 0 0 -0.5 -0.5
+newstring fontsize 12 hjl vjb x -3 y 3.1 : radius = 10, max = 8
+newcurve marktype circle fill 1 marksize .2 pts 0 0
+
+newgraph
+y_translate -3.5
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype circle fill .9 marksize 6 pts 0 0
+newcurve marktype cross pts
+-1 -2
+1.2 0.2
+1 -0.5
+2.5 2.3
+2.7 -2.5
+newline pts 0 0 -1 -2
+newline pts 0 0 1.2 0.2
+newline pts 0 0 1 -0.5
+newline pts 0 0 2.5 2.3
+newstring fontsize 12 hjl vjb x -3 y 3.1 : radius = 10, max = 8, min = 4, force
+newcurve marktype circle fill 1 marksize .2 pts 0 0
+
+newgraph
+y_translate -3.5
+x_translate 3.5
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype circle fill .9 marksize 6 pts 0 0
+newcurve marktype cross pts
+-1 -.1 (* 0 *)
+-0.5 -0.5 (* 0 *)
+-1 -2 (* 0 *)
+1 -0.5 (* 1 *)
+0.2 -2.7 (* 1 *)
+2.7 -2.5 (* 1 *)
+-0.1 2 (* 2 *)
+1.2 0.2 (* 3 *)
+1.2 2 (* 3 *)
+0.1 2.5 (* 3 *)
+2.5 2.3 (* 3 *)
+
+newline pts 0 0 -1 -.1 (* 0 *)
+newline pts 0 0 -0.5 -0.5 (* 0 *)
+newline pts 0 0 1 -0.5 (* 1 *)
+newline pts 0 0 0.2 -2.7 (* 1 *)
+newline pts 0 0 -0.1 2 (* 2 *)
+newline pts 0 0 1.2 0.2 (* 3 *)
+newline pts 0 0 1.2 2 (* 3 *)
+newstring fontsize 12 hjl vjb x -3 y 3.1 : radius = 10, omax = 2
+newcurve marktype circle fill 1 marksize .2 pts 0 0
+
+newgraph
+y_translate -3.5
+x_translate 7
+yaxis nodraw size 3.3 min -3.2 max 3.4
+xaxis nodraw size 3.2 min -3.2 max 3.2
+newline linetype dashed pts -3.2 -3.2 3.2 -3.2 3.2 3.4 -3.2 3.4 -3.2 -3.2
+newcurve marktype circle fill .9 marksize 6 pts 0 0
+newcurve marktype cross pts
+-1 -.1
+-1 -2
+0.1 2.5
+-0.1 2
+1.2 0.2
+1.2 2
+1 -0.5
+-0.5 -0.5
+0.2 -2.7
+2.5 2.3
+2.7 -2.5
+
+newline pts 0 0 0.1 2.5
+newline pts 0 0 -0.1 2
+newline pts 0 0 -0.5 -0.5
+newline pts 0 0 0.2 -2.7
+
+newstring fontsize 12 hjl vjb x -3 y 3.1 : radius = 10, max = 4, vdist
+newcurve marktype circle fill 1 marksize .2 pts 0 0

@@ -1,0 +1,5 @@
+newgraph
+title : 1 Sph(1)
+yaxis min 0 max 1
+newline pts
+	shell : gstat -e semivariance '1 sph(1)' 0 2 100

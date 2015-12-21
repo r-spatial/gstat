@@ -1,0 +1,16 @@
+set -e
+#DIR1=../cmd1
+DIR1=/dosc/dst/cmd
+DIR2=.
+echo "d#, sum(abs(diff)), sum(diff) file"
+for i in `ls $DIR1/*\.pr $DIR1/*\.var $DIR1/*\.cov`
+do
+ m=`basename $i`
+ rm -f m[12]
+ ln -s $DIR1/$m m1
+ ln -s $DIR2/$m m2
+ calc 'count(m1)-count(m2)' 2>/dev/null
+ calc 'sum(abs(m1-m2))' 2>/dev/null
+ calc 'sum(m1-m2)' 2>/dev/null
+ echo "	$m"
+done

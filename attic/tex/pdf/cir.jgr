@@ -1,0 +1,5 @@
+newgraph
+title : 1 Cir(1)
+yaxis min 0 max 1
+newline pts
+	shell : gstat -e semivariance '1 cir(1)' 0 2 100

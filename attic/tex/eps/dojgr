@@ -1,0 +1,15 @@
+set -xe
+jgraph bes.jgr> bes.eps
+jgraph cir.jgr> cir.eps
+jgraph exp.jgr> exp.eps
+jgraph gau.jgr> gau.eps
+jgraph lin.jgr> lin.eps
+jgraph log.jgr> log.eps
+jgraph nug.jgr> nug.eps
+jgraph pen.jgr> pen.eps
+jgraph powa.jgr> powa.eps
+jgraph powb.jgr> powb.eps
+jgraph sph.jgr> sph.eps
+jgraph per.jgr> per.eps
+jgraph example.jgr > example.eps
+jgraph cov.jgr> cov.eps

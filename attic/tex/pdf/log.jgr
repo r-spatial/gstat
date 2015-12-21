@@ -1,0 +1,4 @@
+newgraph
+title : 1 Log(1)
+newline pts
+	shell : gstat -e semivariance '1 log(1)' 0 5 100

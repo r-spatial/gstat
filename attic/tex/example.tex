@@ -1,0 +1,275 @@
+% DO NOT EDIT--Automatically generated from example.in
+\section{Example 1. Variogram modelling }
+\label{ex:1}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em One variable definition: {}}\\
+{\tt \#} {\em to start the variogram modelling user interface. {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3; {}}\\
+\section{Example 2. Variogram modelling of two variables }
+\label{ex:2}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Two variables with (initial estimates of) variograms, {}}\\
+{\tt \#} {\em start the variogram modelling user interface {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3;   {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}; {}}\\
+{\tt  {}}\\
+{\tt variogram(zinc): 10000 Nug() + 140000 Sph(800); {}}\\
+{\tt variogram(ln\_zinc): 1 Nug() + 1 Sph(800); {}}\\
+\section{Example 3. Inverse distance interpolation }
+\label{ex:3}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Inverse distance interpolation on a mask map {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3; {}}\\
+{\tt mask:       '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif';     \#} {\em the prediction locations {}}\\
+{\tt predictions(zinc): '\htmladdnormallink{id\_pr}{http://www.geog.uu.nl/gstat/manual/gif/id_pr.gif}'; \#} {\em result map {}}\\
+\section{Example 4. Ordinary block kriging}
+\label{ex:4}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Local ordinary block kriging at non-gridded locations {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3,  {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; \#} {\em local neighbourhood {}}\\
+{\tt variogram(zinc): 2.42e+04 Nug(0) + 1.34e+05 Sph(800); {}}\\
+{\tt data(): '\htmladdnormallink{locs.eas}{http://www.geog.uu.nl/gstat/manual/locs.html}', \iskey{x}=1, \iskey{y}=2; \#} {\em prediction locations {}}\\
+{\tt blocksize: dx=40, dy=40;      \#} {\em 40 $\times$ 40 block averages {}}\\
+{\tt set \iskey{output} = '\htmladdnormallink{zincok.out}{http://www.geog.uu.nl/gstat/manual/zincok.html}';    \#} {\em ascii output file {}}\\
+\section{Example 5. Simple kriging on a mask map }
+\label{ex:5}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Local simple point kriging on a mask map {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log},  {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000, \isXkey{sk\_mean}{skXmean}=5.9; {}}\\
+{\tt variogram(ln\_zinc): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt mask:                 '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_skpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_skpr.gif}'; {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_skvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_skvr.gif}'; {}}\\
+\section{Example 6. Unconditional simulation }
+\label{ex:6}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Unconditional Gaussian simulation on a mask {}}\\
+{\tt \#} {\em (local neigbourhoods, simple kriging) {}}\\
+{\tt \#} {\em {}}\\
+{\tt \#} {\em defines empty variable: {}}\\
+{\tt data(ln\_zn\_dummy): dummy, \isXkey{sk\_mean}{skXmean}=5.9, \iskey{max}=20; {}}\\
+{\tt variogram(ln\_zn\_dummy): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt mask:  '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt method:  gs; \#} {\em Gaussian simulation instead of kriging {}}\\
+{\tt predictions(ln\_zn\_dummy): '\htmladdnormallink{lzn\_uspr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_uspr.gif}'; {}}\\
+{\tt set nsim = 10; {}}\\
+\section{Example 7. Conditional simulation }
+\label{ex:7}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Gaussian simulation, conditional upon data {}}\\
+{\tt \#} {\em (local neighbourhoods, simple and ordinary kriging) {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \isXkey{sk\_mean}{skXmean}=5.9, \iskey{max}=20; {}}\\
+{\tt variogram(ln\_zinc): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt mask: '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt method: gs; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_cspr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_cspr.gif}'; {}}\\
+{\tt set nsim=10; {}}\\
+\section{Example 8. Ordinary block kriging on a mask map }
+\label{ex:8}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Change of support: local ordinary block kriging on a mask {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; {}}\\
+{\tt variogram(ln\_zinc): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt mask: '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_okbp}{http://www.geog.uu.nl/gstat/manual/gif/lzn_okbp.gif}'; {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_okbv}{http://www.geog.uu.nl/gstat/manual/gif/lzn_okbv.gif}'; {}}\\
+{\tt blocksize: dx=40, dy=40; \#} {\em define block dimensions {}}\\
+\section{Example 9. Map values at point locations }
+\label{ex:9}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Obtain map values at data() locations {}}\\
+{\tt \#} {\em (Point-map overlay) {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(a): \iskey{dummy}; \#} {\em define n dummy data variable (n=n\_masks/2) {}}\\
+{\tt data(b): \iskey{dummy};  {}}\\
+{\tt data(): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3; \#} {\em prediction locations {}}\\
+{\tt method: map;                       \#} {\em mapvalues as `predictions' {}}\\
+{\tt masks: '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}', '\htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif}', '\htmladdnormallink{part\_b}{http://www.geog.uu.nl/gstat/manual/gif/part_b.gif}'; \#} {\em the maps {}}\\
+{\tt set \iskey{output} = '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}';        \#} {\em ascii output file. {}}\\
+\section{Example 10. Multiple kriging }
+\label{ex:10}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Multiple kriging: prediction on more than one variable {}}\\
+{\tt \#} {\em (ordinary kriging of two variables) {}}\\
+{\tt \#} {\em (note that zinc\_map.eas wass obtained through ex09.gst) {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; {}}\\
+{\tt data(sq\_dist): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=4, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; {}}\\
+{\tt variogram(ln\_zinc): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt variogram(sq\_dist): 0.0631 Sph(900); {}}\\
+{\tt mask: '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_okpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_okpr.gif}'; {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_okvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_okvr.gif}'; {}}\\
+{\tt predictions(sq\_dist): '\htmladdnormallink{sqd\_okpr}{http://www.geog.uu.nl/gstat/manual/gif/sqd_okpr.gif}'; {}}\\
+{\tt variances(sq\_dist):   '\htmladdnormallink{sqd\_okvr}{http://www.geog.uu.nl/gstat/manual/gif/sqd_okvr.gif}'; {}}\\
+\section{Example 11. Multivariable kriging (cokriging) }
+\label{ex:11}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Multivariable kriging: ordinary local cokriging of two variables {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; {}}\\
+{\tt data(sq\_dist): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=4, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000; {}}\\
+{\tt variogram(ln\_zinc): 0.0554 Nug(0) + 0.581 Sph(900); {}}\\
+{\tt variogram(sq\_dist): 0.0001 Nug(0) + 0.0631 Sph(900); {}}\\
+{\tt variogram(ln\_zinc, sq\_dist): 0 Nug(0)-0.156 Sph(900); {}}\\
+{\tt   \#} {\em NOTE: the 0 Nug(0)'s are added to make gstat recognize  {}}\\
+{\tt   \#} {\em the Linear Model of Coregionalization {}}\\
+{\tt mask: '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_ckpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_ckpr.gif}'; {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_ckvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_ckvr.gif}'; {}}\\
+{\tt predictions(sq\_dist): '\htmladdnormallink{sqd\_ckpr}{http://www.geog.uu.nl/gstat/manual/gif/sqd_ckpr.gif}'; {}}\\
+{\tt variances(sq\_dist):   '\htmladdnormallink{sqd\_ckvr}{http://www.geog.uu.nl/gstat/manual/gif/sqd_ckvr.gif}'; {}}\\
+{\tt \#} {\em the next map holds the prediction error covariances: {}}\\
+{\tt covariances(sq\_dist,ln\_zinc): '\htmladdnormallink{znsqdcov}{http://www.geog.uu.nl/gstat/manual/gif/znsqdcov.gif}'; {}}\\
+\section{Example 12. Stratified ordinary kriging }
+\label{ex:12}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Stratified ordinary kriging (within-categorie ordinary kriging) {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc.at.0): '\htmladdnormallink{zincat0.eas}{http://www.geog.uu.nl/gstat/manual/zincat0.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em where \htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif} = 0 {}}\\
+{\tt data(zinc.at.1): '\htmladdnormallink{zincat1.eas}{http://www.geog.uu.nl/gstat/manual/zincat0.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em where \htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif} = 1 {}}\\
+{\tt variogram(zinc.at.0): 0.0654 Nug(0) + 0.548 Sph(900); {}}\\
+{\tt variogram(zinc.at.1): 0.716 Sph(900); {}}\\
+{\tt \#} {\em the mask map is 0 for zinc.at.0 locations, 1 for zinc.at.1 {}}\\
+{\tt mask: '\htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif}'; {}}\\
+{\tt \#} {\em stratified mode: one map holds predictions for all vars: {}}\\
+{\tt predictions: '\htmladdnormallink{lzn\_stpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_stpr.gif}'; {}}\\
+{\tt \#} {\em another the prediction variances for all vars: {}}\\
+{\tt variances:   '\htmladdnormallink{lzn\_stvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_stvr.gif}'; {}}\\
+\section{Example 13. Universal kriging (a) }
+\label{ex:13}
+\indent using the model $Z(x)=\beta\_1 + D(x) \beta\_2 +e(x)$:\\
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Local universal kriging, using one continuous variable {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log},  {}}\\
+{\tt   \iskey{X}=4, \#} {\em \htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif} values at data locations {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em apply model locally {}}\\
+{\tt \#} {\em the variogram should be that of the residual: {}}\\
+{\tt variogram(ln\_zinc): 0.0674 Nug(0) + 0.149 Sph(700); {}}\\
+{\tt mask: '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}';  \#} {\em \htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif} values at prediction locations {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_ukpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_ukpr.gif}';  {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_ukvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_ukvr.gif}'; {}}\\
+\section{Example 14. Universal kriging (b) }
+\label{ex:14}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Universal kriging, using one continuous and {}}\\
+{\tt \#} {\em two binary variables. {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{log}, {}}\\
+{\tt   \iskey{X}=-1\&4\&5\&6; {}}\\
+{\tt \#} {\em -1: no default intercept (col. 5 and 6 form an intercept) {}}\\
+{\tt \#} {\em use global kriging: local kriging would lead to a singularity {}}\\
+{\tt \#} {\em the variogram of e is: {}}\\
+{\tt variogram(ln\_zinc): 0.0698 Nug(0) + 0.147 Sph(709); {}}\\
+{\tt   \#} {\em mask maps holding the independent variable values {}}\\
+{\tt   \#} {\em at prediction locations, their order corresponding {}}\\
+{\tt   \#} {\em that of the X-columns: {}}\\
+{\tt mask: '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}.tif', '\htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif}.tif', '\htmladdnormallink{part\_b}{http://www.geog.uu.nl/gstat/manual/gif/part_b.gif}.tif'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_vkpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vkpr.gif}';  {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_vkvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vkvr.gif}'; {}}\\
+\indent using the model $Z(x)= D(x) \beta\_1 + I\_A (x) \beta\_2 + I\_B (x) \beta\_3 +e(x)$:\\
+\section{Example 14a. Stratified universal kriging }
+\label{ex:14a}
+\indent using the model $Z\_i (x)=\beta\_{i,1} + D(x) \beta\_{i,2} +e\_i (x)$,
+$i$ being the category number:\\
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Stratified universal kriging (within-categorie universal kriging) {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc.at.0): '\htmladdnormallink{zincat0.eas}{http://www.geog.uu.nl/gstat/manual/zincat0.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{X}=4, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em where \htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif} = 0 {}}\\
+{\tt data(zinc.at.1): '\htmladdnormallink{zincat1.eas}{http://www.geog.uu.nl/gstat/manual/zincat0.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{X}=4, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em where \htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif} = 1 {}}\\
+{\tt  {}}\\
+{\tt \#} {\em residual variograms: {}}\\
+{\tt variogram(zinc.at.0): 0.096572 Nug(0) + 0.226367 Sph(1069.33); {}}\\
+{\tt variogram(zinc.at.1): 0.115766 Sph(237.257); {}}\\
+{\tt  {}}\\
+{\tt mask: '\htmladdnormallink{part\_a}{http://www.geog.uu.nl/gstat/manual/gif/part_a.gif}', \#} {\em 0 for zinc.at.0 locations, 1 for zinc.at.1 locs. {}}\\
+{\tt   '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}', \#} {\em predictor values corresp. to col. 4 for zinc.at.0 {}}\\
+{\tt   '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}'; \#} {\em predictor values corresp. to col. 4 for zinc.at.1 {}}\\
+{\tt predictions: 'lzn\_stup'; {}}\\
+{\tt variances:   'lzn\_stuv'; {}}\\
+\section{Example 15. Linear model prediction (OLS) }
+\label{ex:15}
+\indent using the model $Z(x)=\beta\_1 + D(x) \beta\_2 +e(x)$:\\
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Local linear model, using one continuous variable {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(ln\_zinc): '\htmladdnormallink{zincmap.eas}{http://www.geog.uu.nl/gstat/manual/zincmap.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{X}=4, \iskey{log}, {}}\\
+{\tt   \iskey{min}=20, \iskey{max}=40, \iskey{radius}=1000;  \#} {\em apply linear model locally {}}\\
+{\tt \#} {\em no variogram definition: assume residual to be IID. {}}\\
+{\tt mask: '\htmladdnormallink{sqrtdist}{http://www.geog.uu.nl/gstat/manual/gif/sqrtdist.gif}'; {}}\\
+{\tt predictions(ln\_zinc): '\htmladdnormallink{lzn\_trpr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_trpr.gif}'; {}}\\
+{\tt \#} {\em prediction variance for point locations: {}}\\
+{\tt variances(ln\_zinc):   '\htmladdnormallink{lzn\_trvr}{http://www.geog.uu.nl/gstat/manual/gif/lzn_trvr.gif}'; {}}\\
+\section{Example 16. Multivariable (cumulative) indicator simulation}
+\label{ex:16}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em Multivariable indicator cosimulation  {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(i200): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{max}=20, \iskey{radius}=1000, {}}\\
+{\tt     \iskey{I}=200, \isXkey{sk\_mean}{skXmean} = 0.28; {}}\\
+{\tt data(i400): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{max}=20, \iskey{radius}=1000, {}}\\
+{\tt     \iskey{I}=400, \isXkey{sk\_mean}{skXmean} = 0.56; {}}\\
+{\tt data(i800): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{max}=20, \iskey{radius}=1000, {}}\\
+{\tt     \iskey{I}=800, \isXkey{sk\_mean}{skXmean} = 0.85; {}}\\
+{\tt  {}}\\
+{\tt \#} {\em define an LMC: {}}\\
+{\tt variogram(i200): 0.0490637 Nug(0) + 0.182814 Exp(300); {}}\\
+{\tt variogram(i400): 0.0608225 Nug(0) + 0.21216 Exp(300); {}}\\
+{\tt variogram(i200, i400): 0 Nug() + 0.14806 Exp(300); {}}\\
+{\tt variogram(i800): 0.0550284 Nug(0) + 0.0842966 Exp(300); {}}\\
+{\tt variogram(i200, i800): 0 Nug() + 0.0525584 Exp(300); {}}\\
+{\tt variogram(i400, i800): 0 Nug() + 0.102852 Exp(300); {}}\\
+{\tt  {}}\\
+{\tt method: is; {}}\\
+{\tt mask: '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif'; {}}\\
+{\tt \#} {\em apply order corrections for cumulative indicators: {}}\\
+{\tt set order = 4; {}}\\
+{\tt  {}}\\
+{\tt predictions(i200): '\htmladdnormallink{i200pr}{http://www.geog.uu.nl/gstat/manual/gif/i200pr.gif}'; {}}\\
+{\tt predictions(i400): '\htmladdnormallink{i400pr}{http://www.geog.uu.nl/gstat/manual/gif/i400pr.gif}'; {}}\\
+{\tt predictions(i800): '\htmladdnormallink{i800pr}{http://www.geog.uu.nl/gstat/manual/gif/i800pr.gif}'; {}}\\
+{\tt \#} {\em uncomment next line to get 5 simulations: {}}\\
+{\tt \#} {\em set nsim = 5; {}}\\
+\section{Example 17. Trend surface prediction}
+\label{ex:17}
+{\tt \#} {\em {}}\\
+{\tt \#} {\em global coordinate polynomial trend surfaces {}}\\
+{\tt \#} {\em trend orders 0-3. {}}\\
+{\tt \#} {\em {}}\\
+{\tt data(zinc.0): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{d}=0, \iskey{log}; {}}\\
+{\tt data(zinc.1): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{d}=1, \iskey{log}; {}}\\
+{\tt data(zinc.2): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{d}=2, \iskey{log}; {}}\\
+{\tt data(zinc.3): '\htmladdnormallink{zinc.eas}{http://www.geog.uu.nl/gstat/manual/zinc.html}', \iskey{x}=1, \iskey{y}=2, \iskey{v}=3, \iskey{d}=3, \iskey{log}; {}}\\
+{\tt mask:                '\htmladdnormallink{mask\_map}{http://www.geog.uu.nl/gstat/manual/gif/mask_map.gif}.tif';  {}}\\
+{\tt \#} {\em predict block averages for very small blocks: {}}\\
+{\tt blocksize: dx=1, dy=1; {}}\\
+{\tt \#} {\em variances apply to mean values, {}}\\
+{\tt \#} {\em not for single observations {}}\\
+{\tt predictions(zinc.0): '\htmladdnormallink{lzn\_tr0}{http://www.geog.uu.nl/gstat/manual/gif/lzn_tr0.gif}'; {}}\\
+{\tt variances  (zinc.0): '\htmladdnormallink{lzn\_vr0}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vr0.gif}'; {}}\\
+{\tt predictions(zinc.1): '\htmladdnormallink{lzn\_tr1}{http://www.geog.uu.nl/gstat/manual/gif/lzn_tr1.gif}'; {}}\\
+{\tt variances  (zinc.1): '\htmladdnormallink{lzn\_vr1}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vr1.gif}'; {}}\\
+{\tt predictions(zinc.2): '\htmladdnormallink{lzn\_tr2}{http://www.geog.uu.nl/gstat/manual/gif/lzn_tr2.gif}'; {}}\\
+{\tt variances  (zinc.2): '\htmladdnormallink{lzn\_vr2}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vr2.gif}'; {}}\\
+{\tt predictions(zinc.3): '\htmladdnormallink{lzn\_tr3}{http://www.geog.uu.nl/gstat/manual/gif/lzn_tr3.gif}'; {}}\\
+{\tt variances  (zinc.3): '\htmladdnormallink{lzn\_vr3}{http://www.geog.uu.nl/gstat/manual/gif/lzn_vr3.gif}'; {}}\\

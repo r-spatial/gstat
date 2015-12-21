@@ -1,0 +1,144 @@
+-rw-r--r--  1 des             0 Apr 20 14:41 FILELIST
+-rw-r--r--  1 des         18006 Apr  5  1994 README
+-rw-r--r--  1 des          4844 Jan 12  1994 arnoldi.c
+-rw-r--r--  1 des         14461 Dec 12 13:50 bdfactor.c
+-rw-r--r--  1 des          8450 Dec 12 13:44 bkpfacto.c
+-rw-r--r--  1 des          5022 Dec 12 13:45 chfactor.c
+-rwxr-xr-x  1 des         26888 Mar  7  1994 configure
+-rw-r--r--  1 des          3536 Mar  7  1994 configure.in
+-rw-r--r--  1 des          8250 Jan 12  1994 conjgrad.c
+-rw-r--r--  1 des          5530 Jan 12  1994 copy.c
+-rw-r--r--  1 des          1124 Jan 12  1994 copyright
+-rw-r--r--  1 des          1402 Jan 12  1994 dmacheps.c
+-rw-r--r--  1 des          9896 Jan 30 08:49 err.c
+-rw-r--r--  1 des          5706 Jan 30 08:49 err.h
+-rw-r--r--  1 des         10927 May 18  1994 extras.c
+-rw-r--r--  1 des          3892 Dec 12 13:49 fft.c
+-rw-r--r--  1 des          1400 Jan 12  1994 fmacheps.c
+-rw-r--r--  1 des          3691 Mar 27 09:42 givens.c
+-rw-r--r--  1 des          4063 Mar 27 09:45 hessen.c
+-rw-r--r--  1 des          4735 Dec 12 13:47 hsehldr.c
+-rw-r--r--  1 des          5889 Jan 12  1994 init.c
+-rw-r--r--  1 des          3396 Jan 13  1994 iotort.c
+-rw-r--r--  1 des          6911 Mar  7  1994 iter.h
+-rw-r--r--  1 des          8822 Apr  7 11:32 iter0.c
+-rw-r--r--  1 des         31057 Apr  7 11:34 iternsym.c
+-rw-r--r--  1 des         14016 Apr  7 11:33 itersym.c
+-rw-r--r--  1 des         16178 Dec 12 14:02 itertort.c
+-rw-r--r--  1 des          9800 Jan 12  1994 ivecop.c
+-rw-r--r--  1 des          7733 Jan 12  1994 lanczos.c
+-rw-r--r--  1 des           397 Jan 12  1994 ls.dat
+-rw-r--r--  1 des          6884 Apr 20 14:24 lufactor.c
+-rw-r--r--  1 des          3669 Jan 24  1994 machine.c
+-rw-r--r--  1 des          4672 Mar 27 09:40 machine.h
+-rw-r--r--  1 des          4485 Mar 27 09:37 machine.h.in
+-rw-r--r--  1 des          6087 Apr 20 14:34 makefile
+-rw-r--r--  1 des          5898 Jun 22  1994 makefile.in
+-rw-r--r--  1 des          5253 Feb 14 14:13 matlab.c
+-rw-r--r--  1 des          3012 Jan 20 09:39 matlab.h
+-rw-r--r--  1 des         12080 Mar 27 09:44 matop.c
+-rw-r--r--  1 des         19232 Apr 15  1994 matrix.h
+-rw-r--r--  1 des          8291 Jan 12  1994 matrix2.h
+-rw-r--r--  1 des         13409 Jan 12  1994 matrixio.c
+-rw-r--r--  1 des          1257 Jan 12  1994 maxint.c
+-rw-r--r--  1 des          9155 Jan 12  1994 meminfo.c
+-rw-r--r--  1 des          4148 Jan 12  1994 meminfo.h
+-rw-r--r--  1 des         19918 Apr  4  1994 memory.c
+-rw-r--r--  1 des          8644 Jan 12  1994 memstat.c
+-rw-r--r--  1 des         17345 Jan 13  1994 memtort.c
+-rw-r--r--  1 des          9213 Dec 12 13:50 mfunc.c
+-rw-r--r--  1 des          4533 Jan 13  1994 mfuntort.c
+-rw-r--r--  1 des          4187 Dec 12 13:49 norm.c
+-rw-r--r--  1 des          3853 Jan 12  1994 oldnames.h
+-rw-r--r--  1 des          4226 Jan 12  1994 otherio.c
+-rw-r--r--  1 des          7497 Mar 23  1994 pxop.c
+-rw-r--r--  1 des         13381 Dec 12 13:47 qrfactor.c
+-rw-r--r--  1 des           141 Jan 12  1994 rk4.dat
+-rw-r--r--  1 des         18439 Dec 12 13:45 schur.c
+-rw-r--r--  1 des          6819 Dec 12 13:48 solve.c
+-rw-r--r--  1 des         23765 Mar  7  1994 sparse.c
+-rw-r--r--  1 des          6483 Jan 12  1994 sparse.h
+-rw-r--r--  1 des          3160 Jan 12  1994 sparse2.h
+-rw-r--r--  1 des          8225 Jan 12  1994 sparseio.c
+-rw-r--r--  1 des         35564 Dec 12 13:52 spbkp.c
+-rw-r--r--  1 des         15873 Dec 12 13:52 spchfctr.c
+-rw-r--r--  1 des         10808 Dec 12 13:51 splufctr.c
+-rw-r--r--  1 des         17667 Jan 12  1994 sprow.c
+-rw-r--r--  1 des          7368 Dec 12 13:53 spswap.c
+-rw-r--r--  1 des         11286 Feb 28  1994 sptort.c
+-rw-r--r--  1 des          4533 Jan 12  1994 submat.c
+-rw-r--r--  1 des          9917 Dec 12 13:46 svd.c
+-rw-r--r--  1 des          6000 Mar 27 09:46 symmeig.c
+-rw-r--r--  1 des         28116 Dec 12 14:01 torture.c
+-rw-r--r--  1 des          4508 May 19  1994 tutadv.c
+-rw-r--r--  1 des          7767 May 19  1994 tutorial.c
+-rw-r--r--  1 des          3441 Dec 12 13:48 update.c
+-rw-r--r--  1 des         13430 Mar  7  1994 vecop.c
+-rw-r--r--  1 des          2562 Mar 23  1994 version.c
+-rw-r--r--  1 des          5204 Jan 12  1994 zcopy.c
+-rw-r--r--  1 des          4556 Apr  7 11:27 zfunc.c
+-rw-r--r--  1 des          4893 Mar 27 09:47 zgivens.c
+-rw-r--r--  1 des          3971 Mar 27 09:48 zhessen.c
+-rw-r--r--  1 des          5532 Dec 12 13:59 zhsehldr.c
+-rw-r--r--  1 des          6892 Dec 12 13:57 zlufctr.c
+-rw-r--r--  1 des          4255 Dec 12 13:56 zmachine.c
+-rw-r--r--  1 des         10649 Jan 12  1994 zmatio.c
+-rw-r--r--  1 des          6152 Feb 14 14:13 zmatlab.c
+-rw-r--r--  1 des         15306 Mar 27 09:49 zmatop.c
+-rw-r--r--  1 des          8782 Mar  7  1994 zmatrix.h
+-rw-r--r--  1 des          4151 Jan 12  1994 zmatrix2.h
+-rw-r--r--  1 des         15277 Jun 22  1994 zmemory.c
+-rw-r--r--  1 des          4624 Dec 12 13:57 znorm.c
+-rw-r--r--  1 des         13780 Dec 12 13:57 zqrfctr.c
+-rw-r--r--  1 des         11222 Apr  7 11:29 zschur.c
+-rw-r--r--  1 des          7573 Dec 12 13:58 zsolve.c
+-rw-r--r--  1 des         20049 Dec 12 14:01 ztorture.c
+-rw-r--r--  1 des         11225 Mar  7  1994 zvecop.c
+
+DOC:
+total 62
+-rw-------  1 des         17186 Jan 13  1994 fnindex.txt
+-rw-------  1 des         45980 Jan 13  1994 tutorial.txt
+
+MACHINES:
+total 6
+drwxr-xr-x  2 des           512 Feb  7 09:37 Cray
+drwxr-xr-x  2 des           512 Mar 29 14:12 GCC
+drwxr-xr-x  2 des           512 Mar 29 14:12 Linux
+drwxr-xr-x  2 des           512 Mar 29 14:12 RS6000
+drwxr-xr-x  2 des           512 Feb  7 09:37 SGI
+drwxr-xr-x  2 des           512 Mar 29 14:12 SPARC
+
+MACHINES/Cray:
+total 15
+-rw-------  1 des          4645 Oct 27 11:18 machine.h
+-rw-------  1 des          6053 Oct 27 11:22 makefile
+-rw-------  1 des          1951 Oct 27 11:18 patch.1
+-rw-------  1 des           687 Oct 27 11:18 patch.2
+-rw-------  1 des           298 Oct 27 11:18 patch.3
+
+MACHINES/GCC:
+total 10
+-rw-------  1 des          3775 Jan 13  1994 machine.h
+-rw-------  1 des          5192 Mar 27 09:06 makefile
+
+MACHINES/Linux:
+total 10
+-rw-------  1 des          3820 Mar  2  1994 machine.h
+-rw-------  1 des          5604 Mar 27 09:05 makefile
+
+MACHINES/RS6000:
+total 16
+-rw-------  1 des          6129 Jan 24  1994 machine.c
+-rw-------  1 des          3502 Jan 13  1994 machine.h
+-rw-------  1 des          5663 Mar 27 09:06 makefile
+
+MACHINES/SGI:
+total 11
+-rw-------  1 des          4635 Oct 27 08:31 machine.h
+-rw-------  1 des          5938 Oct 27 08:55 makefile
+
+MACHINES/SPARC:
+total 10
+-rw-------  1 des          3524 Jan 13  1994 machine.h
+-rw-------  1 des          5195 Mar 27 09:05 makefile

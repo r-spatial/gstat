@@ -1,0 +1,5 @@
+newgraph
+xaxis min -0.05 max 1 label : square root distance to Maas (normalized)
+yaxis log min 90 max 2210 label : zinc (ppm)
+newcurve marktype cross
+pts shell : tail +11 ../../cmd/zinc_map.eas | awk '{print($4,$3)}'
