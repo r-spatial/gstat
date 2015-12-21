@@ -8,3 +8,4 @@ spatio-temporal-kriging.bbl
 spatio-temporal-kriging.blg
 LICENSE
 README.md
+.travis.yml
