@@ -1,3 +1,23 @@
+before_install:
+  - cd
+  - wget http://download.osgeo.org/gdal/1.11.2/gdal-1.11.2.tar.gz
+  - tar zxf gdal-1.11.2.tar.gz
+  - cd gdal-1.11.2
+  - ./configure
+  - make
+  - sudo make install
+  - cd
+  - wget http://download.osgeo.org/proj/proj-4.9.1.tar.gz
+  - tar zxvf proj-4.9.1.tar.gz
+  - cd proj-4.9.1
+  - ./configure
+  - pwd
+  - make
+  - sudo make install
+  - wget http://ifgi.uni-muenster.de/~epebe_01/proj_def.dat
+  - sudo mv proj_def.dat /usr/local/share/proj/proj_def.dat
+  - cd /home/travis/build/edzer/gstat
+
 language: r
 sudo: required
 
