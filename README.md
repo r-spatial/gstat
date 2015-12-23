@@ -11,11 +11,11 @@ See:
 submitted to the R Journal.  [Spatio-Temporal Geostatistics using
 gstat](https://cran.r-project.org/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf)
 
-An older publication,
+The older publication,
 
 * Pebesma, E.J. and C.G. Wesseling, 1998. Gstat,
 a program for geostatistical modelling, prediction
 and simulation. Computers & Geosciences 24 (1),
 [17–31](http://www.sciencedirect.com/science/article/pii/S0098300497000824).
 
-describes material that is now held in branch [attic](https://github.com/edzer/gstat/tree/attic)
+describes material that is now archived in branch [attic](https://github.com/edzer/gstat/tree/attic)
