@@ -75,40 +75,42 @@ static void simulate_mvn(const double *est, VEC *result, const int *is_datum) {
 	 * now dim is the number of pos. variances,
 	 * p points their position
 	 */
-	M = m_resize(M, dim, dim);
-	for (i = 0; i < dim; i++) {
-		ME(M, i, i) = est[2 * p->pe[i] + 1]; /* variances on diagonal */
-		for (j = 0; j < i; j++) /* off-diagonal: covariances */
-			ME(M, j, i) = ME(M, i, j) =
-				est[2 * result->dim + LTI2(p->pe[j],p->pe[i])];
-	}
-	if (DEBUG_COV) {
-		printlog("# simulation covariance matrix:\n");
-		m_logoutput(M);
-	}
-	/* decompose M: */
-	M = CHfactor(M, PNULL, &info);
-	if (info != 0)
-		pr_warning("singular simulation covariance matrix");
-	if (DEBUG_COV) {
-		printlog("# decomposed error covariance matrix:\n");
-		m_logoutput(M);
-	}
-	/* zero upper triangle: */
-	for (i = 0; i < M->m; i++) 
-		for (j = i + 1; j < M->m; j++)
-			ME(M, i, j) = 0.0;
-	/* make ind a iid N(0,1) vector */
-	ind = v_resize(ind, dim);
-	for (i = 0; i < dim; i++)
-		ind->ve[i] = r_normal(); /* generate N(0,1) independent samples */
-	/* make MVN */
-	sim = v_resize(sim, dim);
-	sim = mv_mlt(M, ind, sim); /* create zero mean correlated noise */
-	if (DEBUG_COV) {
-		printlog("# correlated noise vector:\n");
-		v_logoutput(sim);
-	}
+	if (dim > 0) { /* there is something to be simulated */
+		M = m_resize(M, dim, dim);
+		for (i = 0; i < dim; i++) {
+			ME(M, i, i) = est[2 * p->pe[i] + 1]; /* variances on diagonal */
+			for (j = 0; j < i; j++) /* off-diagonal: covariances */
+				ME(M, j, i) = ME(M, i, j) =
+					est[2 * result->dim + LTI2(p->pe[j],p->pe[i])];
+		}
+		if (DEBUG_COV) {
+			printlog("# simulation covariance matrix:\n");
+			m_logoutput(M);
+		}
+		/* decompose M: */
+		M = CHfactor(M, PNULL, &info);
+		if (info != 0)
+			pr_warning("singular simulation covariance matrix");
+		if (DEBUG_COV) {
+			printlog("# decomposed error covariance matrix:\n");
+			m_logoutput(M);
+		}
+		/* zero upper triangle: */
+		for (i = 0; i < M->m; i++) 
+			for (j = i + 1; j < M->m; j++)
+				ME(M, i, j) = 0.0;
+		/* make ind a iid N(0,1) vector */
+		ind = v_resize(ind, dim);
+		for (i = 0; i < dim; i++)
+			ind->ve[i] = r_normal(); /* generate N(0,1) independent samples */
+		/* make MVN */
+		sim = v_resize(sim, dim);
+		sim = mv_mlt(M, ind, sim); /* create zero mean correlated noise */
+		if (DEBUG_COV) {
+			printlog("# correlated noise vector:\n");
+			v_logoutput(sim);
+		}
+	} 
 	/* fill result vector: */
 	for (i = j = 0; i < result->dim; i++) {
 		if (j < dim && i == p->pe[j]) { /* simulated */
