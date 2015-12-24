@@ -1,5 +1,5 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
+R version 3.2.3 (2015-12-10) -- "Wooden Christmas-Tree"
 Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -39,7 +39,7 @@ Type 'q()' to quit R.
 > # proper Euclidian (projected) space:
 > pts = coordinates(wind.loc[match(names(wind[4:15]), wind.loc$Code),])
 > pts = SpatialPoints(pts)
-> if (require(rgdal)) {
+> if (require(rgdal) && require(maps)) {
 + proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
 + utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
 + pts = spTransform(pts, utm29)
@@ -88,13 +88,13 @@ Type 'q()' to quit R.
 + all.equal(wind.pr0, wind.ST)
 + }
 Loading required package: rgdal
-rgdal: version: 1.0-7, (SVN revision 559)
+rgdal: version: 1.1-3, (SVN revision 594)
  Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 1.11.2, released 2015/02/10
+ Loaded GDAL runtime: GDAL 2.0.1, released 2015/09/15
  Path to GDAL shared files: /usr/local/share/gdal
  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
  Path to PROJ.4 shared files: (autodetected)
- Linking to sp version: 1.2-1 
+ Linking to sp version: 1.2-2 
 Loading required package: maps
 
  # ATTENTION: maps v3.0 has an updated 'world' map.        #
@@ -110,4 +110,4 @@ In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
 > 
 > proc.time()
    user  system elapsed 
-  2.968   2.228   2.472 
+  3.420   3.236   3.357 
