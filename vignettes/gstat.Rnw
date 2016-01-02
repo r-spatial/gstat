@@ -21,11 +21,14 @@ for the {\tt gstat} R package }
 \maketitle
 
 \section{Introduction}
-The \code{meuse} data set is a data set comprising of four heavy metals
-measured in the top soil in a flood plain along the river Meuse. The
-governing process seems that polluted sediment is carried by the river,
-and mostly deposited close to the river bank. This document shows a
-geostatistical analysis of this data set.
+The \code{meuse} data set provided by package \code{sp} is a
+data set comprising of four heavy metals measured in the top soil
+in a flood plain along the river Meuse, along with a handful of
+covariates. The process governing heavy metal distribution seems
+that polluted sediment is carried by the river, and mostly deposited
+close to the river bank, and areas with low elevation. This document
+shows a geostatistical analysis of this data set. The data set was
+introduced by Burrough and McDonnell, 1998.
 
 This tutorial introduced the functionality of the R package \code{gstat},
 used in conjunction with package \code{sp}. Package \code{gstat} provides
@@ -84,7 +87,9 @@ bubble(meuse, "zinc",
 % the following is needed because lattice plots (bubble wraps xyplot) do not
 % show without an explicit print; in order not to confuse users, we hide this:
 <<fig=TRUE,echo=FALSE>>=
-print(bubble(meuse, "zinc", main = "zinc concentrations (ppm)"))
+print(bubble(meuse, "zinc", 
+	col=c("#00ff0088", "#00ff0088"), main = "zinc concentrations (ppm)")
+)
 @
 
 and note the following: 
@@ -326,6 +331,8 @@ print(plot(vgm.map, threshold = 5, col.regions = bpy.colors(), ylab = "", xlab =
 % In: K.~Hornik \& F.~Leisch (Eds.), Proceedings of the 3rd International
 % Workshop on Distributed Statistical Computing (DSC 2003) March 20--22,
 % Vienna, Austria. ISSN 1609-395X; available from [1].
+\item Burrough, P.A., R.A. McDonnell, 1998.  Principles of Geographical
+Information Systems, 2nd Edition. Oxford University Press.
 
 \item Diggle, P.J., J.A. Tawn, R.A. Moyeed, 1998. Model-based
 geostatistics. Applied Statistics 47(3), pp 299-350.
