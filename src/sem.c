@@ -261,7 +261,7 @@ static SAMPLE_VGM *semivariogram_grid(DATA *d, SAMPLE_VGM *ev) {
 	for (row = 0; row <= max_index; row++) {
 		for (col = (row == 0 ? 1 : -max_index); col <= max_index; col++) {
 			b.x = col * SQUARECELLSIZE(d->grid);
-			b.y = row * SQUARECELLSIZE(d->grid);
+			b.y = - row * SQUARECELLSIZE(d->grid);
 			ddist = valid_distance(&a, &b, ev->cutoff, 1,
 				d, d, (GRIDMAP *) ev->map);
 			if (ddist > 0.0) {
