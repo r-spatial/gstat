@@ -20,7 +20,7 @@
 #define DEF_idp             2.0
 #define DEF_intervals        15 /* default number of intervals */
 #define DEF_is_pdf            0 /* default to cdf indicator simulation */
-#define DEF_iter             50
+#define DEF_iter            200
 #define DEF_iwidth         -1.0
 #define DEF_jgraph            0
 #define DEF_lhs               0

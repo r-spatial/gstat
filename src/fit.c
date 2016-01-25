@@ -138,13 +138,13 @@ static void wls_fit(VARIOGRAM *vp) {
 					bounded ? "; bounded" : "");
 
 		oldSSErr = SSErr;
-		timetostop = (step < gl_fit_limit && step >= 0.0 && bounded == 0) || n_iter > gl_iter;
+		timetostop = (step < gl_fit_limit && step >= 0.0 && bounded == 0) || n_iter == gl_iter;
 	} while (! timetostop);
 
 	print_progress(gl_iter, gl_iter);
 
 	if (n_iter == gl_iter)
-		pr_warning("No convergence after %d iterations", n_iter);
+		pr_warning("No convergence after %d iterations: try different initial values?", n_iter);
 
 	if (DEBUG_VGMFIT) {
 		printlog("# iterations: %d, SSErr %g, last step %g", n_iter, SSErr, step);
