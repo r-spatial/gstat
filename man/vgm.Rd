@@ -11,20 +11,20 @@ Generates a variogram model, or adds to an existing model.
 \code{print.variogramModel} prints the essence of a variogram  model.
 }
 \usage{
-vgm(psill, model, range, nugget, add.to, anis, kappa = 0.5, ..., covtable,
+vgm(psill = NA, model, range = NA, nugget, add.to, anis, kappa = 0.5, ..., covtable,
 	Err = 0)
 \method{print}{variogramModel}(x, ...)
 as.vgm.variomodel(m)
 }
 \arguments{
-\item{psill}{ (partial) sill of the variogram model component }
+\item{psill}{ (partial) sill of the variogram model component (or model: see Details) }
 \item{model}{ model type, e.g. "Exp", "Sph", "Gau", "Mat". Calling vgm() without
 a model argument returns a data.frame with available models. }
 \item{range}{ range parameter of the variogram model component; in case of anisotropy: major range }
 \item{kappa}{ smoothness parameter for the Matern class of variogram 
 models }
 \item{nugget}{ nugget component of the variogram (this basically adds a nugget
-compontent to the model) }
+compontent to the model); if missing, nugget component is omitted }
 \item{add.to}{ the variogram model to which we want to add a component (structure) }
 \item{anis}{ anisotropy parameters: see notes below }
 \item{x}{ a variogram model to print }
@@ -49,6 +49,14 @@ as.vgm.variomodel tries to convert an object of class variomodel (geoR)
 to vgm.
 }
 \author{ Edzer Pebesma }
+\details{ If only the first argument (\code{psill}) is given a
+\code{character} value indicating a model, as in \code{vgm("Sph")},
+then this shorthand for \code{vgm(NA,"Sph",NA,NA)}, i.e. a spherical
+variogram with nugget and missing sill and range parameters; see
+examples below. Read \link{fit.variogram} to find out how \code{NA}
+variogram parameters are given default values, based on the sample
+variogram }
+
 \note{ 
 Geometric anisotropy can be modelled for each individual simple model
 by giving two or five anisotropy parameters, two for two-dimensional
@@ -114,6 +122,9 @@ sphere. Mathematical Geosciences 43.6 (2011): 721-733.
 }
 \examples{
 vgm()
+vgm("Sph")
+vgm(NA, "Sph", NA, NA)
+vgm(, "Sph") # "Sph" is second argument: NO nugget in this case
 vgm(10, "Exp", 300)
 x <- vgm(10, "Exp", 300)
 vgm(10, "Nug", 0)

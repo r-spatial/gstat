@@ -63,7 +63,8 @@ Data attributes:
 > bubble(meuse, "zinc", col = c("#00ff0088", "#00ff0088"), 
 +     main = "zinc concentrations (ppm)")
 
-> print(bubble(meuse, "zinc", main = "zinc concentrations (ppm)"))
+> print(bubble(meuse, "zinc", col = c("#00ff0088", "#00ff0088"), 
++     main = "zinc concentrations (ppm)"))
 
 > data(meuse.grid)
 

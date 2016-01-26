@@ -11,7 +11,8 @@ fit.variogram(object, model, fit.sills = TRUE, fit.ranges = TRUE,
 }
 \arguments{
 \item{object}{ sample variogram, output of \link{variogram} }
-\item{model}{ variogram model, output of \link{vgm} }
+\item{model}{ variogram model, output of \link{vgm}; see Details below
+for details on how \code{NA} values in \code{model} are initialised. }
 \item{fit.sills}{ logical; determines whether the partial sill
 coefficients (including nugget variance) should be fitted; or logical
 vector: determines for each partial sill parameter whether it should be
@@ -69,10 +70,19 @@ possibilities occur essentially for fitting a line through a single
 the variogram model parameters may help you out.
 }
 
-\details{Other values for \code{fit.method} are 1: weights equal to
+\details{
+If any of the initial parameters of \code{model} are \code{NA},
+they are given default values as follows. The range parameter
+is given one third of the maximum value of \code{object$dist}.
+The nugget value is given the mean value of the first three values
+of \code{object$gamma}.  The partial sill is given the mean of the
+last five values of \code{object$gamma}.
+
+Values for \code{fit.method} are 1: weights equal to
 $N_j$; 2: weights equal to $N_j/((gamma(h_j))^2)$; 5 (ignore, use
 \link{fit.variogram.reml}); 6: unweighted (OLS); 7: $N_j/(h_j^2)$. 
-(from: \url{http://www.gstat.org/gstat.pdf}, table 4.2) }
+(from: \url{http://www.gstat.org/gstat.pdf}, table 4.2).
+}
 
 \references{ \url{http://www.gstat.org/} 
 
@@ -89,8 +99,10 @@ Computers \& Geosciences, 30: 683-691.
 \examples{
 library(sp)
 data(meuse)
-vgm1 <- variogram(log(zinc)~1, ~x+y, meuse)
-fit.variogram(vgm1, vgm(1,"Sph",300,1))
+coordinates(meuse) = ~x+y
+vgm1 <- variogram(log(zinc)~1, meuse)
+fit.variogram(vgm1, vgm(1, "Sph", 300, 1))
+fit.variogram(vgm1, vgm("Sph"))
 }
 
 \keyword{models}

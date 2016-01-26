@@ -4,6 +4,7 @@
 function (object, model, fit.sills = TRUE, fit.ranges = TRUE, 
     fit.method = 7, debug.level = 1, warn.if.neg = FALSE) 
 {
+	cl = match.call()
     if (missing(object)) 
         stop("nothing to fit to")
 	if (!inherits(object, "gstatVariogram") && !inherits(object, "variogramCloud"))
@@ -24,6 +25,8 @@ function (object, model, fit.sills = TRUE, fit.ranges = TRUE,
         fit.ranges = rep(fit.ranges, length(model$model))
 	if (fit.method == 7 && any(object$dist == 0))
 		stop("fit.method 7 will not work with zero distance semivariances; use another fit.method value")
+	if (any(is.na(model$psill)) || any(is.na(model$range)))
+		model = vgm_fill_na(model, object)
     fit.ranges = fit.ranges & !(model$model %in% c("Nug", "Err"))
 	initialRange = model$range
     .Call(gstat_init, as.integer(debug.level))
@@ -55,5 +58,18 @@ function (object, model, fit.sills = TRUE, fit.ranges = TRUE,
 		if (rat > 1e6 || rat < 1e-6)
 			print("a possible solution MIGHT be to scale semivariances and/or distances")
 	}
+	attr(model, "call") = cl
     model
+}
+
+vgm_fill_na = function(model, obj) {
+	if (any(is.na(model$range))) {
+    	model[model$model %in% c("Nug", "Err"), "range"] = 0
+    	model[!model$model %in% c("Nug", "Err"), "range"] = max(obj$dist) / 3
+	}
+	if (any(model$model %in% "Nug") && is.na(model[model$model == "Nug","psill"]))
+    	model[model$model == "Nug", "psill"] = mean(head(obj$gamma, 3))
+	if (is.na(model[model$model != "Nug","psill"]))
+    	model[model$model != "Nug", "psill"] = mean(tail(obj$gamma, 5))
+	model
 }

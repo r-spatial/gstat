@@ -496,7 +496,7 @@ LM *calc_lm(LM *lm) {
 		lm->MSErr = lm->SSErr/lm->dfE;
 	lm->Cov = m_inverse(lm->Cov, &info); /* (X'X)-1 */
 	if (info != 0)
-		pr_warning("linear model covariance matrix singular");
+		pr_warning("linear model has singular covariance matrix");
 	/* next, multiply with sigma^2 */
 	sm_mlt(lm->MSErr, lm->Cov, lm->Cov); /* in situ mlt */
 	return lm;
