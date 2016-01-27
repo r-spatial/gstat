@@ -51,11 +51,12 @@ to vgm.
 \author{ Edzer Pebesma }
 \details{ If only the first argument (\code{psill}) is given a
 \code{character} value indicating a model, as in \code{vgm("Sph")},
-then this shorthand for \code{vgm(NA,"Sph",NA,NA)}, i.e. a spherical
-variogram with nugget and missing sill and range parameters; see
-examples below. Read \link{fit.variogram} to find out how \code{NA}
-variogram parameters are given default values, based on the sample
-variogram }
+then this taken as a shorthand form of \code{vgm(NA,"Sph",NA,NA)},
+i.e. a spherical variogram with nugget and unknown parameter values;
+see examples below. Read \link{fit.variogram} to find out how
+\code{NA} variogram parameters are given initial values for a fitting
+a model, based on the sample variogram. Package \code{automap}
+gives further options for automated variogram modelling. }
 
 \note{ 
 Geometric anisotropy can be modelled for each individual simple model
