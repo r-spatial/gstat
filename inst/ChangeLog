@@ -1,3 +1,14 @@
+2016-01-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/vgm.Rd: tidy
+
+2016-01-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, R/fit.variogram.R, R/vgm.R, inst/ChangeLog,
+	man/fit.variogram.Rd, man/vgm.Rd, src/lm.c,
+	tests/covtable.Rout.save, vignettes/gstat.Rout.save: extend vgm to
+	allow NA parameter values, and fit.variogram to choose defaults.
+
 2016-01-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* src/defaults.h, src/fit.c: increase default max iterations in

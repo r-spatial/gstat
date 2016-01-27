@@ -103,6 +103,12 @@ coordinates(meuse) = ~x+y
 vgm1 <- variogram(log(zinc)~1, meuse)
 fit.variogram(vgm1, vgm(1, "Sph", 300, 1))
 fit.variogram(vgm1, vgm("Sph"))
+
+# optimize the value of kappa in a Matern model, using bad style <<- side effect:
+f = function(x) attr(m.fit <<- fit.variogram(vgm1, vgm(,"Mat",nugget=NA,kappa=x)),"SSErr")
+optimize(f, c(0.1, 5))
+plot(vgm1, m.fit)
+
 }
 
 \keyword{models}
