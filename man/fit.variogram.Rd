@@ -7,7 +7,7 @@ Fit ranges and/or sills from a simple or nested variogram model
 to a sample variogram }
 \usage{
 fit.variogram(object, model, fit.sills = TRUE, fit.ranges = TRUE,
-	fit.method = 7, debug.level = 1, warn.if.neg = FALSE )
+	fit.method = 7, debug.level = 1, warn.if.neg = FALSE, fit.kappa = FALSE)
 }
 \arguments{
 \item{object}{ sample variogram, output of \link{variogram} }
@@ -28,6 +28,9 @@ For other values of \code{fit.method}, see details. }
 \item{debug.level}{ integer; set gstat internal debug level }
 \item{warn.if.neg}{ logical; if TRUE a warning is issued whenever
 a sill value of a direct variogram becomes negative }
+\item{fit.kappa}{ logical; if \code{TRUE}, a sequence of 0.3, 0.4,...,5 will
+be searched for optimal fit; alternatively another sequence can be given to
+this argument }
 }
 \value{
 returns a fitted variogram model (of class \code{variogramModel}).
@@ -108,7 +111,9 @@ fit.variogram(vgm1, vgm("Sph"))
 f = function(x) attr(m.fit <<- fit.variogram(vgm1, vgm(,"Mat",nugget=NA,kappa=x)),"SSErr")
 optimize(f, c(0.1, 5))
 plot(vgm1, m.fit)
-
+# best fit from the (0.3, 0.4, 0.5. ... , 5) sequence:
+(m <- fit.variogram(vgm1, vgm("Mat"), fit.kappa = TRUE))
+attr(m, "SSErr")
 }
 
 \keyword{models}

@@ -1,3 +1,16 @@
+2016-01-29  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NAMESPACE: import head and tail from utils
+
+2016-01-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: three flavor travis
+
+2016-01-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, man/fit.variogram.Rd: add example optimizing kappa
+	in ?fit.variogram
+
 2016-01-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* man/vgm.Rd: tidy

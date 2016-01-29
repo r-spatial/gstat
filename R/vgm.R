@@ -10,8 +10,17 @@ function(psill = NA, model, range = NA, nugget, add.to, anis, kappa = 0.5,
 		row.names(x) = 1:nrow(x)
 		return(x)
 	}
-	if (is.character(psill)) # as of ``vgm("Sph")''
-		return(vgm(NA, psill, NA, NA))
+	if (is.character(psill)) { # as of ``vgm("Sph")''
+		if (length(psill) > 1) {
+			ret = lapply(psill, function(x) vgm(x))
+			class(ret) = c("variogramModelList", "list")
+			return(ret)
+		} # else:
+		if (psill == "Nug")
+			return(vgm(NA, "Nug", NA))
+		else
+			return(vgm(NA, psill, NA, NA))
+	}
 	stopifnot(length(psill) == 1)
 	stopifnot(length(range) == 1)
 	stopifnot(missing(nugget) || length(nugget) == 1)
@@ -24,7 +33,11 @@ function(psill = NA, model, range = NA, nugget, add.to, anis, kappa = 0.5,
 		mlf = factor(ml, levels = ml)
 		return(data.frame(short = mf, long = mlf))
 	}
-	stopifnot(length(model) == 1)
+	if (length(model) > 1) {
+		ret = lapply(model, function(x) vgm(,x))
+		class(ret) = c("variogramModelList", "list")
+		return(ret)
+	} 
 	table = NULL
 	if (model == "Tab" && !missing(covtable)) {
 		table = as.matrix(covtable)

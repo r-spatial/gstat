@@ -17,7 +17,7 @@ vgm(psill = NA, model, range = NA, nugget, add.to, anis, kappa = 0.5, ..., covta
 as.vgm.variomodel(m)
 }
 \arguments{
-\item{psill}{ (partial) sill of the variogram model component (or model: see Details) }
+\item{psill}{ (partial) sill of the variogram model component, or model: see Details }
 \item{model}{ model type, e.g. "Exp", "Sph", "Gau", "Mat". Calling vgm() without
 a model argument returns a data.frame with available models. }
 \item{range}{ range parameter of the variogram model component; in case of anisotropy: major range }
@@ -39,7 +39,12 @@ where Z=Y+e, and Err is the variance of e}
 \item{m}{ object of class \code{variomodel}, see \pkg{geoR}}
 }
 \value{
-an object of class \code{variogramModel}, which extends data.frame.
+If a single model is passed, an object of class \code{variogramModel}
+extending \code{data.frame}.
+
+In case a vector ofmodels is passed, an object of class
+\code{variogramModelList} which is a list of \code{variogramModel}
+objects.
 
 When called without a model argument, a data.frame with available models
 is returned, having two columns: short (abbreviated names, to be used
@@ -143,5 +148,7 @@ print(x, digits = 3);
 print.data.frame(x)
 vv=vgm(model = "Tab",  covtable = 
 	variogramLine(vgm(1, "Sph", 1), 1, n=1e4, min = 0, covariance = TRUE))
+vgm(c("Mat", "Sph"))
+vgm(, c("Mat", "Sph")) # no nugget
 } 
 \keyword{models}
