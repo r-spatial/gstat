@@ -35,27 +35,25 @@ this argument }
 \value{
 returns a fitted variogram model (of class \code{variogramModel}).
 
-This is a data.frame has two attributes: (i) \code{singular} a logical
-attribute that indicates whether the non-linear fit converged, or ended
-in a singularity, and (ii) \code{SSErr} a numerical attribute with the
-(weighted) sum of squared errors of the fitted model. See Notes below.
+This is a \code{data.frame} with two attributes: (i) \code{singular}
+a logical attribute that indicates whether the non-linear fit
+converged (FALSE), or ended in a singularity (TRUE), and (ii)
+\code{SSErr} a numerical attribute with the (weighted) sum of
+squared errors of the fitted model. See Notes below.
 
 }
 
 \note{ If fitting the range(s) is part of the job of this function,
-the results may well depend on the starting values, given in argument
-\code{model}.  This is nothing new, but generally true for non-linear
-regression problems. This function uses the internal gstat (C) code,
-which iterates over (a) a direct (ordinary or weighted least squares)
-fit of the partial sills and (b) an iterated search, using gradients,
-for the optimal range value(s), until convergence of after a combined
-step ((a) and (b)) is reached.
+the results may well depend on the starting values, given in
+argument \code{model}, which is generally the case for non-linear
+regression problems. This function uses internal C code, which
+uses Levenberg-Marquardt.
 
-If for a direct (i.e. not a cross) variogram a sill parameter (partial
-sill or nugget) becomes negative, fit.variogram is called again with
-this parameter set to zero, and with a FALSE flag to further fit this
-sill. This implies that once at the search space boundary, a sill value 
-does not never away from it. 
+If for a direct (i.e. not a cross) variogram a sill parameter
+(partial sill or nugget) becomes negative, fit.variogram is called
+again with this parameter set to zero, and with a FALSE flag to
+further fit this sill. This implies that the search does not move
+away from search space boundaries.
 
 On singular model fits: If your variogram turns out to be a flat,
 horizontal or sloping line, then fitting a three parameter model such
@@ -107,7 +105,7 @@ vgm1 <- variogram(log(zinc)~1, meuse)
 fit.variogram(vgm1, vgm(1, "Sph", 300, 1))
 fit.variogram(vgm1, vgm("Sph"))
 
-# optimize the value of kappa in a Matern model, using bad style <<- side effect:
+# optimize the value of kappa in a Matern model, using ugly <<- side effect:
 f = function(x) attr(m.fit <<- fit.variogram(vgm1, vgm(,"Mat",nugget=NA,kappa=x)),"SSErr")
 optimize(f, c(0.1, 5))
 plot(vgm1, m.fit)
