@@ -1,3 +1,12 @@
+2016-02-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/fit.variogram.Rd: improve docs.
+
+2016-01-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/fit.variogram.R, R/vgm.R, inst/ChangeLog, man/fit.variogram.Rd,
+	man/vgm.Rd: add kappa fit to fit.variogram
+
 2016-01-29  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* NAMESPACE: import head and tail from utils
