@@ -3,6 +3,7 @@
 \section{Changes in version 1.1-1 (2015-11-xx)}{
   \itemize{
 	\item Further cleaned up C source code, got rid of lex and yacc files
+	\item Improve \code{fit.variogram} to choose initial values for range, sill and nugget before fitting
   }
 }
 
