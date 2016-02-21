@@ -9,3 +9,4 @@ Imports: utils, stats, graphics, methods, lattice, sp (>= 0.9-72), zoo, spacetim
 Suggests: rgdal (>= 0.5.2), rgeos, fields, maps, mapdata, maptools, xts
 License: GPL (>= 2.0)
 URL: https://github.com/edzer/gstat/
+BugReports: https://github.com/edzer/gstat/issues/
