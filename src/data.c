@@ -57,7 +57,6 @@ static double point_norm_gc(const DPOINT *p);
 static double pp_norm_gc2(const DPOINT *a, const DPOINT *b);
 static double pb_norm_gc2(const DPOINT *where, BBOX bbox);
 
-static void free_data_gridmap(DATA_GRIDMAP *t);
 static void logprint_data_header(const DATA *d);
 
 static DPOINT min, max;
@@ -854,9 +853,10 @@ DATA_GRIDMAP *gsetup_gridmap(double x_ul, double y_ul, double cellsizex,
 	return t;
 }
 
-static void free_data_gridmap(DATA_GRIDMAP *t) {
+void free_data_gridmap(DATA_GRIDMAP *t) {
 	efree(t->grid_base);
 	efree(t->dpt);
+	efree(t);
 }
 
 static void grid_push_point(DATA *d, DPOINT *p, int adjust_to_gridcentres) {

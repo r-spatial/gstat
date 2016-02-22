@@ -612,6 +612,7 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 		SET_VECTOR_ELT(ret, 2, np);
 		SET_VECTOR_ELT(ret, 3, gamma);
 		UNPROTECT(5);
+		free_data_gridmap(vgm->ev->S_grid);
 	} else {
 		if (vgm->ev->cloud)
 			nest = vgm->ev->n_est;

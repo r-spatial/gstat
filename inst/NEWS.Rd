@@ -1,8 +1,9 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
-\section{Changes in version 1.1-2 (2016-03-xx)}{
+\section{Changes in version 1.1-2 (2016-02-22)}{
   \itemize{
-    \item fixed \code{memcpy} for overlapping regions, in valgrind checks by Brian Ripley
+    \item fixed \code{memcpy} for overlapping regions error, found in valgrind checks by Brian Ripley
+	\item fixed a few more (small) memory leaks
   }
 }
 

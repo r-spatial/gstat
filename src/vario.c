@@ -160,6 +160,8 @@ void free_variogram(VARIOGRAM *v) {
 			if (v->ev->pairs)
 				efree(v->ev->pairs);
 		}
+		if (v->ev->map)
+			efree(v->ev->map);
 		efree(v->ev);
 	}
 	for (i = 0; i < v->max_n_models; i++)

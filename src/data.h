@@ -313,6 +313,7 @@ double v_identity(double mu);
 void setup_polynomial_X(DATA *d);
 void calc_polynomial_point(DATA *d, DPOINT *pt);
 double pp_norm_gc(const DPOINT *a, const DPOINT *b);
+void free_data_gridmap(DATA_GRIDMAP *t);
 
 #if defined(__cplusplus)
 }
