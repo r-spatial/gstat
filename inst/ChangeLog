@@ -1,5 +1,9 @@
 2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, inst/NEWS.Rd: update
+
+2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* src/mtrx.c: memcpy for overlapping src and dest, noted by Brian
 	Ripley
 
