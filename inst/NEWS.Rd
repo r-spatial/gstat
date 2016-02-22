@@ -1,6 +1,9 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
 \section{Changes in version 1.1-2 (2016-03-xx)}{
+  \itemize{
+    \item fixed \code{memcpy} for overlapping regions, in valgrind checks by Brian Ripley
+  }
 }
 
 \section{Changes in version 1.1-1 (2016-02-19)}{
