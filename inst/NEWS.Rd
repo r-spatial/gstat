@@ -1,9 +1,14 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
-\section{Changes in version 1.1-1 (2015-11-xx)}{
+\section{Changes in version 1.1-2 (2016-03-xx)}{
+}
+
+\section{Changes in version 1.1-1 (2016-02-19)}{
   \itemize{
 	\item Further cleaned up C source code, got rid of lex and yacc files
-	\item Improve \code{fit.variogram} to choose initial values for range, sill and nugget before fitting
+	\item Improve \code{fit.variogram} to choose initial values for range, sill and nugget before fitting, and fit over a range of model types
+	\item allow \code{NA} values in \code{vgm}
+	\item Fixed \url{https://github.com/edzer/gstat/issues/1}
   }
 }
 

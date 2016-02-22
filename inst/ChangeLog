@@ -1,5 +1,10 @@
 2016-02-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, inst/NEWS.Rd: update cl and news for CRAN
+	submission
+
+2016-02-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* DESCRIPTION: tidy
 
 2016-02-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
