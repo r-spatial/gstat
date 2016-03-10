@@ -3,16 +3,19 @@
 \docType{methods}
 \alias{krigeST}
 \alias{krige,formula,ST-method} % calling krigeST
+\alias{krigeSTTg}
 % \alias{idw,formula,ST-method}
 
 \title{ Ordinary global Spatio-Temporal Kriging}
 \description{
-Function for ordinary global spatio-temporal kriging on point support
+Function for ordinary global and local and trans Gaussian spatio-temporal kriging on point support
 }
 \usage{
-krigeST(formula, data, newdata, modelList, y, nmax = Inf, stAni = NULL,
+krigeST(formula, data, newdata, modelList, y, beta, nmax = Inf, stAni = NULL,
         computeVar = FALSE,	fullCovariance = FALSE,
         bufferNmax=2, progress=TRUE)
+krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+                      bufferNmax=2, progress=TRUE, lambda = 0))
 }
 \arguments{
  \item{formula}{ formula that defines the dependent variable as a linear
@@ -41,6 +44,7 @@ krigeST(formula, data, newdata, modelList, y, nmax = Inf, stAni = NULL,
  \item{y}{matrix; to krige multiple fields in a single step, pass data 
   as columns of matrix \code{y}. This will ignore the value of the 
   response in \code{formula}.}
+ \item{beta}{The (known) mean for simple kriging.}
  \item{nmax}{The maximum number of neighbouring locations for a spatio-temporal local neighbourhood}
  \item{stAni}{a spatio-temporal anisotropy scaling assuming a metric spatio-temporal space. Used only for the selection of the closest neighbours. This scaling needs only to be provided in case the model does not have a stAni parameter, or if a different one should be used for the neighbourhood selection. Mind the correct spatial unit. Currently, no coordinate conversion is made for the neighbourhood selection (i.e. Lat and Lon require a spatio-temporal anisotropy scaling in degrees per second).}
  \item{\dots}{ further arguments (currently unused)}
@@ -50,6 +54,7 @@ krigeST(formula, data, newdata, modelList, y, nmax = Inf, stAni = NULL,
   all predictions will be returned}
   \item{bufferNmax}{factor with which nmax is multiplied for an extended search radius (default=2). Set to 1 for no extension of the search radius.}
   \item{progress}{whether a progress bar shall be printed for local spatio-temporal kriging; default=TRUE}
+  \item{lambda}{The value of lambda used in the box-cox transformation.}
 }
 \details{
  Function \code{krigeST} is a R implementation of the kriging function from 
@@ -76,7 +81,7 @@ Computers \& Geosciences, 30: 683-691.
 }
 \author{ Edzer Pebesma, Benedikt Graeler }
 
-\seealso{ \code{\link{krige0}}, \code{\link{gstat}}, \code{\link[gstat]{predict}} }
+\seealso{ \code{\link{krige0}}, \code{\link{gstat}}, \code{\link[gstat]{predict}}, \code{\link{krigeTg}} }
 
 \examples{
 library(sp)
