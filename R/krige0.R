@@ -758,6 +758,10 @@ vgmArea = function(x, y = x, vgm, ndiscr = 16, verbose = FALSE, covariance = TRU
 
 krigeSTTg <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
                       bufferNmax=2, progress=TRUE, lambda = 0) {
+  if(!is.infinite(nmax))
+    return(krigeSTTg.local(formula, data, newdata, modelList, y, nmax, stAni,
+                           bufferNmax, progress, lambda))
+  
   lst <- extractFormula(formula, data, newdata)
   
   Y <- lst$y
@@ -790,4 +794,101 @@ krigeSTTg <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL
     phiDouble(muhat, lambda) * (OK$var1.var/2 - m)
   OK$var1TG.var = phiPrime(muhat, lambda)^2 * OK$var1.var
   OK
+}
+
+
+
+krigeSTTg.local <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+                      bufferNmax=2, progress=TRUE, lambda = 0) {
+stopifnot(!is.infinite(nmax))
+dimGeom <- ncol(coordinates(data))
+
+if(is.null(stAni) & !is.null(modelList$stAni)) {
+  stAni <- modelList$stAni
+  
+  # scale stAni [spatial/temporal] to seconds
+  if(!is.null(attr(modelList,"temporal unit")))
+    stAni <- stAni/switch(attr(modelList, "temporal unit"),
+                          secs=1,
+                          mins=60,
+                          hours=3600,
+                          days=86400,
+                          stop("Temporal unit",attr(modelList, "temporal unit"),"not implemented."))
+}
+
+if(is.null(stAni))
+  stop("The spatio-temporal model does not provide a spatio-temporal 
+       anisotropy scaling nor is the parameter stAni provided. One of 
+       these is necessary for local spatio-temporal kriging.")
+
+# check whether the model meets the coordinates' unit
+if(!is.null(attr(modelList, "spatial unit")))
+  stopifnot((is.projected(data) & (attr(modelList, "spatial unit") %in% c("km","m"))) | (!is.projected(data) & !(attr(modelList, "spatial unit") %in% c("km","m"))))
+
+if(is(data, "STFDF") || is(data, "STSDF"))
+  data <- as(data, "STIDF")
+
+clnd <- class(newdata)
+
+if(is(newdata, "STFDF") || is(newdata, "STSDF"))
+  newdata <- as(newdata, "STIDF")
+if(is(newdata, "STF") || is(newdata, "STS"))
+  newdata <- as(newdata, "STI")
+
+# from here on every data set is assumed to be STI*
+
+if(dimGeom == 2) {
+  df = as(data, "data.frame")[,c(1,2,4)]
+  df$time = as.numeric(df$time)*stAni
+  
+  query = as(newdata, "data.frame")[,c(1,2,4)]
+  query$time = as.numeric(query$time)*stAni
+} else {
+  df = as(data, "data.frame")[,c(1,2,3,5)]
+  df$time = as.numeric(df$time)*stAni
+  
+  query = as(newdata, "data.frame")[,c(1,2,3,5)]
+  query$time = as.numeric(query$time)*stAni
+}
+
+df <- as.matrix(df)
+query <- as.matrix(query)
+
+  res <- data.frame(var1.pred = rep(NA, nrow(query)),
+                    var1.var = rep(NA, nrow(query)),
+                    var1TG.pred = rep(NA, nrow(query)),
+                    var1TG.var = rep(NA, nrow(query)))
+
+if(progress)
+  pb = txtProgressBar(style = 3, max = nrow(query))
+
+nb <- t(apply(get.knnx(df, query, ceiling(bufferNmax*nmax))[[1]],1,sort))
+
+for (i in 1:nrow(query)) {
+  nghbrData <- data[nb[i, ], , drop = FALSE]
+  
+  if(bufferNmax > 1) {
+    nghbrCov <- covfn.ST(nghbrData, newdata[i, , drop = FALSE], modelList)
+    nghbrData <- nghbrData[sort(order(nghbrCov, decreasing=T)[1:nmax]), , drop = FALSE]
+  }
+  
+  res[i,] <- krigeSTTg(formula, nghbrData, newdata[i, , drop = FALSE],
+                        modelList, lambda)@data
+  if(progress)
+    setTxtProgressBar(pb, i)  
+}
+if(progress)
+  close(pb)
+
+if (clnd %in% c("STI", "STS", "STF")) {
+  newdata <- addAttrToGeom(newdata, as.data.frame(res))
+  newdata <- switch(clnd, 
+                    STI = as(newdata, "STIDF"),
+                    STS = as(newdata, "STSDF"),
+                    STF = as(newdata, "STFDF"))
+} else {
+  newdata@data <- cbind(newdata@data, res)
+  newdata <- as(newdata, clnd)
+}
+newdata
 }
