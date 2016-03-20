@@ -91,7 +91,7 @@ krige0 <- function(formula, data, newdata, model, beta, y, ...,
 		pred
 }
 
-krigeST <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+krigeST <- function(formula, data, newdata, modelList, y, beta, nmax=Inf, stAni=NULL,
                        computeVar = FALSE, fullCovariance = FALSE,
                        bufferNmax=2, progress=TRUE) {
   stopifnot(inherits(modelList, "StVariogramModel"))
@@ -105,13 +105,13 @@ krigeST <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
   
   if(nmax < Inf) # local neighbourhood ST kriging:
 	return(krigeST.local(formula = formula, data = data, 
-                         newdata = newdata, modelList = modelList, nmax = nmax, 
+                         newdata = newdata, modelList = modelList, beta=beta, nmax = nmax, 
                          stAni = stAni, computeVar = computeVar, 
                          fullCovariance = fullCovariance, 
                          bufferNmax = bufferNmax, progress))
   
   df <- krigeST.df(formula=formula, data=data, newdata=newdata, 
-                   modelList=modelList, y=y, nmax=nmax, stAni=stAni,
+                   modelList=modelList, y=y, beta=beta, nmax=nmax, stAni=stAni,
                    computeVar = computeVar, fullCovariance = fullCovariance,
                    bufferNmax=bufferNmax, progress=progress)
   
@@ -124,7 +124,7 @@ krigeST <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
 }
   
   
-krigeST.df <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+krigeST.df <- function(formula, data, newdata, modelList, y, beta, nmax=Inf, stAni=NULL,
                     computeVar = FALSE, fullCovariance = FALSE,
                     bufferNmax=2, progress=TRUE) {
 
@@ -144,40 +144,51 @@ krigeST.df <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NUL
 		d0 <- data[data@index[1,1], data@index[1,2], drop = FALSE]
 	else
     	d0 = data[1, 1, drop=FALSE]
+	
 	c0 = as.numeric(covfn.ST(d0, d0, modelList, separate = FALSE))
-	if (modelList$stModel == "separable" & separate)
-		skwts <- STsolve(V, v0, X) # use Kronecker trick
-	else 
-		skwts <- CHsolve(V, cbind(v0, X))
-	# ViX = skwts[,-(1:ncol(v0))]
-	# skwts = skwts[,1:ncol(v0)]
-	#npts = prod(dim(newdata)[1:2]) #-> does not work for STI
-	npts = length(newdata)
-	ViX = skwts[,-(1:npts)]
-	skwts = skwts[,1:npts]
-	beta = solve(t(X) %*% ViX, t(ViX) %*% y)
-	pred = x0 %*% beta + t(skwts) %*% (y - X %*% beta)
-	if (computeVar) {
-		# get (x0-X'C-1 c0)'(X'C-1X)-1 (x0-X'C-1 c0) -- precompute term 1+3:
-		if(is.list(v0)) # in the separable case
-			v0 = v0$Tm %x% v0$Sm
-		Q = t(x0) - t(ViX) %*% v0
-		# suggested by Marius Appel
-		var = c0 - apply(v0 * skwts, 2, sum) + apply(Q * CHsolve(t(X) %*% ViX, Q), 2, sum)
-		if (fullCovariance) {
-		  corMat <- cov2cor(covfn.ST(newdata, newdata, modelList))
-		  var <- corMat*matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
-		  # var = c0 - t(v0) %*% skwts + t(Q) %*% CHsolve(t(X) %*% ViX, Q)
-		  return(list(pred=pred, var=var))
-		}
-		return(data.frame(var1.pred = pred, var1.var = var))
+
+	if (!missing(beta)) { # sk:
+	  skwts = CHsolve(V, v0)
+	  npts = length(newdata)
+	  ViX = skwts[,-(1:npts)]
+	  skwts = skwts[,1:npts]
+	  if (computeVar)
+	    var <- c0 - apply(v0*skwts, 2, sum)
+	} else {
+  	if (modelList$stModel == "separable" & separate)
+  		skwts <- STsolve(V, v0, X) # use Kronecker trick
+  	else 
+  		skwts <- CHsolve(V, cbind(v0, X))
+  	npts = length(newdata)
+  	ViX = skwts[,-(1:npts)]
+  	skwts = skwts[,1:npts]
+  	beta = solve(t(X) %*% ViX, t(ViX) %*% y)
+  	if (computeVar) {
+  	  # get (x0-X'C-1 c0)'(X'C-1X)-1 (x0-X'C-1 c0) -- precompute term 1+3:
+  	  if(is.list(v0)) # in the separable case
+  	    v0 = v0$Tm %x% v0$Sm
+  	  Q = t(x0) - t(ViX) %*% v0
+  	  # suggested by Marius Appel
+  	  var = c0 - apply(v0 * skwts, 2, sum) + apply(Q * CHsolve(t(X) %*% ViX, Q), 2, sum)
+  	  if (fullCovariance) {
+  	    corMat <- cov2cor(covfn.ST(newdata, newdata, modelList))
+  	    var <- corMat*matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
+  	    # var = c0 - t(v0) %*% skwts + t(Q) %*% CHsolve(t(X) %*% ViX, Q)
+  	    return(list(pred=pred, var=var))
+  	  }
+  	}
 	}
-  
-	return(data.frame(var1.pred = pred))
+	
+	pred = x0 %*% beta + t(skwts) %*% (y - X %*% beta)
+	
+  if(computeVar)
+		return(data.frame(var1.pred = pred, var1.var = var))
+  else
+  	return(data.frame(var1.pred = pred))
 }
 
 # local spatio-temporal kriging
-krigeST.local <- function(formula, data, newdata, modelList, nmax, stAni=NULL,
+krigeST.local <- function(formula, data, newdata, modelList, beta, nmax, stAni=NULL,
                           computeVar=FALSE, fullCovariance=FALSE, 
                           bufferNmax=2, progress=TRUE) {
   dimGeom <- ncol(coordinates(data))
@@ -256,7 +267,7 @@ krigeST.local <- function(formula, data, newdata, modelList, nmax, stAni=NULL,
     }
       
     res[i,] <- krigeST.df(formula, nghbrData, newdata[i, , drop = FALSE],
-                          modelList, computeVar=computeVar, 
+                          modelList, computeVar=computeVar, beta = beta,
                           fullCovariance=fullCovariance)
     if(progress)
       setTxtProgressBar(pb, i)  
@@ -741,4 +752,143 @@ vgmArea = function(x, y = x, vgm, ndiscr = 16, verbose = FALSE, covariance = TRU
 	if (verbose)
 		close(pb)
 	V
+}
+
+### trans Gaussian
+
+krigeSTTg <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+                      bufferNmax=2, progress=TRUE, lambda = 0) {
+  if(!is.infinite(nmax))
+    return(krigeSTTg.local(formula, data, newdata, modelList, y, nmax, stAni,
+                           bufferNmax, progress, lambda))
+  
+  lst <- extractFormula(formula, data, newdata)
+  
+  Y <- lst$y
+  X <- lst$X
+
+  if (ncol(X) > 1)
+    stop("only formula with intercept allowed, e.g. y ~ 1")
+  
+  data$value = phiInv(Y, lambda)
+  data$value1 = rep(1, length(data$value))
+  
+  OK = krigeST(value ~ 1, data, newdata, modelList, 
+               nmax = nmax, stAni = stAni, 
+               computeVar=TRUE, bufferNmax = bufferNmax, progress = progress)
+  
+  separate <- length(data) > 1 && length(newdata) > 1 && 
+    inherits(data, "STF") && inherits(newdata, "STF")
+  
+  V <- covfn.ST(data, model = modelList, separate=separate)
+  Vi <- solve(V)
+  
+  muhat <- sum(Vi %*% data$value)/sum(Vi)
+  
+  # find m:
+  v0 <- covfn.ST(data, newdata, model = modelList, separate=separate)
+  m <- (1 - apply(Vi %*% v0,2,sum))/sum(Vi)
+  
+  # compute transGaussian kriging estimate & variance:
+  OK$var1TG.pred = phi(OK$var1.pred, lambda) + 
+    phiDouble(muhat, lambda) * (OK$var1.var/2 - m)
+  OK$var1TG.var = phiPrime(muhat, lambda)^2 * OK$var1.var
+  OK
+}
+
+
+
+krigeSTTg.local <- function(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
+                      bufferNmax=2, progress=TRUE, lambda = 0) {
+stopifnot(!is.infinite(nmax))
+dimGeom <- ncol(coordinates(data))
+
+if(is.null(stAni) & !is.null(modelList$stAni)) {
+  stAni <- modelList$stAni
+  
+  # scale stAni [spatial/temporal] to seconds
+  if(!is.null(attr(modelList,"temporal unit")))
+    stAni <- stAni/switch(attr(modelList, "temporal unit"),
+                          secs=1,
+                          mins=60,
+                          hours=3600,
+                          days=86400,
+                          stop("Temporal unit",attr(modelList, "temporal unit"),"not implemented."))
+}
+
+if(is.null(stAni))
+  stop("The spatio-temporal model does not provide a spatio-temporal 
+       anisotropy scaling nor is the parameter stAni provided. One of 
+       these is necessary for local spatio-temporal kriging.")
+
+# check whether the model meets the coordinates' unit
+if(!is.null(attr(modelList, "spatial unit")))
+  stopifnot((is.projected(data) & (attr(modelList, "spatial unit") %in% c("km","m"))) | (!is.projected(data) & !(attr(modelList, "spatial unit") %in% c("km","m"))))
+
+if(is(data, "STFDF") || is(data, "STSDF"))
+  data <- as(data, "STIDF")
+
+clnd <- class(newdata)
+
+if(is(newdata, "STFDF") || is(newdata, "STSDF"))
+  newdata <- as(newdata, "STIDF")
+if(is(newdata, "STF") || is(newdata, "STS"))
+  newdata <- as(newdata, "STI")
+
+# from here on every data set is assumed to be STI*
+
+if(dimGeom == 2) {
+  df = as(data, "data.frame")[,c(1,2,4)]
+  df$time = as.numeric(df$time)*stAni
+  
+  query = as(newdata, "data.frame")[,c(1,2,4)]
+  query$time = as.numeric(query$time)*stAni
+} else {
+  df = as(data, "data.frame")[,c(1,2,3,5)]
+  df$time = as.numeric(df$time)*stAni
+  
+  query = as(newdata, "data.frame")[,c(1,2,3,5)]
+  query$time = as.numeric(query$time)*stAni
+}
+
+df <- as.matrix(df)
+query <- as.matrix(query)
+
+  res <- data.frame(var1.pred = rep(NA, nrow(query)),
+                    var1.var = rep(NA, nrow(query)),
+                    var1TG.pred = rep(NA, nrow(query)),
+                    var1TG.var = rep(NA, nrow(query)))
+
+if(progress)
+  pb = txtProgressBar(style = 3, max = nrow(query))
+
+nb <- t(apply(get.knnx(df, query, ceiling(bufferNmax*nmax))[[1]],1,sort))
+
+for (i in 1:nrow(query)) {
+  nghbrData <- data[nb[i, ], , drop = FALSE]
+  
+  if(bufferNmax > 1) {
+    nghbrCov <- covfn.ST(nghbrData, newdata[i, , drop = FALSE], modelList)
+    nghbrData <- nghbrData[sort(order(nghbrCov, decreasing=T)[1:nmax]), , drop = FALSE]
+  }
+  
+  res[i,] <- krigeSTTg(formula, nghbrData, newdata[i, , drop = FALSE],
+                        modelList, lambda)@data
+  if(progress)
+    setTxtProgressBar(pb, i)  
+}
+if(progress)
+  close(pb)
+
+if (clnd %in% c("STI", "STS", "STF")) {
+  newdata <- addAttrToGeom(newdata, as.data.frame(res))
+  newdata <- switch(clnd, 
+                    STI = as(newdata, "STIDF"),
+                    STS = as(newdata, "STSDF"),
+                    STF = as(newdata, "STFDF"))
+} else {
+  newdata@data <- cbind(newdata@data, res)
+  newdata <- as(newdata, clnd)
+}
+newdata
 }

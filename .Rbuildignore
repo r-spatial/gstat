@@ -10,3 +10,5 @@ LICENSE
 README.md
 .travis.yml
 ChangeLog
+^.*\.Rproj$
+^\.Rproj\.user$
