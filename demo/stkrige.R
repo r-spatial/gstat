@@ -14,6 +14,9 @@ DE_RB_2005 <- STFDF(stations, dates, data.frame(PM10 = as.vector(air)))[,"2005"]
 DE_RB_2005 <- spTransform(DE_RB_2005, CRS("+init=epsg:32632"))
 DE_RB_2005 <- as(DE_RB_2005, "STSDF")
 
+# remove empty station
+DE_RB_2005 <- DE_RB_2005[(1:70)[-5],]
+
 paper <- FALSE
 set.seed(123)
 smplDays <- sort(sample(365,8))
