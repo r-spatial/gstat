@@ -15,7 +15,7 @@ krigeST(formula, data, newdata, modelList, y, beta, nmax = Inf, stAni = NULL,
         computeVar = FALSE,	fullCovariance = FALSE,
         bufferNmax=2, progress=TRUE)
 krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
-                      bufferNmax=2, progress=TRUE, lambda = 0))
+                      bufferNmax=2, progress=TRUE, lambda = 0)
 }
 \arguments{
  \item{formula}{ formula that defines the dependent variable as a linear
