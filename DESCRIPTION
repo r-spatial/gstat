@@ -1,5 +1,5 @@
 Package: gstat
-Version: 1.1-2
+Version: 1.1-3
 Title: Spatial and Spatio-Temporal Geostatistical Modelling, Prediction and Simulation
 Authors@R: c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de"),
              person("Benedikt", "Graeler", role = "aut"))

@@ -1,5 +1,10 @@
 2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, inst/NEWS.Rd, src/data.c, src/data.h, src/s.c,
+	src/vario.c: fix a few small memory leaks
+
+2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* inst/ChangeLog, src/mtrx.c: better solution for memcpy issue
 
 2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
