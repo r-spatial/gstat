@@ -9,19 +9,17 @@ library(gstat)
 library(rgdal)
 
 # load and subset data from package spacetime
-data(air)
-DE_RB_2005 <- STFDF(stations, dates, data.frame(PM10 = as.vector(air)))[,"2005"]
-DE_RB_2005 <- spTransform(DE_RB_2005, CRS("+init=epsg:32632"))
-DE_RB_2005 <- as(DE_RB_2005, "STSDF")
-
-# remove empty station
-DE_RB_2005 <- DE_RB_2005[(1:70)[-5],]
+data(DE_RB_2005)
 
 paper <- FALSE
 set.seed(123)
 smplDays <- sort(sample(365,8))
 
 # load German boundaries
+data(air)
+# DE_RB_2005 <- STFDF(stations, dates, data.frame(PM10 = as.vector(air)))[,"2005"]
+# DE_RB_2005 <- spTransform(DE_RB_2005, CRS("+init=epsg:32632"))
+# DE_RB_2005 <- as(DE_RB_2005, "STSDF")
 DE_NUTS1 <- spTransform(DE_NUTS1, CRS("+init=epsg:32632"))
 
 if(!paper)
@@ -107,7 +105,7 @@ fitSepModel <- fit.StVariogram(empVgm, separableModel, fit.method = 7,
                                lower = c(10,0,.1,0,0.1), 
                                upper = c(2000,1,12,1,200))
 attr(fitSepModel, "optim.output")$value
-# Exp+Exp: 5.79, Exp+Sph: 4.91, Sph+Exp: 5.98, Sph+Sph: 5.15
+# Exp+Exp: 9.87, Exp+Sph: 6.82, Sph+Exp: 10.42, Sph+Sph: 7.50
 if(!paper)
   plot(empVgm, fitSepModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,135))
 
@@ -121,13 +119,12 @@ fitProdSumModel <- fit.StVariogram(empVgm, prodSumModel, fit.method = 7,
                                    control = list(parscale=c(1,10,1,1,0.1,1,10)),
                                    lower = rep(0.0001,7))
 attr(fitProdSumModel, "optim.output")$value
-# Exp+Exp: 5.84, Exp+Sph: 4.86, Sph+Exp: 6.54, Sph+Sph: 5.11
-if(!paper)
-  plot(empVgm, fitProdSumModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,135))
+# Exp+Exp: 10.09, Exp+Sph: 6.91, Sph+Exp: 10.64, Sph+Sph: 7.59
+plot(empVgm, fitProdSumModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,135))
 
 # metric
 metricModel <- vgmST("metric",
-                     joint = vgm(60, "Mat", 150, 10, kappa=0.75),
+                     joint = vgm(60, "Mat", 150, 10, kappa=0.6),
                      stAni = 60)
 fitMetricModel <- fit.StVariogram(empVgm, metricModel, fit.method = 7,
                                   stAni=linStAni, method = "L-BFGS-B",
@@ -135,9 +132,9 @@ fitMetricModel <- fit.StVariogram(empVgm, metricModel, fit.method = 7,
                                   lower=c(80,50,5,50),
                                   upper=c(200,1500,60,300))
 attr(fitMetricModel, "optim.output")$value 
-# Exp:  7.22, Sph: 7.14,
-# Gau: 11.94, Mat 5: 10.42, Mat 2: 8.65, Mat 1.25: 7.60,
-# Mat 1: 7.20, Mat 0.75: 6.93, Mat 0.6: 6.98
+# Exp: 10.25, Sph: 10.59,
+# Gau: 21.32, Mat 5: 18.20, Mat 2: 14.43, Mat 1.25: 12.04,
+# Mat 1: 11.07, Mat 0.75: 10.23, Mat 0.6: 10.05
 if(!paper)
   plot(empVgm, fitMetricModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,135))
 
@@ -169,9 +166,9 @@ pars.u <- c(sill.s = 200,  range.s = 1E3,  nugget.s = 20,
             anis = 500)
 
 simpleSumMetricModel <- vgmST("simpleSumMetric",
-                              space=vgm(120,"Exp", 150),
-                              time =vgm(120,"Sph", 10),
-                              joint=vgm(120,"Exp", 150),
+                              space=vgm(120,"Sph", 150),
+                              time =vgm(120,"Exp", 10),
+                              joint=vgm(120,"Sph", 150),
                               nugget=10, stAni=150)
 fitSimpleSumMetricModel <- fit.StVariogram(empVgm, simpleSumMetricModel,  
                                            fit.method = 7, stAni=linStAni,
@@ -183,17 +180,18 @@ fitSimpleSumMetricModel <- fit.StVariogram(empVgm, simpleSumMetricModel,
                                                                    1,10),
                                                         maxit=1e4))
 attr(fitSimpleSumMetricModel, "optim.output")$value
-# Exp+Exp+Exp: 3.81 Sph+Sph+Sph: 4.98
-# Sph+Exp+Exp: 5.16 Exp+Sph+Exp: 3.56 Exp+Exp+Sph: 3.71
-# Exp+Sph+Sph: 3.87 Sph+Exp+Sph: 5.00 Sph+Sph+Exp: 4.93
-plot(empVgm,fitSimpleSumMetricModel, wireframe = T, scales = list(arrows = F), all = T , zlim=c(0,130))
+# Exp+Exp+Exp: 4.10 Sph+Sph+Sph: 3.56
+# Sph+Exp+Exp: 3.94 Exp+Sph+Exp: 3.60 Exp+Exp+Sph: 3.74
+# Exp+Sph+Sph: 3.98 Sph+Exp+Sph: 3.31 Sph+Sph+Exp: 3.32
+if(!paper)
+  plot(empVgm,fitSimpleSumMetricModel, wireframe = T, scales = list(arrows = F), all = T , zlim=c(0,130))
 
 # sum-metric
-# sumMetricModel <- sumMetricFromsimpleSumMetric(fitSimpleSumMetricModel)
+sumMetricModel <- sumMetricFromsimpleSumMetric(fitSimpleSumMetricModel)
 
 sumMetricModel <- vgmST("sumMetric",
                         space = vgm(20, "Sph", 150, 1),
-                        time = vgm(10, "Sph", 2, 0.5),
+                        time = vgm(10, "Exp", 2, 0.5),
                         joint = vgm(80, "Sph", 1500, 2.5),
                         stAni = 120)
 
@@ -206,9 +204,11 @@ fitSumMetricModel <- fit.StVariogram(empVgm, sumMetricModel, fit.method = 7, stA
                                                              100),
                                                   maxit=1e4))
 attr(fitSumMetricModel, "optim.output")$value
-# Exp+Exp+Exp: 3.80 Sph+Sph+Sph: 3.49
-# Sph+Exp+Exp: 3.78 Exp+Sph+Exp: 3.56 Exp+Exp+Sph: 3.71 
-# Exp+Sph+Sph: 3.73 Sph+Exp+Sph: 3.52 Sph+Sph+Exp: 3.62
+# Exp+Exp+Exp: 4.10 Sph+Sph+Sph: 3.36
+# Sph+Exp+Exp: 3.89 Exp+Sph+Exp: 3.60 Exp+Exp+Sph: 3.74
+# Exp+Sph+Sph: 3.73 Sph+Exp+Sph: 3.31 Sph+Sph+Exp: 3.32
+if(!paper)
+  plot(empVgm, fitSumMetricModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,130))
 
 if(!paper)
   plot(empVgm,fitSumMetricModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,130))

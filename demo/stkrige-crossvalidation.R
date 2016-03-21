@@ -195,7 +195,7 @@ if(paper) {
     paste(paste(x,collapse=" & ")," \\\\ \n")
   }
   
-  cat(apply(round(rbind(crossStat("pureSp"),
+  cat(apply(round(rbind(crossStat("pureSp10Nghbr"),
                         
                         crossStat("sepModel10Nghbr"),
                         crossStat("psModel10Nghbr"),
