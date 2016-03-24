@@ -1,3 +1,26 @@
+2016-03-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 6e4f3271289250f37f0bb0ce357207053210d09c Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Sun Mar 20 16:48:18
+	2016 +0100
+
+2016-03-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #2 from BenGraeler/master additions for space-time paper
+
+2016-03-10  Benedikt Graeler <graeler@hydrology.ruhr-uni-bochum.de>
+
+	* NAMESPACE, R/krige0.R, man/krigeST.Rd: - adds trans Gaussian kriging for space and time
+
+2016-02-25  Benedikt Graeler <graeler@hydrology.ruhr-uni-bochum.de>
+
+	* .Rbuildignore, .gitignore: update ignore files
+
+2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, inst/NEWS.Rd, src/data.c, src/data.h, src/s.c,
+	src/vario.c: fix a few small memory leaks
+
 2016-02-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, src/mtrx.c: better solution for memcpy issue
