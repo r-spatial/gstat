@@ -8,8 +8,8 @@ library(spacetime)
 library(gstat)
 library(rgdal)
 
-# load and subset data from package spacetime
-data(DE_RB_2005)
+# load data from package gstat
+data(DE_RB_2005, package = "gstat")
 
 paper <- FALSE
 set.seed(123)
@@ -116,7 +116,7 @@ prodSumModel <- vgmST("productSum",
                       k=2)
 fitProdSumModel <- fit.StVariogram(empVgm, prodSumModel, fit.method = 7, 
                                    stAni = linStAni, method = "L-BFGS-B", 
-                                   control = list(parscale=c(1,10,1,1,0.1,1,10)),
+                                   control = list(parscale = c(1,10,1,1,0.1,1,10)),
                                    lower = rep(0.0001,7))
 attr(fitProdSumModel, "optim.output")$value
 # Exp+Exp: 10.09, Exp+Sph: 6.91, Sph+Exp: 10.64, Sph+Sph: 7.59
@@ -127,10 +127,10 @@ metricModel <- vgmST("metric",
                      joint = vgm(60, "Mat", 150, 10, kappa=0.6),
                      stAni = 60)
 fitMetricModel <- fit.StVariogram(empVgm, metricModel, fit.method = 7,
-                                  stAni=linStAni, method = "L-BFGS-B",
+                                  stAni = linStAni, method = "L-BFGS-B",
                                   control = list(parscale = c(10,20,5,10)),
-                                  lower=c(80,50,5,50),
-                                  upper=c(200,1500,60,300))
+                                  lower = c(80,50,5,50),
+                                  upper = c(200,1500,60,300))
 attr(fitMetricModel, "optim.output")$value 
 # Exp: 10.25, Sph: 10.59,
 # Gau: 21.32, Mat 5: 18.20, Mat 2: 14.43, Mat 1.25: 12.04,
@@ -147,19 +147,7 @@ sumMetricFromsimpleSumMetric <- function(vgm) {
         stAni=vgm$stAni)
 }
 
-pars.simple.l <- c(sill.s = 0, range.s = 10,
-                   sill.t = 0, range.t = 0.1,
-                   sill.st= 0, range.st= 10,
-                   nugget=0, anis = 40)
-pars.simple.u <- c(sill.s = 200,  range.s = 500,
-                   sill.t = 200,  range.t = 20,
-                   sill.st= 200, range.st = 5000,
-                   nugget = 1E2, anis = 1E3)
-
-pars.l <- c(sill.s = 0,  range.s = 10,  nugget.s = 0,
-            sill.t = 0,  range.t = 0.1,   nugget.t = 0,
-            sill.st= 0, range.st = 10, nugget.st = 0, 
-            anis = 40)
+pars.l <- 
 pars.u <- c(sill.s = 200,  range.s = 1E3,  nugget.s = 20,
             sill.t = 200,  range.t = 75,   nugget.t = 20,
             sill.st= 200, range.st = 5E3, nugget.st = 20,
@@ -170,43 +158,47 @@ simpleSumMetricModel <- vgmST("simpleSumMetric",
                               time =vgm(120,"Exp", 10),
                               joint=vgm(120,"Sph", 150),
                               nugget=10, stAni=150)
-fitSimpleSumMetricModel <- fit.StVariogram(empVgm, simpleSumMetricModel,  
-                                           fit.method = 7, stAni=linStAni,
-                                           method = "L-BFGS-B",
-                                           lower=pars.simple.l, upper=pars.simple.u,
-                                           control=list(parscale=c(1,10,
-                                                                   1,1,
-                                                                   1,100,
-                                                                   1,10),
-                                                        maxit=1e4))
+fitSimpleSumMetricModel <- fit.StVariogram(empVgm, simpleSumMetricModel,
+                fit.method = 7, stAni=linStAni,
+                method = "L-BFGS-B",
+                lower = c(sill.s = 0, range.s = 10,
+                          sill.t = 0, range.t = 0.1,
+                          sill.st= 0, range.st= 10,
+                          nugget=0, anis = 40),
+                upper = c(sill.s = 200,  range.s = 500,
+                          sill.t = 200,  range.t = 20,
+                          sill.st= 200, range.st = 5000,
+                          nugget = 100, anis = 1000),
+                control = list(parscale = c(1,10,1,1,1,100,1,10)))
 attr(fitSimpleSumMetricModel, "optim.output")$value
-# Exp+Exp+Exp: 4.10 Sph+Sph+Sph: 3.56
-# Sph+Exp+Exp: 3.94 Exp+Sph+Exp: 3.60 Exp+Exp+Sph: 3.74
-# Exp+Sph+Sph: 3.98 Sph+Exp+Sph: 3.31 Sph+Sph+Exp: 3.32
+# Exp+Exp+Exp: 4.10 Exp+Sph+Exp: 3.60 Sph+Exp+Exp: 3.94 Sph+Sph+Exp: 3.32
+# Exp+Exp+Sph: 3.74 Exp+Sph+Sph: 3.98 Sph+Exp+Sph: 3.31 Sph+Sph+Sph: 3.56
 if(!paper)
   plot(empVgm,fitSimpleSumMetricModel, wireframe = T, scales = list(arrows = F), all = T , zlim=c(0,130))
 
 # sum-metric
-sumMetricModel <- sumMetricFromsimpleSumMetric(fitSimpleSumMetricModel)
+# sumMetricModel <- sumMetricFromsimpleSumMetric(fitSimpleSumMetricModel)
 
 sumMetricModel <- vgmST("sumMetric",
                         space = vgm(20, "Sph", 150, 1),
                         time = vgm(10, "Exp", 2, 0.5),
                         joint = vgm(80, "Sph", 1500, 2.5),
                         stAni = 120)
-
 fitSumMetricModel <- fit.StVariogram(empVgm, sumMetricModel, fit.method = 7, stAni=linStAni,
-                                     method = "L-BFGS-B", 
-                                     lower=pars.l, upper=pars.u,
-                                     control=list(parscale=c(1, 100,  1,
-                                                             1, 0.5, 1,
-                                                             1, 100,  1,
-                                                             100),
-                                                  maxit=1e4))
+                method = "L-BFGS-B", 
+                lower = c(sill.s = 0,  range.s = 10,  nugget.s = 0,
+                          sill.t = 0,  range.t = 0.1,   nugget.t = 0,
+                          sill.st= 0, range.st = 10, nugget.st = 0, 
+                          anis = 40),
+                upper = c(sill.s = 200,  range.s = 1E3,  nugget.s = 20,
+                          sill.t = 200,  range.t = 75,   nugget.t = 20,
+                          sill.st= 200, range.st = 5E3, nugget.st = 20,
+                          anis = 500),
+                control = list(parscale = c(1,100,1,1,0.5,1,1,100,1,100),
+                               maxit=1e4))
 attr(fitSumMetricModel, "optim.output")$value
-# Exp+Exp+Exp: 4.10 Sph+Sph+Sph: 3.36
-# Sph+Exp+Exp: 3.89 Exp+Sph+Exp: 3.60 Exp+Exp+Sph: 3.74
-# Exp+Sph+Sph: 3.73 Sph+Exp+Sph: 3.31 Sph+Sph+Exp: 3.32
+# Exp+Exp+Exp: 4.10 Exp+Sph+Exp: 3.60 Sph+Exp+Exp: 3.89 Sph+Sph+Exp: 3.32
+# Exp+Exp+Sph: 3.74 Exp+Sph+Sph: 3.73 Sph+Exp+Sph: 3.31 Sph+Sph+Sph: 3.36
 if(!paper)
   plot(empVgm, fitSumMetricModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,130))
 
@@ -244,3 +236,24 @@ plot(empVgm, list(fitSepModel, fitProdSumModel, fitMetricModel,
      zlab=list(NULL, rot=94, cex=0.8))
 if(paper)
   dev.off()
+
+if(paper) {
+  library(lattice)
+  spacelag <- rep(0:300, 13)
+  timelag <- rep(0:12/2,each=301)  
+  
+  png("../TeX/figures/vgmVsMetricDist.png", 9, 6, "in", bg="white", res = 150)
+  contourplot(model~spacelag+timelag|type, 
+              rbind(cbind(variogramSurface(fitSumMetricModel, 
+                                           data.frame(spacelag=spacelag,
+                                                      timelag=timelag)),
+                          data.frame(type = rep("variogram of the sum-metric model", length(spacelag)))),
+                    data.frame(spacelag=spacelag,
+                               timelag=timelag,
+                               model=sqrt(spacelag^2+116^2*timelag^2)/10,
+                               type="metric distance [10 km]")),
+              at=0:15*10,
+              xlab="space [km]",
+              ylab="timelag [days]")
+  dev.off()
+}
