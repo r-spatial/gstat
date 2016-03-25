@@ -147,12 +147,6 @@ sumMetricFromsimpleSumMetric <- function(vgm) {
         stAni=vgm$stAni)
 }
 
-pars.l <- 
-pars.u <- c(sill.s = 200,  range.s = 1E3,  nugget.s = 20,
-            sill.t = 200,  range.t = 75,   nugget.t = 20,
-            sill.st= 200, range.st = 5E3, nugget.st = 20,
-            anis = 500)
-
 simpleSumMetricModel <- vgmST("simpleSumMetric",
                               space=vgm(120,"Sph", 150),
                               time =vgm(120,"Exp", 10),
@@ -242,7 +236,7 @@ if(paper) {
   spacelag <- rep(0:300, 13)
   timelag <- rep(0:12/2,each=301)  
   
-  png("../TeX/figures/vgmVsMetricDist.png", 9, 6, "in", bg="white", res = 150)
+  png("../TeX/figures/vgmVsMetricDist.png", 9, 4, "in", bg="white", res = 150)
   contourplot(model~spacelag+timelag|type, 
               rbind(cbind(variogramSurface(fitSumMetricModel, 
                                            data.frame(spacelag=spacelag,
