@@ -8,6 +8,8 @@ library(spacetime)
 library(gstat)
 library(rgdal)
 
+animate <- FALSE
+
 # interpolation
 # build a grid over Germany
 gridDE <- SpatialGrid(GridTopology(DE_RB_2005@sp@bbox[,1]%/%10000*10000, c(10000,10000),
@@ -34,7 +36,7 @@ fitSumMetricModel$space$range <- fitSumMetricModel$space$range*1000
 fitSumMetricModel$joint$range <- fitSumMetricModel$joint$range*1000
 fitSumMetricModel$stAni <- fitSumMetricModel$stAni*1000
 
-if(paper) {
+if(animate) {
   DE_pred <- STF(gridDE, DE_RB_2005@time)
   
   predMat <- matrix(NA,0,2)
@@ -56,7 +58,7 @@ if(paper) {
                                    list("sp.points", DE_RB_2005[,i+14], col=gray(0.25), pch=3, cex=.5)),
                   main=as.character(index(DE_pred_winter[,i,drop=F]@time)))
   
-    png(file=paste("../TeX/figures/animate/pred",i,".png", sep=""), width=6, height=6, "in", res=150)
+    png(file=paste("vignettes/figures/animate/pred",i,".png", sep=""), width=6, height=6, "in", res=150)
     print(pnt)
     dev.off()
   }
@@ -95,12 +97,13 @@ pureSpPred <- STFDF(gridDE, DE_RB_2005@time[smplDays], data.frame(var1.pred = as
 DE_RB_2005 <- as(DE_RB_2005, "STFDF")
 
 if(paper) {
-#   pdf(file="../TeX/figures/pred_daily_means_PM10.pdf", width=8, height=5, pointsize=9)
-  png(file="../TeX/figures/pred_daily_means_PM10.png", width=9, height=6, "in", res=150)
-  stplot(smplSumPred, col.regions=bpy.colors(120)[-(1:20)], scales=list(draw=F),
-         main=NULL, at=0:70, # "spatio-temporal sum-metric model"
-         sp.layout = list(list("sp.polygons", DE_NUTS1, first=FALSE, col=gray(0.5)),
-                          list("sp.points", DE_RB_2005@sp, col=gray(0.25), pch=3, cex=.5)))
+  stpl <- stplot(smplSumPred, col.regions=bpy.colors(120)[-(1:20)], scales=list(draw=F),
+                 main=NULL, at=0:70, # "spatio-temporal sum-metric model"
+                 sp.layout = list(list("sp.polygons", DE_NUTS1, first=FALSE, col=gray(0.5)),
+                                  list("sp.points", DE_RB_2005@sp, col=gray(0.25), pch=3, cex=.5)))
+  
+  png(file="vignettes/figures/pred_daily_means_PM10.png", width=9, height=6, "in", res=150)
+  print(stpl)
   dev.off()
 } else {
   stplot(pureSpPred, col.regions=bpy.colors, scales=list(draw=F),

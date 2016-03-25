@@ -1,4 +1,4 @@
-# Ben Graeler, 20 th March, 2016
+# Ben Graeler, 25 th March, 2016
 #
 # Script reproducing the fit of the vignette "spatio-temporal-kriging
 
@@ -17,9 +17,6 @@ smplDays <- sort(sample(365,8))
 
 # load German boundaries
 data(air)
-# DE_RB_2005 <- STFDF(stations, dates, data.frame(PM10 = as.vector(air)))[,"2005"]
-# DE_RB_2005 <- spTransform(DE_RB_2005, CRS("+init=epsg:32632"))
-# DE_RB_2005 <- as(DE_RB_2005, "STSDF")
 DE_NUTS1 <- spTransform(DE_NUTS1, CRS("+init=epsg:32632"))
 
 if(!paper)
@@ -31,13 +28,6 @@ if(!paper)
           main="reported days per station",
           ylab="number of days", xaxt="n")
 
-# annual mean PM10 concentration
-# if(!paper)
-#   spplot(DE_RB_2005@sp,"annual_mean_PM10", col.regions=bpy.colors(),
-#          sp.layout = list("sp.polygons", DE_NUTS1), scales=list(draw=T),
-#          key.space="right", colorkey=T,
-#          main=expression(paste("annual mean ","PM"[10]," concentration")))
-
 # acf
 if(!paper) {
   acf(DE_RB_2005[sample(68,1),,drop=F]@data)
@@ -46,7 +36,7 @@ if(!paper) {
 
 # a few daily snapshots
 if(paper)
-  png("../TeX/figures/daily_means_PM10.png", width=9, height=6, "in", res=150)
+  png("vignettes/figures/daily_means_PM10.png", width=9, height=6, "in", res=150)
 stplot(as(DE_RB_2005[,smplDays],"STFDF"),
        col.regions=bpy.colors(120)[-(1:20)],
        sp.layout = list("sp.polygons", DE_NUTS1), scales=list(draw=F), 
@@ -200,7 +190,7 @@ if(!paper)
   plot(empVgm,fitSumMetricModel, wireframe=T, all=T, scales=list(arrows=F), zlim=c(0,130))
 
 if(paper)
-  png("../TeX/figures/allVgmsWireframe.png", 9, 6, "in", bg="white", res = 150)
+  png("vignettes/figures/allVgmsWireframe.png", 9, 6, "in", bg="white", res = 150)
 plot(empVgm, list(fitSepModel, fitProdSumModel, fitMetricModel,
                   fitSumMetricModel, fitSimpleSumMetricModel), 
      wireframe=T, all=T, zlim=c(0,140), ylim=c(0,6.1), xlim=c(0,300),
@@ -216,7 +206,7 @@ if(paper)
   dev.off()
 
 if(paper)
-  png("../TeX/figures/allVgmsDiffWireframe.png", 9, 6, "in", bg="white", res = 150)
+  png("vignettes/figures/allVgmsDiffWireframe.png", 9, 6, "in", bg="white", res = 150)
 plot(empVgm, list(fitSepModel, fitProdSumModel, fitMetricModel,
                   fitSumMetricModel, fitSimpleSumMetricModel), 
      wireframe=T,  all=T, zlim=c(-10,25), ylim=c(0,6.1), xlim=c(0,300), 
@@ -236,18 +226,20 @@ if(paper) {
   spacelag <- rep(0:300, 13)
   timelag <- rep(0:12/2,each=301)  
   
-  png("../TeX/figures/vgmVsMetricDist.png", 9, 4, "in", bg="white", res = 150)
-  contourplot(model~spacelag+timelag|type, 
-              rbind(cbind(variogramSurface(fitSumMetricModel, 
-                                           data.frame(spacelag=spacelag,
-                                                      timelag=timelag)),
-                          data.frame(type = rep("variogram of the sum-metric model", length(spacelag)))),
-                    data.frame(spacelag=spacelag,
-                               timelag=timelag,
-                               model=sqrt(spacelag^2+116^2*timelag^2)/10,
-                               type="metric distance [10 km]")),
-              at=0:15*10,
-              xlab="space [km]",
-              ylab="timelag [days]")
+  cplot <- contourplot(model~spacelag+timelag|type, 
+                       rbind(cbind(variogramSurface(fitSumMetricModel, 
+                                                    data.frame(spacelag=spacelag,
+                                                               timelag=timelag)),
+                                   data.frame(type = rep("variogram of the sum-metric model", length(spacelag)))),
+                             data.frame(spacelag=spacelag,
+                                        timelag=timelag,
+                                        model=sqrt(spacelag^2+116^2*timelag^2)/10,
+                                        type="metric distance [10 km]")),
+                       at=0:15*10,
+                       xlab="space [km]",
+                       ylab="timelag [days]")
+  
+  png("vignettes/figures/vgmVsMetricDist.png", 9, 4, "in", bg="white", res = 150)
+  print(cplot)
   dev.off()
 }
