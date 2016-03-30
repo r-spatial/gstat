@@ -1,3 +1,8 @@
+########################################################
+# note that demo(stkrige) and demo(stkrige-prediction) #
+# need to be run before this one                       #
+########################################################
+
 ## cross-validation
 crossStat <- function(var1, var2="PM10", STxDF=DE_RB_2005, digits=NA) {
   diff <- STxDF[,,var1,drop=F]@data[[1]] - STxDF[,,var2,drop=F]@data[[1]]
@@ -216,14 +221,25 @@ if(paper) {
   loc <- 38 # sample(68,1) # 15
   tw <- "2005-01-15/2005-04-15"
   
-  png("../TeX/figures/singleStationTimeSeries.png", 9, 4, "in", bg="white", res = 149)
+  png("vignettes/figures/singleStationTimeSeries.png", 9, 4, "in", bg="white", res = 149)
   plot(DE_RB_2005[loc,tw][,"sumMetricModel50Nghbr"], main=paste("Location", DE_RB_2005@sp@data$station_european_code[loc]),
        ylim=c(0,70))
   points(DE_RB_2005[loc,tw][,"PM10"], type="l", col="darkgreen", lty=1)
   points(DE_RB_2005[loc,tw][,"sumMetricModel50Nghbr95u"], type="l", col="darkgrey", lty=2)
   points(DE_RB_2005[loc,tw][,"sumMetricModel50Nghbr95l"], type="l", col="darkgrey", lty=2)
-  # points(DE_RB_2005[loc,tw][,"pureSp50Nghbr"], type="l", col="green", lty=3)
   legend("topright",legend = c("observed","sum-metric","95 % prediction band"), lty=c(1,1,2),
          col=c("darkgreen", "black", "darkgrey") )
+  dev.off()
+  
+  DE_RB_2005@data$diffPM10 <- DE_RB_2005@data$sumMetricModel50Nghbr - DE_RB_2005@data$PM10
+
+  stpl <- stplot(as(DE_RB_2005[,smplDays, "diffPM10"],"STFDF"),
+                 col.regions=bpy.colors(5),
+                 sp.layout = list("sp.polygons", DE_NUTS1), scales=list(draw=F), 
+                 key.space="right", colorkey=T, cuts=c(-25,-15,-5,5,15,25),
+                 main=NULL) #expression(paste("daily mean ","PM"[10]," concentration")))
+  
+  png("vignettes/figures/diffs_daily_means_PM10.png", width=9, height=6, "in", res=150)
+  print(stpl)
   dev.off()
 }
