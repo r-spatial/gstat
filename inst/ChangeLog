@@ -1,3 +1,42 @@
+2016-03-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #4 from BenGraeler/master r-journal ms merge
+
+2016-03-25  Benedikt Graeler <benedikt.graeler@ruhr-uni-bochum.de>
+
+	* demo/stkrige.R,
+	vignettes/spatio-temporal-kriging-concordance.tex,
+	vignettes/spatio-temporal-kriging.Rnw,
+	vignettes/spatio-temporal-kriging.bib,
+	vignettes/spatio-temporal-kriging.log,
+	vignettes/spatio-temporal-kriging.tex,
+	vignettes/spatio-temporal-kriging.tex.aux,
+	vignettes/spatio-temporal-kriging_raw.tex: updates vignette
+	"spatio-temporal-kriging" to revised paper
+
+2016-03-24  Benedikt Graeler <benedikt.graeler@ruhr-uni-bochum.de>
+
+	* : commit 955fc1fd23a4b1efbf6f42a360e48f0bb595f4e5 Author: Benedikt
+	Graeler <benedikt.graeler@ruhr-uni-bochum.de> Date:   Thu Mar 24
+	15:57:31 2016 +0100
+
+2016-03-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #3 from BenGraeler/master update st paper demos
+
+2016-03-20  Benedikt Graeler <graeler@hydrology.ruhr-uni-bochum.de>
+
+	* demo/stkrige.R: - remove empty station
+
+2016-03-20  Benedikt Graeler <graeler@hydrology.ruhr-uni-bochum.de>
+
+	* demo/00Index, demo/stkrige-crossvalidation.R,
+	demo/stkrige-prediction.R, demo/stkrige.R, man/krigeST.Rd: - adds R scripts from vignette spatio-temporal kriging as demos
+
+2016-03-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, man/krigeST.Rd: correct typo
+
 2016-03-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : commit 6e4f3271289250f37f0bb0ce357207053210d09c Author: Edzer

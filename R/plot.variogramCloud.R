@@ -7,6 +7,14 @@ function (x, identify = FALSE, digitize = FALSE,
 {
     if (identify || digitize) {
 		if (missing(ylim)) ylim = c(0, max(x$gamma))
+        dots = list(...)
+		if ("log" %in% names(dots)) {
+			log = dots$log
+			if (grep("x", log) & xlim[1] == 0) 
+				xlim[1] = min(x$dist)/2
+			if (grep("y", log) & ylim[1] == 0) 
+				ylim[1] = min(x$gamma)/2
+		}
         plot(x$dist, x$gamma, xlim = xlim, ylim = ylim, xlab = xlab, 
             ylab = ylab, ...)
 		.BigInt = attr(x, ".BigInt")

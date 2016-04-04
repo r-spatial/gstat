@@ -1,5 +1,18 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
+\section{Changes in version 1.1-3 (2016-03-30)}{
+  \itemize{
+	\item Merge pull request #4 from BenGraeler/master r-journal ms merge
+	 updates vignette "spatio-temporal-kriging" to revised paper
+	\item Merge pull request #3 from BenGraeler/master update st paper demos
+	\item demo/stkrige.R: - remove empty station
+	\item demo/00Index, demo/stkrige-crossvalidation.R,
+	demo/stkrige-prediction.R, demo/stkrige.R, man/krigeST.Rd: - adds R scripts from vignette spatio-temporal kriging as demos
+	\item Merge pull request #2 from BenGraeler/master additions for space-time paper
+	\item NAMESPACE, R/krige0.R, man/krigeST.Rd: - adds trans Gaussian kriging for space and time
+  }
+}
+
 \section{Changes in version 1.1-2 (2016-02-22)}{
   \itemize{
     \item fixed \code{memcpy} for overlapping regions error, found in valgrind checks by Brian Ripley
@@ -31,10 +44,9 @@
   \itemize{
   \item use ordered spatial index when selecting nearest strongest correlated
      neighbours in local kriging to avoid warning of spacetime
-  \item update spatio-temporal geostatitics vignettes; add R Journal 
-   \href{http://cran.uni-muenster.de/web/packages/gstat/vignettes/spatio-temporal-kriging.pdf}{draft}
+  \item update spatio-temporal geostatitics vignettes; add R Journal draft as vignette
+  (Spatio-Temporal Geostatistics using gstat)
   \item add spatio-temporal PM10 interpolation 
    \href{http://gstat.r-forge.r-project.org/STpred.html}{movie (mp4)}
-
   }
 }
