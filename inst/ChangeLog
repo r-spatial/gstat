@@ -1,3 +1,13 @@
+2016-04-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: retry travis
+
+2016-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, R/plot.variogramCloud.R, inst/ChangeLog,
+	inst/NEWS.Rd, src/s.c: allow log in plot.variogramCloud; bump
+	version; rho warnings in s.c
+
 2016-03-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : Merge pull request #4 from BenGraeler/master r-journal ms merge
