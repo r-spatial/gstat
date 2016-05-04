@@ -3,7 +3,7 @@
  */
 #include <R.h>
 #include <Rinternals.h>
-#include <Rdefines.h>
+/* #include <Rdefines.h> */
 
 #include "defs.h"
 #include "data.h"
