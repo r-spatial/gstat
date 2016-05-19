@@ -51,7 +51,9 @@
 \bibliographystyle{plainnat}
 % \VignetteIndexEntry{Spatio-Temporal Geostatistics using gstat}
 
+
 \title{Spatio-Temporal Interpolation using \pkg{gstat}}
+% \VignetteIndexEntry{Spatio-Temporal Geostatistics using gstat}
 
 \author{by Benedikt Gr{\"a}ler, Edzer Pebesma and Gerard Heuvelink}
 
@@ -59,14 +61,8 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-\SweaveOpts{echo=FALSE}
-
 
 \maketitle
-
-%%% \input{spatio-temporal-kriging.tex}
-%%%%%%%%%%
-
 
 \abstract{
 We present new spatio-temporal geostatistical modelling and interpolation capabilities of the R package \pkg{gstat}. Various spatio-temporal covariance models have been implemented, such as the separable, product-sum, metric and sum-metric models. In a real-world application we compare spatio-temporal interpolations using these models with a purely spatial kriging approach. The target variable of the application is the daily mean $\rm{PM}_{10}$ concentration measured at rural air quality monitoring stations across Germany in 2005. R code for variogram fitting and interpolation is presented in this paper to illustrate the workflow of spatio-temporal interpolation using \pkg{gstat}. We conclude that the system works properly and that the extension of \pkg{gstat} facilitates and eases spatio-temporal geostatistical modelling and prediction for R users.
@@ -79,14 +75,14 @@ The collection and processing of spatio-temporal data is rapidly increasing due 
 Interpolation of spatial random fields is a common task in geostatistics. Simple approaches like inverse distance weighted predictions or the well known kriging procedures have routinely been applied for many years. Nowadays, modern sensors allow to monitor different variables at an increasing temporal resolution producing rich spatio-temporal data sets.
 This calls as well for theory and methods to deal with these data sets to gain a better understanding of the observed spatio-temporal processes. While the theoretical aspects of spatio-temporal geostatistics show good progress \citep{Cressie2011}, implementations lack behind. This hinders a wide application of spatio-temporal modelling, as typically extensive scripting and thorough understanding is necessary to build spatio-temporal models. Handling of spatio-temporal data in R is provided by the \CRANpkg{spacetime} package \citep{Pebesma2012}. In this paper, we present an extension of the \CRANpkg{gstat} package \citep{Pebesma2004} (version 1.1-3) that reuses the \pkg{spacetime} classes for the estimation of spatio-temporal covariance/variogram models and to perform spatio-temporal interpolation. Our implementation handles various types of spatio-temporal covariance structures and facilitates spatio-temporal interpolation. The notation of functions in \pkg{gstat} are extended in a way closely following the purely spatial design. This allows a researcher acquainted with \pkg{gstat} to readily use spatio-temporal tools. The use of the newly implemented functions is presented and illustrated by mapping spatio-temporal air-quality data. Another package that offers extensive spatio-temporal geostatistical functionality is \CRANpkg{RandomFields} \citep{Schlather2014}; further packages are mentioned in the SpatioTemporal CRAN task view\footnote{\url{http://cran.r-project.org/web/views/SpatioTemporal.html}}.
 
-The paper is organised as follows. The next section introduces the general interpolation routine and describes the different spatio-temporal covariance models, followed by a section introducing the German rural background data set for 2005 and performing the parameter estimation (i.e. covariance model fitting). Cross-validation results are presented and discussed in the section thereafter. Conclusions are drawn in the closing section. R scripts reproducing this study are available from within the \pkg{gstat} package as demos. \code{stkrige} re-estimates the variogram models, \code{stkrige-prediction} re-executes the prediction for a time series and a couple of stations, and \code{stkrige-crossvalidation} re-runs the entire leave-one-out cross-validation (note that the latter takes a few hours).
+The paper is organised as follows. The next section introduces the general interpolation routine and describes the different spatio-temporal covariance models, followed by a section introducing the German rural background data set for 2005 and performing the parameter estimation (i.e.\ covariance model fitting). Cross-validation results are presented and discussed in the section thereafter. Conclusions are drawn in the closing section. R scripts reproducing this study are available from within the \pkg{gstat} package as demos. \code{stkrige} re-estimates the variogram models, \code{stkrige-prediction} re-executes the prediction for a time series and a couple of stations, and \code{stkrige-crossvalidation} re-runs the entire leave-one-out cross-validation (note that the latter takes a few hours).
 
 \section{Spatio-temporal dependence modelling and kriging}\label{sec:theory}
 
-In the following, we will assume a Gaussian spatio-temporal random field $Z$ defined over a spatial domain $\mathcal{S}$ and temporal domain $\mathcal{T}$. Typically, a sample $\mathbf{z} = \big(z(s_1,t_1),\dots,z(s_n,t_n)\big)$ has been observed at a set of distinct spatio-temporal locations $(s_1, t_1), \dots, (s_n,t_n) \in \mathcal{S}\times \mathcal{T} \subseteq \mathbb{R}^2 \times \mathbb{R}$ that may include repeated measurements at the same location or simultaneous measurements at multiple spatial locations. Often, one is interested in modelling $Z$ from the sample $\mathbf{z}$ in order to predict at unobserved locations in space and time or simulate from the conditional distribution.
+In the following, we will assume a Gaussian spatio-temporal random field $Z$ defined over a spatial domain $\mathcal{S}$ and temporal domain $\mathcal{T}$. Typically, a sample $\mathbf{z} = \left(z(s_1,t_1),\dots,z(s_n,t_n)\right)$ has been observed at a set of distinct spatio-temporal locations $(s_1, t_1), \dots, (s_n,t_n) \in \mathcal{S}\times \mathcal{T} \subseteq \mathbb{R}^2 \times \mathbb{R}$ that may include repeated measurements at the same location or simultaneous measurements at multiple spatial locations. Often, one is interested in modelling $Z$ from the sample $\mathbf{z}$ in order to predict at unobserved locations in space and time or simulate from the conditional distribution.
 
 Across our domain of interest $\mathcal{S} \times \mathcal{T}$, we assume the random field $Z$ to be stationary and spatially isotropic. Hence, the field can be characterised through a mean $\mu$ and a covariance function $C_{\rm st}$ where the spatio-temporal covariance only depends on the separating distances across space $h \in \mathbb{R}_{\geq 0}$ and time $u \in \mathbb{R}_{\geq 0}$. Note that extensions beyond this set-up can easily be derived as has been done for the pure spatial case using for instance universal kriging to overcome the stationarity of the mean. The general spatio-temporal covariance function is given by
-$C_{\rm st}(h,u) = {\rm Cov}\big(Z(s,t), Z(\tilde{s},\tilde{t})\big)$ 
+$C_{\rm st}(h,u) = {\rm Cov}\left(Z(s,t), Z(\tilde{s},\tilde{t})\right)$ 
 for a separating spatial distance $h$ and temporal distance $u$ and any pair of points $(s,t), (\tilde{s},\tilde{t}) \in \mathcal{S}\times\mathcal{T}$ with $||s-\tilde{s}||=h$ and $|t-\tilde{t}|=u$. In general, this covariance function is hard to estimate but a couple of models using simplifying assumptions will be presented in the following together with their spatio-temporal variograms $\gamma_{\rm st}(h,u) = C_{\rm st}(0,0)-C_{\rm st}(h,u)$ and encoding in \pkg{gstat}. Given a valid covariance function, the covariance matrices used in the linear predictor are easily obtained and the same algebraic operations as in the well known spatial case yield predictions of the desired random field \citep{Cressie2011}. A major difference is, however, the computational complexity of the matrix inversion. Typically, observations are made at a rather high temporal frequency leading to a number of spatio-temporal locations that is too large for global kriging. Hence, interpolation based on a selected neighbourhood of a subset of all data points becomes beneficial. Additionally, this relaxes the assumption of stationarity, as smooth variations in the mean value across the domain can be respected. The related class of dynamic models also addresses the computational complexity resulting in a temporal Markov structure. Implementations can be found in \CRANpkg{spTimer} by \citet{bakar2015}, \CRANpkg{spBayes} by \citet{finley2015}, \CRANpkg{spate} by \citet{sigrist2015} or \pkg{INLA} by \citet{lindgren2015}.
 
 \subsection{Covariance models}
@@ -97,27 +93,24 @@ The covariance models implemented in \pkg{gstat} and presented in this paper are
 \item The \dfn{separable covariance model} assumes that the spatio-temporal covariance function can be represented as the product of a spatial and temporal term:
 $$C_{\rm sep}(h,u)=C_{\rm s}(h)C_t(u)$$ 
 Its variogram is given by (see Appendix for details):
-$$\gamma_{\rm sep}(h,u) = {\rm sill} \cdot \big( \bar{\gamma}_s(h)+\bar{\gamma}_t(u)-\bar{\gamma}_s(h)\bar{\gamma}_t(u) \big)$$
-
+$$\gamma_{\rm sep}(h,u) = {\rm sill} \cdot \left( \bar{\gamma}_s(h)+\bar{\gamma}_t(u)-\bar{\gamma}_s(h)\bar{\gamma}_t(u) \right)$$
 where $\bar{\gamma}_s$ and $\bar{\gamma}_t$ are standardised spatial and temporal variograms with separate nugget effects and (joint) sill of 1. The overall sill parameter is denoted by "sill". 
 
 The R package \pkg{gstat} encodes this model as:
 
-\code{vgmST("separable", space=spatialVgm, time=temporalVgm, sill=sill)}
+\code{vgmST("separable", space = spatialVgm, time = temporalVgm, sill = sill)}
 
 The separable model has a strong computational advantage in the setting where each spatial location has an observation at each temporal instance (a \code{"STFDF"} without \samp{NA}s, \cite{Pebesma2012}). In these cases, the covariance matrix (and its inverse) can be composed using the Kronecker-product of the purely spatial and purely temporal covariance matrices (respectively their inverse).
 
 \item 
 The above model extends to the \dfn{product-sum covariance model} that we give here in a slightly different notation as \citet{DeCesare2001} and \citet{DeIaco2001} by 
 $$C_{\rm ps}(h,u)=k C_{\rm s}(h)C_{\rm t}(u) + C_{\rm s}(h) + C_{\rm t}(u)$$
-
 with $k > 0$.
 
 The corresponding variogram can be written as
-$$\gamma_{\rm ps}(h,u) = (k \cdot {\rm sill}_{\rm t} + 1) \gamma_{\rm s}(h) + (k \cdot {\rm sill}_{\rm s} + 1) \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u)$$
-
+$$\gamma_{\rm ps}(h,u) = \left(k \cdot {\rm sill}_{\rm t} + 1\right) \gamma_{\rm s}(h) + \left(k \cdot {\rm sill}_{\rm s} + 1\right) \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u)$$
 where ${\gamma}_{\rm s}$ and $\gamma_{\rm t}$ are spatial and temporal variograms (see Appendix for details). The parameter $k$ needs to be positive and the following identity defines the overall sill (${\rm sill}_{\rm st}$) of the model in terms of the model's spatial and temporal sills:
-$${\rm sill}_{\rm st} = k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t}.$$
+$${\rm sill}_{\rm st} = k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t}$$
 The above equation can also be used to estimate $k$ based on the three sill values. An alternative formulation of the product-sum variogram can be found in \citet{DeIaco2001}.
 
 The \pkg{gstat} definition of this model reads:
@@ -128,10 +121,9 @@ vgmST("productSum", space = spatialVgm, time = temporalVgm, k = k)
 
 \item 
 Assuming identical spatial and temporal covariance functions except for spatio-temporal anisotropy, allows to use a spatio-temporal \dfn{metric covariance model} where, after matching space and time by an anisotropy correction $\kappa$ (\code{stAni}), the spatial, temporal and spatio-temporal distances are treated equally resulting in a single covariance model $C_{\rm joint}$: 
-$$C_{\rm m}(h,u)=C_{\rm joint}\big(\sqrt{h^2+(\kappa\cdot u)^2}\big)$$
-
+$$C_{\rm m}(h,u)=C_{\rm joint}\left(\sqrt{h^2+(\kappa\cdot u)^2}\right)$$
 The variogram evaluates to
-$$ \gamma_{\rm m} (h,u) = \gamma_{\rm joint}(\sqrt{h^2+(\kappa\cdot u)^2}) $$
+$$ \gamma_{\rm m} (h,u) = \gamma_{\rm joint}\left(\sqrt{h^2+(\kappa\cdot u)^2}\right) $$
 where $\gamma_{\rm joint}$ (\code{jointVgm}) is any known variogram that may include a nugget effect. The following line generates the model in \pkg{gstat}:
 
 \begin{example*}
@@ -142,9 +134,9 @@ The spatio-temporal anisotropy parameter $\kappa$ (\code{stAni}) is given as spa
 
 \item
 A combination of spatial, temporal and a metric model including an anisotropy parameter $\kappa$ is found in \citet{Bilonick1988} and revisited by \citet{Snepvangers2003} as the \dfn{sum-metric covariance model}: 
-$$C_{\rm sm}(h,u)=C_{\rm s}(h)+C_{\rm t}(u)+C_{\rm joint}\big(\sqrt{h^2+(\kappa\cdot u)^2}\big)$$ 
+$$C_{\rm sm}(h,u)=C_{\rm s}(h)+C_{\rm t}(u)+C_{\rm joint}\left(\sqrt{h^2+(\kappa\cdot u)^2}\right)$$ 
 This model allows for spatial, temporal and joint nugget effects. Thus, the variogram is given by
-$$ \gamma_{\rm sm}(h,u)= \gamma_{\rm  s}(h) + \gamma_{\rm t}(u) + \gamma_{\rm joint}(\sqrt{h^2+(\kappa\cdot u)^2})$$
+$$ \gamma_{\rm sm}(h,u)= \gamma_{\rm  s}(h) + \gamma_{\rm t}(u) + \gamma_{\rm joint}\left(\sqrt{h^2+(\kappa\cdot u)^2}\right)$$
 where $\gamma_{\rm s}$, $\gamma_{\rm t}$ and $\gamma_{\rm joint}$ are spatial, temporal and joint variograms with separate nugget-effects. This model can be defined in \pkg{gstat} through:
 
 \begin{example*}
@@ -154,10 +146,8 @@ vgmST("sumMetric", space = spatialVgm, time = temporalVgm, joint = jointVgm,
 
 \item
 A simplified version of the above model is to restrict the spatial, temporal and joint variograms to nugget free models. Additionally, a single spatio-temporal nugget is introduced and the variogram takes the representation:
-$$\gamma_{\rm ssm}(h,u) = {\rm nug}\cdot {\bf1}_{h>0 \vee u>0} + \gamma_{\rm s}(h) + \gamma_{\rm t}(u) + \gamma_{\rm joint}(\sqrt{h^2+(\kappa\cdot u)^2})$$
-
+$$\gamma_{\rm ssm}(h,u) = {\rm nug}\cdot {\bf1}_{h>0 \vee u>0} + \gamma_{\rm s}(h) + \gamma_{\rm t}(u) + \gamma_{\rm joint}\left(\sqrt{h^2+(\kappa\cdot u)^2}\right)$$
 The \dfn{simple sum-metric covariance model} can be obtained by:
-
 \begin{example*}
 vgmST("simpleSumMetric", space = spatialVgm, time = temporalVgm,
       joint = jointVgm, nugget = nug, stAni = stAni)
@@ -168,7 +158,7 @@ vgmST("simpleSumMetric", space = spatialVgm, time = temporalVgm,
 
 \subsection{Parameter estimation}
 
-Fitting routines for the above variogram models are implemented in \pkg{gstat} through the function \code{fit.StVariogram()}, which calls \code{optim()} from the R core package \pkg{stats} \citep{RCoreTeam2016}. Additional parameters to improve the numerical optimisation can be provided to \code{fit.StVariogram()} and will be passed on to \code{optim()} (using R's three-dots mechanism). As some of the parameters are limited to certain ranges (nuggets need to be non-negative, ranges must be positive), it is advised to use an optimisation routine that allows to impose limits on the search space (i.e. \code{L-BFGS-B}) and provide sensible limits via \code{lower} and \code{upper}. By default, the method \code{L-BFGS-B} is called and the smallest lower and largest upper bounds supported by the model are given. The estimation of the spatio-temporal variogram models relies on a sample variogram empirically derived from the data. In contrast to the spatial variogram line, the spatio-temporal variogram is represented by a surface for lag classes composed of a spatial and temporal separation distance. Different from the spatial case, a spatio-temporal sample variogram contains lag-classes of zero spatial separation describing pure temporal dependencies. Without duplicate observations, no estimates can be made for the lag-class with both zero spatial and zero temporal separation. The sample variogram is calculated through the function \code{variogram()} that dispatches the call for spatio-temporal data objects (of class \code{"STFDF"}, \code{"STSDF"}, or \code{"STIDF"}) from \pkg{spacetime}. For a visual judgement of the fit between sample and fitted variograms the \code{plot()} function can be called to show the variogram surfaces next to each other as coloured level plots. Alternatively, a wireframe plot is obtained by setting the parameter  \code{wireframe = TRUE} (Figure~\ref{fig:allVgmsWireframe}). A further option is to plot the differences between the sample and model variogram surfaces by setting \code{diff = TRUE}, see Figure~\ref{fig:allVgmsDiffWireframe}. Additionally to visual comparison, \code{fit.StVariogram()} provides the output of \code{optim} as attribute \code{optim.out} of the returned S3-class \code{"StVariogram"}. This attribute includes valuable information to diagnose the success of the \code{optim} routine. It contains for instance the convergence code (\code{\$convergence}) or message (\code{\$message}) and  the optimised value (\code{\$value}), which is the mean of the (weighted) squared deviations between sample and fitted variogram surface. Furthermore, it is advised to check the estimated parameters against the parameter boundaries and starting values. Additionally, starting values might also influence the success and result of the optimisation, as local optima may occur due to the interdependence of the parameters. Alternatively, the user might want to start a grid search in order to better asses the sensitivity of the estimates.
+Fitting routines for the above variogram models are implemented in \pkg{gstat} through the function \code{fit.StVariogram()}, which calls \code{optim()} from the R core package \pkg{stats}. Additional parameters to improve the numerical optimisation can be provided to \code{fit.StVariogram()} and will be passed on to \code{optim()} (using R's three-dots mechanism). As some of the parameters are limited to certain ranges (nuggets need to be non-negative, ranges must be positive), it is advised to use an optimisation routine that allows to impose limits on the search space (i.e.\ \code{L-BFGS-B}) and provide sensible limits via \code{lower} and \code{upper}. By default, the method \code{L-BFGS-B} is called and the smallest lower and largest upper bounds supported by the model are given. The estimation of the spatio-temporal variogram models relies on a sample variogram empirically derived from the data. In contrast to the spatial variogram line, the spatio-temporal variogram is represented by a surface for lag classes composed of a spatial and temporal separation distance. Different from the spatial case, a spatio-temporal sample variogram contains lag-classes of zero spatial separation describing pure temporal dependencies. Without duplicate observations, no estimates can be made for the lag-class with both zero spatial and zero temporal separation. The sample variogram is calculated through the function \code{variogram()} that dispatches the call for spatio-temporal data objects (of class \code{"STFDF"}, \code{"STSDF"}, or \code{"STIDF"}) from \pkg{spacetime}. For a visual judgement of the fit between sample and fitted variograms the \code{plot()} function can be called to show the variogram surfaces next to each other as coloured level plots. Alternatively, a wireframe plot is obtained by setting the parameter  \code{wireframe = TRUE} (Figure~\ref{fig:allVgmsWireframe}). A further option is to plot the differences between the sample and model variogram surfaces by setting \code{diff = TRUE}, see Figure~\ref{fig:allVgmsDiffWireframe}. Additionally to visual comparison, \code{fit.StVariogram()} provides the output of \code{optim} as attribute \code{optim.out} of the returned S3-class \code{"StVariogram"}. This attribute includes valuable information to diagnose the success of the \code{optim} routine. It contains for instance the convergence code (\code{\$convergence}) or message (\code{\$message}) and  the optimised value (\code{\$value}), which is the mean of the (weighted) squared deviations between sample and fitted variogram surface. Furthermore, it is advised to check the estimated parameters against the parameter boundaries and starting values. Additionally, starting values might also influence the success and result of the optimisation, as local optima may occur due to the interdependence of the parameters. Alternatively, the user might want to start a grid search in order to better asses the sensitivity of the estimates.
 
 The fitting approach is identical for all covariance models. However, with the flexibility of the model also the number of parameters increases, making a numerical estimation at times cumbersome. Starting values can in most cases be read from the sample variogram. Parameters of the spatial and temporal variograms can be assessed from the spatio-temporal surface fixing the counterpart at 0. The overall spatio-temporal sill including the nugget can be deducted from the plateau that a nicely behaving sample variogram reaches for 'large' spatial and temporal distances. An important issue is the potentially different orders of magnitude of the parameters. It is at times advisable to rescale spatial and temporal distances to ranges similar to the ones of sills and nuggets using the parameter \code{parscale}. \code{parscale} needs to be provided via \code{control = list(parscale=\dots)} and holds a vector of the same length as the number of parameters to be optimised (see the documentation of \code{optim} for further details).
 
@@ -181,14 +171,14 @@ The fitting approach is identical for all covariance models. However, with the f
 \code{fit.method} & weights \\ \midrule
 0 & no fitting\\
 1 and 3 & $N_j$ \\
-2 and 4 & $N_j/\gamma(h_j, u_j)^2$ \\
+2 and 4 & $N_j/\gamma\left(h_j, u_j\right)^2$ \\
 5 & reserved for REML \\
 6 & 1, no weighting\\
-7 & $N_j/(h_j^2 + {\rm stAni}^2\cdot u_j^2)$ \\
+7 & $N_j/\left(h_j^2 + {\rm stAni}^2\cdot u_j^2\right)$ \\
 8 & $N_j/h_j^2$ \\
 9 & $N_j/u_j^2$ \\
-10 & $1/\gamma(h_j,u_j)^2$ \\
-11 & $1/(h_j^2 + {\rm stAni}^2\cdot u_j^2)$ \\
+10 & $1/\gamma\left(h_j,u_j\right)^2$ \\
+11 & $1/\left(h_j^2 + {\rm stAni}^2\cdot u_j^2\right)$ \\
 12 & $1/h_j^2$ \\
 13 & $1/u_j^2$  \\ \bottomrule
 \end{tabular}}
@@ -210,7 +200,7 @@ As the metric induced by the spatial and rescaled temporal distances are only pr
 
 \section{Application and illustration}\label{sec:data}
 
-The data set used is taken from AirBase\footnote{\href{http://www.eea.europa.eu/data-and-maps/data/airbase-the-european-air-quality-database-6}{AirBase - The European air quality database}}, the air quality data base for Europe provided by the European Environmental Agency (EEA). We focus on a single air quality indicator, particulate matter with a diameter less than 10~$\mu\rm m$, measured at rural background stations for 2005 (${\rm PM}_{10}$). The data base contains data for many years. Besides rural, also urban areas are monitored and not only at background locations (e.g. traffic stations). However, these processes are considered to be of a different nature and should be treated separately. As a use case, we therefore limit our data set to the rural background stations in Germany. Figure \ref{fig:dailyMeans} shows for 8 randomly chosen days daily mean values of ${\rm PM}_{10}$ concentrations for the entire monitoring network over Germany in 2005 with 69 rural background stations.
+The data set used is taken from AirBase\footnote{\href{http://www.eea.europa.eu/data-and-maps/data/airbase-the-european-air-quality-database-6}{AirBase - The European air quality database}}, the air quality data base for Europe provided by the European Environmental Agency (EEA). We focus on a single air quality indicator, particulate matter with a diameter less than 10~$\mu\rm m$, measured at rural background stations for 2005 (${\rm PM}_{10}$). The data base contains data for many years. Besides rural, also urban areas are monitored and not only at background locations (e.g.\ traffic stations). However, these processes are considered to be of a different nature and should be treated separately. As a use case, we therefore limit our data set to the rural background stations in Germany. Figure \ref{fig:dailyMeans} shows for 8 randomly chosen days daily mean values of ${\rm PM}_{10}$ concentrations for the entire monitoring network over Germany in 2005 with 69 rural background stations.
 
 \begin{figure}
 \centering
@@ -220,7 +210,7 @@ The data set used is taken from AirBase\footnote{\href{http://www.eea.europa.eu/
 
 In order to fit a spatio-temporal model to the air quality data set, the empirical variogram surface is computed and used as input for the fitting routines of the different models. The empirical variogram is based on spatio-temporal bins that span regularly over space and time. 
 
-Regular measurements over time (i.e. hourly, daily) motivate regular binning intervals of the same temporal resolution. Nevertheless, flexible binning boundaries can be passed for spatial and temporal dimensions. This allows for instance to use smaller bins at small distances and larger ones for large distances. Temporal boundaries, instead of lags, are required when the sampling of the data is non-regular. In cases where regular temporal observations can be assumed, this is utilised in the sample variogram calculations and any two temporal consecutive observations are assumed to have the same temporal distance. Figure~\ref{fig:allVgmsWireframe} shows the empirical variogram along with the proposed best fitting model of each spatio-temporal variogram family as perspective wireframe plots. In order to better identify structural shortcomings of the selected model, a difference plot (Figure~\ref{fig:allVgmsDiffWireframe}) is a helpful visual diagnostic plot.
+Regular measurements over time (i.e.\ hourly, daily) motivate regular binning intervals of the same temporal resolution. Nevertheless, flexible binning boundaries can be passed for spatial and temporal dimensions. This allows for instance to use smaller bins at small distances and larger ones for large distances. Temporal boundaries, instead of lags, are required when the sampling of the data is non-regular. In cases where regular temporal observations can be assumed, this is utilised in the sample variogram calculations and any two temporal consecutive observations are assumed to have the same temporal distance. Figure~\ref{fig:allVgmsWireframe} shows the empirical variogram along with the proposed best fitting model of each spatio-temporal variogram family as perspective wireframe plots. In order to better identify structural shortcomings of the selected model, a difference plot (Figure~\ref{fig:allVgmsDiffWireframe}) is a helpful visual diagnostic plot.
 
 Beyond the selection of the spatio-temporal variogram family, each component of this model can be chosen from any implemented one-dimensional variogram. In Table~\ref{tab:vgmFits} a selection of fitted models in terms of their residuals compared to the sample variogram surface are shown. The best fitting spatio-temporal model of each family is given as:
 
@@ -244,9 +234,9 @@ separableModel <- vgmST("separable",
                         sill = 124)
 fit.StVariogram(empVgm, separableModel, fit.method = 7, 
                 stAni = 117.3, method = "L-BFGS-B", 
-                control = list(parscale = c(100,1,10,1,100)),
-                lower = c(10,0,0.1,0,0.1), 
-                upper = c(2000,1,12,1,200))
+                control = list(parscale = c(100, 1, 10, 1, 100)),
+                lower = c(10, 0, 0.1, 0, 0.1), 
+                upper = c(2000, 1, 12, 1, 200))
 \end{example*}
 
 \item 
@@ -269,7 +259,7 @@ prodSumModel <- vgmST("productSum",
                       k=2)
 fit.StVariogram(empVgm, prodSumModel, fit.method = 7, 
                 stAni = 117.3, method = "L-BFGS-B", 
-                control = list(parscale = c(1,10,1,1,0.1,1,10)),
+                control = list(parscale = c(1, 10, 1, 1, 0.1, 1, 10)),
                 lower = rep(0.0001, 7))
 \end{example*}
 
@@ -287,13 +277,13 @@ obtained via
 
 \begin{example*}
 metricModel <- vgmST("metric",
-                     joint = vgm(60, "Mat", 150, 10, kappa=0.6),
+                     joint = vgm(60, "Mat", 150, 10, kappa = 0.6),
                      stAni = 60)
 fit.StVariogram(empVgm, metricModel, fit.method = 7,
                 stAni = 117.3, method = "L-BFGS-B",
-                control = list(parscale = c(10,20,5,10)),
-                lower = c(80,50,5,50),
-                upper = c(200,1500,60,300))
+                control = list(parscale = c(10, 20, 5, 10)),
+                lower = c(80, 50, 5, 50),
+                upper = c(200, 1500, 60, 300))
 \end{example*}
 
 \item\label{bestfit} 
@@ -318,15 +308,16 @@ sumMetricModel <- vgmST("sumMetric",
                         stAni = 120)
 fit.StVariogram(empVgm, sumMetricModel, fit.method = 7, 
                 stAni = 117.3, method = "L-BFGS-B", 
-                control = list(parscale = c(1,100,1,1,0.5,1,1,100,1,100),
-                               maxit=1e4),
-                lower = c(sill.s = 0,  range.s = 10,  nugget.s = 0,
-                          sill.t = 0,  range.t = 0.1,   nugget.t = 0,
-                          sill.st= 0, range.st = 10, nugget.st = 0, 
+                control = list(parscale = c(1, 100, 1, 1, 0.5, 1,
+                                            1, 100, 1, 100),
+                               maxit=10000),
+                lower = c(sill.s = 0,  range.s = 10, nugget.s = 0,
+                          sill.t = 0, range.t = 0.1, nugget.t = 0,
+                          sill.st = 0, range.st = 10, nugget.st = 0, 
                           anis = 40),
-                upper = c(sill.s = 200,  range.s = 1E3,  nugget.s = 20,
-                          sill.t = 200,  range.t = 75,   nugget.t = 20,
-                          sill.st= 200, range.st = 5E3, nugget.st = 20,
+                upper = c(sill.s = 200, range.s = 1000, nugget.s = 20,
+                          sill.t = 200, range.t = 75, nugget.t = 20,
+                          sill.st= 200, range.st = 5000, nugget.st = 20,
                           anis = 500))
 \end{example*}
 
@@ -346,20 +337,20 @@ obtained via
 
 \begin{example*}
 simpleSumMetricModel <- vgmST("simpleSumMetric",
-                              space=vgm(120,"Sph", 150),
-                              time =vgm(120,"Exp", 10),
-                              joint=vgm(120,"Sph", 150),
-                              nugget=10, stAni=150)
+                              space=vgm(120, "Sph", 150),
+                              time =vgm(120, "Exp", 10),
+                              joint=vgm(120, "Sph", 150),
+                              nugget = 10, stAni = 150)
 fit.StVariogram(empVgm, simpleSumMetricModel, fit.method = 7,
                 stAni = 117.3, method = "L-BFGS-B",
-                control = list(parscale = c(1,10,1,1,1,100,1,10))
+                control = list(parscale = c(1, 10, 1, 1, 1, 100, 1, 10))
                 lower = c(sill.s = 0, range.s = 10,
                           sill.t = 0, range.t = 0.1,
                           sill.st= 0, range.st= 10,
-                          nugget=0, anis = 40),
+                          nugget = 0, anis = 40),
                 upper = c(sill.s = 200,  range.s = 500,
                           sill.t = 200,  range.t = 20,
-                          sill.st= 200, range.st = 5000,
+                          sill.st= 200, range.st = 5000#,
                           nugget = 100, anis = 1000))
 \end{example*}
 \end{enumerate}
@@ -466,7 +457,7 @@ The selected anisotropy as proxy to the relation of spatial and temporal distanc
 
 As mentioned by \cite{kj99}, an alternative to space-time kriging might be co-kriging. However, this is only feasible if the number of time replicates is (very) small, as the number of cross variograms to be modelled equals the number of {\em pairs} of time replicates. Also, co-kriging can only interpolate for these time slices, and not inbetween or beyond them. It does however provide prediction error covariances, which can help assessing the significance of estimated {\em change} parameters \citep{pe1,pe2}. Several of the space-time variograms presented here may be approximated by sets of direct variograms and cross-variograms.
 
-Fitting variogram models to sample space-time variograms is in our implementation done by \code{stats::optim}.  Our example script uses method \code{L-BFGS-B} and provides upper and lower parameter boundaries, e.g. to make sure sill parameters do not become negative. There has been a lot of research in optimization since the methods in \code{optim}, some of which has been reported in the special issue of the Journal of Statistical Software \citep{optim}, and we do see potential to improve the options in this respect.
+Fitting variogram models to sample space-time variograms is in our implementation done by \code{stats::optim}.  Our example script uses method \code{L-BFGS-B} and provides upper and lower parameter boundaries, e.g.\ to make sure sill parameters do not become negative. There has been a lot of research in optimization since the methods in \code{optim}, some of which has been reported in the special issue of the Journal of Statistical Software \citep{optim}, and we do see potential to improve the options in this respect.
 
 The approximate selection of the most correlated neighbours solves the lack of a natural notion of a joint distance across space and time. However, other sampling properties might introduce a bias in the prediction. The prediction at an unobserved location with a cluster of observations at one side will be biased towards this cluster and neglect the locations towards the other directions. Similar as the quadrant search in the pure spatial case an octant wise search strategy for the local neighbourhood would solve this limitation. A simpler stepwise approach to define an $n$-dimensional neighbourhood might already be sufficient in which at first $n_s$ spatial neighbours and then from each spatial neighbour $n_t$ time instances are selected, such that $n_s \cdot n_t \approx n$.
 
@@ -479,11 +470,11 @@ The code in model definitions is meant to be kept both flexible and simple. This
 
 The spatio-temporal extensions to \pkg{gstat} allow to model a set of spatio-temporal covariance functions. The implemented functionality eases estimation, visualisation and understanding of spatio-temporal covariance functions. The extension and reuse of already available function structures and nomenclature facilitates an easy translation of spatial workflows to handle spatio-temporal data. The numerical estimation of the variogram parameters might be tricky and needs a large degree of the users attention. It is advised to carefully check the outcome of the \code{optim} routine after optimisation. Spatio-temporal kriging predictions can be made in a global and a local neighbourhood set-up, while the latter will be the preferred solution for most spatio-temporal data sets and common computer hardware configurations. 
 
-Spatio-temporal covariance structures carry valuable information, but a spatio-temporal model is not guaranteed to outperform pure spatial predictions. The benefit in terms of prediction quality of spatio-temporal kriging becomes only apparent if sufficiently strong correlated locations are added with the temporal dimension (i.e., if the model permits strong correlation across time). Nevertheless, the spatio-temporal covariance model might be of interest in itself. 
+Spatio-temporal covariance structures carry valuable information, but a spatio-temporal model is not guaranteed to outperform pure spatial predictions. The benefit in terms of prediction quality of spatio-temporal kriging becomes only apparent if sufficiently strong correlated locations are added with the temporal dimension (i.e.\, if the model permits strong correlation across time). Nevertheless, the spatio-temporal covariance model might be of interest in itself. 
 
 Besides some publications where the authors of this paper were involved in, such as \cite{Kilibarda2014}, the software presented here has proven useful in several independent publications, examples of which are \citep{marek, biondi, hu, yoon}.
 
-\section*{Acknowledgements}
+\section{Acknowledgements}
 This research has partly been funded by the German Research Foundation (DFG) under project number PE 1632/4-1. We thank two anonymous reviewers for their valuable comments.
 
 \bibliography{spatio-temporal-kriging}
@@ -492,54 +483,54 @@ This research has partly been funded by the German Research Foundation (DFG) und
 
 \address{Benedikt Gr{\"a}ler\\
   Institute for Geoinformatics, University of M{\"u}nster\\
-  Heisenbergstr. 2, 48149 M{\"u}nster\\
+  Heisenbergstr. 2, 48149, M{\"u}nster\\
   Germany}\\
 \email{ben.graeler@uni-muenster.de}
 
 \address{Edzer Pebesma\\
   Institute for Geoinformatics, University of M{\"u}nster\\
-  Heisenbergstr. 2, 48149 M{\"u}nster\\
+  Heisenbergstr. 2, 48149, M{\"u}nster\\
   Germany}\\
 \email{edzer.pebesma@uni-muenster.de}
 
 \address{Gerard Heuvelink\\
   Department of Environmental Sciences, Wageningen University\\
-  street, code, city\\
+  PO Box 47, 6700AA, Wageningen\\
   The Netherlands}\\
 \email{gerard.heuvelink@wur.nl}
-
-\section*{Appendix}
-\subsection*{Derivation of the separable covariance and variogram identities}\label{sec:derivSep}
+	
+\section{Appendix}
+\subsection{Derivation of the separable covariance and variogram identities}\label{sec:derivSep}
 
 The separable covariance and variogram identity is readily available through
 
-\begin{eqnarray*}
-C_{\rm sep}(h,u) &=& C_{\rm s}(h)C_{\rm t}(u) = sill \cdot \bar{c}_s(h)\bar{c}_t(u) \\
-\gamma_{\rm sep}(h,u) &=& C_{\rm sep}(0,0) - C_{\rm sep}(h,u) \\
- &=& sill \big(1- \bar{c}_s(h) \cdot \bar{c}_t(u) \big) \\
- &=& sill \big(1- \big(1-\bar{\gamma}_s(h)\big)\big(1-\bar{\gamma}_t(u)\big) \big) \\
- &=& sill \big(1- \big(1-\bar{\gamma}_s(h) -\bar{\gamma}_t(u) + \bar{\gamma}_s(h)\bar{\gamma}_t(u)\big) \big) \\
- &=& sill \big(\bar{\gamma}_s(h) + \bar{\gamma}_t(u) - \bar{\gamma}_s(h)\bar{\gamma}_t(u)\big)
-\end{eqnarray*}
+\begin{align*}
+C_{\rm sep}(h,u) &= C_{\rm s}(h)C_{\rm t}(u) = sill \cdot \bar{c}_s(h)\bar{c}_t(u) \\
+\gamma_{\rm sep}(h,u) &= C_{\rm sep}(0,0) - C_{\rm sep}(h,u) \\
+ &= sill \left(1- \bar{c}_s(h) \cdot \bar{c}_t(u) \right) \\
+ &= sill \left(1- \left(1-\bar{\gamma}_s(h)\right)\left(1-\bar{\gamma}_t(u)\right) \right) \\
+ &= sill \left(1- \left(1-\bar{\gamma}_s(h) -\bar{\gamma}_t(u) + \bar{\gamma}_s(h)\bar{\gamma}_t(u)\right) \right) \\
+ &= sill \left(\bar{\gamma}_s(h) + \bar{\gamma}_t(u) - \bar{\gamma}_s(h)\bar{\gamma}_t(u)\right)
+\end{align*}
 
 where $\bar{c}$ and $\bar{\gamma}$ are normalised correlation and correlogram functions respectively.
 
-\subsection*{Derivation of the product-sum covariance and variogram identities}\label{sec:derivPs}
+\subsection{Derivation of the product-sum covariance and variogram identities}\label{sec:derivPs}
 
 The product-sum covariance and variogram identity is readily available through:
-\begin{eqnarray*}
-C_{\rm ps}(h,u) &=& k \cdot C_{\rm s}(h)C_{\rm t}(u) + C_{\rm s}(h) + C_{\rm t}(u) \\
-\gamma_{\rm ps}(h,u) &=& C_{\rm ps}(0,0) - C_{\rm ps}(h,u) \\
- &=& k \cdot C_{\rm s}(0)C_{\rm t}(0) + C_{\rm s}(0) + C_{\rm t}(0) \\
- &  & - \big(k \cdot C_{\rm s}(h)C_{\rm t}(u) + C_{\rm s}(h) + C_{\rm t}(u)\big) \\
- &=& k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t} \\
- &  & - k \cdot \big[ \big({\rm sill}_{\rm s} - \gamma_{\rm s}(h)\big)\big({\rm sill}_{\rm t} - \gamma_{\rm t}(u)\big)\big] - \big({\rm sill}_{\rm s} - \gamma_{\rm s}(h)\big) - \big({\rm sill}_{\rm t} - \gamma_{\rm t}(u)\big) \\
- &=&  k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t} \\
- &   & - k \cdot \big[ {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} - {\rm sill}_{\rm s} \cdot \gamma_{\rm t}(u) - {\rm sill}_{\rm t} \cdot \gamma_{\rm s}(h) + \gamma_{\rm s}(h) \gamma_{\rm t}(u) \big] \\
- & & - {\rm sill}_{\rm s} + \gamma_{\rm s}(h) - {\rm sill}_{\rm t} + \gamma_{\rm t}(u) \\
- &=& k \cdot {\rm sill}_{\rm t} \gamma_{\rm s}(h) + k \cdot {\rm sill}_{\rm s} \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u) + \gamma_{\rm s}(h) + \gamma_{\rm t}(u) \\
- &=& (k \cdot {\rm sill}_{\rm t} + 1) \gamma_{\rm s}(h) + (k \cdot {\rm sill}_{\rm s} + 1) \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u)
-\end{eqnarray*}
+\begin{align*}
+C_{\rm ps}(h,u) = & \ k \cdot C_{\rm s}(h)C_{\rm t}(u) + C_{\rm s}(h) + C_{\rm t}(u) \\
+\gamma_{\rm ps}(h,u) = & \ C_{\rm ps}(0,0) - C_{\rm ps}(h,u) \\
+ = & \ k \cdot C_{\rm s}(0)C_{\rm t}(0) + C_{\rm s}(0) + C_{\rm t}(0) \\
+ &  - \left(k \cdot C_{\rm s}(h)C_{\rm t}(u) + C_{\rm s}(h) + C_{\rm t}(u)\right) \\
+ = & \ k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t} \\
+ &  - k \cdot \left[ \left({\rm sill}_{\rm s} - \gamma_{\rm s}(h)\right)\left({\rm sill}_{\rm t} - \gamma_{\rm t}(u)\right)\right] - \left({\rm sill}_{\rm s} - \gamma_{\rm s}(h)\right) - \left({\rm sill}_{\rm t} - \gamma_{\rm t}(u)\right) \\
+ = & \  k \cdot {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} + {\rm sill}_{\rm s} + {\rm sill}_{\rm t} \\
+ &   - k \cdot \left[ {\rm sill}_{\rm s} \cdot {\rm sill}_{\rm t} - {\rm sill}_{\rm s} \cdot \gamma_{\rm t}(u) - {\rm sill}_{\rm t} \cdot \gamma_{\rm s}(h) + \gamma_{\rm s}(h) \gamma_{\rm t}(u) \right] \\
+ & - {\rm sill}_{\rm s} + \gamma_{\rm s}(h) - {\rm sill}_{\rm t} + \gamma_{\rm t}(u) \\
+ = & \ k \cdot {\rm sill}_{\rm t} \gamma_{\rm s}(h) + k \cdot {\rm sill}_{\rm s} \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u) + \gamma_{\rm s}(h) + \gamma_{\rm t}(u) \\
+ = & \ (k \cdot {\rm sill}_{\rm t} + 1) \gamma_{\rm s}(h) + (k \cdot {\rm sill}_{\rm s} + 1) \gamma_{\rm t}(u) - k \gamma_{\rm s}(h) \gamma_{\rm t}(u)
+\end{align*}
 
 %%%%%%%%%%
 \end{document}
