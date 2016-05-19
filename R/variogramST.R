@@ -3,7 +3,7 @@ VgmFillNA <- function(x, boundaries) {
 	n = length(boundaries) - 1
 	ix = rep(NA, n)
 	#ix[which(1:n %in% findInterval(x$dist, boundaries))] = 1:nrow(x)
-	ix[ findInterval(x$dist, boundaries)] = 1:nrow(x)
+	ix[ findInterval(x$dist, boundaries, rightmost.closed = TRUE) ] = 1:nrow(x)
 	# x$b = boundaries[-1]
 	x[ix,]
 }

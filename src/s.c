@@ -3,7 +3,7 @@
  */
 #include <R.h>
 #include <Rinternals.h>
-#include <Rdefines.h>
+/* #include <Rdefines.h> */
 
 #include "defs.h"
 #include "data.h"
@@ -68,7 +68,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 
 	if (LENGTH(slocs) % n != 0)
 		PROBLEM "dimensions do not match: locations %d and data %ld",
-			LENGTH(slocs), n ERROR;
+			(int) LENGTH(slocs), n ERROR;
 	dim = LENGTH(slocs) / n;
 	if (dim <= 0)
 		PROBLEM "too few spatial dimensions: %ld", dim ERROR;
@@ -81,7 +81,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 
 	if (LENGTH(sX) % n != 0)
 		PROBLEM "dimensions do not match: X %d and data %ld: missing values in data?",
-			LENGTH(sX), n ERROR;
+			(int) LENGTH(sX), n ERROR;
 	n_X = LENGTH(sX) / n;
 	X = REAL(sX);
 
@@ -142,7 +142,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 		case 0: case 1: break; /* empty, i.e., numeric(0) */
 		case 6: d[id]->grid = gstat_S_fillgrid(grid); break;
 		default: PROBLEM 
-			"length of grid topology %d unrecognized", LENGTH(grid) ERROR;
+			"length of grid topology %d unrecognized", (int) LENGTH(grid) ERROR;
 	}
 	d[id]->polynomial_degree = INTEGER(degree)[0];
 	if (d[id]->polynomial_degree < 0 || d[id]->polynomial_degree > 3) {
@@ -280,7 +280,7 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 		ErrMsg(ER_IMPOSVAL, "newdata empty or only NA's");
 	if (LENGTH(slocs) % n != 0)
 		PROBLEM "dimensions do not match: locations %d, nrows in X %ld",
-			LENGTH(slocs), n ERROR;
+			(int) LENGTH(slocs), n ERROR;
 	dim = LENGTH(slocs) / n;
 	if (dim > 3)
 		PROBLEM "too many spatial dimensions: %ld", dim ERROR;
@@ -289,7 +289,7 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 	locs = REAL(slocs);
 	if (LENGTH(sX) % n != 0)
 		PROBLEM "dimensions do not match: X %d and data %ld",
-			LENGTH(sX), n ERROR;
+			(int) LENGTH(sX), n ERROR;
 	n_X = LENGTH(sX) / n;
 
 	current.attr = current.x = current.y = current.z = 0.0;
