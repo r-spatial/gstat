@@ -28,7 +28,7 @@ void *emalloc(size_t size) {
 	if (p == NULL) {
 		if (DEBUG_DUMP)
 			message("malloc(%u) returned NULL", size);
-		ErrMsg(ER_MEMORY, "");
+		ErrMsg(ER_MEMORY, ".");
 	}
 	return p;
 }
@@ -44,7 +44,7 @@ void *ecalloc(size_t nobj, size_t size) {
 	if (p == NULL) {
 		if (DEBUG_DUMP)
 			message("calloc(%u,%u) returned NULL", nobj, size);
-		ErrMsg(ER_MEMORY, "");
+		ErrMsg(ER_MEMORY, ".");
 	}
 	return p;
 }
@@ -61,7 +61,7 @@ void *erealloc(void *p, size_t size) {
 	if (p == NULL) {
 		if (DEBUG_DUMP)
 			message("realloc(%u) returned NULL\n", size);
-		ErrMsg(ER_MEMORY, "");
+		ErrMsg(ER_MEMORY, ".");
 	}
 	return p;
 }
