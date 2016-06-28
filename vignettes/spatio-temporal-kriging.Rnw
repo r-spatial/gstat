@@ -11,6 +11,7 @@
 %% following the RJournal.sty
 \usepackage{geometry}
 \usepackage{booktabs}
+\usepackage{amsmath}
 
 \RequirePackage{fancyvrb}
 \RequirePackage{alltt}
