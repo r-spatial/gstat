@@ -10,8 +10,8 @@ function(object, locations, X, cutoff, width = cutoff/15.0, alpha = 0,
 {
 	dots = list(...)
 	if (length(dots) > 0) {
-		warning("the following arguments are ignored:")
-		print(dots)
+		warning(paste("the following arguments are ignored:",	dots))
+	  
 	}
     id1 = id2 = 0
     ret = NULL
