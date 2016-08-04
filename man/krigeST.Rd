@@ -71,7 +71,11 @@ krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
  variance.
 }
 
-\references{ N.A.C. Cressie, 1993, Statistics for Spatial Data,
+\references{ 
+Spatio-Temporal Geostatistics using gstat.  Benedikt Gräler,
+Edzer Pebesma, Gerard Heuvelink.  The R Journal, accepted.
+
+N.A.C. Cressie, 1993, Statistics for Spatial Data,
 Wiley. 
 
 \url{http://www.gstat.org/}

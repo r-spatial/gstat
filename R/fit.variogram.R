@@ -40,7 +40,8 @@ function (object, model, fit.sills = TRUE, fit.ranges = TRUE,
 	if (any(model$model %in% c("Mat", "Ste")) && length(fit.kappa) > 1) {
 		f = function(x, o, m) {
 			m[m$model %in% c("Mat", "Ste"), "kappa"] = x
-			fit.variogram(o, m, fit.kappa = FALSE) # fits range
+			fit.variogram(o, m, fit.kappa = FALSE, 
+				fit.method = fit.method, debug.level = debug.level) # fits range
 		}
 		ret = lapply(fit.kappa, f, object, model)
 		return(ret[[ which.min(sapply(ret, function(x) attr(x, "SSErr"))) ]])
