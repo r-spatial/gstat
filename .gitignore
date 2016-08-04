@@ -6,4 +6,3 @@ src/*.o
 src/*.so
 src/*.dll
 *.Rproj
-supplied user data/
