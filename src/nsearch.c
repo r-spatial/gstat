@@ -140,6 +140,10 @@ static void init_qtree(DATA *d) {
 			bbox = bbox_from_data(d);
 	} else
 		bbox = bbox_from_data(d);
+	if (bbox.size <= 0.0)
+		bbox = bbox_from_data(get_dataval());
+	if (bbox.size <= 0.0)
+		ErrMsg(ER_IMPOSVAL, "bbox with zero size: remove neighbourhood settings?");
 	init_qnode(&(d->qtree_root), d->n_list < gl_split, bbox); /* ML1 */
 	
 	mode = bbox.mode;
