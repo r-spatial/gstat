@@ -1,3 +1,55 @@
+2016-08-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit ee942d5b508c5a486ca3a0fe59cd551409e6ec76 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Aug 18 11:00:26
+	2016 +0200
+
+2016-08-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #9 from BenGraeler/master puts unused variogram parameters into the warning ...
+
+2016-08-04  Benedikt Gräler <benedikt.graeler@rub.de>
+
+	* R/variogram.default.R: handle length(dots) > 1 in previous fix
+
+2016-07-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/fit.variogram.R, man/krigeST.Rd: fix bug in fit.variogram,
+	spotted by Michael Neumayer
+
+2016-06-29  Benedikt Graeler <benedikt.graeler@ruhr-uni-bochum.de>
+
+	* .gitignore, R/variogram.default.R: puts unused variogram
+	parameters into the warning instead of printing them
+
+2016-06-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #8 from BenGraeler/master addresses issue #7; sync R Journal paper manuscript with vignette
+
+2016-06-28  Benedikt Graeler <benedikt.graeler@ruhr-uni-bochum.de>
+
+	* : commit 2004fb384007d9793e5b6b660552ddc4c0e83a8c Author: Benedikt
+	Graeler <benedikt.graeler@ruhr-uni-bochum.de> Date:   Tue Jun 28
+	11:39:25 2016 +0200
+
+2016-06-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/smenu.R: rm empty file
+
+2016-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/utils.c: improve error message, see github issue #2
+
+2016-05-19  Benedikt Graeler <benedikt.graeler@ruhr-uni-bochum.de>
+
+	* : commit 3906c7ccab4eca285866221f52deb2bc70e70d51 Author: Benedikt
+	Graeler <benedikt.graeler@ruhr-uni-bochum.de> Date:   Thu May 19
+	16:08:29 2016 +0200
+
+2016-05-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, src/s.c: remove Rdefines.h header
+
 2016-04-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/variogramST.R, inst/ChangeLog: fix bug in VgmFillNA, reported by
