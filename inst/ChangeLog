@@ -1,3 +1,18 @@
+2016-10-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: new travis
+
+2016-09-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #11 from Ludecan/master Changes to fit.variogram.gls to accept variogram models with no
+	nugget component
+
+2016-09-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/CITATION, inst/ChangeLog,
+	tests/unproj.Rout.save, tests/windst.Rout.save: add r journal
+	citation, update test output
+
 2016-08-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : commit ee942d5b508c5a486ca3a0fe59cd551409e6ec76 Author: Edzer
