@@ -87,7 +87,9 @@ vgm_fill_na = function(model, obj) {
 	}
 	if (any(model$model %in% "Nug") && is.na(model[model$model == "Nug","psill"]))
     	model[model$model == "Nug", "psill"] = mean(head(obj$gamma, 3))
-	if (is.na(model[model$model != "Nug","psill"]))
-    	model[model$model != "Nug", "psill"] = mean(tail(obj$gamma, 5))
+	if (any(is.na(model[model$model != "Nug", "psill"]))) {
+		n = length(na.omit(model[model$model != "Nug",]$psill))
+    	model[model$model != "Nug", "psill"] = mean(tail(obj$gamma, 5)) / n
+	}
 	model
 }

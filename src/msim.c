@@ -255,6 +255,9 @@ void free_simulations(void) {
 		efree(beta);
 		beta = NULL;
 	}
+	if (n_sim_locs != NULL)
+		free(n_sim_locs);
+	n_sim_locs = NULL;
 }
 
 void setup_beta(DATA **d, int n_vars, int n_sim) {

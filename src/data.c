@@ -406,6 +406,10 @@ void free_data(DATA *d) {
     if (d->point_ids)
         for (i = d->n_list - 1; i >= 0; i--)
             efree(d->point_ids[i]);
+
+	if (d->beta)
+		efree(d->beta);
+
 	efree(d);
 	return;
 }

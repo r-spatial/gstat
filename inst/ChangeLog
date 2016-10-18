@@ -1,6 +1,16 @@
 2016-10-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
-	* .travis.yml: new travis
+	* : commit e174e7da1306dcd249b025ed918a296c2f850588 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Fri Oct 7 10:57:15
+	2016 +0200
+
+2016-10-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #13 from BenGraeler/master solves issue #12
+
+2016-10-07  Benedikt Graeler <graeler@hydrology.ruhr-uni-bochum.de>
+
+	* R/variogramST.R: solves issue #12
 
 2016-09-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
