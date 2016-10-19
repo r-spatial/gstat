@@ -146,7 +146,11 @@ for details.
 \note{ \code{variogram.default} should not be called by users directly,
 as it makes many assumptions about the organization of the data, that
 are not fully documented (but of course, can be understood from reading
-the source code of the other \code{variogram} methods) }
+the source code of the other \code{variogram} methods) 
+
+Successfully setting \code{gridded() <- TRUE} may trigger a branch that
+will fail unless dx and dy are identical, and not merely similar
+to within machine epsilon.  }
 
 \references{ 
 Cressie, N.A.C., 1993, Statistics for Spatial Data, Wiley.
