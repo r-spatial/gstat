@@ -34,10 +34,6 @@ StVgmLag = function(formula, data, dt, pseudo, ...) {
 	.ValidObs = function(formula, data)
 		!is.na(data[[as.character(as.list(formula)[[2]])]])
 	d = dim(data)
-	if (formula[[3]] != 1) { # there is a regression model:
-		data$resid = residuals(lm(formula, data, na.action = na.exclude))
-		formula = resid ~ 1
-	}
 	ret = vector("list", d[2] - dt)
 	if (dt == 0) {
 		for (i in 1:d[2]) {
@@ -90,6 +86,10 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 		cutoff <- spDists(t(data@sp@bbox), longlat = ll)[1,2]/3
 	}
   
+	if (formula[[3]] != 1) { # there is a regression model:
+		data$resid = residuals(lm(formula, data, na.action = na.exclude))
+		formula = resid ~ 1
+	}
 	if(is(data, "STIDF"))
 		return(variogramST.STIDF(formula, data, tlags, cutoff, width, 
                              boundaries, progress, ...))

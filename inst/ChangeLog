@@ -1,3 +1,20 @@
+2016-11-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, NAMESPACE: fix
+
+2016-10-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* README.md: update readme
+
+2016-10-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/variogram.Rd: update doc
+
+2016-10-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/fit.variogram.R, R/zzz.R, inst/ChangeLog, src/data.c,
+	src/msim.c: fix border case in vgm_fill_na
+
 2016-10-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : commit e174e7da1306dcd249b025ed918a296c2f850588 Author: Edzer
@@ -33,7 +50,7 @@
 
 	* : Merge pull request #9 from BenGraeler/master puts unused variogram parameters into the warning ...
 
-2016-08-04  Benedikt Gr√§ler <benedikt.graeler@rub.de>
+2016-08-04  Benedikt Gr‰ler <benedikt.graeler@rub.de>
 
 	* R/variogram.default.R: handle length(dots) > 1 in previous fix
 
