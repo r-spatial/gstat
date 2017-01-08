@@ -34,7 +34,7 @@ areas.r = readShapePoly(system.file("external/ncp.shp", package="gstat"))
 #areas.r <- as.SpatialRings.Shapes(areas.shp$Shapes, areas.shp$att.data$WSVGEB_)
 coordinates(pr) = ~x+y
 #pr.df = overlay(pr, areas.r, fn = mean)
-pr.df = na.omit(as(aggregate(pr, areas.r), "data.frame"))
+pr.df = na.omit(as(aggregate(pr, areas.r, FUN = mean), "data.frame"))
 # match non-empty (and relevant) areas:
 #areas = SpatialPolygonsDataFrame(areas.r[c(2,3,4,16),"WSVGEB_"], pr.df[c(1,2,3,5),])#,match.ID=F)
 areas = SpatialPolygonsDataFrame(areas.r[c(1,2,12,7),"WSVGEB_"], 
