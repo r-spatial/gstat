@@ -1,5 +1,5 @@
 
-R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
 Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -88,10 +88,10 @@ Type 'q()' to quit R.
 + all.equal(wind.pr0, wind.ST)
 + }
 Loading required package: rgdal
-rgdal: version: 1.1-10, (SVN revision 463)
+rgdal: version: 1.2-5, (SVN revision 648)
  Geospatial Data Abstraction Library extensions to R successfully loaded
  Loaded GDAL runtime: GDAL 2.1.0, released 2016/04/25
- Path to GDAL shared files: /usr/local/share/gdal
+ Path to GDAL shared files: /usr/share/gdal/2.1
  Loaded PROJ.4 runtime: Rel. 4.9.2, 08 September 2015, [PJ_VERSION: 492]
  Path to PROJ.4 shared files: (autodetected)
  Linking to sp version: 1.2-3 
@@ -104,4 +104,4 @@ In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
 > 
 > proc.time()
    user  system elapsed 
-  2.708   2.200   2.312 
+  2.376   0.032   2.405 

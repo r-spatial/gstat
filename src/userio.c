@@ -26,7 +26,7 @@ static const char *error_messages[MAX_ERRNO+1] = {
 /* 10 */	"syntax error: %s",
 /* 11 */	"illegal option or missing argument on `%s'",
 /* 12 */	"domain (math) error on `%s'",
-/* 13 */	"out of dynamic memory %s",
+/* 13 */	"out of dynamic memory (try local kriging?)",
 /* 14 */	"i/o error: %s",
 /* 15 */	"no command file%s",
 /* 16 */	"%s user interface not compiled in this version",
@@ -49,7 +49,7 @@ void gstat_error(char *fname, int line, enum Gstat_errno err_nr, const char *msg
 		PROBLEM "NULL error: this indicates a bug, please consider reporting this" ERROR
 
 	/*	PROBLEM error_messages[level], mess ERROR; */
-	if (msg == NULL || msg[0] == '\0')
+	if (msg == NULL)
 		PROBLEM "<NULL> message: indicating a software bug, please report" ERROR
 	else
 		PROBLEM "%s %s", error_messages[err_nr], msg ERROR

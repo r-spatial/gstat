@@ -1,3 +1,24 @@
+2017-01-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* demo/fulmar.R: add FUN to aggregate (reported by Peter van
+	Horssen)
+
+2016-12-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* README.md, demo/depend.R, vignettes/spatio-temporal-kriging.Rnw,
+	vignettes/spatio-temporal-kriging.bib: http://cran -> https://cran
+
+2016-12-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/gcdist.c: see
+
+	https://github.com/edzer/sp/commit/d8374ff7efc6735cba9a054748c602bed0672f23
+
+2016-11-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R, inst/ChangeLog: fix
+	https://github.com/edzer/gstat/issues/14
+
 2016-11-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* .travis.yml, NAMESPACE: fix
