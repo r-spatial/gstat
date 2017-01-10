@@ -1,5 +1,13 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
+\section{Changes in version 1.1-3 (2017-01-10)}{
+ \itemize{
+   \item Fix https://github.com/edzer/gstat/issues/17
+   \item Fix https://github.com/edzer/gstat/issues/14
+   \item Fix https://github.com/edzer/gstat/issues/12
+   \item Fix great circle distance bug; see https://stat.ethz.ch/pipermail/r-sig-geo/2016-December/025251.html
+ }
+}
 \section{Changes in version 1.1-3 (2016-03-30)}{
   \itemize{
 	\item Merge pull request #4 from BenGraeler/master r-journal ms merge
