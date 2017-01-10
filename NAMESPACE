@@ -60,8 +60,7 @@ export(as.vgm.variomodel,
 	vgm.panel.xyplot,
 	panel.pointPairs,
 	set_gstat_progress,
-	xyz2img,
-	predict)
+	xyz2img)
 
 exportMethods(krige, idw, krige.cv)
 

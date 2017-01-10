@@ -1,3 +1,17 @@
+2017-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/NEWS.Rd: update
+
+2017-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: tidy
+
+2017-01-09  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, src/userio.c, src/utils.c, tests/merge.Rout.save,
+	tests/unproj.Rout.save, tests/windst.Rout.save: fix wrong error
+	message (<NULL>), update tests
+
 2017-01-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* demo/fulmar.R: add FUN to aggregate (reported by Peter van
