@@ -1,5 +1,9 @@
 2017-03-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* DESCRIPTION, inst/ChangeLog: version bump
+
+2017-03-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* R/fit.variogram.R: fix #21 this is a correction of a regression introduced in
 
 	https://github.com/edzer/gstat/commit/5a52992a30d52bccc6da03eb2a54aaf2aa3f1f41

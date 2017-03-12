@@ -1,6 +1,12 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
-\section{Changes in version 1.1-3 (2017-01-10)}{
+\section{Changes in version 1.1-5 (2017-03-10)}{
+ \itemize{
+  \item fix auto-choosing of variogram parameters if only variogram model type is given,
+        https://github.com/edzer/gstat/issues/17
+ }
+}
+\section{Changes in version 1.1-4 (2017-01-10)}{
  \itemize{
    \item Fix https://github.com/edzer/gstat/issues/17
    \item Fix https://github.com/edzer/gstat/issues/14
