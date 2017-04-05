@@ -60,7 +60,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 	DATA **d;
 	char name[NAME_SIZE];
 
-	sy = coerceVector(sy, REALSXP);
+	PROTECT(sy = coerceVector(sy, REALSXP));
 	n = LENGTH(sy);
 	y = REAL(sy);
 	if (n == 0)
@@ -193,6 +193,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 	check_global_variables();
 	d[id]->n_original = d[id]->n_list;
 	efree(current.X);
+	UNPROTECT(1); /* sy */
 	return(sy);
 }
 
@@ -611,7 +612,6 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 		SET_VECTOR_ELT(ret, 1, sy);
 		SET_VECTOR_ELT(ret, 2, np);
 		SET_VECTOR_ELT(ret, 3, gamma);
-		UNPROTECT(5);
 		free_data_gridmap(vgm->ev->S_grid);
 	} else {
 		if (vgm->ev->cloud)
@@ -642,8 +642,8 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 		SET_VECTOR_ELT(ret, 1, dist);
 		SET_VECTOR_ELT(ret, 2, gamma);
 		SET_VECTOR_ELT(ret, 3, ev_parameters);
-		UNPROTECT(5);
 	}
+	UNPROTECT(5);
 	return(ret);
 }
 

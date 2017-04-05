@@ -1,5 +1,10 @@
 \name{NEWS} 
 \title{News for Package 'gstat'}
+\section{Changes in version 1.1-6 (2017-xx-xx)}{
+ \itemize{
+  \item address warnings from Tomas Kalibera's static code checking
+ }
+}
 \section{Changes in version 1.1-5 (2017-03-10)}{
  \itemize{
   \item fix auto-choosing of variogram parameters if only variogram model type is given,
