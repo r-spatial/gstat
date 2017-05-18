@@ -110,8 +110,10 @@ static void init_variogram_part(VGM_MODEL *p) {
 	int i;
 
 	p->sill = 0.0;
-	for (i = 0; i < NRANGEPARS; i++)
+	for (i = 0; i < NRANGEPARS; i++) {
+		p->range[i] = 0.0; /* quiets valgrind? */
 		set_mv_double(&(p->range[i])); /* trigger errors if misused */
+	}
 	p->model = NOT_SP;
 	p->fit_sill = p->fit_range = 1;
 	p->fnct = p->da_fnct = NULL;

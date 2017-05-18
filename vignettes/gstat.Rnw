@@ -61,15 +61,14 @@ e.g. package \code{geoR} and \code{geoRglm} (by Paulo Ribeiro and Ole
 Christensen) provide the model-based geostatistics framework described
 in Diggle et al. (1998), package \code{fields} (Doug Nychka and others)
 provides thin plate spline interpolation, covariance functions for
-spherical coordinates (unprojected data), and routines for network
-design optimization.
+spherical coordinates (unprojected data), and routines for spatial
+sampling design optimization.
 
 \section{Spatial data frames}
-Package \code{gstat} assumes that data are projected, i.e. they should
-not be provided as lattitude/longitude. As an example, we will look
-at the meuse data set, which is a regular data frame that comes with
-package \code{gstat} (remove the 88 from the colour strings to make
-a plot without alpha transparency on windows or X11):
+As an example, we will look at the meuse data set, which is a
+regular data frame that comes with package \code{gstat} (remove the
+88 from the colour strings to make a plot without alpha transparency
+on windows or X11):
 
 <<fig=FALSE>>=
 library(sp)
@@ -103,9 +102,7 @@ coordinates
 \item the function \code{coordinates}, when not assigned, {\em retrieves}
 the spatial coordinates from a \code{SpatialPointsDataFrame}.
 \item the two plotting functions used, \code{plot} and \code{bubble}
-assume that the $x$- and $y$-axis are the spatial coordinates, and
-choose the aspect ratio of the axes such that one unit in $x$
-equals one unit in $y$ (i.e., data are map data, projected).
+assume that the $x$- and $y$-axis are the spatial coordinates.
 \end{enumerate}
 
 \section{Spatial data on a regular grid}
