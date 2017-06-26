@@ -1,5 +1,10 @@
 2017-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, src/vario.c, vignettes/gstat.Rnw: remove
+	requirements of projected data in vignette
+
+2017-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* : Merge pull request #24 from BenGraeler/master makes getMaxDist aware of CRS
 
 2017-04-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>

@@ -64,6 +64,8 @@ export(as.vgm.variomodel,
 
 exportMethods(krige, idw, krige.cv)
 
+S3method("[", gstat)
+
 S3method(as.data.frame, variogramCloud)
 
 S3method(image, data.frame)
