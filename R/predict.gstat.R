@@ -198,8 +198,9 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 				fullgrid(newdata) = FALSE
 				ret = new("SpatialPixelsDataFrame", 
 					new("SpatialPixels", as(ret, "SpatialPoints"),
-					grid = newdata@grid, grid.index = newdata@grid.index),
-        			data = ret@data, coords.nrs = ret@coords.nrs)
+					    grid = newdata@grid, grid.index = newdata@grid.index,
+					    bbox = newdata@bbox),
+					data = ret@data, coords.nrs = ret@coords.nrs)
 				fullgrid(ret) = returnFullGrid
 			}
 		}
