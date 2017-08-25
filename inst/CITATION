@@ -1,7 +1,7 @@
 citHeader("To cite package gstat in publications use:")
 
 citEntry(entry="Article",
-	title = "Multivariable geostatistics in S: the gstat package",
+	title = "Multivariable geostatistics in {S}: the gstat package",
 	author = personList(as.person("Edzer J. Pebesma")),
 	journal = "Computers & Geosciences",
 	year	 = 2004,
