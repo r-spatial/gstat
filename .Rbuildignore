@@ -12,3 +12,4 @@ README.md
 ChangeLog
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^docs$
