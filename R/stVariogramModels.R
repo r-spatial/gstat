@@ -1,7 +1,7 @@
 # constructiong spatio-temporal variogram models
 vgmST <- function(stModel, ..., space, time, joint, sill, k, nugget, stAni, 
-		temporalUnits) {
-	stopifnot(is.character(stModel) && length(stModel)==1)
+                  temporalUnit) {
+  stopifnot(is.character(stModel) && length(stModel)==1)
   
   old.stModel <- stModel
   stModel <- strsplit(stModel, "_")[[1]][1]
@@ -12,29 +12,32 @@ due a change in notation of the spatio-temporal models. This
 affects as well how the spatial and temporal variograms are parameterised. 
 Re-fit your model or use \"productSumOld\" instead.")
   
-	if(!missing(sill))
-		if(sill <= 0) stop("\"sill\" must be positive.")
-	if(!missing(k))
-		if(k <= 0) stop("\"k\" must be positive.")
-	if(!missing(nugget))
-		if(nugget < 0) stop("\"nugget\" must be non-negative.")
-	if(!missing(stAni))
-		if(stAni <= 0) stop("\"stAni\" must be positive.")
+  if(!missing(sill))
+    if(sill <= 0) stop("\"sill\" must be positive.")
+  if(!missing(k))
+    if(k <= 0) stop("\"k\" must be positive.")
+  if(!missing(nugget))
+    if(nugget < 0) stop("\"nugget\" must be non-negative.")
+  if(!missing(stAni))
+    if(stAni <= 0) stop("\"stAni\" must be positive.")
   
-	vgmModel <- switch(stModel,
-		separable = list(space = space, time = time, sill = sill),
-		productSum = list(space = space, time = time, k = k),
-		productSumOld = list(space = space, time = time, sill = sill, nugget = nugget),
-		sumMetric = list(space = space, time = time, joint = joint, stAni = stAni),
-		simpleSumMetric = list(space = space, time = time, 
-			joint = joint, nugget = nugget, stAni = stAni),
-		metric = list(joint = joint, stAni = stAni),
-		stop(paste("model", stModel, "unknown")))
-	vgmModel$stModel <- old.stModel
-	if (!missing(temporalUnits))
-		attr(vgmModel, "temporal units") = temporalUnits
-	class(vgmModel) <- c("StVariogramModel", "list")
-	vgmModel
+  vgmModel <- switch(stModel,
+                     separable = list(space = space, time = time, sill = sill),
+                     productSum = list(space = space, time = time, k = k),
+                     productSumOld = list(space = space, time = time,
+                                          sill = sill, nugget = nugget),
+                     sumMetric = list(space = space, time = time, 
+                                      joint = joint, stAni = stAni),
+                     simpleSumMetric = list(space = space, time = time, 
+                                            joint = joint, nugget = nugget, 
+                                            stAni = stAni),
+                     metric = list(joint = joint, stAni = stAni),
+                     stop(paste("model", stModel, "unknown")))
+  vgmModel$stModel <- old.stModel
+  if (!missing(temporalUnit))
+    attr(vgmModel, "temporal unit") = temporalUnit
+  class(vgmModel) <- c("StVariogramModel", "list")
+  vgmModel
 }
 
 # calculating spatio-temporal variogram surfaces
@@ -56,7 +59,7 @@ variogramSurface <- function(model, dist_grid, ...) {
 vgmSeparable <- function(model, dist_grid) {
   vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
   vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)[,2]
-
+  
   data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, 
              model=model$sill*(vs+vt-vs*vt))
 }
@@ -68,7 +71,7 @@ vgmProdSumOld <- function(model, dist_grid) {
   vt = variogramLine(model$time, dist_vector=dist_grid$timelag)[,2]
   vn <- rep(model$nugget, length(vs))
   vn[vs == 0 & vt == 0] <- 0
-
+  
   k <- (sum(model$space$psill)+sum(model$time$psill)-(model$sill+model$nugget))/(sum(model$space$psill)*sum(model$time$psill))
   
   if (k <= 0 | k > 1/max(rev(model$space$psill)[1], rev(model$time$psill)[1])) 
@@ -117,20 +120,20 @@ vgmMetric <- function(model, dist_grid) {
 }
 
 fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, upper, fit.method = 6, 
-		stAni=NA, wles) {
+                            stAni=NA, wles) {
   if (!inherits(object, "StVariogram"))
     stop("\"object\" must be of class \"StVariogram\"")
   if (!inherits(model, "StVariogramModel"))
     stop("\"model\" must be of class \"StVariogramModel\".")
-
+  
   sunit <- attr(object$spacelag, "units")
   tunit <- attr(object$timelag, "units")
-  tu.obj = attr(model, "temporal units")
+  tu.obj = attr(model, "temporal unit")
   if (!is.null(tu.obj))
-  	stopifnot(identical(tunit, tu.obj))
+    stopifnot(identical(tunit, tu.obj))
   
   object <- na.omit(object)
-
+  
   ret <- model
   
   if(!missing(wles)) {
@@ -149,12 +152,12 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
     
     return(ret)
   }
-    
+  
   if ((fit.method == 7 | fit.method == 11) & is.null(model$stAni) & is.na(stAni)) {
     warning("An uninformed spatio-temporal anisotropy value of '1 (spatial unit)/(temporal unit)' is automatically selected. Consider providing a sensible estimate for stAni or using a different fit.method.")
     stAni <- 1
   }
-
+  
   weightingFun <- switch(fit.method,
                          function(obj, ...) obj$np, # 1
                          function(obj, gamma, ...) obj$np/gamma^2, # 2
@@ -165,8 +168,8 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
                          function(obj, curStAni, ...) 
                            if(is.na(stAni))
                              obj$np/(obj$dist^2+(curStAni*obj$timelag)^2)
-                           else
-                             obj$np/(obj$dist^2+(stAni*obj$timelag)^2), # 7
+                         else
+                           obj$np/(obj$dist^2+(stAni*obj$timelag)^2), # 7
                          function(obj, ...) {
                            dist <- obj$dist
                            dist[dist == 0] <- min(dist[dist != 0], na.rm = TRUE)
@@ -183,7 +186,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
                              1/(obj$dist^2+(curStAni*obj$timelag)^2)
                            else
                              1/(obj$dist^2+(stAni*obj$timelag)^2)
-                           }, # 11
+                         }, # 11
                          function(obj, ...) {
                            dist <- obj$dist
                            dist[dist == 0] <- min(dist[dist != 0], na.rm = TRUE)
@@ -194,7 +197,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
                            dist[dist == 0] <- min(dist[dist != 0], na.rm = TRUE)
                            1/(obj$timelag^2)
                          }) # 13, pure time
-                         
+  
   if(is.null(weightingFun))
     stop(paste("fit.method =", fit.method, "is not implementend"))
   
@@ -249,7 +252,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
                                                             data.frame(spacelag=object$dist, timelag=object$timelag))$model)^2)
   attr(ret, "spatial unit")  <- sunit
   attr(ret, "temporal unit") <- tunit
-
+  
   return(ret)
 }
 
@@ -270,8 +273,8 @@ extractPar <- function(model) {
                      range.t=model$time$range[2],  nugget.t=model$time$psill[1],
                      sill= model$sill[[1]]),
          productSumOld=c(sill.s = rev(model$space$psill)[1], range.s = rev(model$space$range)[1],
-                        sill.t = rev(model$time$psill)[1],  range.t = rev(model$time$range)[1], 
-                        sill=model$sill[[1]], nugget=model$nugget[[1]]),
+                         sill.t = rev(model$time$psill)[1],  range.t = rev(model$time$range)[1], 
+                         sill=model$sill[[1]], nugget=model$nugget[[1]]),
          productSum=c(sill.s = model$space$psill[2], range.s = model$space$range[2], nugget.s = model$space$psill[1],
                       sill.t = model$time$psill[2],  range.t = model$time$range[2],  nugget.t = model$time$psill[1],
                       k=model$k),
@@ -279,7 +282,7 @@ extractPar <- function(model) {
                      sill.t = model$time$psill[2], range.t = model$time$range[2], nugget.t = model$time$psill[1],
                      sill.st = model$joint$psill[2], range.st = model$joint$range[2], nugget.st = model$joint$psill[1],
                      anis = model$stAni[[1]]),
-# simplified sumMetric model
+         # simplified sumMetric model
          simpleSumMetric=c(sill.s = rev(model$space$psill)[1], range.s = rev(model$space$range)[1], 
                            sill.t = rev(model$time$psill)[1], range.t = rev(model$time$range)[1],
                            sill.st = rev(model$joint$psill)[1], range.st = rev(model$joint$range)[1], 
