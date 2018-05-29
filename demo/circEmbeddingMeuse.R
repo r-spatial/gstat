@@ -1,6 +1,18 @@
 #############################
 ## Example: Meuse data set ##
 #############################
+library(sp)
+library(gstat)
+data("meuse")
+coordinates(meuse) <- ~x+y
+
+data("meuse.grid")
+coordinates(meuse.grid) <- ~x+y
+gridded(meuse.grid) <- TRUE
+
+# variography
+empVgm <- variogram(zinc~1, meuse)
+modVgm <- fit.variogram(empVgm, vgm(150000, "Sph", 1000, 25000))
 
 # unconditional simulation
 unconSim <- krigeSimCE(zinc~1, newdata = meuse.grid, model = modVgm, n=100)
