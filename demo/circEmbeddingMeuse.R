@@ -30,4 +30,4 @@ spplot(conSim[,6:20])
 # compare with kriging predictor
 simKrige <- krige(zinc~1, meuse, meuse.grid, modVgm)
 spplot(simKrige, "var1.pred")
-spplot(simRes, "zinc.simMean")
+spplot(conSim, "zinc.simMean")
