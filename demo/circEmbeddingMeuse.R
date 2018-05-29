@@ -30,4 +30,4 @@ spplot(conSim[,6:20], main="15 out of 100 conditional simulations")
 # compare with kriging predictor
 simKrige <- krige(zinc~1, meuse, meuse.grid, modVgm)
 spplot(simKrige, "var1.pred", main="interpolated zinc concentrations")
-spplot(conSim, "zinc.simMean", main="mean of 100 unconditional simulations")
+spplot(conSim, "zinc.simMean", main="mean of 100 conditional simulations")
