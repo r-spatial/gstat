@@ -419,6 +419,10 @@ covSeparable <- function(x, y, model, separate) {
 
 ## old product-sum model, BG
 covProdSumOld <- function(x, y, model) {
+  .Deprecated("covProdSum", package = "gstat", 
+              msg="The former product-sum model is dprecited, consider to refit the new model specification",
+              old = "covProdSumOld")
+  
   stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
   
   # double check model for validity, i.e. k:
@@ -437,8 +441,8 @@ covProdSumOld <- function(x, y, model) {
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
-    vs = variogramLine(model$space, dist_vector = ds)
-    vt = variogramLine(model$time, dist_vector = dt)
+    vs = variogramLine(model$space, dist_vector = ds, covariance = TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance = TRUE)
     
     return(model$sill-(vt %x% matrix(1,nrow(vs),ncol(vs)) + matrix(1,nrow(vt),ncol(vt)) %x% vs - k * vt %x% vs))
   } 
@@ -457,8 +461,8 @@ covProdSumOld <- function(x, y, model) {
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
-    vs = variogramLine(model$space, dist_vector = ds)
-    vt = variogramLine(model$time, dist_vector = dt)
+    vs = variogramLine(model$space, dist_vector = ds, covariance = TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance = TRUE)
     
     return(model$sill-(vt + vs - k * vt * vs))
   }
@@ -484,14 +488,13 @@ covProdSumOld <- function(x, y, model) {
   }
   
   # compose the cov-matrix
-  vs = variogramLine(model$space, dist_vector = sMat)
-  vt = variogramLine(model$time, dist_vector = tMat)
+  vs = variogramLine(model$space, dist_vector = sMat, covariance = TRUE)
+  vt = variogramLine(model$time, dist_vector = tMat, covariance = TRUE)
   
   return(model$sill-(vt + vs - k * vt * vs))
 }
 
 ## new product-sum model
-
 covProdSum <- function(x, y, model) {
   stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
   if(!is.null(model$sill)) # backwards compatibility

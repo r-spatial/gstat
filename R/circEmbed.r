@@ -46,7 +46,7 @@ ceWrapOnTorusCalcDist <- function(grid, ext=2) {
 }
 
 ## FFT preparation with only first row of cov-matrix
-ceWrapOnTorusCalcDistRow1 <- function(grid, vgmModel, ext=2) {
+ceWrapOnTorusCalcCovRow1 <- function(grid, vgmModel, ext=2) {
   grid <- ceExtGrid(grid, ext)
   
   stopifnot("variogramModel" %in% class(vgmModel))
@@ -131,7 +131,6 @@ krigeMultiple <- function(formula, from, to, model, multiVarMatrix) {
   skwts = skwts[, 1:nrow(s0)]
   
   idPredFun <- function(sim) {
-    # sim <-
     sim <- matrix(sim, ncol = 1)
     beta = solve(t(X) %*% ViX, t(ViX) %*% sim)
     x0 %*% beta + t(skwts) %*% (sim - X %*% beta)
@@ -168,7 +167,7 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
   }
   
   # prepare covariance matrix
-  covMat <- ceWrapOnTorusCalcDistRow1(newdata, model, ext = ext)
+  covMat <- ceWrapOnTorusCalcCovRow1(newdata, model, ext = ext)
   
   # simulate
   sims <- ceSim(covMat, n, newdata@grid@cells.dim, newdata@grid.index)
@@ -209,4 +208,44 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
   addAttrToGeom(newdata, as.data.frame(sims))
 }
 
-# Note: to avoid the smoothing effect, the irregular observation locations could also be independently simulted by e.g. their surrounding grid values
+###
+# Note: to avoid the smoothing effect, the irregular observation locations could also be independently simulated by e.g. their surrounding grid values
+###
+
+## circulant embedding for ST-ocvariance functions with grids along one spatial and one temporal axis
+
+
+# inputs: 
+#   hDiscrete = c(hStep, hn): spatial step width and number of steps
+#   tDiscrete = c(tStep, tn): temporal step length and number of steps
+
+ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, ext=2) {
+  stopifnot(is(vgmStModel)  == "StVariogramModel")
+  
+  hDiscrete[2] <- hDiscrete[2]*ext
+  tDiscrete[2] <- tDiscrete[2]*ext
+  
+  rangeST <- c(prod(hDiscrete), prod(tDiscrete))
+  
+  cenX <- seq(from = 0, by = hDiscrete[1], length.out = hDiscrete[2])
+  cenY <- seq(from = 0, by = tDiscrete[1], length.out = tDiscrete[2])
+  
+  m.diff.row1 <- abs(cenX[1] - cenX)
+  m.diff.row1 <- pmin(m.diff.row1, rangeST[1] - m.diff.row1)
+  
+  n.diff.row1 <- abs(cenY[1] - cenY)
+  n.diff.row1 <- pmin(n.diff.row1, rangeST[2] - n.diff.row1)
+  
+  cent.ext.row1 <- expand.grid(m.diff.row1, n.diff.row1)
+  D.ext.row1 <- matrix(sqrt(cent.ext.row1[, 1]^2 + cent.ext.row1[, 2]^2), 
+                       hDiscrete[2], 
+                       tDiscrete[2])
+  colnames(cent.ext.row1) <- c("spacelag", "timelag")
+  
+  matrix(variogramSurface(vgmStModel, dist_grid = cent.ext.row1, 
+                          covariance = TRUE)$gamma,
+         hDiscrete[2], tDiscrete[2])
+}
+
+
+     

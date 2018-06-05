@@ -291,7 +291,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
       slag <- x$avgDist
       slag[slag == 0 & x$timelag == 0] <- sqrt(.Machine$double.eps)
       x[[mod$stModel]] <- variogramSurface(mod, data.frame(spacelag = slag,
-                                                           timelag = x$timelag))$model
+                                                           timelag = x$timelag))$gamma
       if (diff)
         x[[mod$stModel]] <- x[[mod$stModel]] - x$gamma
     }

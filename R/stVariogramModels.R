@@ -33,42 +33,73 @@ Re-fit your model or use \"productSumOld\" instead.")
                                             stAni = stAni),
                      metric = list(joint = joint, stAni = stAni),
                      stop(paste("model", stModel, "unknown")))
+  
   vgmModel$stModel <- old.stModel
+  
   if (!missing(temporalUnit))
     attr(vgmModel, "temporal unit") = temporalUnit
+  
   class(vgmModel) <- c("StVariogramModel", "list")
+  
   vgmModel
 }
 
 # calculating spatio-temporal variogram surfaces
-variogramSurface <- function(model, dist_grid, ...) {
-  if (!inherits(model, "StVariogramModel"))
-    warning("\"model\" should be of class \"StVariogramModel\"; no further checks for a proper model will made.")
+variogramSurface <- function(model, dist_grid, covariance=FALSE) {
+  stopifnot(inherits(model, "StVariogramModel"))
+  stopifnot(all(c("spacelag", "timelag") %in% colnames(dist_grid)))
   
-  switch(strsplit(model$stModel, "_")[[1]][1],
-         separable=vgmSeparable(model, dist_grid, ...),
-         productSum=vgmProdSum(model, dist_grid, ...),
-         productSumOld=vgmProdSumOld(model, dist_grid, ...),
-         sumMetric=vgmSumMetric(model, dist_grid, ...),
-         simpleSumMetric=vgmSimpleSumMetric(model, dist_grid, ...),
-         metric=vgmMetric(model, dist_grid, ...),
-         stop("Only \"separable\", \"productSum\", \"sumMetric\", \"simpleSumMetric\" and \"metric\" are implemented."))
+  if (covariance) {
+    switch(strsplit(model$stModel, "_")[[1]][1],
+           separable=covSurfSeparable(model, dist_grid),
+           productSum=covSurfProdSum(model, dist_grid),
+           productSumOld=covSurfProdSumOld(model, dist_grid),
+           sumMetric=covSurfSumMetric(model, dist_grid),
+           simpleSumMetric=covSurfSimpleSumMetric(model, dist_grid),
+           metric=covSurfMetric(model, dist_grid),
+           stop("Only \"separable\", \"productSum\", \"sumMetric\", \"simpleSumMetric\" and \"metric\" are implemented."))
+  } else {
+    switch(strsplit(model$stModel, "_")[[1]][1],
+           separable=vgmSeparable(model, dist_grid),
+           productSum=vgmProdSum(model, dist_grid),
+           productSumOld=vgmProdSumOld(model, dist_grid),
+           sumMetric=vgmSumMetric(model, dist_grid),
+           simpleSumMetric=vgmSimpleSumMetric(model, dist_grid),
+           metric=vgmMetric(model, dist_grid),
+           stop("Only \"separable\", \"productSum\", \"sumMetric\", \"simpleSumMetric\" and \"metric\" are implemented."))
+  }
 }
 
-# separable model: C_s * C_t
+################################
+## separable model: C_s * C_t ##
+################################
+
 vgmSeparable <- function(model, dist_grid) {
-  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
-  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)[,2]
+  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
+  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)$gamma
   
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, 
-             model=model$sill*(vs+vt-vs*vt))
+  cbind(dist_grid, "gamma" = model$sill*(vs+vt-vs*vt))
 }
 
-# productSum model: C_s*C_t + C_s + C_t
+# covariance for the circulant embedding in ST
+covSurfSeparable <- function(model, dist_grid) {
+  Sm = variogramLine(model$space, covariance = TRUE, dist_vector = dist_grid$spacelag)$gamma*model$sill
+  Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dist_grid$timelag)$gamma
+  
+  cbind(dist_grid, "gamma" = Tm * Sm)
+}
+
+###########################################
+## productSum model: C_s*C_t + C_s + C_t ##
+###########################################
+
 vgmProdSumOld <- function(model, dist_grid) {
-  warning("Please consider to re-fit your model for the new product-sum notation.")
-  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
-  vt = variogramLine(model$time, dist_vector=dist_grid$timelag)[,2]
+  .Deprecated("vgmProdSum", package = "gstat", 
+              msg="The former product-sum model is dprecited, consider to refit the new model specification",
+              old = "vgmProdSumOld")
+  
+  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
+  vt = variogramLine(model$time, dist_vector=dist_grid$timelag)$gamma
   vn <- rep(model$nugget, length(vs))
   vn[vs == 0 & vt == 0] <- 0
   
@@ -76,48 +107,122 @@ vgmProdSumOld <- function(model, dist_grid) {
   
   if (k <= 0 | k > 1/max(rev(model$space$psill)[1], rev(model$time$psill)[1])) 
     k <- 10^6*abs(k) # distorting the model to let optim "hopefully" find suitable parameters
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, 
-             model=as.vector(vs+vt-k*vs*vt+vn))
+  
+  cbind(dist_grid, "gamma" = as.vector(vs+vt-k*vs*vt+vn))
+}
+
+# covariance for the circulant embedding in ST
+covSurfProdSumOld <- function(model, dist_grid) {
+  .Deprecated("covSurfProdSum", package = "gstat", 
+              msg="The former product-sum model is dprecited, consider to refit the new model specification",
+              old = "covSurfProdSumOld")
+  
+  vs = variogramLine(model$space, dist_vector = dist_grid$spacelag, covariance = TRUE)$gamma
+  vt = variogramLine(model$time,  dist_vector = dist_grid$timelag, covariance = TRUE)$gamma
+  
+  k <- (sum(model$space$psill)+sum(model$time$psill)-(model$sill+model$nugget))/(sum(model$space$psill)*sum(model$time$psill))
+  
+  cbind(dist_grid, "gamma" = model$sill-(vt + vs - k * vt * vs))
 }
 
 vgmProdSum <- function(model, dist_grid) {
   if(!is.null(model$sill)) # backwards compatibility
     vgmProdSumOld(model, dist_grid)
-  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
-  vt = variogramLine(model$time, dist_vector=dist_grid$timelag)[,2]
+  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
+  vt = variogramLine(model$time, dist_vector=dist_grid$timelag)$gamma
   
   sill_s <- sum(model$space$psill)
   sill_t <- sum(model$time$psill)
   k <- model$k
   
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag,
-             model=as.vector((k*sill_t+1)*vs + (k*sill_s+1)*vt-k*vs*vt))
+  cbind(dist_grid, "gamma" = as.vector((k*sill_t+1)*vs + (k*sill_s+1)*vt-k*vs*vt))
 }
 
-# sumMetric model: C_s + C_t + C_st (Gerard Heuvelink)
+# covariance for the circulant embedding in ST
+covSurfProdSum <- function(model, dist_grid) {
+  vs = variogramLine(model$space, dist_vector = dist_grid$spacelag, covariance = TRUE)$gamma
+  vt = variogramLine(model$time, dist_vector = dist_grid$timelag, covariance = TRUE)$gamma
+  
+  cbind(dist_grid, "gamma" = vt + vs + model$k * vt * vs)
+}
+
+#########################################################
+# sumMetric model: C_s + C_t + C_st (Gerard Heuvelink) ##
+#########################################################
+
 vgmSumMetric <- function(model, dist_grid) {
-  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
-  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)[,2]
+  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
+  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)$gamma
   h = sqrt(dist_grid$spacelag^2 + (model$stAni * as.numeric(dist_grid$timelag))^2)
-  vst = variogramLine(model$joint, dist_vector=h)[,2]
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, model=(vs + vt + vst))
+  vst = variogramLine(model$joint, dist_vector=h)$gamma
+  
+  cbind(dist_grid, "gamma" = vs + vt + vst)
 }
 
-# simplified sumMetric model
-vgmSimpleSumMetric <- function(model, dist_grid) {
-  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)[,2]
-  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)[,2]
-  h = sqrt(dist_grid$spacelag^2 + (model$stAni * as.numeric(dist_grid$timelag))^2)
-  vm = variogramLine(model$joint, dist_vector=h)[,2]
-  vn <- variogramLine(vgm(model$nugget, "Nug", 0), dist_vector=h)[,2]
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, model=(vs + vt + vm + vn))
+# covariance for the circulant embedding in ST
+covSurfSumMetric <- function(model, dist_grid) {
+  Sm = variogramLine(model$space, covariance = TRUE, dist_vector = dist_grid$spacelag)$gamma
+  Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dist_grid$timelag)$gamma
+  
+  h  = sqrt(dist_grid$spacelag^2 + (model$stAni * dist_grid$timelag)^2)
+  Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)$gamma
+  
+  cbind(dist_grid, "gamma" = Sm + Tm + Mm)
 }
+
+################################
+## simplified sumMetric model ##
+################################
+
+vgmSimpleSumMetric <- function(model, dist_grid) {
+  vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
+  vt = variogramLine(model$time,  dist_vector=dist_grid$timelag)$gamma
+  
+  h = sqrt(dist_grid$spacelag^2 + (model$stAni * as.numeric(dist_grid$timelag))^2)
+  
+  vm = variogramLine(model$joint, dist_vector=h)$gamma
+  vn <- variogramLine(vgm(model$nugget, "Nug", 0), dist_vector=h)$gamma
+  
+  cbind(dist_grid, "gamma" = vs + vt + vm + vn)
+}
+
+# covariance for the circulant embedding in ST
+covSurfSimpleSumMetric <- function(model, dist_grid) {
+  modelNew <- vgmST("sumMetric", 
+                    space=model$space, 
+                    time=model$time,
+                    joint=vgm(model$joint$psill[model$joint$model != "Nug"],
+                              model$joint$model[model$joint$model != "Nug"],
+                              model$joint$range[model$joint$model != "Nug"], 
+                              model$nugget),
+                    stAni=model$stAni)
+  
+  if (!is.null(attr(model,"temporal unit")))
+    attr(modelNew,"temporal unit") <- attr(model,"temporal unit")
+  
+  covSurfSumMetric(modelNew, dist_grid) 
+}
+
+##################
+## metric model ##
+##################
 
 vgmMetric <- function(model, dist_grid) {
   h = sqrt(dist_grid$spacelag^2 + (model$stAni * as.numeric(dist_grid$timelag))^2)
-  vm = variogramLine(model$joint, dist_vector=h)[,2]
-  data.frame(spacelag=dist_grid$spacelag, timelag=dist_grid$timelag, model=vm)
+
+  cbind(dist_grid, "gamma" = variogramLine(model$joint, dist_vector=h)$gamma)
 }
+
+# covariance for the circulant embedding in ST
+covSurfMetric <- function(model, dist_grid) {
+  h  = sqrt(dist_grid$spacelag^2 + (model$stAni * dist_grid$timelag)^2)
+  
+  cbind(dist_grid, "gamma" = variogramLine(model$joint, covariance = TRUE, dist_vector = h)$gamma)
+}
+
+###########################
+## fitting ST variograms ##
+###########################
 
 fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, upper, fit.method = 6, 
                             stAni=NA, wles) {
@@ -146,7 +251,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
   if (fit.method == 0) {
     attr(ret,"optim.output") <- "no fit"
     attr(ret, "MSE") <- mean((object$gamma - variogramSurface(model,
-                                                              data.frame(spacelag=object$dist, timelag=object$timelag))$model)^2)
+                                                              data.frame(spacelag=object$dist, timelag=object$timelag))$gamma)^2)
     attr(ret, "spatial unit")  <- sunit
     attr(ret, "temporal unit") <- tunit
     
@@ -203,8 +308,9 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
   
   fitFun = function(par, trace = FALSE, ...) {
     curModel <- insertPar(par, model)
-    gammaMod <- variogramSurface(curModel, data.frame(spacelag=object$dist,
-                                                      timelag=object$timelag))$model
+    gammaMod <- variogramSurface(curModel,
+                                 data.frame(spacelag=object$dist,
+                                            timelag=object$timelag))$gamma
     resSq <- (object$gamma - gammaMod)^2
     resSq <- resSq * weightingFun(object, gamma=gammaMod, curStAni=curModel$stAni)
     if (trace)
@@ -249,13 +355,18 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
   ret <- insertPar(pars.fit$par, model)
   attr(ret,"optim.output") <- pars.fit
   attr(ret, "MSE") <- mean((object$gamma - variogramSurface(insertPar(pars.fit$par, model),
-                                                            data.frame(spacelag=object$dist, timelag=object$timelag))$model)^2)
+                                                            data.frame(spacelag=object$dist, timelag=object$timelag))$gamma)^2)
   attr(ret, "spatial unit")  <- sunit
   attr(ret, "temporal unit") <- tunit
   
   return(ret)
 }
 
+###########
+## tools ##
+###########
+
+# insert parameters into models
 insertPar <- function(par, model) {
   switch(strsplit(model$stModel, "_")[[1]][1],
          separable=insertParSeparable(par, model),
@@ -267,6 +378,7 @@ insertPar <- function(par, model) {
          stop("Only \"separable\", \"productSum\", \"sumMetric\", \"simpleSumMetric\" and \"metric\" are implemented."))
 }
 
+# extract parameters from models
 extractPar <- function(model) {
   switch(strsplit(model$stModel, "_")[[1]][1],
          separable=c(range.s=model$space$range[2], nugget.s=model$space$psill[1],
@@ -292,10 +404,15 @@ extractPar <- function(model) {
          stop("Only \"separable\", \"productSum\", \"sumMetric\", \"simpleSumMetric\" and \"metric\" are implemented."))
 }
 
+# extract names
 extractParNames <- function(model) {
   names(extractPar(model))
 }
 
+## dedicated insertion functions
+################################
+
+# separable model
 insertParSeparable <- function(par, model) {
   vgmST("separable",
         space=vgm(1-par[2],as.character(model$space$model[2]),par[1],par[2],
@@ -305,6 +422,7 @@ insertParSeparable <- function(par, model) {
         sill=par[5])
 }
 
+# product sum model
 insertParProdSumOld <- function(par, model) {
   vgmST("productSumOld",
         space=vgm(par[1],as.character(rev(model$space$model)[1]),par[2],
@@ -323,6 +441,7 @@ insertParProdSum <- function(par, model) {
         k=par[7])
 }
 
+# sum metric model
 insertParSumMetric <- function(par, model) {
   vgmST("sumMetric",
         space=vgm(par[1],as.character(model$space$model[2]),par[2],par[3],
@@ -334,7 +453,7 @@ insertParSumMetric <- function(par, model) {
         stAni=par[10])
 }
 
-# simplified sumMetric model
+# simplified sum metric model
 insertParSimpleSumMetric <- function(par, model) {
   vgmST("simpleSumMetric",
         space=vgm(par[1],as.character(rev(model$space$model)[1]),par[2],
@@ -346,6 +465,7 @@ insertParSimpleSumMetric <- function(par, model) {
         nugget=par[7], stAni=par[8])
 }
 
+# metric model
 insertParMetric <- function(par, model) {
   vgmST("metric",
         joint=vgm(par[1], as.character(model$joint$model[2]), par[2], par[3],
@@ -354,6 +474,7 @@ insertParMetric <- function(par, model) {
 }
 
 ## guess the spatio-temporal anisotropy without spatio-temporal models
+######################################################################
 
 estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm, s.range=NA, t.range=NA) {
   if (!is.na(s.range))
@@ -369,6 +490,7 @@ estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm
          stop(paste("Method", method,"is not implemented.")))
 }
 
+# linear
 estiStAni.lin <- function(empVgm, interval) {
   lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == 0,])
   
@@ -379,7 +501,7 @@ estiStAni.lin <- function(empVgm, interval) {
   optimise(optFun, interval)$minimum  
 }
 
-
+# range
 estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
   spEmpVgm <- empVgm[empVgm$timelag == 0,]
   class(spEmpVgm) <- c("gstatVariogram","data.frame")
@@ -401,6 +523,7 @@ estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
   spatialVgm$range[2]/temporalVgm$range[2]
 }
 
+# variograms
 estiAni.vgm <- function(empVgm, spatialVgm, interval) {
   spEmpVgm <- empVgm[empVgm$timelag == 0,]
   class(spEmpVgm) <- c("gstatVariogram","data.frame")
@@ -417,6 +540,7 @@ estiAni.vgm <- function(empVgm, spatialVgm, interval) {
   optimise(optFun, interval)$minimum
 }
 
+# metric variogram
 estiAni.metric <- function(empVgm, spatialVgm, interval) {
   fit.StVariogram(empVgm, vgmST("metric", joint=spatialVgm, stAni=mean(interval)))$stAni[[1]]
 }
