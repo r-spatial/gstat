@@ -219,7 +219,7 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
 #   hDiscrete = c(hStep, hn): spatial step width and number of steps
 #   tDiscrete = c(tStep, tn): temporal step length and number of steps
 
-ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, ext=2) {
+ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, ext=2, turningLayers=FALSE) {
   stopifnot(is(vgmStModel)  == "StVariogramModel")
   
   hDiscrete[2] <- hDiscrete[2]*ext
@@ -241,6 +241,11 @@ ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, 
                        hDiscrete[2], 
                        tDiscrete[2])
   colnames(cent.ext.row1) <- c("spacelag", "timelag")
+  
+  if (turningLayers) {
+    return(matrix(tbOperator(vgmStModel, dist_grid = cent.ext.row1)$gamma,
+                  hDiscrete[2], tDiscrete[2]))
+  } 
   
   matrix(variogramSurface(vgmStModel, dist_grid = cent.ext.row1, 
                           covariance = TRUE)$gamma,
