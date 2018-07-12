@@ -23,6 +23,7 @@ importFrom(stats, as.formula, cor, cov2cor, delete.response, .getXlevels,
 	residuals, terms, 
 	rnorm, fft)
 importFrom(graphics, image.default, lines, locator, text)
+importFrom(zoo, is.regular)
 import(methods)
 import(lattice)
 importFrom(zoo, zoo, is.regular)
@@ -46,7 +47,7 @@ export(as.vgm.variomodel,
 	hscat,
 	idw0,
 	krigeTg,
-	krige0, krigeST, krigeSTTg, krigeSimCE, krigeSTUncSimTB,
+	krige0, krigeST, krigeSTTg, krigeSimCE, krigeSTSimTB,
 	map.to.lev,
 	ossfim,
 	show.vgms,

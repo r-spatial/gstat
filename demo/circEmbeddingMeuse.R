@@ -39,24 +39,46 @@ spplot(conSim, "zinc.simMean", main="mean of 100 conditional simulations")
 ################################################
 
 separableModel <- vgmST("separable",
-                        space=vgm(0.9,"Exp", 147, 0.1),
-                        time =vgm(0.9,"Exp", 3.5, 0.1),
-                        sill=40)
+                        space=vgm(0.85,"Exp", 831, 0.15),
+                        time =vgm(0.09,"Exp", 0.5, 0.91),
+                        sill=135000)
 
 
 stf <- STF(meuse, Sys.time()-20:0*24*3600)
 
+stf_grid <- STF(geometry(meuse.grid), stf@time)
+
+###################
+## unconditional ##
+###################
+
 sTime <- Sys.time()
-krigedSim <- krigeSTUncSimTB(stf, separableModel, 100)
+krigedSim <- krigeSTSimTB(newdata = stf_grid, modelList = separableModel, nsim = 100, nLyrs = 100)
 Sys.time() - sTime
 
-# 27 secs for 100 simulated ST fields of 155 locations and 21 time steps: 325500 values
-
 # plot one simulation along time
-stplot(krigedSim[,1:12])
+stplot(krigedSim[,1:12], main="unconditional siumulation")
 
-# plot one simulation along time
-stplot(krigedSim[1:12,,"sim1"], mode="ts")
+# plot one simulation along time as time series
+stplot(krigedSim[1:12,,"sim1"], mode="ts", main="unconditional siumulation")
 
 # plot the ten simulations of the first day
-spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE)
+spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="unconditional siumulation")
+
+#################
+## conditional ##
+#################
+
+sTime <- Sys.time()
+krigedSim <- krigeSTSimTB(formula= zinc ~ 1, data = STFDF(geometry(meuse), stf@time, data.frame(zinc=rep(meuse$zinc, 21))),
+                          newdata = stf_grid[1:500,], modelList = separableModel, nsim = 10, nLyrs = 500)
+Sys.time() - sTime
+
+# plot one simulation along time
+stplot(krigedSim[,1:12], main="conditinal simulation")
+
+# plot one simulation along time as time series
+stplot(krigedSim[1:12,,"sim1"], mode="ts", main="conditinal simulation")
+
+# plot the ten simulations of the first day
+spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="conditinal simulation")

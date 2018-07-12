@@ -148,6 +148,46 @@ randomDirections <- function(n) {
 # 
 # plot(simTs[500,])
 
+# computes the covariance matrixes and weights once, applied to series of
+# variables/simulations where each variable/simulation is stored in one column of
+# the multiVarMatrix copied from krigeST to avoid repeted calls to krige with
+# multiple, identical inversions of the weights matrix
+
+# TODO: add functionality for temporal sandwich-wise processing: i.e. use the 
+# +/- nmaxTime time slices to predict one time slice
+
+krigeSTMultiple <- function(formula, from, to, modelList, multiVarMatrix, nmaxTime=Inf) {
+  lst = extractFormula(formula, from, to)
+
+  separate <- length(from) > 1 && length(to) > 1 &&
+    inherits(from, "STF") && inherits(to, "STF")
+  
+  X = lst$X
+  x0 = lst$x0
+  
+  V = covfn.ST(from, model = modelList, separate=separate)
+  v0 = covfn.ST(from, to, modelList)
+  
+  if (modelList$stModel == "separable" & separate)
+    skwts <- STsolve(V, v0, X) # use Kronecker trick
+  else 
+    skwts <- CHsolve(V, cbind(v0, X))
+
+  npts = length(to)
+  ViX = skwts[,-(1:npts)]
+  skwts = skwts[,1:npts]
+  
+  idPredFun <- function(sim) {
+    sim <- matrix(sim, ncol = 1)
+    beta = solve(t(X) %*% ViX, t(ViX) %*% sim)
+    x0 %*% beta + t(skwts) %*% (sim - X %*% beta)
+  }
+  
+  apply(multiVarMatrix, 2, idPredFun)
+}
+
+
+
 # unconcitional
 ## STFDF
 # library(sp)
@@ -163,8 +203,18 @@ randomDirections <- function(n) {
 #                     bufferNmax=2, progress=TRUE)
 
 ## 
-krigeSTUncSimTB <- function(newdata, modelList, nsim, progress=TRUE, nLyrs=500, tGrid=NULL, sGrid=NULL, ceExt=2) {
-  stopifnot(is.regular(newdata@time))
+krigeSTSimTB <- function(formula, data, newdata, modelList, nsim, 
+                            progress=TRUE, nLyrs=500, tGrid=NULL, sGrid=NULL, ceExt=2,
+                            nmax=Inf) {
+  stopifnot(zoo::is.regular(newdata@time))
+  
+  condSim <- TRUE
+  if (missing(data)) {
+    condSim <- FALSE
+    cat("[No data provided: performing unconditional simulation.]\n")
+  } else {
+    cat("[Performing conditional simulation.]\n")
+  }
   
   pb <- txtProgressBar(0,nsim,style=3)
   
@@ -208,10 +258,10 @@ krigeSTUncSimTB <- function(newdata, modelList, nsim, progress=TRUE, nLyrs=500, 
   cl_cntrbtn <- ceiling(cntrbtn) + sGrid[2]
   fl_cntrbtn <- floor(cntrbtn) + sGrid[2]
   
-  covRow1 <- ceWrapSpaceTimeOnTorusCalcCovRow1(c(sGrid[1], 2*sGrid[2]), tGrid, metricModel, turningLayers = TRUE, ext=ceExt)
+  covRow1 <- ceWrapSpaceTimeOnTorusCalcCovRow1(c(sGrid[1], 2*sGrid[2]), tGrid, modelList, turningLayers = TRUE, ext=ceExt)
   
   origDim <- c(2*sGrid[2], tGrid[2])
-  res <- list()
+  sims <- list()
 
   ##
   for (i in 1:nsim) {
@@ -227,14 +277,49 @@ krigeSTUncSimTB <- function(newdata, modelList, nsim, progress=TRUE, nLyrs=500, 
     }
     
     # reduce to the one realisation based on the combination of nLyrs turning bands
-    res[[paste0("sim",i)]] <- Reduce('+', lapply(1:nLyrs, cntrbSngSimLyr))/sqrt(nLyrs)
+    sims[[paste0("sim",i)]] <- Reduce('+', lapply(1:nLyrs, cntrbSngSimLyr))/sqrt(nLyrs)
   }
   close(pb)
   
-  res <- do.call(cbind, lapply(res, as.numeric))
+  sims <- do.call(cbind, lapply(sims, as.numeric))
 
-  addAttrToGeom(newdata, as.data.frame(res))
+  # bind simulations to newdata geometry
+  if (!condSim) {
+    if ("data" %in% slotNames(newdata))
+      newdata@data <- cbind(newdata@data, sims)
+    else
+      newdata <- addAttrToGeom(newdata, as.data.frame(sims))
+    return(newdata)
+  }
+  
+  # function call ends here if no data has been provided -> unconditional case
+  varName <- all.vars(formula[[2]])
+  
+  ## conditioning
+  # interpolate the observations to the simulation grid
+  obsMeanField <- krigeST(formula=formula, data=data, newdata=newdata, modelList=modelList)
+  
+  # interpolate to observation locations from the simulated grids for each simulation
+  simMeanObsLoc <- krigeSTMultiple(as.formula(paste0("var1.pred ~", formula[[3]])),
+                                   obsMeanField, data, modelList, sims)
+  
+  # interpolate from kriged mean sim at observed locations back to the grid for mean surface of the simulations
+  simMeanFields <- krigeSTMultiple(as.formula(paste0(varName, "~", formula[[3]])),
+                                 data, newdata, modelList, simMeanObsLoc)
+  
+  # add up the mean field and the corrected data
+  sims <- obsMeanField@data$var1.pred + sims - simMeanFields
+  
+  # bind simulations to newdata geometry
+  if ("data" %in% slotNames(newdata)) {
+    newdata@data <- cbind(newdata@data, sims)
+    return(newdata)
+  }
+  
+  addAttrToGeom(newdata, as.data.frame(sims))
 }
+
+
 # 
 # sTime <- Sys.time()
 # krigedSim <- krigeSTUncSimTB(stf, metricModel, 100)
