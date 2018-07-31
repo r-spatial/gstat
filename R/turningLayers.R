@@ -236,12 +236,20 @@ krigeSTSimTB <- function(formula, data, newdata, modelList, nsim,
   }
   
   if (is.null(sGrid)) {
-    # SpatialPoints:
-    # Average area per location --assuming-a-regular-squared-outline-taking-the-sqrt--> length/location --take-later-twice-as-many-->
-    bboxExt <- apply(newdata@sp@bbox, 1, diff)
-    sDis <- sqrt(prod(bboxExt)/length(newdata@sp))
-    sDim <- ceiling(sqrt(sum((bboxExt/sDis)^2)))
-    sGrid <- c(sDis, sDim)
+    if (gridded(newdata@sp)) {
+      # SpatialPixels/SpatialGrid:
+      # based on GridTopology: use minimal cellsize of both directions; take enough to cover the diagonal
+      sDis <- min(newdata@sp@grid@cellsize)
+      sDim <- ceiling(sqrt(sum((newdata@sp@grid@cellsize * newdata@sp@grid@cells.dim)^2))/sDis)
+      sGrid <-  c(sDis, sDim)
+    } else {
+      # treat (as) SpatialPoints:
+      # Average area per location --assuming-a-regular-squared-outline-taking-the-sqrt--> length/location --take-later-twice-as-many-->
+      bboxExt <- apply(newdata@sp@bbox, 1, diff)
+      sDis <- sqrt(prod(bboxExt)/length(newdata@sp))
+      sDim <- ceiling(sqrt(sum((bboxExt/sDis)^2)))
+      sGrid <- c(sDis, sDim)
+    }
   }
     
   # random directions in 3D
