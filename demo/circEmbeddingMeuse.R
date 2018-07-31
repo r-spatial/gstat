@@ -32,18 +32,17 @@ simKrige <- krige(zinc~1, meuse, meuse.grid, modVgm)
 spplot(simKrige, "var1.pred", main="interpolated zinc concentrations")
 spplot(conSim, "zinc.simMean", main="mean of 100 conditional simulations")
 
-
-
 ################################################
 ## turning bands simulation in space and time ##
 ################################################
 
 separableModel <- vgmST("separable",
                         space=vgm(0.85,"Exp", 831, 0.15),
-                        time =vgm(0.09,"Exp", 0.5, 0.91),
+                        time =vgm(0.9,"Exp", 3.25, 0.1),
                         sill=135000)
+attr(separableModel,"temporal unit") <- "days"
 
-
+library(spacetime)
 stf <- STF(meuse, Sys.time()-20:0*24*3600)
 
 stf_grid <- STF(geometry(meuse.grid), stf@time)
@@ -57,10 +56,15 @@ krigedSim <- krigeSTSimTB(newdata = stf_grid, modelList = separableModel, nsim =
 Sys.time() - sTime
 
 # plot one simulation along time
-stplot(krigedSim[,1:12], main="unconditional siumulation")
+stplot(krigedSim[,,"sim1"], main="unconditional siumulation")
 
 # plot one simulation along time as time series
-stplot(krigedSim[1:12,,"sim1"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim1"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim2"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim3"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim4"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim5"], mode="ts", main="unconditional siumulation")
+stplot(krigedSim[1:21,,"sim6"], mode="ts", main="unconditional siumulation")
 
 # plot the ten simulations of the first day
 spplot(krigedSim[,1], paste0("sim",1:10), as.table=TRUE, main="unconditional siumulation")

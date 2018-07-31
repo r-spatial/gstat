@@ -84,6 +84,8 @@
 # dist_grid <- as.data.frame(cbind("spacelag" = rep(1:150*1., each=4),
 #                                  "timelag" = rep(1:4, 150)))
 
+# CAVE: distgrid must ahve the correct spatial and temporal metrics
+
 tbOperator <- function(model, dist_grid) {
   r <- dist_grid$spacelag
   
@@ -211,9 +213,9 @@ krigeSTSimTB <- function(formula, data, newdata, modelList, nsim,
   condSim <- TRUE
   if (missing(data)) {
     condSim <- FALSE
-    cat("[No data provided: performing unconditional simulation.]\n")
+    message("[No data provided: performing unconditional simulation.]")
   } else {
-    cat("[Performing conditional simulation.]\n")
+    message("[Performing conditional simulation.]")
   }
   
   pb <- txtProgressBar(0,nsim,style=3)
@@ -221,8 +223,16 @@ krigeSTSimTB <- function(formula, data, newdata, modelList, nsim,
   # ST-simulation grid
   if (is.null(tGrid)) {
     tDis <- diff(c(index(newdata@time[1]), newdata@endTime[1]))
+    if (!is.null(attr(modelList, "temporal unit"))) {
+      units(tDis) <- attr(modelList, "temporal unit")
+    } else {
+      message("[The spatio-temporal variogram model does not carry a time unit attribute: krigeST cannot check whether the temporal distance metrics coincide.]")
+    }
+    
     tGrid <- c(as.numeric(tDis), length(newdata@time))
-    attr(tGrid, "units") <- c("",units(tDis))
+    attr(tGrid, "units") <- c("", units(tDis))
+    
+    message("[Using the following time unit: ", units(tDis), "]")
   }
   
   if (is.null(sGrid)) {

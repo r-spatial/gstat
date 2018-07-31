@@ -101,7 +101,7 @@ krigeST <- function(formula, data, newdata, modelList, y, beta, nmax=Inf, stAni=
   stopifnot(nmax > 0)
   
   if(is.null(attr(modelList,"temporal unit")))
-    warning("The spatio-temporal variogram model does not carry a time unit attribute: krisgeST cannot check whether the temporal distance metrics coincide.")
+    message("[The spatio-temporal variogram model does not carry a time unit attribute: krigeST cannot check whether the temporal distance metrics coincide.]")
   
   if(nmax < Inf) # local neighbourhood ST kriging:
     return(krigeST.local(formula = formula, data = data, 
@@ -340,8 +340,8 @@ covfn.ST = function(x, y = x, model, ...) {
          stop(paste("Provided spatio-temporal model (",model$stModel,") is not supported.",sep="")))
 }
 
-## covariance models
-####################
+## spatio-temporal covariance models
+####################################
 
 covSeparable <- function(x, y, model, separate) {  
   if(missing(separate))
@@ -352,6 +352,7 @@ covSeparable <- function(x, y, model, separate) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -379,6 +380,7 @@ covSeparable <- function(x, y, model, separate) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -398,6 +400,7 @@ covSeparable <- function(x, y, model, separate) {
   # calculate all spatial and temporal distances
   ds = spDists(x@sp, y@sp)
   dt = abs(outer(index(x@time), index(y@time), "-"))
+  message("[Using the following time unit: ", units(dt), "]")
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
   dt <- as(dt, "matrix")
@@ -436,6 +439,7 @@ covProdSumOld <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -456,6 +460,7 @@ covProdSumOld <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -475,6 +480,7 @@ covProdSumOld <- function(x, y, model) {
   # calculate all spatial and temporal distances
   ds = spDists(x@sp, y@sp)
   dt = abs(outer(index(x@time), index(y@time), "-"))
+  message("[Using the following time unit: ", units(dt), "]")
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
   dt <- as(dt, "matrix")
@@ -505,6 +511,7 @@ covProdSum <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -525,6 +532,7 @@ covProdSum <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -544,6 +552,7 @@ covProdSum <- function(x, y, model) {
   # calculate all spatial and temporal distances
   ds = spDists(x@sp, y@sp)
   dt = abs(outer(index(x@time), index(y@time), "-"))
+  message("[Using the following time unit: ", units(dt), "]")
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
   dt <- as(dt, "matrix")
@@ -572,6 +581,7 @@ covSumMetric <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -596,6 +606,7 @@ covSumMetric <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -618,6 +629,7 @@ covSumMetric <- function(x, y, model) {
   # calculate all spatial and temporal distances
   ds = spDists(x@sp, y@sp)
   dt = abs(outer(index(x@time), index(y@time), "-"))
+  message("[Using the following time unit: ", units(dt), "]")
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
   dt <- as(dt, "matrix")
@@ -664,6 +676,7 @@ covMetric <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -685,6 +698,7 @@ covMetric <- function(x, y, model) {
     # calculate all spatial and temporal distances
     ds = spDists(x@sp, y@sp)
     dt = abs(outer(index(x@time), index(y@time), "-"))
+    message("[Using the following time unit: ", units(dt), "]")
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
     dt <- as(dt, "matrix")
@@ -704,6 +718,7 @@ covMetric <- function(x, y, model) {
   # calculate all spatial and temporal distances
   ds = spDists(x@sp, y@sp)
   dt = abs(outer(index(x@time), index(y@time), "-"))
+  message("[Using the following time unit: ", units(dt), "]")
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
   dt <- as(dt, "matrix")

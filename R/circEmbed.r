@@ -161,9 +161,9 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
   condSim <- TRUE
   if (missing(data)) {
     condSim <- FALSE
-    cat("[No data provided: performing unconditional simulation.]\n")
+    message("[No data provided: performing unconditional simulation.]")
   } else {
-    cat("[Performing conditional simulation.]\n")
+    message("[Performing conditional simulation.]")
   }
   
   # prepare covariance matrix
@@ -219,7 +219,9 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
 #   hDiscrete = c(hStep, hn): spatial step width and number of steps
 #   tDiscrete = c(tStep, tn): temporal step length and number of steps
 
-ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, ext=2, turningLayers=FALSE) {
+# CAVE: hDiscrete and tDiscrete must have the correct spatial and temporal metrics
+
+ceWrapSpaceTimeOnTorusCalcCovRow1 <- function(hDiscrete, tDiscrete, vgmStModel, ext=2, turningLayers=TRUE) {
   stopifnot(is(vgmStModel)  == "StVariogramModel")
   
   hDiscrete[2] <- hDiscrete[2]*ext

@@ -259,7 +259,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
   }
   
   if ((fit.method == 7 | fit.method == 11) & is.null(model$stAni) & is.na(stAni)) {
-    warning("An uninformed spatio-temporal anisotropy value of '1 (spatial unit)/(temporal unit)' is automatically selected. Consider providing a sensible estimate for stAni or using a different fit.method.")
+    message("[An uninformed spatio-temporal anisotropy value of '1 (spatial unit)/(temporal unit)' is automatically selected. Consider providing a sensible estimate for stAni or using a different fit.method.]")
     stAni <- 1
   }
   
