@@ -1,4 +1,5 @@
 a2p			area-to-point kriging with krige0
+a2pinST			area-to-point kriging in space-time with krigeST
 block		block kriging -- effect of block size and irregular blocks
 blue		how to get BLUE coefficients out of a predict.gstat call
 cc			collocated cokriging example

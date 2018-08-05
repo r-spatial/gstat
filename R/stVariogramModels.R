@@ -81,6 +81,83 @@ vgmSeparable <- function(model, dist_grid) {
   cbind(dist_grid, "gamma" = model$sill*(vs+vt-vs*vt))
 }
 
+covSeparable <- function(x, y, model, separate) {  
+  if(missing(separate))
+    separate <- inherits(x, "STF") & inherits(y, "STF") & length(x) > 1 & length(y) > 1
+  
+  # the STF case
+  if (inherits(x, "STF") && inherits(y, "STF")) {
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    Sm = variogramLine(model$space, covariance = TRUE, dist_vector = ds)*model$sill
+    Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dt)
+    
+    if (separate)
+      return(list(Sm = Sm, Tm = Tm))
+    else
+      return(Tm %x% Sm) # kronecker product
+  } 
+  
+  # separate makes only sense if both of x and y inherit STF
+  if (separate)
+    stop("An efficient inversion by separating the covarinace model is only possible if both of \"x\" and \"y\" inherit \"STF\"")
+  
+  # the STI case
+  if (inherits(x, "STI") || inherits(y, "STI")) {
+    # make sure that now both are of type STI
+    x <- as(x, "STI")
+    y <- as(y, "STI")
+    
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    Sm = variogramLine(model$space, covariance = TRUE, dist_vector = ds)*model$sill
+    Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dt)
+    
+    return(Sm * Tm)
+  }
+  
+  # the remaining cases, none of x and y is STI nor are both STF
+  # make sure both are of type STS
+  x <- as(x, "STS")
+  y <- as(y, "STS")
+  
+  # calculate all spatial and temporal distances
+  ds = spDists(x@sp, y@sp)
+  dt = abs(outer(index(x@time), index(y@time), "-"))
+  if(!is.null(attr(model,"temporal unit")))
+    units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+  message("[Using the following time unit: ", units(dt), "]")
+  dt <- as(dt, "matrix")
+  
+  # re-arrange the spatial and temporal distances
+  sMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  tMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  for(r in 1:nrow(x@index)) {
+    sMat[r,] <- ds[x@index[r,1], y@index[,1]]
+    tMat[r,] <- dt[x@index[r,2], y@index[,2]]
+  }
+  
+  # compose the cov-matrix
+  Sm = variogramLine(model$space, covariance = TRUE, dist_vector = sMat)*model$sill
+  Tm = variogramLine(model$time, covariance = TRUE, dist_vector = tMat)
+  
+  return(Sm * Tm)  
+}
+
 # covariance for the circulant embedding in ST
 covSurfSeparable <- function(model, dist_grid) {
   Sm = variogramLine(model$space, covariance = TRUE, dist_vector = dist_grid$spacelag)$gamma*model$sill
@@ -111,6 +188,85 @@ vgmProdSumOld <- function(model, dist_grid) {
   cbind(dist_grid, "gamma" = as.vector(vs+vt-k*vs*vt+vn))
 }
 
+covProdSumOld <- function(x, y, model) {
+  .Deprecated("covProdSum", package = "gstat", 
+              msg="The former product-sum model is dprecited, consider to refit the new model specification",
+              old = "covProdSumOld")
+  
+  stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
+  
+  # double check model for validity, i.e. k:
+  k <- (sum(model$space$psill)+sum(model$time$psill)-model$sill)/(sum(model$space$psill)*sum(model$time$psill))
+  if (k <= 0 | k > 1/max(model$space$psill[model$space$model!="Nug"], 
+                         model$time$psill[model$time$model!="Nug"]))
+    stop(paste("k (",k,") is non-positive or too large: no valid model!",sep=""))
+  
+  # the STF case
+  if (inherits(x, "STF") & inherits(y, "STF")) {
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    vs = variogramLine(model$space, dist_vector = ds, covariance = TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance = TRUE)
+    
+    return(model$sill-(vt %x% matrix(1,nrow(vs),ncol(vs)) + matrix(1,nrow(vt),ncol(vt)) %x% vs - k * vt %x% vs))
+  } 
+  
+  # the STI case
+  if(inherits(x, "STI") | inherits(y, "STI")) {
+    # make sure that now both are of type STI
+    x <- as(x, "STI")
+    y <- as(y, "STI")
+    
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    vs = variogramLine(model$space, dist_vector = ds, covariance = TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance = TRUE)
+    
+    return(model$sill-(vt + vs - k * vt * vs))
+  }
+  
+  # the remaining cases, none of x and y is STI nor are both STF
+  # make sure both are of type STS
+  x <- as(x, "STS")
+  y <- as(y, "STS")
+  
+  # calculate all spatial and temporal distances
+  ds = spDists(x@sp, y@sp)
+  dt = abs(outer(index(x@time), index(y@time), "-"))
+  if(!is.null(attr(model,"temporal unit")))
+    units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+  message("[Using the following time unit: ", units(dt), "]")
+  dt <- as(dt, "matrix")
+  
+  # re-arrange the spatial and temporal distances
+  sMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  tMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  for(r in 1:nrow(x@index)) {
+    sMat[r,] <- ds[x@index[r,1], y@index[,1]]
+    tMat[r,] <- dt[x@index[r,2], y@index[,2]]
+  }
+  
+  # compose the cov-matrix
+  vs = variogramLine(model$space, dist_vector = sMat, covariance = TRUE)
+  vt = variogramLine(model$time, dist_vector = tMat, covariance = TRUE)
+  
+  return(model$sill-(vt + vs - k * vt * vs))
+}
+
 # covariance for the circulant embedding in ST
 covSurfProdSumOld <- function(model, dist_grid) {
   .Deprecated("covSurfProdSum", package = "gstat", 
@@ -138,6 +294,77 @@ vgmProdSum <- function(model, dist_grid) {
   cbind(dist_grid, "gamma" = as.vector((k*sill_t+1)*vs + (k*sill_s+1)*vt-k*vs*vt))
 }
 
+covProdSum <- function(x, y, model) {
+  stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
+  if(!is.null(model$sill)) # backwards compatibility
+    covProdSumOld(x, y, model)
+  
+  # the STF case
+  if (inherits(x, "STF") & inherits(y, "STF")) {
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    vs = variogramLine(model$space, dist_vector = ds, covariance =TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance =TRUE)
+    
+    return(vt %x% matrix(1,nrow(vs),ncol(vs)) + matrix(1,nrow(vt),ncol(vt)) %x% vs + model$k * vt %x% vs)
+  } 
+  
+  # the STI case
+  if(inherits(x, "STI") | inherits(y, "STI")) {
+    # make sure that now both are of type STI
+    x <- as(x, "STI")
+    y <- as(y, "STI")
+    
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    vs = variogramLine(model$space, dist_vector = ds, covariance=TRUE)
+    vt = variogramLine(model$time, dist_vector = dt, covariance=TRUE)
+    
+    return(vt + vs + model$k * vt * vs)
+  }
+  
+  # the remaining cases, none of x and y is STI nor are both STF
+  # make sure both are of type STS
+  x <- as(x, "STS")
+  y <- as(y, "STS")
+  
+  # calculate all spatial and temporal distances
+  ds = spDists(x@sp, y@sp)
+  dt = abs(outer(index(x@time), index(y@time), "-"))
+  if(!is.null(attr(model,"temporal unit")))
+    units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+  message("[Using the following time unit: ", units(dt), "]")
+  dt <- as(dt, "matrix")
+  
+  # re-arrange the spatial and temporal distances
+  sMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  tMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  for(r in 1:nrow(x@index)) {
+    sMat[r,] <- ds[x@index[r,1], y@index[,1]]
+    tMat[r,] <- dt[x@index[r,2], y@index[,2]]
+  }
+  
+  # compose the cov-matrix
+  vs = variogramLine(model$space, dist_vector = sMat, covariance = TRUE)
+  vt = variogramLine(model$time, dist_vector = tMat, covariance = TRUE)
+  
+  return(vt + vs + model$k * vt * vs)
+}
+
 # covariance for the circulant embedding in ST
 covSurfProdSum <- function(model, dist_grid) {
   vs = variogramLine(model$space, dist_vector = dist_grid$spacelag, covariance = TRUE)$gamma
@@ -157,6 +384,85 @@ vgmSumMetric <- function(model, dist_grid) {
   vst = variogramLine(model$joint, dist_vector=h)$gamma
   
   cbind(dist_grid, "gamma" = vs + vt + vst)
+}
+
+covSumMetric <- function(x, y, model) {
+  stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
+  
+  # the STF case
+  if (inherits(x, "STF") & inherits(y, "STF")) {
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    Sm = variogramLine(model$space, covariance = TRUE, dist_vector = ds)
+    Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dt)
+    
+    h  = sqrt((matrix(1,nrow(dt),ncol(dt)) %x% ds)^2 
+              + (model$stAni * dt %x% matrix(1,nrow(ds),ncol(ds)))^2)
+    Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+    
+    return(matrix(1,nrow(Tm),ncol(Tm)) %x% Sm + Tm %x% matrix(1,nrow(Sm),ncol(Sm)) + Mm)
+  } 
+  
+  # the STI case
+  if(inherits(x, "STI") | inherits(y, "STI")) {
+    # make sure that now both are of type STI
+    x <- as(x, "STI")
+    y <- as(y, "STI")
+    
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    Sm = variogramLine(model$space, covariance = TRUE, dist_vector = ds)
+    Tm = variogramLine(model$time, covariance = TRUE, dist_vector = dt)
+    
+    h  = sqrt(ds^2 + (model$stAni * dt)^2)
+    Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+    
+    return(Sm + Tm + Mm)
+  }
+  
+  # the remaining cases, none of x and y is STI nor are both STF
+  # make sure both are of type STS
+  x <- as(x, "STS")
+  y <- as(y, "STS")
+  
+  # calculate all spatial and temporal distances
+  ds = spDists(x@sp, y@sp)
+  dt = abs(outer(index(x@time), index(y@time), "-"))
+  if(!is.null(attr(model,"temporal unit")))
+    units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+  message("[Using the following time unit: ", units(dt), "]")
+  dt <- as(dt, "matrix")
+  
+  # re-arrange the spatial and temporal distances
+  sMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  tMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  for(r in 1:nrow(x@index)) {
+    sMat[r,] <- ds[x@index[r,1], y@index[,1]]
+    tMat[r,] <- dt[x@index[r,2], y@index[,2]]
+  }
+  
+  # compose the cov-matrix
+  Sm = variogramLine(model$space, covariance = TRUE, dist_vector = sMat)
+  Tm = variogramLine(model$time, covariance = TRUE, dist_vector = tMat)
+  
+  h  = sqrt(sMat^2 + (model$stAni * tMat)^2)
+  Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+  
+  return(Sm + Tm + Mm)
 }
 
 # covariance for the circulant embedding in ST
@@ -186,6 +492,20 @@ vgmSimpleSumMetric <- function(model, dist_grid) {
   cbind(dist_grid, "gamma" = vs + vt + vm + vn)
 }
 
+covSimpleSumMetric <- function(x, y, model) {
+  modelNew <- vgmST("sumMetric", 
+                    space=model$space, 
+                    time=model$time,
+                    joint=vgm(model$joint$psill[model$joint$model != "Nug"],
+                              model$joint$model[model$joint$model != "Nug"],
+                              model$joint$range[model$joint$model != "Nug"], 
+                              model$nugget),
+                    stAni=model$stAni)
+  if (!is.null(attr(model,"temporal unit")))
+    attr(modelNew,"temporal unit") <- attr(model,"temporal unit")
+  covSumMetric(x, y, modelNew) 
+}
+
 # covariance for the circulant embedding in ST
 covSurfSimpleSumMetric <- function(model, dist_grid) {
   modelNew <- vgmST("sumMetric", 
@@ -211,6 +531,76 @@ vgmMetric <- function(model, dist_grid) {
   h = sqrt(dist_grid$spacelag^2 + (model$stAni * as.numeric(dist_grid$timelag))^2)
 
   cbind(dist_grid, "gamma" = variogramLine(model$joint, dist_vector=h)$gamma)
+}
+
+covMetric <- function(x, y, model) {
+  stopifnot(inherits(x, c("STF", "STS", "STI")) & inherits(y, c("STF", "STS", "STI")))
+  
+  # the STF case
+  if (inherits(x, "STF") & inherits(y, "STF")) {
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    h  = sqrt((matrix(1,nrow(dt),ncol(dt)) %x% ds)^2
+              + (model$stAni * dt %x% matrix(1,nrow(ds),ncol(ds)))^2)
+    Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+    
+    return(Mm)
+  } 
+  
+  # the STI case
+  if(inherits(x, "STI") | inherits(y, "STI")) {
+    # make sure that now both are of type STI
+    x <- as(x, "STI")
+    y <- as(y, "STI")
+    
+    # calculate all spatial and temporal distances
+    ds = spDists(x@sp, y@sp)
+    dt = abs(outer(index(x@time), index(y@time), "-"))
+    if(!is.null(attr(model,"temporal unit")))
+      units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+    message("[Using the following time unit: ", units(dt), "]")
+    dt <- as(dt, "matrix")
+    
+    # compose the cov-matrix
+    h  = sqrt(ds^2 + (model$stAni * dt)^2)
+    Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+    
+    return(Mm)
+  }
+  
+  # the remaining cases, none of x and y is STI nor are both STF
+  # make sure both are of type STS
+  x <- as(x, "STS")
+  y <- as(y, "STS")
+  
+  # calculate all spatial and temporal distances
+  ds = spDists(x@sp, y@sp)
+  dt = abs(outer(index(x@time), index(y@time), "-"))
+  if(!is.null(attr(model,"temporal unit")))
+    units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
+  message("[Using the following time unit: ", units(dt), "]")
+  dt <- as(dt, "matrix")
+  
+  # re-arrange the spatial and temporal distances
+  sMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  tMat <- matrix(NA, nrow(x@index), nrow(y@index))
+  for(r in 1:nrow(x@index)) {
+    sMat[r,] <- ds[x@index[r,1], y@index[,1]]
+    tMat[r,] <- dt[x@index[r,2], y@index[,2]]
+  }
+  
+  # compose the cov-matrix
+  h  = sqrt(sMat^2 + (model$stAni * tMat)^2)
+  Mm = variogramLine(model$joint, covariance = TRUE, dist_vector = h)
+  
+  return(Mm)
 }
 
 # covariance for the circulant embedding in ST
@@ -472,76 +862,3 @@ insertParMetric <- function(par, model) {
                   kappa=model$joint$kappa[2]),
         stAni=par[4])
 }
-
-## guess the spatio-temporal anisotropy without spatio-temporal models
-######################################################################
-
-estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm, s.range=NA, t.range=NA) {
-  if (!is.na(s.range))
-    empVgm <- empVgm[empVgm$dist <= s.range,]
-  if (!is.na(t.range))
-    empVgm <- empVgm[empVgm$timelag <= t.range,]
-  
-  switch(method,
-         linear = estiStAni.lin(empVgm, interval),
-         range = estiAni.range(empVgm, spatialVgm, temporalVgm),
-         vgm = estiAni.vgm(empVgm, spatialVgm, interval),
-         metric = estiAni.metric(empVgm, spatialVgm, interval),
-         stop(paste("Method", method,"is not implemented.")))
-}
-
-# linear
-estiStAni.lin <- function(empVgm, interval) {
-  lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == 0,])
-  
-  optFun <- function(stAni) {
-    sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == 0,]$timelag*stAni)) - empVgm[empVgm$spacelag == 0,]$gamma)^2, na.rm=TRUE))
-  }
-  
-  optimise(optFun, interval)$minimum  
-}
-
-# range
-estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
-  spEmpVgm <- empVgm[empVgm$timelag == 0,]
-  class(spEmpVgm) <- c("gstatVariogram","data.frame")
-  spEmpVgm <- spEmpVgm[-1,1:3]
-  spEmpVgm$dir.hor <- 0
-  spEmpVgm$dir.ver <- 0
-  
-  spatialVgm <- fit.variogram(spEmpVgm, spatialVgm)
-  
-  tmpEmpVgm <- empVgm[empVgm$spacelag == 0,]
-  class(tmpEmpVgm) <- c("gstatVariogram","data.frame")
-  tmpEmpVgm <- tmpEmpVgm[-1,c("np","timelag","gamma")]
-  colnames(tmpEmpVgm) <- c("np", "dist", "gamma")
-  tmpEmpVgm$dir.hor <- 0
-  tmpEmpVgm$dir.ver <- 0
-  
-  temporalVgm <- fit.variogram(tmpEmpVgm, temporalVgm)
-  
-  spatialVgm$range[2]/temporalVgm$range[2]
-}
-
-# variograms
-estiAni.vgm <- function(empVgm, spatialVgm, interval) {
-  spEmpVgm <- empVgm[empVgm$timelag == 0,]
-  class(spEmpVgm) <- c("gstatVariogram","data.frame")
-  spEmpVgm <- spEmpVgm[-1,1:3]
-  spEmpVgm$dir.hor <- 0
-  spEmpVgm$dir.ver <- 0
-  
-  spatialVgm <- fit.variogram(spEmpVgm, spatialVgm)
-  
-  optFun <- function(stAni) {
-    sqrt(mean((variogramLine(spatialVgm, dist_vector = empVgm[empVgm$spacelag == 0,]$timelag*stAni)$gamma - empVgm[empVgm$spacelag == 0,]$gamma)^2, na.rm=TRUE))
-  }
-  
-  optimise(optFun, interval)$minimum
-}
-
-# metric variogram
-estiAni.metric <- function(empVgm, spatialVgm, interval) {
-  fit.StVariogram(empVgm, vgmST("metric", joint=spatialVgm, stAni=mean(interval)))$stAni[[1]]
-}
-

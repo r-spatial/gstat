@@ -21,7 +21,7 @@ importFrom(stats, as.formula, cor, cov2cor, delete.response, .getXlevels,
 	lm, median, model.extract, model.frame, model.matrix, na.exclude, 
 	na.fail, na.omit, na.pass, optim, optimise, optimize, predict, 
 	residuals, terms, 
-	rnorm, fft)
+	rnorm, fft, numericDeriv, runif)
 importFrom(graphics, image.default, lines, locator, text)
 importFrom(zoo, is.regular)
 import(methods)
@@ -47,7 +47,7 @@ export(as.vgm.variomodel,
 	hscat,
 	idw0,
 	krigeTg,
-	krige0, krigeST, krigeSTTg, krigeSimCE, krigeSTSimTB,
+	krige0, krigeST, krigeSTTg, krigeSimCE, krigeSTSimTB, vgmAreaST,
 	map.to.lev,
 	ossfim,
 	show.vgms,
