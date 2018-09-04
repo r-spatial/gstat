@@ -375,7 +375,7 @@ void get_est(DATA **data, METHOD method, DPOINT *where, double *est) {
 				}
 			}
 			break;
-		case NSP:  /* FALLTRHOUGH: */
+		case NSP:  /* FALLTHROUGH: */
 		default: 
 			ErrMsg(ER_IMPOSVAL, "getest(): method not specified");
 	} /* switch */
