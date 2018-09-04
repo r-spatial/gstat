@@ -1,3 +1,17 @@
+2018-01-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, src/userio.c: should fix #28
+
+2017-08-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #26 from BenGraeler/master does not shrink bbox after interpolation for SpatialPixels
+
+2017-06-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NAMESPACE, inst/ChangeLog, tests/merge.Rout.save,
+	tests/unproj.Rout.save, tests/windst.Rout.save: silence CRAN NOTE,
+	export [.gstat
+
 2017-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, src/vario.c, vignettes/gstat.Rnw: remove
@@ -330,7 +344,7 @@
 
 2015-12-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
-	* inst/ChangeLog, inst/ChangeLog1: rename r-forge changelog
+	* inst/{ChangeLog => ChangeLog1}: rename r-forge changelog
 
 2015-12-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
