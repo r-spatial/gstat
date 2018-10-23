@@ -11,7 +11,8 @@
 Function for ordinary global and local and trans Gaussian spatio-temporal kriging on point support
 }
 \usage{
-krigeST(formula, data, newdata, modelList, y, beta, nmax = Inf, stAni = NULL,
+krigeST(formula, data, newdata, modelList, beta, y, ...,
+        nmax = Inf, stAni = NULL,
         computeVar = FALSE,	fullCovariance = FALSE,
         bufferNmax=2, progress=TRUE)
 krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
@@ -30,7 +31,7 @@ krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
  space and time; should contain attribute columns with the independent variables
  (if present).}
  \item{modelList}{ object of class \code{StVariogramModel}, created by
- \link{vgmST}; list with named elements: \code{space}, \code{time}
+ \code{\link{vgmST}} - see below or the function \code{\link{vgmAreaST}} for area-to-point kriging. For the general kriging case: a list with named elements: \code{space}, \code{time}
  and/or \code{joint} depending 
   on the spatio-temporal covariance family, and an entry \code{stModel}. 
   Currently 
@@ -47,7 +48,7 @@ krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
  \item{beta}{The (known) mean for simple kriging.}
  \item{nmax}{The maximum number of neighbouring locations for a spatio-temporal local neighbourhood}
  \item{stAni}{a spatio-temporal anisotropy scaling assuming a metric spatio-temporal space. Used only for the selection of the closest neighbours. This scaling needs only to be provided in case the model does not have a stAni parameter, or if a different one should be used for the neighbourhood selection. Mind the correct spatial unit. Currently, no coordinate conversion is made for the neighbourhood selection (i.e. Lat and Lon require a spatio-temporal anisotropy scaling in degrees per second).}
- \item{\dots}{ further arguments (currently unused)}
+ \item{\dots}{ further arguments used for instance to pass the model into vgmAreaST for area-to-point kriging}
  \item{computeVar}{logical; if TRUE, prediction variances will be returned}
  \item{fullCovariance}{logical; if FALSE a vector with prediction 
   variances will be returned, if TRUE the full covariance matrix of 
@@ -72,7 +73,7 @@ krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
 }
 
 \references{ 
-Spatio-Temporal Geostatistics using gstat.  Benedikt Gräler,
+Spatio-Temporal Geostatistics using gstat.  Benedikt Graeler,
 Edzer Pebesma, Gerard Heuvelink.  The R Journal, accepted.
 
 N.A.C. Cressie, 1993, Statistics for Spatial Data,
