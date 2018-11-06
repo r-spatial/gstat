@@ -5,7 +5,7 @@
 Generates a surface of semivariance values given a spatio-temporal variogram model (one of separable, productSum, sumMetric, simpleSumMetric or metric)
 }
 \usage{
-variogramSurface(model, dist_grid, ...)
+variogramSurface(model, dist_grid, covariance = FALSE)
 }
 
 \arguments{
@@ -15,8 +15,8 @@ variogramSurface(model, dist_grid, ...)
   \item{dist_grid}{
   A data.frame with two columns: \code{spacelag} and \code{timelag}.
 }
-  \item{\dots}{
-Additional arguments passed on to the underlying variogram functions.
+  \item{covariance}{
+Whether the covariance should be computed instead of the variogram (default: FALSE).
 }
 }
 \value{
