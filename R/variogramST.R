@@ -291,7 +291,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
       slag <- x$avgDist
       slag[slag == 0 & x$timelag == 0] <- sqrt(.Machine$double.eps)
       x[[mod$stModel]] <- variogramSurface(mod, data.frame(spacelag = slag,
-                                                           timelag = x$timelag))$model
+                                                           timelag = x$timelag))$gamma
       if (diff)
         x[[mod$stModel]] <- x[[mod$stModel]] - x$gamma
     }
@@ -375,3 +375,77 @@ print.StVariogramModel <- function(x, ...) {
     cat(paste(addPar, ": ",x[[addPar]],"\n", sep=""))
   }
 }
+
+
+## guess the spatio-temporal anisotropy without spatio-temporal models
+######################################################################
+
+estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm, s.range=NA, t.range=NA) {
+  if (!is.na(s.range))
+    empVgm <- empVgm[empVgm$dist <= s.range,]
+  if (!is.na(t.range))
+    empVgm <- empVgm[empVgm$timelag <= t.range,]
+  
+  switch(method,
+         linear = estiStAni.lin(empVgm, interval),
+         range = estiAni.range(empVgm, spatialVgm, temporalVgm),
+         vgm = estiAni.vgm(empVgm, spatialVgm, interval),
+         metric = estiAni.metric(empVgm, spatialVgm, interval),
+         stop(paste("Method", method,"is not implemented.")))
+}
+
+# linear
+estiStAni.lin <- function(empVgm, interval) {
+  lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == 0,])
+  
+  optFun <- function(stAni) {
+    sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == 0,]$timelag*stAni)) - empVgm[empVgm$spacelag == 0,]$gamma)^2, na.rm=TRUE))
+  }
+  
+  optimise(optFun, interval)$minimum  
+}
+
+# range
+estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
+  spEmpVgm <- empVgm[empVgm$timelag == 0,]
+  class(spEmpVgm) <- c("gstatVariogram","data.frame")
+  spEmpVgm <- spEmpVgm[-1,1:3]
+  spEmpVgm$dir.hor <- 0
+  spEmpVgm$dir.ver <- 0
+  
+  spatialVgm <- fit.variogram(spEmpVgm, spatialVgm)
+  
+  tmpEmpVgm <- empVgm[empVgm$spacelag == 0,]
+  class(tmpEmpVgm) <- c("gstatVariogram","data.frame")
+  tmpEmpVgm <- tmpEmpVgm[-1,c("np","timelag","gamma")]
+  colnames(tmpEmpVgm) <- c("np", "dist", "gamma")
+  tmpEmpVgm$dir.hor <- 0
+  tmpEmpVgm$dir.ver <- 0
+  
+  temporalVgm <- fit.variogram(tmpEmpVgm, temporalVgm)
+  
+  spatialVgm$range[2]/temporalVgm$range[2]
+}
+
+# variograms
+estiAni.vgm <- function(empVgm, spatialVgm, interval) {
+  spEmpVgm <- empVgm[empVgm$timelag == 0,]
+  class(spEmpVgm) <- c("gstatVariogram","data.frame")
+  spEmpVgm <- spEmpVgm[-1,1:3]
+  spEmpVgm$dir.hor <- 0
+  spEmpVgm$dir.ver <- 0
+  
+  spatialVgm <- fit.variogram(spEmpVgm, spatialVgm)
+  
+  optFun <- function(stAni) {
+    sqrt(mean((variogramLine(spatialVgm, dist_vector = empVgm[empVgm$spacelag == 0,]$timelag*stAni)$gamma - empVgm[empVgm$spacelag == 0,]$gamma)^2, na.rm=TRUE))
+  }
+  
+  optimise(optFun, interval)$minimum
+}
+
+# metric variogram
+estiAni.metric <- function(empVgm, spatialVgm, interval) {
+  fit.StVariogram(empVgm, vgmST("metric", joint=spatialVgm, stAni=mean(interval)))$stAni[[1]]
+}
+

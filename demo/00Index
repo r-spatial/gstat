@@ -1,7 +1,9 @@
 a2p			area-to-point kriging with krige0
+a2pinST			area-to-point kriging in space-time with krigeST
 block		block kriging -- effect of block size and irregular blocks
 blue		how to get BLUE coefficients out of a predict.gstat call
 cc			collocated cokriging example
+circEmbeddingMeuse simulation based in circular embedding allowing fft
 cokriging	fitting a linear model of coregionalization and cokriging
 comp_geoR	compare gstat kriging output with that obtained from geoR
 cosimulation	fitting a linear model of coregionalization and cosimulation

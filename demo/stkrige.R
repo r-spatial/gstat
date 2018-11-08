@@ -233,7 +233,7 @@ if(paper) {
                                    data.frame(type = rep("variogram of the sum-metric model", length(spacelag)))),
                              data.frame(spacelag=spacelag,
                                         timelag=timelag,
-                                        model=sqrt(spacelag^2+116^2*timelag^2)/10,
+                                        gamma=sqrt(spacelag^2+116^2*timelag^2)/10,
                                         type="metric distance [10 km]")),
                        at=0:15*10,
                        xlab="space [km]",
