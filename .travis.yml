@@ -13,5 +13,5 @@ addons:
       - netcdf-bin
 
 r_github_packages:
-  - r-spatial/stars
   - r-spatial/sf
+  - r-spatial/stars
