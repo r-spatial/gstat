@@ -7,3 +7,10 @@ addons:
     packages:
       - libgdal-dev
       - libproj-dev
+      - libgeos-dev
+      - libudunits2-dev
+      - libnetcdf-dev
+      - netcdf-bin
+
+r_github_packages:
+  - r-spatial/stars
