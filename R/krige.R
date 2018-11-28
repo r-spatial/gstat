@@ -34,18 +34,23 @@ krige.spatial <- function(formula, locations, newdata, model = NULL, ...,
 setMethod("krige", c("formula", "Spatial"), krige.spatial)
 setMethod("krige", c("formula", "NULL"), krige.spatial)
 
+krige.sf <- function(formula, locations, newdata, ...) {
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+	if (!requireNamespace("stars", quietly = TRUE))
+		stop("stars required: install that first") # nocov
+	ret = krige(formula, as(locations, "Spatial"), as(newdata, "Spatial"), ...)
+	if (gridded(ret))
+		stars::st_as_stars(ret)
+	else
+		sf::st_as_sf(ret)
+}
+setMethod("krige", c("formula", "sf"), krige.sf)
+
 setMethod(krige, signature("formula", "ST"),
-          function(formula, locations, newdata, model, ...) {
-            krigeST(formula, locations, newdata, model,...) 
-          }
-# 	function(formula, locations, newdata, model, ...) {
-# 		d = data.frame(krigeST(formula, locations, newdata, model,...))
-# 		if (ncol(d) == 1)
-# 			names(d) = "var1.pred"
-# 		if (ncol(d) == 2)
-# 			names(d) = c("var1.pred", "var1.var")
-# 		addAttrToGeom(geometry(newdata), d)
-# 	}
+	function(formula, locations, newdata, model, ...) {
+		krigeST(formula, locations, newdata, model,...) 
+	}
 )
 
 if (!isGeneric("idw"))

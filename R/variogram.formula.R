@@ -3,6 +3,15 @@
 "variogram.formula" <-
 function (object, locations = coordinates(data), data, ...) 
 {
+	if ((missing(locations) && inherits(data, "sf")) || (inherits(locations, "sf"))) {
+		if (!requireNamespace("sf", quietly = TRUE))
+       		stop("sf required: install that first") # nocov
+		if (missing(locations))
+			data = as(data, "Spatial")
+		else
+			locations = as(locations, "Spatial")
+	}
+
 	# gstat.formula takes care of the case where locations contains
 	# both data and coordinates --- see there.
 	## ret = gstat.formula(object, locations, data)

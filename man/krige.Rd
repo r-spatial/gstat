@@ -14,6 +14,7 @@
 \alias{idw-methods}
 \alias{krige,formula,formula-method}
 \alias{krige,formula,Spatial-method}
+\alias{krige,formula,sf-method}
 \alias{krige,formula,NULL-method}
 \alias{idw,formula,formula-method}
 \alias{idw,formula,Spatial-method}
