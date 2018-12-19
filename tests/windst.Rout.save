@@ -88,12 +88,12 @@ Type 'q()' to quit R.
 + all.equal(wind.pr0, wind.ST)
 + }
 Loading required package: rgdal
-rgdal: version: 1.3-4, (SVN revision 766)
+rgdal: version: 1.3-6, (SVN revision 773)
  Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 2.2.3, released 2017/11/20
- Path to GDAL shared files: /usr/share/gdal/2.2
+ Loaded GDAL runtime: GDAL 2.3.2, released 2018/09/21
+ Path to GDAL shared files: /usr/share/gdal
  GDAL binary built with GEOS: TRUE 
- Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
+ Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
  Path to PROJ.4 shared files: (autodetected)
  Linking to sp version: 1.3-1 
 Loading required package: maps
@@ -108,4 +108,4 @@ In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
 > 
 > proc.time()
    user  system elapsed 
-  1.633   0.103   1.728 
+  1.877   0.087   1.955 

@@ -66,7 +66,7 @@ Type 'q()' to quit R.
 > 
 > # 1. using sf:
 > library(sf)
-Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
+Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
 > demo(meuse_sf, ask = FALSE, echo = FALSE)
 > # reloads meuse as data.frame, so
 > demo(meuse, ask = FALSE)
@@ -127,10 +127,10 @@ Linking to GEOS 3.6.2, GDAL 2.2.3, PROJ 4.9.3
 > library(rgdal)
 rgdal: version: 1.3-6, (SVN revision 773)
  Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 2.2.3, released 2017/11/20
- Path to GDAL shared files: /usr/share/gdal/2.2
+ Loaded GDAL runtime: GDAL 2.3.2, released 2018/09/21
+ Path to GDAL shared files: /usr/share/gdal
  GDAL binary built with GEOS: TRUE 
- Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
+ Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
  Path to PROJ.4 shared files: (autodetected)
  Linking to sp version: 1.3-1 
 > writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
@@ -200,8 +200,8 @@ attribute(s):
  NA's   :5009    NA's   :5009                
 dimension(s):
   from  to offset delta                       refsys point values    
-x    1  78 178440    40 +init=epsg:28992 +proj=st...    NA   NULL [x]
-y    1 104 333760   -40 +init=epsg:28992 +proj=st...    NA   NULL [y]
+x    1  78 178440    40 +proj=sterea +lat_0=52.15...    NA   NULL [x]
+y    1 104 333760   -40 +proj=sterea +lat_0=52.15...    NA   NULL [y]
 > st_as_stars(raster::stack(k_sp_grd)) # check
 stars object with 3 dimensions and 1 attribute
 attribute(s):
@@ -223,9 +223,10 @@ x                   NULL [x]
 y                   NULL [y]
 band var1.pred, ..., cls    
 > 
-> all.equal(c(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
+> all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 [1] TRUE
+> 
 > 
 > proc.time()
    user  system elapsed 
-  1.949   0.052   1.993 
+  2.130   0.103   2.227 

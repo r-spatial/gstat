@@ -50,6 +50,16 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                     computeVar = FALSE, fullCovariance = FALSE,
                     bufferNmax=2, progress=TRUE) {
   stopifnot(inherits(modelList, "StVariogramModel") || is.function(modelList))
+  return_stars = if (inherits(data, "stars")) {
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+	if (!requireNamespace("stars", quietly = TRUE))
+		stop("stars required: install that first") # nocov
+  	data = as(data, "STFDF")
+	newdata = as(newdata, "STFDF")
+	TRUE
+  } else
+    FALSE
   stopifnot(inherits(data, c("STF", "STS", "STI")) & inherits(newdata, c("STF", "STS", "STI"))) 
   stopifnot(identical(proj4string(data@sp), proj4string(newdata@sp)))
   stopifnot(class(data@time) == class(newdata@time))
@@ -58,12 +68,17 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   if(!is.function(modelList) && is.null(attr(modelList,"temporal unit")))
     warning("The spatio-temporal variogram model does not carry a time unit attribute: krigeST cannot check whether the temporal distance metrics coincide.")
   
-  if(nmax < Inf) # local neighbourhood ST kriging:
-    return(krigeST.local(formula = formula, data = data, 
+  if(nmax < Inf) { # local neighbourhood ST kriging:
+    ret = krigeST.local(formula = formula, data = data, 
                          newdata = newdata, modelList = modelList, beta=beta, # y=y, # for later use
                          nmax = nmax, stAni = stAni, 
                          computeVar = computeVar, fullCovariance = fullCovariance, 
-                         bufferNmax = bufferNmax, progress = progress))
+                         bufferNmax = bufferNmax, progress = progress)
+    if (return_stars) # xxx
+		return(stars::st_as_stars(as(ret, "STFDF")))
+	else
+		return(ret)
+  }
   
   df <- krigeST.df(formula = formula, data = data, newdata = newdata, 
                    modelList = modelList, beta = beta, y = y, 
@@ -73,9 +88,13 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                    bufferNmax = bufferNmax, progress = progress)
   
   # wrapping the predictions in ST*DF again
-  if (!fullCovariance)
-    addAttrToGeom(geometry(newdata), df)
-  else
+  if (!fullCovariance) {
+	ret = addAttrToGeom(geometry(newdata), df)
+    if (return_stars)
+	  stars::st_as_stars(as(ret, "STFDF"))
+	else
+	  ret
+  } else
     df
 }
 

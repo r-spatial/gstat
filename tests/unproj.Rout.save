@@ -1,6 +1,6 @@
 
-R version 3.4.3 (2017-11-30) -- "Kite-Eating Tree"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.5.1 (2018-07-02) -- "Feather Spray"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,14 +19,14 @@ Type 'q()' to quit R.
 + 	q()
 Loading required package: rgdal
 Loading required package: sp
-rgdal: version: 1.2-16, (SVN revision 701)
+rgdal: version: 1.3-6, (SVN revision 773)
  Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 2.2.1, released 2017/06/23
- Path to GDAL shared files: /usr/share/gdal/2.2
+ Loaded GDAL runtime: GDAL 2.3.2, released 2018/09/21
+ Path to GDAL shared files: /usr/share/gdal
  GDAL binary built with GEOS: TRUE 
- Loaded PROJ.4 runtime: Rel. 4.9.3, 15 August 2016, [PJ_VERSION: 493]
+ Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
  Path to PROJ.4 shared files: (autodetected)
- Linking to sp version: 1.2-6 
+ Linking to sp version: 1.3-1 
 > 
 > # for validity of covariance functions on the sphere, see also:
 > # DOI 10.1007/s11004-011-9344-7
@@ -100,7 +100,7 @@ Loading required package: fields
 Loading required package: spam
 Loading required package: dotCall64
 Loading required package: grid
-Spam version 2.1-1 (2017-07-02) is loaded.
+Spam version 2.2-0 (2018-06-19) is loaded.
 Type 'help( Spam)' or 'demo( spam)' for a short introduction 
 and overview of this package.
 Help for individual functions is also obtained by adding the
@@ -113,6 +113,8 @@ The following objects are masked from 'package:base':
     backsolve, forwardsolve
 
 Loading required package: maps
+See www.image.ucar.edu/~nychka/Fields for
+ a vignette and other supplements. 
     np      dist    gamma dir.hor dir.ver   id
 1  197  17443.99 143.5037       0       0 var1
 2  245  40383.30 180.5144       0       0 var1
@@ -170,4 +172,4 @@ spDistsN1 Distances:
 > 
 > proc.time()
    user  system elapsed 
-  1.192   0.276   1.172 
+  0.964   0.063   1.039 

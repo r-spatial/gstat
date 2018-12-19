@@ -45,4 +45,5 @@ k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
 st_as_stars(k_sp_grd)
 st_as_stars(raster::stack(k_sp_grd)) # check
 
-all.equal(c(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
+all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
+
