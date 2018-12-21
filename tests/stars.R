@@ -47,3 +47,25 @@ st_as_stars(raster::stack(k_sp_grd)) # check
 
 all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 
+library(stars)
+library(sp)
+library(spacetime)
+
+n = 4
+s = stars:::st_stars(list(foo = array(1:(n^3), rep(n,3))),
+stars:::create_dimensions(list(
+  x = stars:::create_dimension(from = 1, to = n, offset = 10, delta = 0.5),
+  y = stars:::create_dimension(from = 1, to = n, offset = 0, delta = -0.7),
+  time = stars:::create_dimension(values = Sys.time() + 1:n)),
+  raster = stars:::get_raster(dimensions = c("x", "y")))
+  )
+s
+
+as.data.frame(s)
+plot(s, col = sf.colors(), axes = TRUE)
+(s.stfdf = as(s, "STFDF"))
+stplot(s.stfdf, scales = list(draw = TRUE))
+
+(s2 = st_as_stars(s.stfdf))
+plot(s2, col = sf.colors(), axes = TRUE)
+all.equal(s, s2)
