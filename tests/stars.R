@@ -27,7 +27,11 @@ all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 library(rgdal)
 writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
 library(stars)
-(st = setNames(read_stars("meuse.tif"), "dist"))
+(st0 = setNames(read_stars("meuse.tif"), "dist"))
+st = st_as_stars(meuse.grid)
+all.equal(st_dimensions(st0), st_dimensions(st))
+st_crs(st0)
+st_crs(st)
 
 # compare inputs:
 sp = as(st, "Spatial")
