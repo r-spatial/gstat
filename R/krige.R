@@ -47,8 +47,11 @@ krige.sf <- function(formula, locations, newdata, ...) {
 		stop("sf required: install that first") # nocov
 	if (!requireNamespace("stars", quietly = TRUE))
 		stop("stars required: install that first") # nocov
-	if (!is.null(locations))
+	if (!is.null(locations)) {
+		if (sf::st_crs(locations) == sf::st_crs(newdata))
+			sf::st_crs(newdata) = sf::st_crs(locations) # to avoid problems not handled by sp...
 		locations = as(locations, "Spatial")
+	}
 	ret = krige(formula, locations, as(newdata, "Spatial"), ...)
 	if (gridded(ret))
 		stars::st_as_stars(ret)
