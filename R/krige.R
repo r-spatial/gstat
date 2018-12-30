@@ -32,14 +32,24 @@ krige.spatial <- function(formula, locations, newdata, model = NULL, ...,
 		indicators = indicators, na.action = na.action, debug.level = debug.level)
 }
 setMethod("krige", c("formula", "Spatial"), krige.spatial)
-setMethod("krige", c("formula", "NULL"), krige.spatial)
+
+setMethod("krige", c("formula", "NULL"),
+	function(formula, locations, newdata, ...) { # manual dispatch on newdata:
+		if (inherits(newdata, c("sf", "sfc", "stars")))
+			krige.sf(formula, locations, newdata = newdata, ...)
+		else
+			krige.spatial(formula, locations, newdata = newdata, ...)
+	}
+)
 
 krige.sf <- function(formula, locations, newdata, ...) {
 	if (!requireNamespace("sf", quietly = TRUE))
 		stop("sf required: install that first") # nocov
 	if (!requireNamespace("stars", quietly = TRUE))
 		stop("stars required: install that first") # nocov
-	ret = krige(formula, as(locations, "Spatial"), as(newdata, "Spatial"), ...)
+	if (!is.null(locations))
+		locations = as(locations, "Spatial")
+	ret = krige(formula, locations, as(newdata, "Spatial"), ...)
 	if (gridded(ret))
 		stars::st_as_stars(ret)
 	else
