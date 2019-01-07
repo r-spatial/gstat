@@ -7,6 +7,7 @@
 \alias{gstat.cv}
 \alias{krige.cv,formula,formula-method}
 \alias{krige.cv,formula,Spatial-method}
+\alias{krige.cv,formula,sf-method}
 \title{ (co)kriging cross validation, n-fold or leave-one-out }
 \description{ Cross validation functions for simple, ordinary or universal
 point (co)kriging, kriging in a local neighbourhood.  }
