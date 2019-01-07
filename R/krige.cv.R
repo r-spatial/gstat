@@ -26,3 +26,18 @@ krige.cv.spatial = function (formula, locations, model = NULL, ..., beta = NULL,
 		...), nfold = nfold, verbose = verbose, debug.level = debug.level) 
 }
 setMethod("krige.cv", c("formula", "Spatial"), krige.cv.spatial)
+
+krige.cv.sf = function (formula, locations, model = NULL, ..., beta = NULL,
+	nmax = Inf, nmin = 0, maxdist = Inf, nfold = nrow(locations), verbose = interactive(),
+	debug.level = 0) {
+
+	# data = locations 
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+
+	sf::st_as_sf(gstat.cv(gstat(g = NULL, id = "var1", formula = formula,
+		data = as(locations, "Spatial"), model = model, beta =
+		beta, nmax = nmax, nmin = nmin, maxdist = maxdist,
+		...), nfold = nfold, verbose = verbose, debug.level = debug.level))
+}
+setMethod("krige.cv", c("formula", "sf"), krige.cv.sf)
