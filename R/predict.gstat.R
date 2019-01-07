@@ -9,6 +9,11 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		stop("no data available")
 	if (!inherits(object, "gstat"))
 		stop("first argument should be of class gstat")
+	to_sf = if (inherits(newdata, c("sf", "stars"))) {
+			newdata = as(newdata, "Spatial")
+			TRUE
+		} else
+			FALSE
 	if (!is.null(object$locations) && inherits(object$locations, "formula") 
 			&& !(is(newdata, "Spatial"))) {
 		coordinates(newdata) = object$locations
@@ -208,6 +213,17 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 			}
 		}
 		proj4string(ret) = CRS(proj4string(newdata))
+		if (to_sf) {
+			ret = if (inherits(newdata, "stars")) {
+					if (!requireNamespace("stars", quietly = TRUE))
+						stop("stars required: install that first") # nocov
+					stars::st_as_stars(ret)
+				} else {
+					if (!requireNamespace("sf", quietly = TRUE))
+						stop("sf required: install that first") # nocov
+					sf::st_as_sf(ret)
+				}
+		}
 	}
 
 	return(ret)

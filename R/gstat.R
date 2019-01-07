@@ -17,7 +17,8 @@ function (g, id, formula, locations,
 		if (!is.null(data))
 			coordinates(data) = locations
 		# locations = NULL
-	} else if (missing(data) && !missing(locations) && is(locations, "Spatial")) {
+	} else if (missing(data) && !missing(locations) && 
+			(is(locations, "Spatial") || inherits(locations, "sf"))) {
 		data = locations
 		locations = NULL
 	}
@@ -56,11 +57,13 @@ function (g, id, formula, locations,
 			stop("id should have length 1 or 2")
         g$model[[nm]] = model
         return(g)
-    } 
+    }
 	if (!inherits(formula, "formula"))
         stop("argument formula should be of class formula")
     #if (!inherits(locations, "formula") && !has.coordinates(data))
     #	stop("argument locations should be of class formula or matrix")
+	if (inherits(data, "sf"))
+		data = as(data, "Spatial")
     if (missing(beta) || is.null(beta)) 
         beta = numeric(0)
 	vfn = pmatch(variance, c("identity", "mu", "mu(1-mu)", "mu^2", "mu^3"))
