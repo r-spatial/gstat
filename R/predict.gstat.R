@@ -219,6 +219,8 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 						stop("stars required: install that first") # nocov
 					stars::st_as_stars(ret)
 				} else {
+					if (gridded(ret) && fullgrid(ret))
+						fullgrid(ret) = FALSE
 					if (!requireNamespace("sf", quietly = TRUE))
 						stop("sf required: install that first") # nocov
 					sf::st_as_sf(ret)
