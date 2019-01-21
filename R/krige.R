@@ -34,7 +34,7 @@ krige.spatial <- function(formula, locations, newdata, model = NULL, ...,
 setMethod("krige", c("formula", "Spatial"), krige.spatial)
 
 setMethod("krige", c("formula", "NULL"),
-	function(formula, locations, newdata, ...) { # manual dispatch on newdata:
+	function(formula, locations, newdata, ...) { # manual dispatch based on newdata:
 		if (inherits(newdata, c("sf", "sfc", "stars")))
 			krige.sf(formula, locations, newdata = newdata, ...)
 		else
@@ -42,7 +42,7 @@ setMethod("krige", c("formula", "NULL"),
 	}
 )
 
-krige.sf <- function(formula, locations, newdata, ...) {
+krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 	if (!requireNamespace("sf", quietly = TRUE))
 		stop("sf required: install that first") # nocov
 	if (!requireNamespace("stars", quietly = TRUE))
@@ -52,10 +52,16 @@ krige.sf <- function(formula, locations, newdata, ...) {
 			sf::st_crs(newdata) = sf::st_crs(locations) # to avoid problems not handled by sp...
 		locations = as(locations, "Spatial")
 	}
-	ret = krige(formula, locations, as(newdata, "Spatial"), ...)
-	if (gridded(ret))
-		stars::st_as_stars(ret)
-	else
+	ret = krige(formula, locations, as(newdata, "Spatial"), ..., nsim = nsim)
+	if (gridded(ret)) {
+		st = stars::st_as_stars(ret)
+		if (nsim > 0) {
+			nms = names(stars::st_dimensions(st))
+			st = stars::st_set_dimensions(merge(st), names = c(nms, "sample"))
+			setNames(st, paste0("var", seq_along(st)))
+		} else
+			st
+	} else
 		sf::st_as_sf(ret)
 }
 setMethod("krige", c("formula", "sf"), krige.sf)
@@ -89,6 +95,23 @@ idw.spatial <- function (formula, locations,
 		set = list(idp = idp), debug.level = debug.level, model = NULL)
 }
 setMethod("idw", c("formula", "Spatial"), idw.spatial)
+
+idw.sf <- function (formula, locations, 
+		newdata, ..., idp = 2.0) {
+
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+	if (!requireNamespace("stars", quietly = TRUE))
+		stop("stars required: install that first") # nocov
+
+	ret = krige(formula, locations, newdata, ..., set = list(idp = idp), model = NULL)
+	if (inherits(newdata, "sf"))
+		sf::st_as_sf(ret)
+	else if (inherits(newdata, "stars"))
+		stars::st_as_stars(ret)
+	else stop("newdata should be of class sf or stars")
+}
+setMethod("idw", c("formula", "sf"), idw.sf)
 
 STx2SpatialPoints = function(x, multiplyTimeWith = 1.0) { 
 	x = as(geometry(x), "STI")

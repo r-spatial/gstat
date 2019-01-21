@@ -18,6 +18,7 @@
 \alias{krige,formula,NULL-method}
 \alias{idw,formula,formula-method}
 \alias{idw,formula,Spatial-method}
+\alias{idw,formula,sf-method}
 \alias{idw,formula,ST-method} % move to krigeST as well?
 % \alias{krige,formula,ST-method} % calling krigeST
 
