@@ -59,14 +59,12 @@ idw0(formula, data, newdata, y, idp = 2.0)
   for simple kriging also define \code{beta} (see below); for universal
   kriging, suppose \code{z} is linearly dependent on \code{x} and \code{y},
   use the formula \code{z~x+y}}
-  \item{locations}{ object of class \code{Spatial}, or (deprecated)
+  \item{locations}{ object of class \code{Spatial} or \code{sf}, or (deprecated)
   formula defines the spatial data locations (coordinates) such as \code{~x+y}}
  \item{data}{ data frame: should contain the dependent variable, independent
   variables, and coordinates, should be missing if locations contains data. }
- \item{newdata}{ data frame or Spatial object with prediction/simulation 
-  locations; should 
-  contain attribute columns with the independent variables (if present) and 
-  (if locations is a formula) the coordinates with names as defined in \code{locations} }
+ \item{newdata}{ object of class \code{Spatial}, \code{sf} or \code{stars} with prediction/simulation 
+  locations; should contain attributes with the independent variables (if present).  }
  \item{model}{ variogram model of dependent variable (or its residuals), 
   defined by a call to \link{vgm} or \link{fit.variogram}; for \code{krige0}
   also a user-supplied covariance function is allowed (see example below) }
