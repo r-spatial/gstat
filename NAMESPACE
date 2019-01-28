@@ -76,6 +76,7 @@ S3method(plot, pointPairs)
 S3method(plot, gstatVariogram)
 S3method(plot, variogramMap)
 S3method(plot, variogramCloud)
+S3method(plot, variogramModel)
 S3method(plot, StVariogram)
 
 S3method(predict, gstat)

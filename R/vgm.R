@@ -140,3 +140,10 @@ as.vgm.variomodel = function(m) {
 #attr(,"class")
 #[1] "variomodel"
 
+plot.variogramModel = function(x, cutoff, ..., type = 'l') {
+  if (missing(cutoff))
+    stop("parameter cutoff needs to be specified")
+  l = variogramLine(x, cutoff, ...)
+  xyplot(gamma ~ dist, l, ylim = c(0, 1.04 * max(l$gamma)), xlim = c(0, max(l$dist)),
+  	type = type, xlab = "distance", ylab = "semivariance")
+}
