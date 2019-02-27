@@ -59,12 +59,14 @@ library(stars)
 library(sp)
 library(spacetime)
 
+Sys.setenv(TZ="")
+tm = as.POSIXct("2019-02-25 15:37:24 CET")
 n = 4
 s = stars:::st_stars(list(foo = array(1:(n^3), rep(n,3))),
 stars:::create_dimensions(list(
   x = stars:::create_dimension(from = 1, to = n, offset = 10, delta = 0.5),
   y = stars:::create_dimension(from = 1, to = n, offset = 0, delta = -0.7),
-  time = stars:::create_dimension(values = Sys.time() + 1:n)),
+  time = stars:::create_dimension(values = tm + 1:n)),
   raster = stars:::get_raster(dimensions = c("x", "y")))
   )
 s

@@ -5,6 +5,11 @@ cache:
   - packages
   - ccache
 
+r:
+  - release
+  - devel
+  - oldrel
+
 addons:
   apt:
     packages:
@@ -14,7 +19,3 @@ addons:
       - libudunits2-dev
       - libnetcdf-dev
       - netcdf-bin
-
-r_github_packages:
-  - r-spatial/sf
-  - r-spatial/stars

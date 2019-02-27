@@ -1,5 +1,5 @@
 
-R version 3.5.1 (2018-07-02) -- "Feather Spray"
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
 Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -100,7 +100,7 @@ Loading required package: fields
 Loading required package: spam
 Loading required package: dotCall64
 Loading required package: grid
-Spam version 2.2-0 (2018-06-19) is loaded.
+Spam version 2.2-1 (2018-12-20) is loaded.
 Type 'help( Spam)' or 'demo( spam)' for a short introduction 
 and overview of this package.
 Help for individual functions is also obtained by adding the
@@ -172,4 +172,4 @@ spDistsN1 Distances:
 > 
 > proc.time()
    user  system elapsed 
-  0.964   0.063   1.039 
+  0.996   0.064   1.071 
