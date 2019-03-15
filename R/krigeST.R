@@ -60,10 +60,11 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   
   if (is.null(tUnitModel)) {
     warning("The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.\n The unit '", tUnitData,
-            "' has been assumed. krigeST could not check whether the temporal distances between locations and in the varioram coincide.")
+            "' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.")
     tUnit <- tUnitData
     attr(modelList, "temporal unit") <- tUnit
   } else {
+    tUnit <- tUnitModel
     message("Using the following time unit: ", tUnit)
   }
   
