@@ -65,8 +65,18 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   stopifnot(class(data@time) == class(newdata@time))
   stopifnot(nmax > 0)
   
-#  if(!is.function(modelList) && is.null(attr(modelList,"temporal unit")))
-#    warning("The spatio-temporal variogram model does not carry a time unit attribute: krigeST cannot check whether the temporal distance metrics coincide.")
+  tUnitModel <- attr(modelList, "temporal unit")
+  tUnitData <- units(abs(outer(index(data@time[1]), index(newdata@time[1]), "-")))
+  
+  if (is.null(tUnitModel)) {
+    warning("The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.\n The unit '", tUnitData,
+            "' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.")
+    tUnit <- tUnitData
+    attr(modelList, "temporal unit") <- tUnit
+  } else {
+    tUnit <- tUnitModel
+    message("Using the following time unit: ", tUnit)
+  }
   
   if(nmax < Inf) { # local neighbourhood ST kriging:
     ret = krigeST.local(formula = formula, data = data, 
