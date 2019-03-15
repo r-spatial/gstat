@@ -52,7 +52,7 @@ void gstat_error(char *fname, int line, enum Gstat_errno err_nr, const char *msg
 	if (msg == NULL)
 		PROBLEM "<NULL> message: indicating a software bug, please report" ERROR
 	else
-		PROBLEM "%s %s", error_messages[err_nr], msg ERROR
+		PROBLEM error_messages[err_nr], msg ERROR
 	return;
 }
 

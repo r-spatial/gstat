@@ -21,7 +21,7 @@ importFrom(stats, as.formula, cor, cov2cor, delete.response, .getXlevels,
 	lm, median, model.extract, model.frame, model.matrix, na.exclude, 
 	na.fail, na.omit, na.pass, optim, optimise, optimize, predict, 
 	residuals, terms, 
-	rnorm, fft, numericDeriv, runif)
+	rnorm, fft, numericDeriv, runif, setNames)
 importFrom(graphics, image.default, lines, locator, text)
 importFrom(zoo, is.regular)
 import(methods)
@@ -76,6 +76,7 @@ S3method(plot, pointPairs)
 S3method(plot, gstatVariogram)
 S3method(plot, variogramMap)
 S3method(plot, variogramCloud)
+S3method(plot, variogramModel)
 S3method(plot, StVariogram)
 
 S3method(predict, gstat)

@@ -1,0 +1,81 @@
+# 0. using sp:
+
+library(sp)
+demo(meuse, ask = FALSE)
+library(gstat)
+v = variogram(log(zinc)~1, meuse)
+(v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
+k_sp = krige(log(zinc)~1, meuse[-(1:5),], meuse[1:5,], v.fit)
+k_sp_grd = krige(log(zinc)~1, meuse, meuse.grid, v.fit)
+
+# 1. using sf:
+library(sf)
+demo(meuse_sf, ask = FALSE, echo = FALSE)
+# reloads meuse as data.frame, so
+demo(meuse, ask = FALSE)
+
+library(gstat)
+v = variogram(log(zinc)~1, meuse_sf)
+(v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
+k_sf = krige(log(zinc)~1, meuse_sf[-(1:5),], meuse_sf[1:5,], v.fit)
+
+all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = FALSE)
+all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
+
+# 2. using stars for grid:
+
+library(rgdal)
+writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
+library(stars)
+(st0 = setNames(read_stars("meuse.tif"), "dist"))
+st = st_as_stars(meuse.grid)
+all.equal(st_dimensions(st0), st_dimensions(st))
+st_crs(st0)
+st_crs(st)
+
+# compare inputs:
+sp = as(st, "Spatial")
+fullgrid(meuse.grid) = TRUE
+all.equal(sp, meuse.grid["dist"], check.attributes = FALSE)
+all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
+
+# kriging:
+st_crs(st) = st_crs(meuse_sf) # GDAL roundtrip messes them up!
+k_st = if (Sys.getenv("USER") == "travis") {
+	try(krige(log(zinc)~1, meuse_sf, st, v.fit))
+} else {
+	krige(log(zinc)~1, meuse_sf, st, v.fit)
+}
+k_st
+
+# handle factors, when going to stars?
+k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
+st_as_stars(k_sp_grd)
+st_as_stars(raster::stack(k_sp_grd)) # check
+
+all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
+
+library(stars)
+library(sp)
+library(spacetime)
+
+Sys.setenv(TZ="")
+tm = as.POSIXct("2019-02-25 15:37:24 CET")
+n = 4
+s = stars:::st_stars(list(foo = array(1:(n^3), rep(n,3))),
+stars:::create_dimensions(list(
+  x = stars:::create_dimension(from = 1, to = n, offset = 10, delta = 0.5),
+  y = stars:::create_dimension(from = 1, to = n, offset = 0, delta = -0.7),
+  time = stars:::create_dimension(values = tm + 1:n)),
+  raster = stars:::get_raster(dimensions = c("x", "y")))
+  )
+s
+
+as.data.frame(s)
+plot(s, col = sf.colors(), axes = TRUE)
+(s.stfdf = as(s, "STFDF"))
+stplot(s.stfdf, scales = list(draw = TRUE))
+
+(s2 = st_as_stars(s.stfdf))
+plot(s2, col = sf.colors(), axes = TRUE)
+all.equal(s, s2)

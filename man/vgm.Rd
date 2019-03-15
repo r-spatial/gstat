@@ -2,6 +2,7 @@
 \name{vgm}
 \alias{vgm}
 \alias{print.variogramModel}
+\alias{plot.variogramModel}
 \alias{as.vgm.variomodel}
 \title{
 Generate, or Add to Variogram Model
@@ -14,6 +15,7 @@ Generates a variogram model, or adds to an existing model.
 vgm(psill = NA, model, range = NA, nugget, add.to, anis, kappa = 0.5, ..., covtable,
 	Err = 0)
 \method{print}{variogramModel}(x, ...)
+\method{plot}{variogramModel}(x, cutoff, ..., type = 'l')
 as.vgm.variomodel(m)
 }
 \arguments{
@@ -27,9 +29,9 @@ models }
 compontent to the model); if missing, nugget component is omitted }
 \item{add.to}{ the variogram model to which we want to add a component (structure) }
 \item{anis}{ anisotropy parameters: see notes below }
-\item{x}{ a variogram model to print }
+\item{x}{ a variogram model to print or plot}
 \item{...}{ arguments that will be passed to \code{print}, e.g. \code{digits}
-(see examples) }
+(see examples), or to \code{variogramLine} for the plot method }
 \item{covtable}{ if model is \code{Tab}, instead of model parameters a one-dimensional 
 covariance table can be passed here. See covtable.R in tests directory, and example below. }
 \item{Err}{ numeric; if larger than zero, the measurement error variance
@@ -37,6 +39,8 @@ component that will not be included to the kriging equations, i.e. kriging
 will now smooth the process Y instead of predict the measured Z, 
 where Z=Y+e, and Err is the variance of e}
 \item{m}{ object of class \code{variomodel}, see \pkg{geoR}}
+\item{cutoff}{maximum distance up to which variogram values are computed}
+\item{type}{plot type}
 }
 \value{
 If a single model is passed, an object of class \code{variogramModel}

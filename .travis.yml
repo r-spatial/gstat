@@ -1,9 +1,23 @@
 language: r
 sudo: required
 dist: trusty
+cache:
+#  - packages
+  - ccache
+
+r:
+  - release
+  - devel
+  - oldrel
 
 addons:
   apt:
+    sources:
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
       - libgdal-dev
       - libproj-dev
+      - libgeos-dev
+      - libudunits2-dev
+      - libnetcdf-dev
+      - netcdf-bin

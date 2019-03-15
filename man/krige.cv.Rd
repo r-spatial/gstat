@@ -7,6 +7,7 @@
 \alias{gstat.cv}
 \alias{krige.cv,formula,formula-method}
 \alias{krige.cv,formula,Spatial-method}
+\alias{krige.cv,formula,sf-method}
 \title{ (co)kriging cross validation, n-fold or leave-one-out }
 \description{ Cross validation functions for simple, ordinary or universal
 point (co)kriging, kriging in a local neighbourhood.  }
@@ -40,11 +41,8 @@ krige.cv.spatial(formula, locations, model = NULL, ..., beta = NULL,
   for simple kriging also define \code{beta} (see below); for universal
   kriging, suppose \code{z} is linearly dependent on \code{x} and \code{y},
   use the formula \code{z~x+y}}
-  \item{locations}{ formula with only independent variables that define the
-  spatial data locations (coordinates), e.g. \code{~x+y}, OR data object
-  deriving from class \code{Spatial}, which has a
-  \code{coordinates} method to extract its coordinates. }
-  \item{data}{ data frame; should contain the dependent variable, independent
+  \item{locations}{ data object deriving from class \code{Spatial} or \code{sf} }
+  \item{data}{ data frame (deprecated); should contain the dependent variable, independent
   variables, and coordinates; only to be provided if \code{locations} is a formula}
   \item{model}{ variogram model of dependent variable (or its residuals), 
   defined by a call to \link{vgm} or \link{fit.variogram}}

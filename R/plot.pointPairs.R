@@ -5,6 +5,9 @@ function(x, data, xcol = data$x, ycol = data$y, xlab = "x coordinate",
 	ylab = "y coordinate", col.line = 2, line.pch = 0, 
 	main = "selected point pairs", ...) {
 
+	if (inherits(data, "sf"))
+		data = as(data, "Spatial")
+
 	if (is(data, "SpatialPoints")) {
 		cc = coordinates(data) 
 		xcol = cc[,1]

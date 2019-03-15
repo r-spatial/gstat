@@ -32,20 +32,44 @@ krige.spatial <- function(formula, locations, newdata, model = NULL, ...,
 		indicators = indicators, na.action = na.action, debug.level = debug.level)
 }
 setMethod("krige", c("formula", "Spatial"), krige.spatial)
-setMethod("krige", c("formula", "NULL"), krige.spatial)
+
+setMethod("krige", c("formula", "NULL"),
+	function(formula, locations, newdata, ...) { # manual dispatch based on newdata:
+		if (inherits(newdata, c("sf", "sfc", "stars")))
+			krige.sf(formula, locations, newdata = newdata, ...)
+		else
+			krige.spatial(formula, locations, newdata = newdata, ...)
+	}
+)
+
+krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+	if (!requireNamespace("stars", quietly = TRUE))
+		stop("stars required: install that first") # nocov
+	if (!is.null(locations)) {
+		if (sf::st_crs(locations) == sf::st_crs(newdata))
+			sf::st_crs(newdata) = sf::st_crs(locations) # to avoid problems not handled by sp...
+		locations = as(locations, "Spatial")
+	}
+	ret = krige(formula, locations, as(newdata, "Spatial"), ..., nsim = nsim)
+	if (gridded(ret)) {
+		st = stars::st_as_stars(ret)
+		if (nsim > 0) {
+			nms = names(stars::st_dimensions(st))
+			st = stars::st_set_dimensions(merge(st), names = c(nms, "sample"))
+			setNames(st, paste0("var", seq_along(st)))
+		} else
+			st
+	} else
+		sf::st_as_sf(ret)
+}
+setMethod("krige", c("formula", "sf"), krige.sf)
 
 setMethod(krige, signature("formula", "ST"),
-          function(formula, locations, newdata, model, ...) {
-            krigeST(formula, locations, newdata, model,...) 
-          }
-# 	function(formula, locations, newdata, model, ...) {
-# 		d = data.frame(krigeST(formula, locations, newdata, model,...))
-# 		if (ncol(d) == 1)
-# 			names(d) = "var1.pred"
-# 		if (ncol(d) == 2)
-# 			names(d) = c("var1.pred", "var1.var")
-# 		addAttrToGeom(geometry(newdata), d)
-# 	}
+	function(formula, locations, newdata, model, ...) {
+		krigeST(formula, locations, newdata, model,...) 
+	}
 )
 
 if (!isGeneric("idw"))
@@ -71,6 +95,23 @@ idw.spatial <- function (formula, locations,
 		set = list(idp = idp), debug.level = debug.level, model = NULL)
 }
 setMethod("idw", c("formula", "Spatial"), idw.spatial)
+
+idw.sf <- function (formula, locations, 
+		newdata, ..., idp = 2.0) {
+
+	if (!requireNamespace("sf", quietly = TRUE))
+		stop("sf required: install that first") # nocov
+	if (!requireNamespace("stars", quietly = TRUE))
+		stop("stars required: install that first") # nocov
+
+	ret = krige(formula, locations, newdata, ..., set = list(idp = idp), model = NULL)
+	if (inherits(newdata, "sf"))
+		sf::st_as_sf(ret)
+	else if (inherits(newdata, "stars"))
+		stars::st_as_stars(ret)
+	else stop("newdata should be of class sf or stars")
+}
+setMethod("idw", c("formula", "sf"), idw.sf)
 
 STx2SpatialPoints = function(x, multiplyTimeWith = 1.0) { 
 	x = as(geometry(x), "STI")

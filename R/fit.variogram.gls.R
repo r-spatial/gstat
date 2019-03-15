@@ -19,7 +19,7 @@ function(formula, data, model, maxiter = 30,
 		gamfn0 = function(h, th, m = as.character(model$model[2]))
 	    	variogramLine(vgm(th[2], m, th[3], th[1]), dist_vector=h)$gamma
 		minfuncols0 = function(theta=rbind(1,1,1)) {
-			res = y-gamfn(h0,theta)
+			res = y-gamfn0(h0,theta)
 			sum(res^2)
 		}
 	

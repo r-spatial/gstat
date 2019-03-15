@@ -22,7 +22,7 @@ velocities = apply(windsqrt, 2, function(x) { x - meanwind })
 # proper Euclidian (projected) space:
 pts = coordinates(wind.loc[match(names(wind[4:15]), wind.loc$Code),])
 pts = SpatialPoints(pts)
-if (require(rgdal) && require(maps)) {
+#if (require(rgdal) && require(maps)) {
 proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
 utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
 pts = spTransform(pts, utm29)
@@ -69,4 +69,32 @@ v = vgmST("separable",
 wind.ST = krigeST(sqrt(values)~1, w, STF(grd, tgrd), v)
 
 all.equal(wind.pr0, wind.ST)
-}
+#}
+
+# stars:
+library(stars)
+df = data.frame(a = rep(NA, 324*10))
+s = STF(grd, tgrd)
+newd = addAttrToGeom(s, df)
+wind.sta = krigeST(sqrt(values)~1, st_as_stars(w), st_as_stars(newd), v)
+# 1
+plot(stars::st_as_stars(wind.ST), breaks = "equal", col = sf.colors())
+# 2
+stplot(wind.ST)
+# 3
+plot(wind.sta, breaks = "equal", col = sf.colors())
+st_as_stars(wind.ST)[[1]][1:3,1:3,1]
+(wind.sta)[[1]][1:3,1:3,1]
+st_bbox(wind.sta)
+bbox(wind.ST)
+all.equal(wind.sta, stars::st_as_stars(wind.ST), check.attributes = FALSE)
+
+# 4: roundtrip wind.sta->STFDF->stars
+rt = stars::st_as_stars(as(wind.sta, "STFDF"))
+plot(rt, breaks = "equal", col = sf.colors())
+# 5:
+stplot(as(wind.sta, "STFDF"))
+st_bbox(rt)
+
+# 6:
+stplot(as(st_as_stars(wind.ST), "STFDF"))

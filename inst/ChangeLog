@@ -1,3 +1,240 @@
+2019-01-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NAMESPACE, R/vgm.R, man/vgm.Rd: add plot.variogramModel; #40
+
+2019-01-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/krige.Rd, man/krige.cv.Rd: update docs; #39
+
+2019-01-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION: version
+
+2019-01-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NAMESPACE, R/krige.R, man/krige.Rd: address #39 * add idw method for sf data, and sf or stars newdata * return simulations as a dimension called "sample", rather than as
+	attributes
+
+2019-01-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/predict.gstat.R: return stars object when needed; #39
+
+2019-01-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/predict.gstat.R: should fix #39
+
+2019-01-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/gstat.R, R/predict.gstat.R: gstat() and predict.gstat();
+	addressing #39
+
+2019-01-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/krige.cv.Rd: travis warning
+
+2019-01-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.cv.R: krige.cv for sf: fixes #39
+
+2019-01-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/plot.pointPairs.R: plot.pointPairs for sf objects; #39
+
+2019-01-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.R: condition test on travis/old GDAL
+
+2018-12-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: travis fix?
+
+2018-12-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/predict.gstat.R: debug travis
+
+2018-12-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: cache
+
+2018-12-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.R: update
+
+2018-12-30  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: address https://github.com/edzer/gstat/issues/39 takes care of case where locations is NULL, but newdata sf/sfc/stars
+
+2018-12-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/s.c: address rchk issue reported in CRAN check
+
+2018-12-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, tests/stars.R, tests/windst.R: add stars support for
+	ST kriging
+
+2018-12-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, inst/ChangeLog, tests/merge.Rout.save,
+	tests/stars.R, tests/stars.Rout.save, tests/unproj.Rout.save,
+	tests/windst.Rout.save: add stars support for spacetime kriging
+	(untested); #32
+
+2018-11-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: package order
+
+2018-11-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: use sf from github
+
+2018-11-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, DESCRIPTION, tests/stars.R, tests/stars.Rout.save: 
+	tests, travis
+
+2018-11-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, R/krige.R, R/variogram.formula.R, man/krige.Rd: add
+	sf and stars stuff (not yet for spacetime) #32
+
+2018-11-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/CITATION: update url
+
+2018-11-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/{circEmbed.r => circEmbed.R}: name consistency
+
+2018-11-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit e6b4d453fd7d51efce89bc5d8b1d3dfbcc62e1c3 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Nov 8 22:07:36
+	2018 +0100
+
+2018-11-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, tests/windst.Rout.save: tidy
+
+2018-11-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit a03b5ca1a0c3d56fd92348ec96132c15abebab7c Merge: f342eef
+	1299257 Author: Edzer Pebesma <edzer.pebesma@uni-muenster.de> Date:
+	Tue Oct 30 09:40:56 2018 +0100
+
+2018-10-30  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* : Merge pull request #1 from BenGraeler/fix.issue35 clarify use of tunit in variogramST
+
+2018-10-30  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* man/variogramST.Rd: clarify use of tunit
+
+2018-10-25  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* : commit 3003653eb3bc98f648c38af667ba39a781e12a7b Author: Benedikt
+	Gr√§ler <b.graeler@52north.org> Date:   Wed Oct 24 00:01:05 2018
+	+0200
+
+2018-09-18  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* README.md: Update README.md
+
+2018-09-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/fit.variogram.gls.R: this should fix #33
+
+2018-09-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/unproj.Rout.save, tests/windst.Rout.save: 
+	update
+
+2018-09-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/getest.c: typo
+
+2018-08-05  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* NAMESPACE, R/krige0.R, R/krigeST.R, R/stVariogramModels.R,
+	R/variogramST.R, demo/00Index, demo/a2pinST.R: - adds area2point kriging in ST for spatial regions and time
+	instances - move krigeST functions into separate file krigeST.R - move ST covaraince funstions into stVariogramModels.R - adds new demo for a2p in ST: a2pinST
+
+2018-07-31  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* R/turningLayers.R: spatial discretization of gridded @sp is done
+	different from SpatialPoints in tunring layers for space-time
+
+2018-07-31  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* R/circEmbed.r, R/krige0.R, R/stVariogramModels.R,
+	R/turningLayers.R, demo/circEmbeddingMeuse.R: adds time unit
+	handling; repalces several "cat" by "message" and lowers some
+	"warning" to "message"; adds a few message informing about the time
+	unit actually used
+
+2018-07-12  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* NAMESPACE, R/turningLayers.R, demo/circEmbeddingMeuse.R: - adds conditional simulation in space and time
+
+2018-06-26  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* NAMESPACE, R/circEmbed.r, R/turningLayers.R,
+	demo/circEmbeddingMeuse.R: - adds unconditional ST simulation (circulant embedding + turning
+	bands)
+
+2018-06-05  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* R/circEmbed.r, R/krige0.R, R/stVariogramModels.R,
+	R/variogramST.R, demo/stkrige.R, man/variogramSurface.Rd: provide
+	covSurf* functions for all ST-vgm models; simulate on a layer of
+	spatial and temporal directions
+
+2018-05-29  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* demo/circEmbeddingMeuse.R: typo in figure title
+
+2018-05-29  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* demo/circEmbeddingMeuse.R: improve plots
+
+2018-05-29  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* demo/circEmbeddingMeuse.R: fix wrong object name in demo
+
+2018-05-29  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* demo/circEmbeddingMeuse.R: adds missing vgm definition in demo
+
+2018-05-29  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* NAMESPACE, R/circEmbed.r, demo/00Index, demo/circEmbeddingMeuse.R: 
+	adds very fast (un)conditional simulation based on circulant
+	embedding using fft; see demo circEmbeddingMeuse
+
+2018-05-26  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* R/circEmbed.r: initial implementation of circulant embedding for
+	gstat vgms
+
+2018-05-25  Benedikt Gr‰ler <b.graeler@52north.org>
+
+	* R/krige0.R, R/stVariogramModels.R, man/vgmST.Rd: fix mis-matching
+	naming of temporal units; improve code representation
+
+2018-01-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, src/userio.c: should fix #28
+
+2017-08-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #26 from BenGraeler/master does not shrink bbox after interpolation for SpatialPixels
+
+2017-06-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NAMESPACE, inst/ChangeLog, tests/merge.Rout.save,
+	tests/unproj.Rout.save, tests/windst.Rout.save: silence CRAN NOTE,
+	export [.gstat
+
 2017-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, src/vario.c, vignettes/gstat.Rnw: remove
@@ -330,7 +567,7 @@
 
 2015-12-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
-	* inst/ChangeLog, inst/ChangeLog1: rename r-forge changelog
+	* inst/{ChangeLog => ChangeLog1}: rename r-forge changelog
 
 2015-12-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
