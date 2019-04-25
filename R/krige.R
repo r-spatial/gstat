@@ -47,9 +47,14 @@ krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 		stop("sf required: install that first") # nocov
 	if (!requireNamespace("stars", quietly = TRUE))
 		stop("stars required: install that first") # nocov
+	crs = sf::st_crs(newdata)
 	if (!is.null(locations)) {
-		if (sf::st_crs(locations) == sf::st_crs(newdata))
-			sf::st_crs(newdata) = sf::st_crs(locations) # to avoid problems not handled by sp...
+		stopifnot(sf::st_crs(locations) == sf::st_crs(newdata))
+		crs = sf::st_crs(locations)
+		if (!sf::st_is_longlat(locations)) {
+			sf::st_crs(locations) = sf::NA_crs_
+			sf::st_crs(newdata) = sf::NA_crs_# to avoid problems not handled by sp...
+		}
 		locations = as(locations, "Spatial")
 	}
 	ret = krige(formula, locations, as(newdata, "Spatial"), ..., nsim = nsim)
@@ -57,12 +62,12 @@ krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 		st = stars::st_as_stars(ret)
 		if (nsim > 0) {
 			nms = names(stars::st_dimensions(st))
-			st = stars::st_set_dimensions(merge(st), names = c(nms, "sample"))
-			setNames(st, paste0("var", seq_along(st)))
-		} else
-			st
+			st = setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")),
+				paste0("var", seq_along(st)))
+		} 
+		sf::st_set_crs(st, crs)
 	} else
-		sf::st_as_sf(ret)
+		sf::st_set_crs(sf::st_as_sf(ret), crs)
 }
 setMethod("krige", c("formula", "sf"), krige.sf)
 
