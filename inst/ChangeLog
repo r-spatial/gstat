@@ -1,3 +1,17 @@
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml: travis
+
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, README.md: add ubuntugis-unstable
+
+2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .travis.yml, DESCRIPTION, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.Rout.save,
+	tests/windst.Rout.save: 2.0.0 release candidate
+
 2019-01-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* NAMESPACE, R/vgm.R, man/vgm.Rd: add plot.variogramModel; #40

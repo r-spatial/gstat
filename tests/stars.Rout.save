@@ -1,6 +1,6 @@
 
-R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.5.3 (2019-03-11) -- "Great Truth"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -66,7 +66,7 @@ Type 'q()' to quit R.
 > 
 > # 1. using sf:
 > library(sf)
-Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
+Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 > demo(meuse_sf, ask = FALSE, echo = FALSE)
 > # reloads meuse as data.frame, so
 > demo(meuse, ask = FALSE)
@@ -125,9 +125,9 @@ Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
 > # 2. using stars for grid:
 > 
 > library(rgdal)
-rgdal: version: 1.3-6, (SVN revision 773)
+rgdal: version: 1.4-3, (SVN revision 828)
  Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 2.3.2, released 2018/09/21
+ Loaded GDAL runtime: GDAL 2.4.0, released 2018/12/14
  Path to GDAL shared files: /usr/share/gdal
  GDAL binary built with GEOS: TRUE 
  Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
@@ -274,10 +274,10 @@ attribute(s):
  3rd Qu.:48.25  
  Max.   :64.00  
 dimension(s):
-     from to              offset  delta  refsys point values    
-x       1  4                  10    0.5      NA    NA   NULL [x]
-y       1  4                   0   -0.7      NA    NA   NULL [y]
-time    1  4 2019-02-25 15:37:25 1 secs POSIXct    NA   NULL    
+     from to                  offset  delta  refsys point values    
+x       1  4                      10    0.5      NA    NA   NULL [x]
+y       1  4                       0   -0.7      NA    NA   NULL [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL    
 > 
 > as.data.frame(s)
        x     y                time foo
@@ -465,14 +465,14 @@ attribute(s):
  3rd Qu.:48.25  
  Max.   :64.00  
 dimension(s):
-     from to              offset  delta  refsys point values    
-x       1  4                  10    0.5      NA    NA   NULL [x]
-y       1  4        -1.11022e-16   -0.7      NA    NA   NULL [y]
-time    1  4 2019-02-25 15:37:25 1 secs POSIXct    NA   NULL    
+     from to                  offset  delta  refsys point values    
+x       1  4                      10    0.5      NA    NA   NULL [x]
+y       1  4            -1.11022e-16   -0.7      NA    NA   NULL [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL    
 > plot(s2, col = sf.colors(), axes = TRUE)
-> all.equal(s, s2)
-[1] "Component \"foo\": Attributes: < Component \"dim\": names for current but not for target >"
+> all.equal(s, s2, check.attributes = FALSE)
+[1] TRUE
 > 
 > proc.time()
    user  system elapsed 
-  2.487   0.047   2.573 
+  2.106   0.032   2.129 

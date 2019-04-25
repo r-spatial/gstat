@@ -78,4 +78,4 @@ stplot(s.stfdf, scales = list(draw = TRUE))
 
 (s2 = st_as_stars(s.stfdf))
 plot(s2, col = sf.colors(), axes = TRUE)
-all.equal(s, s2)
+all.equal(s, s2, check.attributes = FALSE)
