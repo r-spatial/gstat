@@ -1,3 +1,64 @@
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 198ac18fcd889fd334cca74485fa2d1b924e6c30 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Apr 25 21:36:14
+	2019 +0200
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: fix, hopefully, build error on OSX
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* docs/LICENSE-text.html, docs/authors.html, docs/docsearch.css,
+	docs/docsearch.js, docs/index.html, docs/link.svg,
+	docs/pkgdown.css, docs/pkgdown.js, docs/pkgdown.yml,
+	docs/reference/DE_RB_2005.html, docs/reference/JuraPred.kml,
+	docs/reference/coalash.html, docs/reference/estiStAni.html,
+	docs/reference/extractPar.html,
+	docs/reference/fit.StVariogram.html, docs/reference/fit.lmc.html,
+	docs/reference/fit.variogram.gls.html,
+	docs/reference/fit.variogram.html,
+	docs/reference/fit.variogram.reml.html, docs/reference/fulmar.html,
+	docs/reference/get.contr.html, docs/reference/gstat-internal.html,
+	docs/reference/gstat.html, docs/reference/hscat.html,
+	docs/reference/image.html, docs/reference/index.html,
+	docs/reference/jura.html, docs/reference/krige.cv.html,
+	docs/reference/krige.html, docs/reference/krigeST.html,
+	docs/reference/krigeSTSimTB.html, docs/reference/krigeSimCE.html,
+	docs/reference/krigeTg.html, docs/reference/map.to.lev.html,
+	docs/reference/meuse.all.html, docs/reference/meuse.alt.html,
+	docs/reference/ncp.grid.html, docs/reference/ossfim.html,
+	docs/reference/oxford.html, docs/reference/pcb.html,
+	docs/reference/plot.gstatVariogram.html,
+	docs/reference/plot.pointPairs.html,
+	docs/reference/plot.variogramCloud.html,
+	docs/reference/predict.gstat.html, docs/reference/progress.html,
+	docs/reference/show.vgms.html, docs/reference/sic2004.html,
+	docs/reference/sic97.html, docs/reference/spplot.vcov.html,
+	docs/reference/tull.html, docs/reference/variogram.html,
+	docs/reference/variogramLine.html, docs/reference/variogramST.html,
+	docs/reference/variogramSurface.html, docs/reference/vgm.html,
+	docs/reference/vgm.panel.html, docs/reference/vgmArea.html,
+	docs/reference/vgmAreaST.html, docs/reference/vgmST.html,
+	docs/reference/vv.html, docs/reference/walker.html,
+	docs/reference/wind.html: add pkgdown
+
+2019-03-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #44 from BenGraeler/fix-issue_42 Fix issue 42
+
+2019-03-15  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/krigeST.R: typos
+
+2019-03-15  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/krigeST.R: https://github.com/edzer/gstat/issues/42 Check for
+	temporal unit in krigeST opposed to covariance function and assign
+	the temporal unit found in krigeST to the spatio-temporal variogram
+	for consistency in case none has been provided by the model.
+
 2019-02-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* .travis.yml: travis
@@ -125,6 +186,10 @@
 	* : commit e6b4d453fd7d51efce89bc5d8b1d3dfbcc62e1c3 Author: Edzer
 	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Thu Nov 8 22:07:36
 	2018 +0100
+
+2018-11-07  Benedikt Gräler <b.graeler@52north.org>
+
+	* R/{circEmbed.r => circEmbed.R}: follow file ending convention ".R"
 
 2018-11-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 

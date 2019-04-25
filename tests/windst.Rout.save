@@ -1,6 +1,6 @@
 
-R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.5.3 (2019-03-11) -- "Great Truth"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -89,6 +89,10 @@ Checking rgeos availability: TRUE
 [Using the following time unit: secs]
 [Using the following time unit: secs]
 [Using the following time unit: secs]
+Warning message:
+In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
+  The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
+ The unit 'secs' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.
 > 
 > all.equal(wind.pr0, wind.ST)
 [1] TRUE
@@ -98,7 +102,7 @@ Checking rgeos availability: TRUE
 > library(stars)
 Loading required package: abind
 Loading required package: sf
-Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
+Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 > df = data.frame(a = rep(NA, 324*10))
 > s = STF(grd, tgrd)
 > newd = addAttrToGeom(s, df)
@@ -106,6 +110,10 @@ Linking to GEOS 3.7.0, GDAL 2.3.2, PROJ 5.2.0
 [Using the following time unit: secs]
 [Using the following time unit: secs]
 [Using the following time unit: secs]
+Warning message:
+In krigeST(sqrt(values) ~ 1, st_as_stars(w), st_as_stars(newd),  :
+  The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
+ The unit 'secs' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.
 > # 1
 > plot(stars::st_as_stars(wind.ST), breaks = "equal", col = sf.colors())
 > # 2
@@ -146,4 +154,4 @@ x2 5535500 6309500
 > 
 > proc.time()
    user  system elapsed 
-  3.685   0.124   3.803 
+  3.137   0.104   3.233 

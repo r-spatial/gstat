@@ -135,5 +135,4 @@ points(corv[ros,!ros] ~ dists[ros,!ros], pch=16, cex=.5)
 xdiscr = 1:500
 # add correlation model:
 lines(xdiscr, .968 * exp(- .00134 * xdiscr))
-dev.off()
 }
