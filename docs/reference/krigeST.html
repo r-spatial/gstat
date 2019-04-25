@@ -76,6 +76,9 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
       </ul>
       
       <ul class="nav navbar-nav navbar-right">
@@ -254,7 +257,8 @@ Computers \&amp; Geosciences, 30: 683-691.</p>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/sp/topics/gridded-methods'>gridded</a></span>(<span class='no'>DE_gridded</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='no'>DE_pred</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/spacetime/topics/STFDF-class'>STF</a></span>(<span class='kw'>sp</span><span class='kw'>=</span><span class='fu'>as</span>(<span class='no'>DE_gridded</span>,<span class='st'>"SpatialPoints"</span>), <span class='kw'>time</span><span class='kw'>=</span><span class='no'>rr</span>@<span class='kw'>time</span>)
 <span class='no'>DE_kriged</span> <span class='kw'>&lt;-</span> <span class='fu'>krigeST</span>(<span class='no'>PM10</span>~<span class='fl'>1</span>, <span class='kw'>data</span><span class='kw'>=</span><span class='no'>rr</span>, <span class='kw'>newdata</span><span class='kw'>=</span><span class='no'>DE_pred</span>,
-                     <span class='kw'>modelList</span><span class='kw'>=</span><span class='no'>sumMetricVgm</span>)</div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/sp/topics/gridded-methods'>gridded</a></span>(<span class='no'>DE_kriged</span>@<span class='kw'>sp</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
+                     <span class='kw'>modelList</span><span class='kw'>=</span><span class='no'>sumMetricVgm</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.</span>
+#&gt; <span class='warning'> The unit 'days' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.</span></div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='output co'>#&gt; <span class='message'>[Using the following time unit: days]</span></div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/sp/topics/gridded-methods'>gridded</a></span>(<span class='no'>DE_kriged</span>@<span class='kw'>sp</span>) <span class='kw'>&lt;-</span> <span class='fl'>TRUE</span>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/spacetime/topics/stplot'>stplot</a></span>(<span class='no'>DE_kriged</span>)</div><div class='img'><img src='krigeST-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

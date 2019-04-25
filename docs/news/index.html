@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Meuse river altitude data set — meuse.alt • gstat</title>
+<title>Changelog • gstat</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,11 +30,7 @@
 
 
 
-<meta property="og:title" content="Meuse river altitude data set — meuse.alt" />
-
-<meta property="og:description" content="This data set gives a point set with altitudes, digitized from the
-1:10,000 topographical map of the Netherlands." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Changelog" />
 
 
 
@@ -50,7 +46,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -101,56 +97,40 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Meuse river altitude data set</h1>
-    
-    <div class="hidden name"><code>meuse.alt.Rd</code></div>
+      <h1>Changelog <small></small></h1>
+      <small>Source: <a href='https://github.com/r-spatial/gstat//blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div class="ref-description">
-    
-    <p>This data set gives a point set with altitudes, digitized from the
-1:10,000 topographical map of the Netherlands.</p>
-    
-    </div>
-
-    <pre class="usage"><span class='fu'>data</span>(<span class='no'>meuse.alt</span>)</pre>
-        
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>This data frame contains the following columns:</p><dl class='dl-horizontal'>
-    <dt>x</dt><dd><p>a numeric vector; x-coordinate (m) in RDM (Dutch topographical map coordinates)</p></dd>
-    <dt>y</dt><dd><p>a numeric vector; y-coordinate (m) in RDM (Dutch topographical map coordinates)</p></dd>
-	<dt>alt</dt><dd><p>altitude in m. above NAP (Dutch zero for sea level)</p></dd>
-  </dl>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p><a href='http://www.gstat.org/'>http://www.gstat.org/</a></p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><a href='meuse.all.html'>meuse.all</a></p></div>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>meuse.alt</span>)
-<span class='fu'>library</span>(<span class='no'>lattice</span>)
-<span class='fu'><a href='http://www.rdocumentation.org/packages/lattice/topics/xyplot'>xyplot</a></span>(<span class='no'>y</span>~<span class='no'>x</span>, <span class='no'>meuse.alt</span>, <span class='kw'>aspect</span> <span class='kw'>=</span> <span class='st'>"iso"</span>)</div><div class='img'><img src='meuse.alt-1.png' alt='' width='700' height='433' /></div></pre>
+    <div id="version-2-0-1" class="section level1">
+<h1 class="page-header">
+<a href="#version-2-0-1" class="anchor"></a>version 2.0-1<small> Unreleased </small>
+</h1>
+<ul>
+<li><p>try to fix CRS issue found on OSX</p></li>
+<li><p>check for temporal unit in krigeST opposed to covariance function and assign the temporal unit found in krigeST to the spatio-temporal variogram for consistency in case none has been provided by the model; add warning when ST variogram doesn’t have a <code>temporal unit</code> attribute; <a href='https://github.com/r-spatial/gstat//issues/42'>#42</a></p></li>
+</ul>
+</div>
+    <div id="version-2-0-0" class="section level1">
+<h1 class="page-header">
+<a href="#version-2-0-0" class="anchor"></a>version 2.0-0<small> 2019-02-28 </small>
+</h1>
+<ul>
+<li><p>add plot.variogramModel; <a href='https://github.com/r-spatial/gstat//issues/40'>#40</a></p></li>
+<li><p>support <code>sf</code> and <code>stars</code> objects, for vector and raster data, respectively; <a href='https://github.com/r-spatial/gstat//issues/39'>#39</a></p></li>
+</ul>
+</div>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      
-      <li><a href="#format">Format</a></li>
-
-      <li><a href="#references">References</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+    <div id="tocnav">
+      <h2>Contents</h2>
+      <ul class="nav nav-pills nav-stacked">
+        <li><a href="#version-2-0-1">2.0-1</a></li>
+        <li><a href="#version-2-0-0">2.0-0</a></li>
+      </ul>
+    </div>
   </div>
+
 </div>
 
       <footer>

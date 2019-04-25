@@ -10,3 +10,6 @@
 
 * support `sf` and `stars` objects, for vector and raster data, respectively; #39
 
+# pre 2.0-0 version
+
+* see [ChangeLog](https://github.com/r-spatial/gstat/blob/master/inst/ChangeLog)
