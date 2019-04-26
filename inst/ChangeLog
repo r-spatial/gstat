@@ -1,5 +1,13 @@
 2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* .Rbuildignore, README.md: add appveyor
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* appveyor.yml, inst/ChangeLog: add appveyor
+
+2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* NEWS.md, docs/LICENSE-text.html, docs/authors.html,
 	docs/index.html, docs/news/index.html,
 	docs/reference/DE_RB_2005.html, docs/reference/coalash.html,
