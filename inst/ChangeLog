@@ -1,3 +1,19 @@
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION: version bump
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, docs/news/index.html: update NEWS
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/NEWS.Rd: reorganize NEWS
+
+2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* docs/index.html, docs/news/index.html, inst/ChangeLog: update docs
+
 2019-04-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* .Rbuildignore, README.md: add appveyor

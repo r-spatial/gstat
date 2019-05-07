@@ -63,7 +63,7 @@ krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 		if (nsim > 0) {
 			nms = names(stars::st_dimensions(st))
 			st = setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")),
-				paste0("var", seq_along(st)))
+				"var1") # this won't work for multivariable simulations
 		} 
 		sf::st_set_crs(st, crs)
 	} else
