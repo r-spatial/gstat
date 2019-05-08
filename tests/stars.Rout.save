@@ -474,21 +474,12 @@ time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL
 [1] TRUE
 > 
 > # multiple simulations:
-> library(stars)
-> library(sp)
-> crs = CRS("+init=epsg:28992")
-> data("meuse")
-> coordinates(meuse) <- ~x+y
-> proj4string(meuse) <- crs
-> data("meuse.grid")
+> data(meuse, package = "sp")
+> data(meuse.grid, package = "sp")
 > coordinates(meuse.grid) <- ~x+y
 > gridded(meuse.grid) <- TRUE
-> proj4string(meuse.grid) <- crs
-> data(meuse, package = "sp") # load data.frame from sp
-> library(sf)
-> meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = 28992)
 > meuse.grid = st_as_stars(meuse.grid)
-> library(gstat)
+> meuse_sf = st_as_sf(meuse, coords = c("x", "y"))
 > g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
 > g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
 > (p = predict(g, meuse.grid, nsim = 5))
@@ -496,24 +487,20 @@ drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
 stars object with 3 dimensions and 2 attributes
 attribute(s):
-     zinc              lead        
- Min.   :  98.84   Min.   : 32.16  
- 1st Qu.: 196.48   1st Qu.: 72.45  
- Median : 294.33   Median :105.05  
- Mean   : 394.50   Mean   :131.82  
- 3rd Qu.: 536.12   3rd Qu.:176.53  
- Max.   :1820.45   Max.   :639.84  
- NA's   :25045     NA's   :25045   
+     zinc             lead        
+ Min.   :  97.0   Min.   : 32.93  
+ 1st Qu.: 199.9   1st Qu.: 73.72  
+ Median : 297.8   Median :106.57  
+ Mean   : 400.7   Mean   :133.28  
+ 3rd Qu.: 546.0   3rd Qu.:179.00  
+ Max.   :1819.8   Max.   :639.48  
+ NA's   :25045    NA's   :25045   
 dimension(s):
-       from  to offset delta                       refsys point        values
-x         1  78 178440    40 +proj=sterea +lat_0=52.15...    NA          NULL
-y         1 104 333760   -40 +proj=sterea +lat_0=52.15...    NA          NULL
-sample    1   5     NA    NA                           NA    NA sim1,...,sim5
-          
-x      [x]
-y      [y]
-sample    
+       from  to offset delta refsys point        values    
+x         1  78 178440    40     NA    NA          NULL [x]
+y         1 104 333760   -40     NA    NA          NULL [y]
+sample    1   5     NA    NA     NA    NA sim1,...,sim5    
 > 
 > proc.time()
    user  system elapsed 
-  2.679   0.116   2.815 
+  3.201   0.140   3.365 

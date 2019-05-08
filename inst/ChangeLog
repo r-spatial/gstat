@@ -1,3 +1,9 @@
+2019-05-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R, R/predict.gstat.R, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save: handle multiple variables simulations for
+	sf/stars fix #32, fix #39
+
 2019-05-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/krige.R, inst/ChangeLog: fix simulation naming for single

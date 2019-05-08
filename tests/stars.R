@@ -81,21 +81,12 @@ plot(s2, col = sf.colors(), axes = TRUE)
 all.equal(s, s2, check.attributes = FALSE)
 
 # multiple simulations:
-library(stars)
-library(sp)
-crs = CRS("+init=epsg:28992")
-data("meuse")
-coordinates(meuse) <- ~x+y
-proj4string(meuse) <- crs
-data("meuse.grid")
+data(meuse, package = "sp")
+data(meuse.grid, package = "sp")
 coordinates(meuse.grid) <- ~x+y
 gridded(meuse.grid) <- TRUE
-proj4string(meuse.grid) <- crs
-data(meuse, package = "sp") # load data.frame from sp
-library(sf)
-meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = 28992)
 meuse.grid = st_as_stars(meuse.grid)
-library(gstat)
+meuse_sf = st_as_sf(meuse, coords = c("x", "y"))
 g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
 g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
 (p = predict(g, meuse.grid, nsim = 5))
