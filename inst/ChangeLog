@@ -1,3 +1,8 @@
+2019-05-07  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R, inst/ChangeLog: fix simulation naming for single
+	variable; #39
+
 2019-04-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION: version bump

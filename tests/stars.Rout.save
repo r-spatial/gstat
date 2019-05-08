@@ -1,5 +1,5 @@
 
-R version 3.5.3 (2019-03-11) -- "Great Truth"
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -473,6 +473,47 @@ time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL
 > all.equal(s, s2, check.attributes = FALSE)
 [1] TRUE
 > 
+> # multiple simulations:
+> library(stars)
+> library(sp)
+> crs = CRS("+init=epsg:28992")
+> data("meuse")
+> coordinates(meuse) <- ~x+y
+> proj4string(meuse) <- crs
+> data("meuse.grid")
+> coordinates(meuse.grid) <- ~x+y
+> gridded(meuse.grid) <- TRUE
+> proj4string(meuse.grid) <- crs
+> data(meuse, package = "sp") # load data.frame from sp
+> library(sf)
+> meuse_sf = st_as_sf(meuse, coords = c("x", "y"), crs = 28992)
+> meuse.grid = st_as_stars(meuse.grid)
+> library(gstat)
+> g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
+> g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
+> (p = predict(g, meuse.grid, nsim = 5))
+drawing 5 multivariate GLS realisations of beta...
+[using conditional Gaussian simulation]
+stars object with 3 dimensions and 2 attributes
+attribute(s):
+     zinc              lead        
+ Min.   :  98.84   Min.   : 32.16  
+ 1st Qu.: 196.48   1st Qu.: 72.45  
+ Median : 294.33   Median :105.05  
+ Mean   : 394.50   Mean   :131.82  
+ 3rd Qu.: 536.12   3rd Qu.:176.53  
+ Max.   :1820.45   Max.   :639.84  
+ NA's   :25045     NA's   :25045   
+dimension(s):
+       from  to offset delta                       refsys point        values
+x         1  78 178440    40 +proj=sterea +lat_0=52.15...    NA          NULL
+y         1 104 333760   -40 +proj=sterea +lat_0=52.15...    NA          NULL
+sample    1   5     NA    NA                           NA    NA sim1,...,sim5
+          
+x      [x]
+y      [y]
+sample    
+> 
 > proc.time()
    user  system elapsed 
-  2.106   0.032   2.129 
+  2.679   0.116   2.815 

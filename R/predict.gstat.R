@@ -220,7 +220,10 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 			ret = if (to_stars) {
 					if (!requireNamespace("stars", quietly = TRUE))
 						stop("stars required: install that first") # nocov
-					stars::st_as_stars(ret)
+					if (nsim) 
+						sim_to_dimension(stars::st_as_stars(ret), nsim)
+					else
+						stars::st_as_stars(ret)
 				} else {
 					if (gridded(ret) && fullgrid(ret))
 						fullgrid(ret) = FALSE

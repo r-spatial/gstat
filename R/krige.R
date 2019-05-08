@@ -60,16 +60,31 @@ krige.sf <- function(formula, locations, newdata, ..., nsim = 0) {
 	ret = krige(formula, locations, as(newdata, "Spatial"), ..., nsim = nsim)
 	if (gridded(ret)) {
 		st = stars::st_as_stars(ret)
-		if (nsim > 0) {
-			nms = names(stars::st_dimensions(st))
-			st = setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")),
-				"var1") # this won't work for multivariable simulations
-		} 
+		if (nsim > 0)
+			st = sim_to_dimension(st, nsim)
 		sf::st_set_crs(st, crs)
 	} else
 		sf::st_set_crs(sf::st_as_sf(ret), crs)
 }
 setMethod("krige", c("formula", "sf"), krige.sf)
+
+sim_to_dimension = function(st, nsim) {
+	nms = names(stars::st_dimensions(st))
+	if (length(st) > nsim) {
+		nvars = length(st) / nsim
+		l = vector("list", nvars)
+		vars = unique(sub("([^.]+)\\.[[:alnum:]]+$", "\\1", names(st)))
+		for (i in 1:nvars) {
+			range = seq((i-1) * nsim + 1, length.out = nsim)
+			m = setNames(st[range], paste0("sim", 1:nsim))
+			l[[i]] = setNames(stars::st_set_dimensions(merge(m), 
+				names = c(nms, "sample")), vars[i])
+		}
+		do.call(c, l)
+	} else
+		setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")),
+			"var1") # this won't work for multivariable simulations
+}
 
 setMethod(krige, signature("formula", "ST"),
 	function(formula, locations, newdata, model, ...) {
