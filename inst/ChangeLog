@@ -1,3 +1,11 @@
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R, inst/ChangeLog, tests/cv.Rout.save,
+	tests/na.action.Rout.save, tests/sim.Rout.save,
+	tests/stars.Rout.save, tests/unproj.Rout.save,
+	vignettes/gstat.Rout.save, vignettes/prs.Rout.save: more sample() R
+	3.6.0 fall out
+
 2019-05-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, tests/stars.R, tests/stars.Rout.save: fix test on
