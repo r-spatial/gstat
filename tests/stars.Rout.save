@@ -482,19 +482,20 @@ time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL
 > meuse_sf = st_as_sf(meuse, coords = c("x", "y"))
 > g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
 > g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
+> set.seed(123)
 > (p = predict(g, meuse.grid, nsim = 5))
 drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
 stars object with 3 dimensions and 2 attributes
 attribute(s):
-     zinc              lead        
- Min.   :  99.05   Min.   : 32.84  
- 1st Qu.: 199.96   1st Qu.: 73.98  
- Median : 302.82   Median :108.54  
- Mean   : 402.79   Mean   :133.97  
- 3rd Qu.: 548.54   3rd Qu.:179.80  
- Max.   :1820.74   Max.   :639.51  
- NA's   :25045     NA's   :25045   
+     zinc             lead        
+ Min.   : 101.8   Min.   : 32.78  
+ 1st Qu.: 199.6   1st Qu.: 73.03  
+ Median : 300.2   Median :107.93  
+ Mean   : 399.8   Mean   :133.17  
+ 3rd Qu.: 544.0   3rd Qu.:178.82  
+ Max.   :1817.2   Max.   :638.94  
+ NA's   :25045    NA's   :25045   
 dimension(s):
        from  to offset delta refsys point        values    
 x         1  78 178440    40     NA    NA          NULL [x]
@@ -503,4 +504,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  2.330   0.073   2.395 
+  2.320   0.076   2.395 
