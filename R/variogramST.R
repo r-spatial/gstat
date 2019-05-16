@@ -81,6 +81,13 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
                        assumeRegular=FALSE, na.omit=FALSE) {
 	if (missing(data))
 		data = locations
+
+	if (inherits(data, "stars")) {
+		if (!requireNamespace("stars", quietly = TRUE))
+			stop("stars required: install that first") # nocov
+		data = as(data, "STFDF")
+	}
+
 	if(missing(cutoff)) {
 		ll = !is.na(is.projected(data@sp)) && !is.projected(data@sp)
 		cutoff <- spDists(t(data@sp@bbox), longlat = ll)[1,2]/3
@@ -136,18 +143,17 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 	  bool <- v$spacelag == lagId
 	  v$avgDist[bool] <- sum(v$avgDist[bool], na.rm = TRUE) / sum(v$np[bool], na.rm = TRUE)
 	}
-	
 
-  class(v) = c("StVariogram", "data.frame")
+	class(v) = c("StVariogram", "data.frame")
 	if(na.omit)
     v <- na.omit(v)
 
-  # setting attributes to allow krigeST to double check metrics
-	attr(v$timelag,"units") <- attr(twidth,"units")
+	# setting attributes to allow krigeST to check units
+	attr(v$timelag, "units") <- attr(twidth,"units")
 	if (isTRUE(!is.projected(data)))
 		attr(v$spacelag, "units") = "km"
   
-  return(v)
+	return(v)
 }
 
 ## very irregular data

@@ -487,14 +487,14 @@ drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
 stars object with 3 dimensions and 2 attributes
 attribute(s):
-     zinc             lead        
- Min.   :  97.0   Min.   : 32.93  
- 1st Qu.: 199.9   1st Qu.: 73.72  
- Median : 297.8   Median :106.57  
- Mean   : 400.7   Mean   :133.28  
- 3rd Qu.: 546.0   3rd Qu.:179.00  
- Max.   :1819.8   Max.   :639.48  
- NA's   :25045    NA's   :25045   
+     zinc              lead        
+ Min.   :  99.05   Min.   : 32.84  
+ 1st Qu.: 199.96   1st Qu.: 73.98  
+ Median : 302.82   Median :108.54  
+ Mean   : 402.79   Mean   :133.97  
+ 3rd Qu.: 548.54   3rd Qu.:179.80  
+ Max.   :1820.74   Max.   :639.51  
+ NA's   :25045     NA's   :25045   
 dimension(s):
        from  to offset delta refsys point        values    
 x         1  78 178440    40     NA    NA          NULL [x]
@@ -503,4 +503,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  3.201   0.140   3.365 
+  2.330   0.073   2.395 
