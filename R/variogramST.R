@@ -307,7 +307,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
 	if (!is.null(model)) {
     modelNames  <- sapply(model, function(x) x$stModel)
     
-    if(all &! diff)
+    if (all && !diff)
       v0 <- x[,c("dist", "id", "avgDist", "timelag")]
     else
       v0 <- NULL
@@ -329,7 +329,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
 	}
 	if (wireframe) { 
 		if (!is.null(model)) {
-      if (length(model) > 1)
+      if (length(model) > 1 || all)
         wireframe(gamma ~ avgDist*timelag | what, 
                   x, drape = TRUE, col.regions = col, 
                   xlab = xlab, ylab = ylab, as.table=as.table, ...)
