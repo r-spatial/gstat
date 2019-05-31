@@ -173,16 +173,14 @@ Coordinate Reference System:
 [1] "Names: Lengths (5, 1) differ (string compare on first 1)"
 [2] "Names: 1 string mismatch"                                
 > all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
- [1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
- [2] "Names: 1 string mismatch"                                                                      
- [3] "Attributes: < Component 1: Attributes: < Component 2: Component 1: 1 string mismatch > >"      
- [4] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
- [5] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
- [6] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
- [7] "Attributes: < Component 4: Attributes: < Component 1: Names: 1 string mismatch > >"            
- [8] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
- [9] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
-[10] "Attributes: < Component 5: Attributes: < Component 2: 1 string mismatch > >"                   
+[1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
+[2] "Names: 1 string mismatch"                                                                      
+[3] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
+[4] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
+[5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
+[6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
+[7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
+[8] "Attributes: < Component 5: Attributes: < Component 2: 1 string mismatch > >"                   
 > 
 > # kriging:
 > st_crs(st) = st_crs(meuse_sf) # GDAL roundtrip messes them up!
@@ -419,10 +417,10 @@ Slot "sp":
 Object of class SpatialPixels
 Grid topology:
   cellcentre.offset cellsize cells.dim
-              10.25      0.5         4
+x             10.25      0.5         4
 y             -2.45      0.7         4
 SpatialPoints:
-       Var1     y
+          x     y
  [1,] 10.25 -0.35
  [2,] 10.75 -0.35
  [3,] 11.25 -0.35
@@ -504,4 +502,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  2.320   0.076   2.395 
+  2.249   0.060   2.301 
