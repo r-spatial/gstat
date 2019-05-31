@@ -2,6 +2,10 @@
 ## spatio-temporal kriging ##
 #############################
 
+debug_time_unit = function(tUnit) {
+    # message("Using the following time unit: ", tUnit)
+}
+
 STsolve = function(A, b, X) {
   # V = A$T %x% A$S -- a separable covariance; solve A x = b for x
   # kronecker: T %x% S vec(L) = vec(c0) <-->  S L T = c0
@@ -75,7 +79,7 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     attr(modelList, "temporal unit") <- tUnit
   } else {
     tUnit <- tUnitModel
-    message("Using the following time unit: ", tUnit)
+    debug_time_unit(tUnit)
   }
   
   if(nmax < Inf) { # local neighbourhood ST kriging:

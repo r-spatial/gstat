@@ -92,7 +92,7 @@ covSeparable <- function(x, y, model, separate) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -120,7 +120,7 @@ covSeparable <- function(x, y, model, separate) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -140,7 +140,7 @@ covSeparable <- function(x, y, model, separate) {
   dt = abs(outer(index(x@time), index(y@time), "-"))
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-  message("[Using the following time unit: ", units(dt), "]")
+  debug_time_unit(units(dt))
   dt <- as(dt, "matrix")
   
   # re-arrange the spatial and temporal distances
@@ -208,7 +208,7 @@ covProdSumOld <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -229,7 +229,7 @@ covProdSumOld <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -249,7 +249,7 @@ covProdSumOld <- function(x, y, model) {
   dt = abs(outer(index(x@time), index(y@time), "-"))
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-  message("[Using the following time unit: ", units(dt), "]")
+  debug_time_unit(units(dt))
   dt <- as(dt, "matrix")
   
   # re-arrange the spatial and temporal distances
@@ -306,7 +306,7 @@ covProdSum <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -327,7 +327,7 @@ covProdSum <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -347,7 +347,7 @@ covProdSum <- function(x, y, model) {
   dt = abs(outer(index(x@time), index(y@time), "-"))
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-  message("[Using the following time unit: ", units(dt), "]")
+  debug_time_unit(units(dt))
   dt <- as(dt, "matrix")
   
   # re-arrange the spatial and temporal distances
@@ -396,7 +396,7 @@ covSumMetric <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -421,7 +421,7 @@ covSumMetric <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -444,7 +444,7 @@ covSumMetric <- function(x, y, model) {
   dt = abs(outer(index(x@time), index(y@time), "-"))
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-  message("[Using the following time unit: ", units(dt), "]")
+  debug_time_unit(units(dt))
   dt <- as(dt, "matrix")
   
   # re-arrange the spatial and temporal distances
@@ -543,7 +543,7 @@ covMetric <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -565,7 +565,7 @@ covMetric <- function(x, y, model) {
     dt = abs(outer(index(x@time), index(y@time), "-"))
     if(!is.null(attr(model,"temporal unit")))
       units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-    message("[Using the following time unit: ", units(dt), "]")
+    debug_time_unit(units(dt))
     dt <- as(dt, "matrix")
     
     # compose the cov-matrix
@@ -585,7 +585,7 @@ covMetric <- function(x, y, model) {
   dt = abs(outer(index(x@time), index(y@time), "-"))
   if(!is.null(attr(model,"temporal unit")))
     units(dt) <- attr(model, "temporal unit") # ensure the same temporal metric as in the variogram definition
-  message("[Using the following time unit: ", units(dt), "]")
+  debug_time_unit(units(dt))
   dt <- as(dt, "matrix")
   
   # re-arrange the spatial and temporal distances

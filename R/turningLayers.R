@@ -232,7 +232,7 @@ krigeSTSimTB <- function(formula, data, newdata, modelList, nsim,
     tGrid <- c(as.numeric(tDis), length(newdata@time))
     attr(tGrid, "units") <- c("", units(tDis))
     
-    message("[Using the following time unit: ", units(tDis), "]")
+    debug_time_unit(units(tDis))
   }
   
   if (is.null(sGrid)) {
