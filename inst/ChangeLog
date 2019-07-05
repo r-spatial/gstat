@@ -1,3 +1,28 @@
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, R/stVariogramModels.R, R/turningLayers.R: make time
+	unit test(s) (more) quiet.
+
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.Rout.save: silence coordinate naming change
+
+2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krige.R: fix #46
+
+2019-05-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: fixes bug in plot.StVariogram
+
+2019-05-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: indentation
+
+2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog: tidy
+
 2019-05-16  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* tests/stars.Rout.save: tidy test output

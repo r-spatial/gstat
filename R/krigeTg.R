@@ -18,7 +18,7 @@ krigeTg <- function(formula, locations, newdata, model = NULL, ...,
 	nsim = 0, na.action = na.pass, debug.level = 1,
 	lambda = 1.0)
 {
-    m = model.frame(terms(formula), as(locations, "data.frame"))
+    m = model.frame(terms(formula), as.data.frame(locations))
     Y = model.extract(m, "response")
     if (length(Y) == 0)
         stop("no response variable present in formula")

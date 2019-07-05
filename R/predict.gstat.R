@@ -10,7 +10,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 	if (!inherits(object, "gstat"))
 		stop("first argument should be of class gstat")
 	to_stars = FALSE
-	to_sf = if (inherits(newdata, c("sf", "stars"))) {
+	to_sf = if (inherits(newdata, c("sf", "sfc", "stars"))) {
 			to_stars = inherits(newdata, "stars")
 			newdata = as(newdata, "Spatial")
 			TRUE

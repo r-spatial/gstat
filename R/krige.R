@@ -125,7 +125,7 @@ idw.sf <- function (formula, locations,
 		stop("stars required: install that first") # nocov
 
 	ret = krige(formula, locations, newdata, ..., set = list(idp = idp), model = NULL)
-	if (inherits(newdata, "sf"))
+	if (inherits(newdata, c("sf", "sfc")))
 		sf::st_as_sf(ret)
 	else if (inherits(newdata, "stars"))
 		stars::st_as_stars(ret)
