@@ -175,17 +175,20 @@ krigeST.df <- function(formula, data, newdata, modelList, beta, y, ...,
         corMat <- cov2cor(covfn.ST(newdata, newdata, modelList))
         var <- corMat*matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
         # var = c0 - t(v0) %*% skwts + t(Q) %*% CHsolve(t(X) %*% ViX, Q)
-        return(list(pred=pred, var=var))
+        # return(list(pred=pred, var=var))
       }
     }
   }
   
   pred = x0 %*% beta + t(skwts) %*% (y - X %*% beta)
   
-  if(computeVar)
-    return(data.frame(var1.pred = pred, var1.var = var))
-  else
-    return(data.frame(var1.pred = pred))
+  if(computeVar) {
+    if (fullCovariance)
+      list(pred=pred, var=var)
+    else
+      data.frame(var1.pred = pred, var1.var = var)
+  } else
+    data.frame(var1.pred = pred)
 }
 
 # local spatio-temporal kriging
