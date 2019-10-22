@@ -19,9 +19,7 @@ the North Sea (NCP, Nederlands Continentaal Plat). }
 \usage{
 data(fulmar)
 }
-\author{ Dutch National Institute for Coastal and Marine Management (RIKZ),
-\url{http://www.rikz.nl/}
-}
+\author{ Dutch National Institute for Coastal and Marine Management (RIKZ) }
 \seealso{\link{ncp.grid}
 
 E.J. Pebesma, R.N.M. Duin, P.A. Burrough, 2005. Mapping Sea Bird

@@ -1,3 +1,8 @@
+2019-07-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, R/krige.R, R/krigeTg.R, R/predict.gstat.R,
+	inst/ChangeLog: fix #51
+
 2019-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/krigeST.R, R/stVariogramModels.R, R/turningLayers.R: make time

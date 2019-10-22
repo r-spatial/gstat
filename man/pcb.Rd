@@ -32,14 +32,12 @@ want to use these data for any other purpose, you should first contact
 that several normalisations were carried out that are not reported here,
 nor in the paper below. }
 
-\references{ \url{http://www.gstat.org/}, \url{http://www.rikz.nl/} 
-
+\references{ 
 Pebesma, E. J., & Duin, R. N. M. (2005). Spatial patterns of temporal
 change in North Sea sediment quality on different spatial scales. In
 P. Renard, H. Demougeot-Renard & R. Froidevaux (Eds.), Geostatistics for
 Environmental Applications: Proceedings of the Fifth European Conference
 on Geostatistics for Environmental Applications (pp. 367-378): Springer.
-
 }
 
 \seealso{\link{ncp.grid}}

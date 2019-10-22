@@ -129,6 +129,7 @@ jura.pred <- as.data.frame(jura.pred)
 coordinates(jura.pred) = ~ long + lat
 proj4string(jura.pred) = CRS("+init=epsg:4326")
 # display in Google Earth
+\dontrun{
 if (require(maptools)) {
   kmlPoints(jura.pred,
 		kmlfile="JuraPred.kml",
@@ -148,5 +149,5 @@ if (require(maptools)) {
     coordnames(jura.pred.ch) = c("X","Y")
   }
 }
-
+}
 }

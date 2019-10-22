@@ -1,6 +1,8 @@
 # version 2.0-3
 
-*  fix `krigeTg` for the case when data or newdata are of class `sf` or `sfc`; #51
+* fix bug in support for `sf` objects; #46
+
+* fix `krigeTg` for the case when data or newdata are of class `sf` or `sfc`; #51
 
 # version 2.0-1
 
