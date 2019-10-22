@@ -1,3 +1,12 @@
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog, man/fulmar.Rd, man/jura.Rd, man/pcb.Rd: 
+	update
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: should address #53
+
 2019-07-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION, NEWS.md, R/krige.R, R/krigeTg.R, R/predict.gstat.R,
