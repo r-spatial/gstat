@@ -74,7 +74,6 @@ Haslett and Raftery proposed to use a sqrt-transform to stabilize the variance.
 }
 \keyword{datasets}
 \examples{
-dev.off()
 data(wind)
 summary(wind)
 wind.loc
@@ -92,7 +91,6 @@ if (require(mapdata)) {
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
 # time series of e.g. Dublin data:
 plot(DUB~time, wind, type= 'l', ylab = "windspeed (knots)", main = "Dublin")
-dev.off()
 
 # fig 2:
 #wind = wind[!(wind$month == 2 & wind$day == 29),]
@@ -103,7 +101,6 @@ windsqrt = windsqrt - mean(windsqrt)
 daymeans = sapply(split(windsqrt, wind$jday), mean)
 plot(daymeans ~ Jday)
 lines(lowess(daymeans ~ Jday, f = 0.1))
-dev.off()
 
 # subtract the trend:
 meanwind = lowess(daymeans ~ Jday, f = 0.1)$y[wind$jday]
@@ -120,7 +117,6 @@ plot(as.vector(corv[sel]) ~ as.vector(dists[sel]),
 	xlim = c(0,500), ylim = c(.4, 1), xlab = "distance (km.)", 
 	ylab = "correlation") 
 # plots all points twice, ignores zero distance 
-dev.off()
 
 # now really get fig 3:
 ros = rownames(corv) == "ROS"

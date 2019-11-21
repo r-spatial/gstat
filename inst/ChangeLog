@@ -1,5 +1,13 @@
 2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* .travis.yml: travis
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog: version bump
+
+2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* NEWS.md, inst/ChangeLog, man/fulmar.Rd, man/jura.Rd, man/pcb.Rd: 
 	update
 
