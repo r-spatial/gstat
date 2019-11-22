@@ -92,15 +92,14 @@ Computers \& Geosciences, 30: 683-691.
 library(sp)
 library(spacetime)
 sumMetricVgm <- vgmST("sumMetric",
-                      space=vgm( 4.4, "Lin", 196.6,  3),
-                      time =vgm( 2.2, "Lin",   1.1,  2),
-                      joint=vgm(34.6, "Exp", 136.6, 12),
-                      stAni=51.7)
+                      space = vgm( 4.4, "Lin", 196.6,  3),
+                      time  = vgm( 2.2, "Lin",   1.1,  2),
+                      joint = vgm(34.6, "Exp", 136.6, 12),
+                      stAni = 51.7)
 
 data(air)
-
-if (!exists("rural"))
-	rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
+suppressWarnings(proj4string(stations) <- CRS(proj4string(stations)))
+rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
 
 rr <- rural[,"2005-06-01/2005-06-03"]
 rr <- as(rr,"STSDF")

@@ -16,9 +16,8 @@ data(vv)
 library(spacetime)
 library(gstat)
 data(air)
-
-if (!exists("rural"))
-	rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
+suppressWarnings(proj4string(stations) <- CRS(proj4string(stations)))
+rural = STFDF(stations, dates, data.frame(PM10 = as.vector(air)))
 rr = rural[,"2005::2010"]
 unsel = which(apply(as(rr, "xts"), 2, function(x) all(is.na(x))))
 r5to10 = rr[-unsel,]

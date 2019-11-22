@@ -200,7 +200,7 @@ variogram(g)
 
 if (require(rgdal)) {
   proj4string(meuse) = CRS("+init=epsg:28992")
-  meuse.ll = spTransform(meuse, CRS("+proj=longlat +datum=WGS84 +ellps=WGS84"))
+  meuse.ll = spTransform(meuse, CRS("+proj=longlat +datum=WGS84"))
 # variogram of unprojected data, using great-circle distances, returning km as units
   variogram(log(zinc) ~ 1, meuse.ll)
 }
