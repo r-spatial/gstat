@@ -1,3 +1,12 @@
+2019-11-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/krigeST.Rd, man/variogram.Rd, man/vv.Rd: fighting PROJ6 mess;
+	#56
+
+2019-11-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, man/wind.Rd: remove dev.off()s from wind docs
+
 2019-10-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* .travis.yml: travis

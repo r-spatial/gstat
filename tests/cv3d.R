@@ -1,3 +1,4 @@
+options(digits = 4)
 set.seed(1131)
 d = data.frame(x=runif(50),y=runif(50),z=runif(50),v=rnorm(50))
 library(gstat)
