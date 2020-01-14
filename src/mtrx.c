@@ -1,6 +1,7 @@
 /* interface roughly follows meschach; implementation rewritten from scratch */
 
 #include <string.h> /* memcpy, memset */
+#include <math.h> /* fabs */
 
 #include "R_ext/Lapack.h"
 
@@ -10,6 +11,9 @@
 #include "glvars.h" /* gl_blas */
 #include "debug.h"
 #include "mtrx.h"
+
+/* get rid of -0.000000 output: */
+#define _zero_(x) (fabs(x) < 1.e-7 ? 0.0 : x)
 
 /* 0. book keeping: initialisation, memory allocation, zero, copy, print */
 
@@ -151,7 +155,7 @@ void m_logoutput(MAT * a) {
 		printlog("c(");
 		for (j = 0, tmp = 2; j < a->n; j++, tmp++) {
 			/* for each col in row: */
-			printlog("%9f", ME(a, i, j));
+			printlog("%9f", _zero_(ME(a, i, j)));
 			if (j + 1 < a->n)
 				printlog(", ");
 			else 
@@ -180,7 +184,7 @@ void v_logoutput(VEC * x) {
 	}
 	printlog("c(");
 	for (i = 0, tmp = 0; i < x->dim; i++, tmp++) {
-		printlog("%9f", x->ve[i]);
+		printlog("%9f", _zero_(x->ve[i]));
 		if (i + 1 < x->dim)
 			printlog(", ");
 	}

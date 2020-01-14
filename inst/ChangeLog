@@ -1,3 +1,10 @@
+2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, src/mtrx.c, tests/allier.R,
+	tests/allier.Rout.save, tests/merge.Rout.save, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save,
+	tests/windst.R, tests/windst.Rout.save: clean up tests
+
 2020-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, tests/stars.R: tests
