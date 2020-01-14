@@ -1,5 +1,5 @@
 
-R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -17,7 +17,7 @@ Type 'q()' to quit R.
 
 > # 0. using sp:
 > 
-> library(sp)
+> suppressPackageStartupMessages(library(sp))
 > demo(meuse, ask = FALSE)
 
 
@@ -53,7 +53,7 @@ Type 'q()' to quit R.
 > meuse.area = SpatialPolygons(list(Polygons(list(Polygon(meuse.area)), "area")))
 
 > proj4string(meuse.area) <- crs
-> library(gstat)
+> suppressPackageStartupMessages(library(gstat))
 > v = variogram(log(zinc)~1, meuse)
 > (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
   model      psill    range
@@ -65,8 +65,7 @@ Type 'q()' to quit R.
 [using ordinary kriging]
 > 
 > # 1. using sf:
-> library(sf)
-Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
+> suppressPackageStartupMessages(library(sf))
 > demo(meuse_sf, ask = FALSE, echo = FALSE)
 > # reloads meuse as data.frame, so
 > demo(meuse, ask = FALSE)
@@ -105,7 +104,6 @@ Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 
 > proj4string(meuse.area) <- crs
 > 
-> library(gstat)
 > v = variogram(log(zinc)~1, meuse_sf)
 > (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
   model      psill    range
@@ -124,18 +122,9 @@ Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 > 
 > # 2. using stars for grid:
 > 
-> library(rgdal)
-rgdal: version: 1.4-3, (SVN revision 828)
- Geospatial Data Abstraction Library extensions to R successfully loaded
- Loaded GDAL runtime: GDAL 2.4.0, released 2018/12/14
- Path to GDAL shared files: /usr/share/gdal
- GDAL binary built with GEOS: TRUE 
- Loaded PROJ.4 runtime: Rel. 5.2.0, September 15th, 2018, [PJ_VERSION: 520]
- Path to PROJ.4 shared files: (autodetected)
- Linking to sp version: 1.3-1 
+> suppressPackageStartupMessages(library(rgdal))
 > writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
-> library(stars)
-Loading required package: abind
+> suppressPackageStartupMessages(library(stars))
 > (st0 = setNames(read_stars("meuse.tif"), "dist"))
 stars object with 2 dimensions and 1 attribute
 attribute(s):
@@ -153,18 +142,16 @@ x    1  78 178440    40 +proj=sterea +lat_0=52.15... FALSE   NULL [x]
 y    1 104 333760   -40 +proj=sterea +lat_0=52.15... FALSE   NULL [y]
 > st = st_as_stars(meuse.grid)
 > all.equal(st_dimensions(st0), st_dimensions(st))
-[1] "Component \"x\": Component \"refsys\": 1 string mismatch"                              
-[2] "Component \"x\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
-[3] "Component \"y\": Component \"refsys\": 1 string mismatch"                              
-[4] "Component \"y\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
+[1] "Component \"x\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
+[2] "Component \"y\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
 > st_crs(st0)
 Coordinate Reference System:
   No EPSG code
-  proj4string: "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs"
+  proj4string: "+proj=sterea +lat_0=52.1561605555556 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 > st_crs(st)
 Coordinate Reference System:
   No EPSG code
-  proj4string: "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.2369,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812 +units=m +no_defs"
+  proj4string: "+proj=sterea +lat_0=52.1561605555556 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs"
 > 
 > # compare inputs:
 > sp = as(st, "Spatial")
@@ -184,6 +171,7 @@ Coordinate Reference System:
 > 
 > # kriging:
 > st_crs(st) = st_crs(meuse_sf) # GDAL roundtrip messes them up!
+> st_crs(meuse_sf) = st_crs(st)$proj4string # GDAL roundtrip messes them up!
 > k_st = if (Sys.getenv("USER") == "travis") {
 + 	try(krige(log(zinc)~1, meuse_sf, st, v.fit))
 + } else {
@@ -247,9 +235,7 @@ band
 > all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 [1] TRUE
 > 
-> library(stars)
-> library(sp)
-> library(spacetime)
+> suppressPackageStartupMessages(library(spacetime))
 > 
 > Sys.setenv(TZ="")
 > tm = as.POSIXct("2019-02-25 15:37:24 CET")
@@ -502,4 +488,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  2.249   0.060   2.301 
+  2.430   0.067   2.488 

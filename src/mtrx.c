@@ -151,7 +151,7 @@ void m_logoutput(MAT * a) {
 		printlog("c(");
 		for (j = 0, tmp = 2; j < a->n; j++, tmp++) {
 			/* for each col in row: */
-			printlog("%9g", ME(a, i, j));
+			printlog("%9f", ME(a, i, j));
 			if (j + 1 < a->n)
 				printlog(", ");
 			else 
@@ -180,7 +180,7 @@ void v_logoutput(VEC * x) {
 	}
 	printlog("c(");
 	for (i = 0, tmp = 0; i < x->dim; i++, tmp++) {
-		printlog("%9g", x->ve[i]);
+		printlog("%9f", x->ve[i]);
 		if (i + 1 < x->dim)
 			printlog(", ");
 	}

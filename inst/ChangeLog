@@ -1,3 +1,7 @@
+2020-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R: tests
+
 2019-12-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, tests/cv3d.R, tests/cv3d.Rout.save: limit cv3d

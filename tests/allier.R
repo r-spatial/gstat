@@ -23,6 +23,6 @@ g$set = list(choleski = 0) # LDL'
 A <- predict(g, SpatialPoints(data.frame(x=450, y=350)), debug = 32)
 g$set = list(choleski = 1) # Choleski
 B <- predict(g, SpatialPoints(data.frame(x=450, y=350)), debug = 32)
-identical(A,B)
+all.equal(A,B)
 
 # TRUE

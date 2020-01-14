@@ -1,5 +1,5 @@
 
-R version 3.5.3 (2019-03-11) -- "Great Truth"
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
 Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -15,9 +15,10 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(sp)
-> library(spacetime)
-> library(gstat)
+> suppressPackageStartupMessages(library(sp))
+> suppressPackageStartupMessages(library(spacetime))
+> suppressPackageStartupMessages(library(gstat))
+> suppressPackageStartupMessages(library(stars))
 > 
 > data(wind)
 > wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
@@ -86,9 +87,6 @@ Checking rgeos availability: TRUE
 +           time = vgm(1, "Exp", 1.5 * 3600 * 24),
 +           sill = 0.6)
 > wind.ST = krigeST(sqrt(values)~1, w, STF(grd, tgrd), v)
-[Using the following time unit: secs]
-[Using the following time unit: secs]
-[Using the following time unit: secs]
 Warning message:
 In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
   The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
@@ -99,17 +97,10 @@ In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
 > #}
 > 
 > # stars:
-> library(stars)
-Loading required package: abind
-Loading required package: sf
-Linking to GEOS 3.7.0, GDAL 2.4.0, PROJ 5.2.0
 > df = data.frame(a = rep(NA, 324*10))
 > s = STF(grd, tgrd)
 > newd = addAttrToGeom(s, df)
 > wind.sta = krigeST(sqrt(values)~1, st_as_stars(w), st_as_stars(newd), v)
-[Using the following time unit: secs]
-[Using the following time unit: secs]
-[Using the following time unit: secs]
 Warning message:
 In krigeST(sqrt(values) ~ 1, st_as_stars(w), st_as_stars(newd),  :
   The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
@@ -154,4 +145,4 @@ x2 5535500 6309500
 > 
 > proc.time()
    user  system elapsed 
-  3.137   0.104   3.233 
+  3.186   0.112   3.289 

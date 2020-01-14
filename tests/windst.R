@@ -1,6 +1,7 @@
-library(sp)
-library(spacetime)
-library(gstat)
+suppressPackageStartupMessages(library(sp))
+suppressPackageStartupMessages(library(spacetime))
+suppressPackageStartupMessages(library(gstat))
+suppressPackageStartupMessages(library(stars))
 
 data(wind)
 wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
@@ -72,7 +73,6 @@ all.equal(wind.pr0, wind.ST)
 #}
 
 # stars:
-library(stars)
 df = data.frame(a = rep(NA, 324*10))
 s = STF(grd, tgrd)
 newd = addAttrToGeom(s, df)

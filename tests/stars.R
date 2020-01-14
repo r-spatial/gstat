@@ -1,20 +1,19 @@
 # 0. using sp:
 
-library(sp)
+suppressPackageStartupMessages(library(sp))
 demo(meuse, ask = FALSE)
-library(gstat)
+suppressPackageStartupMessages(library(gstat))
 v = variogram(log(zinc)~1, meuse)
 (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
 k_sp = krige(log(zinc)~1, meuse[-(1:5),], meuse[1:5,], v.fit)
 k_sp_grd = krige(log(zinc)~1, meuse, meuse.grid, v.fit)
 
 # 1. using sf:
-library(sf)
+suppressPackageStartupMessages(library(sf))
 demo(meuse_sf, ask = FALSE, echo = FALSE)
 # reloads meuse as data.frame, so
 demo(meuse, ask = FALSE)
 
-library(gstat)
 v = variogram(log(zinc)~1, meuse_sf)
 (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
 k_sf = krige(log(zinc)~1, meuse_sf[-(1:5),], meuse_sf[1:5,], v.fit)
@@ -24,9 +23,9 @@ all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 
 # 2. using stars for grid:
 
-library(rgdal)
+suppressPackageStartupMessages(library(rgdal))
 writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
-library(stars)
+suppressPackageStartupMessages(library(stars))
 (st0 = setNames(read_stars("meuse.tif"), "dist"))
 st = st_as_stars(meuse.grid)
 all.equal(st_dimensions(st0), st_dimensions(st))
@@ -56,9 +55,7 @@ st_as_stars(raster::stack(k_sp_grd)) # check
 
 all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 
-library(stars)
-library(sp)
-library(spacetime)
+suppressPackageStartupMessages(library(spacetime))
 
 Sys.setenv(TZ="")
 tm = as.POSIXct("2019-02-25 15:37:24 CET")
