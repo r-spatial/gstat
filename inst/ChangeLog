@@ -1,5 +1,9 @@
 2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, src/mtrx.c, tests/merge.Rout.save: silence tests
+
+2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* inst/ChangeLog, src/mtrx.c, tests/allier.R,
 	tests/allier.Rout.save, tests/merge.Rout.save, tests/stars.R,
 	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save,
