@@ -1,3 +1,11 @@
+# version 2.0-5
+
+* fix bug with conditional simulation when nsim=1, #58
+
+# version 2.0-4
+
+* fix CRAN warning issue
+
 # version 2.0-3
 
 * fix bug in support for `sf` objects; #46

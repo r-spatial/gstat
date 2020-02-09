@@ -81,9 +81,12 @@ sim_to_dimension = function(st, nsim) {
 				names = c(nms, "sample")), vars[i])
 		}
 		do.call(c, l)
-	} else
-		setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")),
-			"var1") # this won't work for multivariable simulations
+	} else {
+		if (nsim > 1)
+			setNames(stars::st_set_dimensions(merge(st), names = c(nms, "sample")), "var1")
+		else
+			st
+	}
 }
 
 setMethod(krige, signature("formula", "ST"),
