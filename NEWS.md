@@ -1,6 +1,6 @@
 # version 2.0-5
 
-* fix bug with conditional simulation when nsim=1, #58
+* fix bug with conditional simulation using `stars` target grid and nsim=1, #58
 
 # version 2.0-4
 
