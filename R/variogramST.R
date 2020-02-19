@@ -116,21 +116,29 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 	if (progress)
 	  pb = txtProgressBar(style = 3, max = length(tlags))
 	if (cores == 1){
-	  future::plan(sequential)
+    for (dt in seq(along = tlags)) {
+      ret[[dt]] = StVgmLag(formula, data, tlags[dt], pseudo = pseudo, 
+                          boundaries = boundaries, ...)
+      ret[[dt]]$id = paste("lag", dt - 1, sep="")
+      if (progress)
+        setTxtProgressBar(pb, dt)
+    }
 	} else {
+    if(!requireNamespace("future", quietly = TRUE) & !requireNamespace("future.apply", quietly = TRUE))
+      stop("For parallelization, future and future.apply packages are required")
 	  future::plan('multiprocess', workers = cores)
+  	ret <- split(seq(along=tlags), seq(along=tlags))
+    ret <- future.apply::future_lapply(X = ret,
+                                      FUN = function(x){
+                                        xx <- StVgmLag(formula, data, tlags[x], pseudo = pseudo, 
+                                                        boundaries = boundaries, ...)
+                                        xx$id <- paste("lag", x - 1, sep="")
+                                        if (progress)
+                                          setTxtProgressBar(pb, x)
+                                        return(xx)
+                                      })
 	}
 	
-	ret <- split(seq(along=tlags), seq(along=tlags))
-	ret <- future.apply::future_lapply(X = ret,
-	                                   FUN = function(x){
-	                                     xx <- StVgmLag(formula, data, tlags[x], pseudo = pseudo, 
-	                                                    boundaries = boundaries, ...)
-	                                     xx$id <- paste("lag", x - 1, sep="")
-	                                     if (progress)
-	                                       setTxtProgressBar(pb, x)
-	                                     return(xx)
-	                                   })
 	if (progress)
 		close(pb)
 	# add time lag:
@@ -220,8 +228,9 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
     if (cores == 1){
       tmpInd[,3] <- apply(tmpInd[,1:2,drop=FALSE], 1, function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
     } else {
+      if(!requireNamespace("future", quietly = TRUE) & !requireNamespace("future.apply", quietly = TRUE))
+        stop("For parallelization, future and future.apply packages are required")
       future::plan("multiprocess", workers = cores)
-      
       tmpInd[,3] <- future_apply(X = tmpInd[,1:2,drop=FALSE], MARGIN = 1, 
                                  FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
     }
