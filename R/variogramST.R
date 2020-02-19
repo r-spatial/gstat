@@ -78,7 +78,7 @@ StVgmLag = function(formula, data, dt, pseudo, ...) {
 variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff, 
                        width = cutoff/15, boundaries=seq(0,cutoff,width),
                        progress = interactive(), pseudo = TRUE, 
-                       assumeRegular=FALSE, na.omit=FALSE) {
+                       assumeRegular=FALSE, na.omit=FALSE, cores = 1) {
 	if (missing(data))
 		data = locations
 
@@ -111,18 +111,26 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 		warning("strictly irregular time steps were assumed to be regular")
 		twidth = mean(diff(it))
 	}
-	ret = vector("list", length(tlags))
 	obj = NULL
 	t = twidth * tlags
 	if (progress)
-		pb = txtProgressBar(style = 3, max = length(tlags))
-	for (dt in seq(along = tlags)) {
-		ret[[dt]] = StVgmLag(formula, data, tlags[dt], pseudo = pseudo, 
-                         boundaries = boundaries, ...)
-		ret[[dt]]$id = paste("lag", dt - 1, sep="")
-		if (progress)
-			setTxtProgressBar(pb, dt)
+	  pb = txtProgressBar(style = 3, max = length(tlags))
+	if (cores == 1){
+	  future::plan(sequential)
+	} else {
+	  future::plan('multiprocess', workers = cores)
 	}
+	
+	ret <- split(seq(along=tlags), seq(along=tlags))
+	ret <- future.apply::future_lapply(X = ret,
+	                                   FUN = function(x){
+	                                     xx <- StVgmLag(formula, data, tlags[x], pseudo = pseudo, 
+	                                                    boundaries = boundaries, ...)
+	                                     xx$id <- paste("lag", x - 1, sep="")
+	                                     if (progress)
+	                                       setTxtProgressBar(pb, x)
+	                                     return(xx)
+	                                   })
 	if (progress)
 		close(pb)
 	# add time lag:
@@ -159,7 +167,7 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 ## very irregular data
 variogramST.STIDF <- function (formula, data, tlags, cutoff, 
                                width, boundaries, progress, 
-                               twindow, tunit) {
+                               twindow, tunit, cores = 1) {
   ll = !is.na(is.projected(data@sp)) && !is.projected(data@sp)
   
   if (missing(cutoff))
@@ -209,7 +217,14 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
     tmpInd <- matrix(NA,nrow=length(ind),4)
     tmpInd[,1] <- ind %% nData  # row number
     tmpInd[,2] <- (ind %/% nData)+1 # col number
-    tmpInd[,3] <- apply(tmpInd[,1:2,drop=FALSE], 1, function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+    if (cores == 1){
+      tmpInd[,3] <- apply(tmpInd[,1:2,drop=FALSE], 1, function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+    } else {
+      future::plan("multiprocess", workers = cores)
+      
+      tmpInd[,3] <- future_apply(X = tmpInd[,1:2,drop=FALSE], MARGIN = 1, 
+                                 FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+    }
     tmpInd[,4] <- diffTimeMat[tmpInd[,1:2, drop=FALSE]]
     
     # spatial selection
