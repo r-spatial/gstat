@@ -1,3 +1,7 @@
+2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #63 from r-spatial/sigmafelix-master Sigmafelix master
+
 2020-02-19  Insang Song <sigmafelix@hotmail.com>
 
 	* DESCRIPTION, NAMESPACE, R/variogramST.R: CI test
