@@ -1,3 +1,28 @@
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* DESCRIPTION, NAMESPACE, R/variogramST.R: CI test
+
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* NAMESPACE: Update NAMESPACE
+
+2020-02-19  Insang Song <sigmafelix@hotmail.com>
+
+	* R/variogramST.R: Update variogramST.R
+
+2020-02-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md: news entry
+
+2020-02-09  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, R/krige.R: fixes #58
+
+2020-01-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, inst/ChangeLog, tests/stars.Rout.save: CRAN
+	submission 2.0.4
+
 2020-01-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, src/mtrx.c, tests/merge.Rout.save: silence tests
