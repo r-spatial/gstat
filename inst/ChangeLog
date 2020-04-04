@@ -1,3 +1,11 @@
+2020-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, tests/stars.R: version bump; robustify test
+
+2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog: news
+
 2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : Merge pull request #63 from r-spatial/sigmafelix-master Sigmafelix master

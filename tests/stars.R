@@ -39,7 +39,7 @@ all.equal(sp, meuse.grid["dist"], check.attributes = FALSE)
 all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
 
 # kriging:
-st_crs(st) = st_crs(meuse_sf) # GDAL roundtrip messes them up!
+st_crs(st) = st_crs(meuse_sf) = NA # GDAL roundtrip messes them up!
 k_st = if (Sys.getenv("USER") == "travis") {
 	try(krige(log(zinc)~1, meuse_sf, st, v.fit))
 } else {
