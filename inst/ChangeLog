@@ -1,5 +1,9 @@
 2020-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog, tests/stars.R: travis
+
+2020-04-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
 	* DESCRIPTION, tests/stars.R: version bump; robustify test
 
 2020-02-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>

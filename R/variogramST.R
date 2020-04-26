@@ -115,22 +115,23 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 	t = twidth * tlags
 	if (progress)
 	  pb = txtProgressBar(style = 3, max = length(tlags))
-	if (cores == 1){
-    	for (dt in seq(along = tlags)) {
-      		ret[[dt]] = StVgmLag(formula, data, tlags[dt], pseudo = pseudo, 
-                          	boundaries = boundaries, ...)
-      		ret[[dt]]$id = paste("lag", dt - 1, sep="")
-      		if (progress)
-        		setTxtProgressBar(pb, dt)
-    	}
+	if (cores == 1) {
+		ret = vector("list", length(tlags))
+		for (dt in seq(along = tlags)) {
+	  		ret[[dt]] = StVgmLag(formula, data, tlags[dt], pseudo = pseudo, 
+						  	boundaries = boundaries, ...)
+	  		ret[[dt]]$id = paste("lag", dt - 1, sep="")
+	  		if (progress)
+				setTxtProgressBar(pb, dt)
+		}
 	} else {
-    	if (!requireNamespace("future", quietly = TRUE) || 
+		if (!requireNamespace("future", quietly = TRUE) || 
 				!requireNamespace("future.apply", quietly = TRUE))
-      		stop("For parallelization, future and future.apply packages are required")
+	  		stop("For parallelization, future and future.apply packages are required")
 
 	  	future::plan('multiprocess', workers = cores)
   		ret <- split(seq(along=tlags), seq(along=tlags))
-    	ret <- future.apply::future_lapply(X = ret,
+		ret <- future.apply::future_lapply(X = ret,
 				FUN = function(x){
 					xx <- StVgmLag(formula, data, tlags[x], pseudo = pseudo, 
 					boundaries = boundaries, ...)
@@ -149,7 +150,7 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 	v$timelag = rep(t, sapply(ret, nrow))
 	if (is(t, "yearmon"))
 		class(v$timelag) = "yearmon"
-    
+
 	b = attr(ret[[min(length(tlags),2)]], "boundaries")
 	b = c(0, b[2]/1e6, b[-1])
 	# ix = findInterval(v$dist, b) will use all spacelags
@@ -165,7 +166,7 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 
 	class(v) = c("StVariogram", "data.frame")
 	if(na.omit)
-    v <- na.omit(v)
+	v <- na.omit(v)
 
 	# setting attributes to allow krigeST to check units
 	attr(v$timelag, "units") <- attr(twidth,"units")
