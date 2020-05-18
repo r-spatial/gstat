@@ -1,5 +1,5 @@
 Package: gstat
-Version: 2.0-5
+Version: 2.0-6
 Title: Spatial and Spatio-Temporal Geostatistical Modelling, Prediction
         and Simulation
 Authors@R: c(person(given = "Edzer", 
