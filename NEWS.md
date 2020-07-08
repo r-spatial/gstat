@@ -1,3 +1,7 @@
+# version 2.0-6
+
+* fixes `object 'ret' not found` bug introduced by #63; #65 #66 #70
+
 # version 2.0-5
 
 * use multiple cores in `variogramST`, using pkg future; #63 by @sigmafelix
