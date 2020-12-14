@@ -345,6 +345,9 @@ void gls(DATA **d /* pointer to DATA array */,
 
 	M_DEBUG(C0, "Covariances (x_i, x_0), C0");
 
+	/* https://github.com/r-spatial/gstat/issues/80 : */
+	if (glm->C == NULL)
+		ErrMsg(ER_IMPOSVAL, "covariance matrix NULL;\nsee: https://github.com/r-spatial/gstat/issues/80");
 /* 
  * calculate CinvC0: 
  */
