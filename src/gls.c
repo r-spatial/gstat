@@ -161,7 +161,6 @@ void gls(DATA **d /* pointer to DATA array */,
 		}
 		fill_est(NULL, blup, MSPE, n_vars, est); /* in case of empty neighbourhood */
 	}
-	/* xxx */
 	/*
 	logprint_variogram(v, 1);
 	*/
@@ -254,6 +253,7 @@ void gls(DATA **d /* pointer to DATA array */,
 					where->x, where->y, where->z);
 				m_free(glm->C); glm->C = MNULL; /* assure re-entrance if global */
 				P_FREE(piv);
+				set_mv_double(&est[0]);
 				return;
 			}
 			if (piv == NULL)
@@ -278,6 +278,7 @@ void gls(DATA **d /* pointer to DATA array */,
 					where->x, where->y, where->z);
 				m_free(glm->C); glm->C = MNULL; /* assure re-entrance if global */
 				P_FREE(piv);
+				set_mv_double(&est[0]);
 				return;
 			}
 /* 
@@ -346,8 +347,13 @@ void gls(DATA **d /* pointer to DATA array */,
 	M_DEBUG(C0, "Covariances (x_i, x_0), C0");
 
 	/* https://github.com/r-spatial/gstat/issues/80 : */
-	if (glm->C == NULL)
-		ErrMsg(ER_IMPOSVAL, "covariance matrix NULL;\nsee: https://github.com/r-spatial/gstat/issues/80");
+	if (glm->C == NULL) {
+		/* ErrMsg(ER_IMPOSVAL, "covariance matrix NULL;\nsee: https://github.com/r-spatial/gstat/issues/80"); */
+		pr_warning("C or X'C-1 X matrix singular at location [%g,%g,%g]: skipping...",
+					where->x, where->y, where->z);
+		set_mv_double(&est[0]);
+		return; /* xxx: return NA's? */
+	}
 /* 
  * calculate CinvC0: 
  */
