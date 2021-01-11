@@ -456,8 +456,12 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 		msim = get_msim();
 		for (i = pos = 0; i < nvars; i++)
 			for (j = 0; j < gl_nsim; j++) 
-				for (k = 0; k < n; k++)
-					REAL(retvector)[pos++] = msim[i][k][j];
+				for (k = 0; k < n; k++) {
+					if (is_mv_float(&(msim[i][k][j])))
+						REAL(retvector)[pos++] = NA_REAL;
+					else
+						REAL(retvector)[pos++] = msim[i][k][j];
+				}
 		REAL(retvector_dim)[1] = nvars * gl_nsim; /* ncols */
 	} else {
 		PROTECT(retvector = allocVector(REALSXP, n * nest));
