@@ -87,6 +87,8 @@ jobs:
         run: |
           sudo apt-get install libcurl4-openssl-dev libgit2-dev libharfbuzz-dev libfribidi-dev
           tlmgr install ae
+          tlmgr install multirow
+          tlmgr install natbib
 
       - name: "[Custom] [Stage] [Linux] Install pkgdown system lib req"
         if: runner.os == 'Linux' && matrix.config.r == 'release'
