@@ -15,3 +15,4 @@ ChangeLog
 ^\.Rproj\.user$
 ^docs$
 ^\.github$
+tic.R
