@@ -100,7 +100,7 @@ jobs:
           # conflicts with gfortran from r-lib/actions when linking gcc
           rm '/usr/local/bin/gfortran'
           brew install pkg-config gdal proj geos
-		  tlmgr install ae
+          tlmgr install ae
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
