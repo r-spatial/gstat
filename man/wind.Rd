@@ -84,7 +84,7 @@ coordinates(wind.loc) = ~x+y
 # fig 1:
 if (require(mapdata)) {
     map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
-    plot(wind.loc, add=TRUE, pch=16)
+    points(wind.loc, pch=16)
     text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
 }
 
