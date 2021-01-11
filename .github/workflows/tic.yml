@@ -90,6 +90,7 @@ jobs:
           tlmgr install multirow
           tlmgr install natbib
           tlmgr install caption
+          tlmgr install setspace
 
       - name: "[Custom] [Stage] [Linux] Install pkgdown system lib req"
         if: runner.os == 'Linux' && matrix.config.r == 'release'
