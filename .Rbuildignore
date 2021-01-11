@@ -14,3 +14,4 @@ ChangeLog
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^docs$
+^\.github$
