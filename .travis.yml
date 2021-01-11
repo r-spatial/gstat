@@ -1,6 +1,6 @@
 language: r
 sudo: required
-dist: trusty
+dist: focal
 cache:
 #  - packages
   - ccache
