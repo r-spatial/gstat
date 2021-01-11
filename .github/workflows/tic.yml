@@ -84,7 +84,9 @@ jobs:
 
       - name: "[Stage] [Linux] Install curl"
         if: runner.os == 'Linux'
-        run: sudo apt-get install libcurl4-openssl-dev libgit2-dev
+        run: |
+          sudo apt-get install libcurl4-openssl-dev libgit2-dev libharfbuzz-dev libfribidi-dev
+          tlmgr install ae
 
       - name: "[Custom] [Stage] [Linux] Install pkgdown system lib req"
         if: runner.os == 'Linux' && matrix.config.r == 'release'
@@ -100,7 +102,6 @@ jobs:
           # conflicts with gfortran from r-lib/actions when linking gcc
           rm '/usr/local/bin/gfortran'
           brew install pkg-config gdal proj geos
-          tlmgr install ae
 
       - name: "[Stage] Install"
         if: matrix.config.os != 'macOS-latest' || matrix.config.r != 'devel'
