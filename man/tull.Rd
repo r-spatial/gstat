@@ -97,5 +97,5 @@ cl.st$y = tull36[match(cl.st[,"Station"], row.names(tull36)), "y"]
 # xyplot(y~x|Date, cl.st, asp="iso", layout=c(16,11))
 summary(cl.st)
 plot(TULLNREG, pch=3, asp=1)
-points(y~x, cl.st, add=TRUE, pch=16)
+points(y~x, cl.st, pch=16)
 }

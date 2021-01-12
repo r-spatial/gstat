@@ -81,12 +81,13 @@ library(sp) # char2dms
 wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
 wind.loc$x = as.numeric(char2dms(as.character(wind.loc[["Longitude"]])))
 coordinates(wind.loc) = ~x+y
+
 # fig 1:
-if (require(mapdata)) {
-    map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
-    points(wind.loc, pch=16)
-    text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
-}
+library(maps)
+library(mapdata)
+map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
+points(wind.loc, pch=16)
+text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
 
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
 # time series of e.g. Dublin data:
