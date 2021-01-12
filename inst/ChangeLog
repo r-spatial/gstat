@@ -1,3 +1,7 @@
+2020-07-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, inst/ChangeLog: bump version
+
 2020-05-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION, inst/ChangeLog: bump version
