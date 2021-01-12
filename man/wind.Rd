@@ -82,16 +82,17 @@ wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
 wind.loc$x = as.numeric(char2dms(as.character(wind.loc[["Longitude"]])))
 coordinates(wind.loc) = ~x+y
 
+\dontrun{
 # fig 1:
 library(maps)
 library(mapdata)
 map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
 points(wind.loc, pch=16)
 text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
+}
 
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
 # time series of e.g. Dublin data:
-\dontrun{
 plot(DUB~time, wind, type= 'l', ylab = "windspeed (knots)", main = "Dublin")
 
 # fig 2:
@@ -132,5 +133,4 @@ points(corv[ros,!ros] ~ dists[ros,!ros], pch=16, cex=.5)
 xdiscr = 1:500
 # add correlation model:
 lines(xdiscr, .968 * exp(- .00134 * xdiscr))
-}
 }
