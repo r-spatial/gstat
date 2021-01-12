@@ -90,6 +90,7 @@ if (require(mapdata)) {
 
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
 # time series of e.g. Dublin data:
+\dontrun{
 plot(DUB~time, wind, type= 'l', ylab = "windspeed (knots)", main = "Dublin")
 
 # fig 2:
@@ -117,7 +118,6 @@ plot(as.vector(corv[sel]) ~ as.vector(dists[sel]),
 	xlim = c(0,500), ylim = c(.4, 1), xlab = "distance (km.)", 
 	ylab = "correlation") 
 # plots all points twice, ignores zero distance 
-
 # now really get fig 3:
 ros = rownames(corv) == "ROS"
 dists.nr = dists[!ros,!ros]
@@ -131,4 +131,5 @@ points(corv[ros,!ros] ~ dists[ros,!ros], pch=16, cex=.5)
 xdiscr = 1:500
 # add correlation model:
 lines(xdiscr, .968 * exp(- .00134 * xdiscr))
+}
 }
