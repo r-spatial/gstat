@@ -123,7 +123,7 @@ jobs:
         run: Rscript -e 'tic::script()'
 
       - name: "[Stage] After Success"
-        if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'release'
+        if: matrix.config.os == 'ubuntu-latest' && matrix.config.r == 'devel'
         run: Rscript -e "tic::after_success()"
 
       - name: "[Stage] Upload R CMD check artifacts"
