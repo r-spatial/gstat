@@ -82,12 +82,14 @@ wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
 wind.loc$x = as.numeric(char2dms(as.character(wind.loc[["Longitude"]])))
 coordinates(wind.loc) = ~x+y
 
+\dontrun{
 # fig 1:
 library(maps)
 library(mapdata)
 map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
 points(wind.loc, pch=16)
 text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
+}
 
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
 # time series of e.g. Dublin data:
@@ -118,7 +120,6 @@ plot(as.vector(corv[sel]) ~ as.vector(dists[sel]),
 	xlim = c(0,500), ylim = c(.4, 1), xlab = "distance (km.)", 
 	ylab = "correlation") 
 # plots all points twice, ignores zero distance 
-
 # now really get fig 3:
 ros = rownames(corv) == "ROS"
 dists.nr = dists[!ros,!ros]
