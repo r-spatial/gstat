@@ -215,7 +215,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 				fullgrid(ret) = returnFullGrid
 			}
 		}
-		proj4string(ret) = CRS(proj4string(newdata))
+		slot(ret, "proj4string") = slot(newdata, "proj4string")
 		if (to_sf) {
 			ret = if (to_stars) {
 					if (!requireNamespace("stars", quietly = TRUE))
