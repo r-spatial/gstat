@@ -99,7 +99,7 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 	}
 	if(is(data, "STIDF"))
 		return(variogramST.STIDF(formula, data, tlags, cutoff, width, 
-                             boundaries, progress, ...))
+                             boundaries, progress, cores = cores, ...))
   
 	stopifnot(is(data, "STFDF") || is(data, "STSDF"))
 	it = index(data@time)
