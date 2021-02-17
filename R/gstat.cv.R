@@ -16,7 +16,7 @@ function (object, nfold = nrow(object$data[[1]]$data), remove.all = FALSE,
 		cc = coordinates(data)
 		rownames(cc) = NULL
 		df = data.frame(matrix(as.numeric(NA), nrow(data), 2))
-		ret = SpatialPointsDataFrame(cc, df)
+		ret = SpatialPointsDataFrame(cc, df, proj4string = data@proj4string)
 	}
 	if (missing(nfold)) 
 		nfold = 1:nrow(data)
@@ -50,7 +50,7 @@ function (object, nfold = nrow(object$data[[1]]$data), remove.all = FALSE,
 				at1 = coordinates(data[sel,])
 				cc = rbind(atv, at1)
 				rownames(cc) = NULL # as there will be duplicates
-				all = SpatialPoints(cc)
+				all = SpatialPoints(cc, proj4string = data@proj4string)
 				zd = zerodist(all)
 				skip = zd[, 1]
 				object$data[[v]]$data = varv$data[-skip, ]
