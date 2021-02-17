@@ -38,7 +38,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		name = names(object$data)[i]
 		d = object$data[[i]]
 		if (!is.null(d$data)) {
-			if (!identical(proj4string(d$data), proj4string(newdata))) {
+			if (!identical(d$data@proj4string, newdata@proj4string)) {
 				print(proj4string(d$data))
 				print(proj4string(newdata))
 				stop(paste(name, ": data item in gstat object and newdata have different coordinate reference systems"))

@@ -75,7 +75,7 @@ function (g, id, formula, locations,
         g = list()
         g[["data"]] = list()
         g[["model"]] = list()
-    } else if (!dummy && !identical(proj4string(g$data[[1]]$data), proj4string(data)))
+    } else if (!dummy && !identical(g$data[[1]]$data@proj4string, data@proj4string))
 		stop("data items in gstat object have different coordinate reference systems")
     if (missing(id)) 
         id = paste("var", length(g$data) + 1, sep = "")

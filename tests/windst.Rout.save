@@ -1,6 +1,6 @@
 
-R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 4.0.4 (2021-02-15) -- "Lost Library Book"
+Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -58,7 +58,7 @@ Checking rgeos availability: TRUE
 > 
 > # setup grid
 > grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),
-+ 	proj4string = proj4string(m))
++ 	proj4string = m@proj4string)
 > # grd$t = rep(1, nrow(grd))
 > #coordinates(grd) = ~x1+x2
 > #gridded(grd)=TRUE
@@ -145,4 +145,4 @@ x2 5535500 6309500
 > 
 > proc.time()
    user  system elapsed 
-  3.186   0.112   3.289 
+  3.815   0.096   3.904 

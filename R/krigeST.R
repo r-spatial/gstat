@@ -65,7 +65,7 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   } else
     FALSE
   stopifnot(inherits(data, c("STF", "STS", "STI")) & inherits(newdata, c("STF", "STS", "STI"))) 
-  if (!identical(proj4string(data@sp), proj4string(newdata@sp)))
+  if (!identical(data@sp@proj4string, newdata@sp@proj4string))
   	message(paste("please verify that the following two proj4strings indicate identical CRS", 
 	   "\n", "and in case they are not, reproject to a common CRS before proceeding:",
     	proj4string(data@sp), "and", proj4string(newdata@sp)))

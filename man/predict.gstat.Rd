@@ -151,13 +151,8 @@ columns of the conditional Gaussian or indicator simulations
 \references{ 
 N.A.C. Cressie, 1993, Statistics for Spatial Data, Wiley. 
 
-\url{http://www.gstat.org/}
-
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers \& Geosciences, 30: 683-691.
-
-For bucket PR quadtrees, excellent demos are found at
-\url{http://www.cs.umd.edu/~brabec/quadtree/index.html}
 }
 \author{ Edzer Pebesma }
 

@@ -142,7 +142,7 @@ STx2SpatialPoints = function(x, multiplyTimeWith = 1.0) {
 	t2 = as.numeric(x@endTime)
 	time = multiplyTimeWith * (t1 + t2) / 2
 	cc = cbind(coordinates(x), time)
-	SpatialPoints(cc, proj4string = CRS(proj4string(x))) 
+	SpatialPoints(cc, proj4string = x@sp@proj4string) 
 }
 
 STxDF2SpatialPointsDataFrame = function(x, multiplyTimeWith = 1.0) { 
@@ -154,7 +154,7 @@ SpatialPointsDataFrame2STxDF = function(x, class, tz = "",
 		origin = as.POSIXct("1970-01-01",tz=tz)) { 
 	cc = coordinates(x)
 	time = as.POSIXct(cc[,ncol(cc)], tz=tz, origin = origin)
-	sp = SpatialPoints(cc[,-ncol(cc)], proj4string = CRS(proj4string(x)))
+	sp = SpatialPoints(cc[,-ncol(cc)], proj4string = x@sp@proj4string)
 	st = as(STI(sp, time), class)
 	addAttrToGeom(STI(sp, time), x@data)
 }

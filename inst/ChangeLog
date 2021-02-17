@@ -1,3 +1,146 @@
+2021-02-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/gstat.cv.R: fixes #84 in a slightly different way.
+
+2021-01-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: addresses #79
+
+2021-01-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #83 from rsbivand/master convert CRS(proj4string(.)) to slot(. "projstring") and same for
+	proj…
+
+2021-01-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit c44ce6ba7d99d58d6ed22ae99ff336f603de4b11 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Wed Jan 13 20:22:37
+	2021 +0100
+
+2021-01-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit d3a3dddb05ad55e4e19d34f8e2fbd6fd2b3ea4ae Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Wed Jan 13 07:44:40
+	2021 +0100
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/wind.Rd: fix wind.Rd (skip map)
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 1354a0e1570c251f911e1336b221db5514681767 Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Tue Jan 12 19:03:52
+	2021 +0100
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* cleanup, docs/LICENSE-text.html, docs/authors.html,
+	docs/index.html, docs/news/index.html, docs/pkgdown.css,
+	docs/pkgdown.js, docs/pkgdown.yml, docs/reference/DE_RB_2005.html,
+	docs/reference/coalash.html, docs/reference/estiStAni.html,
+	docs/reference/extractPar.html,
+	docs/reference/fit.StVariogram.html, docs/reference/fit.lmc.html,
+	docs/reference/fit.variogram.gls.html,
+	docs/reference/fit.variogram.html,
+	docs/reference/fit.variogram.reml.html, docs/reference/fulmar.html,
+	docs/reference/get.contr.html, docs/reference/gstat-internal.html,
+	docs/reference/gstat.html, docs/reference/hscat.html,
+	docs/reference/image.html, docs/reference/index.html,
+	docs/reference/jura.html, docs/reference/krige.cv.html,
+	docs/reference/krige.html, docs/reference/krigeST.html,
+	docs/reference/krigeSTSimTB.html, docs/reference/krigeSimCE.html,
+	docs/reference/krigeTg.html, docs/reference/map.to.lev.html,
+	docs/reference/meuse.all.html, docs/reference/meuse.alt.html,
+	docs/reference/ncp.grid.html, docs/reference/ossfim.html,
+	docs/reference/oxford.html, docs/reference/pcb.html,
+	docs/reference/plot.gstatVariogram.html,
+	docs/reference/plot.pointPairs.html,
+	docs/reference/plot.variogramCloud.html,
+	docs/reference/predict.gstat.html, docs/reference/progress.html,
+	docs/reference/show.vgms.html, docs/reference/sic2004.html,
+	docs/reference/sic97.html, docs/reference/spplot.vcov.html,
+	docs/reference/tull.html, docs/reference/variogram.html,
+	docs/reference/variogramLine.html, docs/reference/variogramST.html,
+	docs/reference/variogramSurface.html, docs/reference/vgm.html,
+	docs/reference/vgm.panel.html, docs/reference/vgmArea.html,
+	docs/reference/vgmAreaST.html, docs/reference/vgmST.html,
+	docs/reference/vv.html, docs/reference/walker.html,
+	docs/reference/wind.html, man/tull.Rd, man/wind.Rd: update
+
+2021-01-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit 61c8869e3d39d905323a0d265835414c6dc0801f Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Tue Jan 12 14:59:01
+	2021 +0100
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* man/wind.Rd: remove add parameter
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tabs
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: gs+qpdf
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlgmr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: caption
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: spaces
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: typo
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: tlmgr 2
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, .github/workflows/tic.yml: tlmgr
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tic.R: add tic.R
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/R-CMD-check.yaml, .github/workflows/tic.yml: use
+	tic
+
+2021-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit be4b56da6438f40bc481f2a645b34962d712832e Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Mon Jan 11 18:58:57
+	2021 +0100
+
+2020-12-15  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md, inst/ChangeLog, src/gls.c, src/s.c: fix #80
+
+2020-12-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/gls.c: prevent segfault in #80
+
 2020-07-08  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION, NEWS.md, inst/ChangeLog: bump version

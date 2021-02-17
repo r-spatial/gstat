@@ -39,7 +39,7 @@ m = spTransform(m, utm29)
 
 # setup grid
 grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),
-	proj4string = proj4string(m))
+	proj4string = m@proj4string)
 # grd$t = rep(1, nrow(grd))
 #coordinates(grd) = ~x1+x2
 #gridded(grd)=TRUE
