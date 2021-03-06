@@ -139,7 +139,8 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 					if (progress)
 						setTxtProgressBar(pb, x)
 					return(xx)
-				}
+				},
+				future.seed = NULL # silence warning
 			)
 	}
 	
@@ -236,7 +237,8 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
         stop("For parallelization, future and future.apply packages are required")
       future::plan("multiprocess", workers = cores)
       tmpInd[,3] <- future.apply::future_apply(X = tmpInd[,1:2,drop=FALSE], MARGIN = 1, 
-                                 FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+                                 FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]),
+                                 future.seed = NULL)
     }
     tmpInd[,4] <- diffTimeMat[tmpInd[,1:2, drop=FALSE]]
     
