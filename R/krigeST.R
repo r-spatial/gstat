@@ -59,16 +59,17 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
       stop("sf required: install that first") # nocov
     if (!requireNamespace("stars", quietly = TRUE))
       stop("stars required: install that first") # nocov
+    if (sf::st_crs(data) != sf::st_crs(newdata))
+      warning("CRS for data and newdata are not identical; assign CRS or use st_transform to correct")
     data = as(data, "STFDF")
     newdata = as(newdata, "STFDF")
     TRUE
-  } else
+  } else {
+    if (!identical(data@sp@proj4string, newdata@sp@proj4string))
+  	  message("please verify that the CRSs of data and newdata are identical, or transform them first to make them identical")
     FALSE
+  }
   stopifnot(inherits(data, c("STF", "STS", "STI")) & inherits(newdata, c("STF", "STS", "STI"))) 
-  if (!identical(data@sp@proj4string, newdata@sp@proj4string))
-  	message(paste("please verify that the following two proj4strings indicate identical CRS", 
-	   "\n", "and in case they are not, reproject to a common CRS before proceeding:",
-    	proj4string(data@sp), "and", proj4string(newdata@sp)))
   stopifnot(class(data@time) == class(newdata@time))
   stopifnot(nmax > 0)
   
