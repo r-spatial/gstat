@@ -1,3 +1,19 @@
+2021-03-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramST.R: try to suppress future.apply warning
+
+2021-03-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: more CRS check cleanup
+
+2021-02-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/circEmbed.R, R/gstat.R, R/krige.R, R/krige0.R, R/krigeST.R,
+	R/predict.gstat.R, R/variogram.gstat.R, inst/ChangeLog,
+	man/predict.gstat.Rd, tests/stars.Rout.save, tests/windst.R,
+	tests/windst.Rout.save: crs fixes remove uses of proj4string(x), using x@proj4string instead so that
+	the wkt field does not get lost.
+
 2021-02-17  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/gstat.cv.R: fixes #84 in a slightly different way.
