@@ -309,6 +309,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
 		if (!is.null(u))
 			ylab = paste(ylab, " (", u, ")", sep="")
 	}
+	x$timelag = as.numeric(x$timelag)
   
   # check for older spatio-temporal variograms and compute avgDist on demand
   if(is.null(x$avgDist)) {
@@ -422,6 +423,7 @@ estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm
   if (!is.na(t.range))
     empVgm <- empVgm[empVgm$timelag <= t.range,]
   
+  empVgm$timelag = as.numeric(empVgm$timelag) # in case it is of class difftime, messes up on R 4.1
   switch(method,
          linear = estiStAni.lin(empVgm, interval),
          range = estiAni.range(empVgm, spatialVgm, temporalVgm),
@@ -434,11 +436,11 @@ estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm
 estiStAni.lin <- function(empVgm, interval) {
   lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == 0,])
   
-  optFun <- function(stAni) {
+  optFun <- function(stAni, empVgm) {
     sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == 0,]$timelag*stAni)) - empVgm[empVgm$spacelag == 0,]$gamma)^2, na.rm=TRUE))
   }
   
-  optimise(optFun, interval)$minimum  
+  optimise(optFun, interval, empVgm = empVgm)$minimum  
 }
 
 # range

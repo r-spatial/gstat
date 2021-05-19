@@ -627,6 +627,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
   if (!is.null(tu.obj))
     stopifnot(identical(tunit, tu.obj))
   
+  object$timelag = as.numeric(object$timelag) # needed for R 4.1
   object <- na.omit(object)
   
   ret <- model
