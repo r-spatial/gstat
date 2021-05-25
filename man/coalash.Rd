@@ -18,7 +18,7 @@ for the Robena Mine Property in Greene County Pennsylvania.
 data(coalash)
 }
 \author{ unknown; R version prepared by Edzer Pebesma; data obtained from
-\url{http://www.stat.uiowa.edu/~dzimmer/spatialstats/}, Dale Zimmerman's
+\url{http://homepage.divms.uiowa.edu/~dzimmer/spatialstats/}, Dale Zimmerman's
 course page }
 \references{ N.A.C. Cressie, 1993, Statistics for Spatial Data,
 Wiley. 

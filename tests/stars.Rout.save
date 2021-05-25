@@ -15,6 +15,8 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> Sys.setenv(TZ = "UTC")
+> 
 > # 0. using sp:
 > 
 > suppressPackageStartupMessages(library(sp))
@@ -588,4 +590,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  2.862   0.068   2.923 
+  3.088   0.081   3.162 
