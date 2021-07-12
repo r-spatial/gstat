@@ -452,7 +452,7 @@ estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
   
   spatialVgm <- fit.variogram(spEmpVgm, spatialVgm)
   
-  tmpEmpVgm <- empVgm[empVgm$spacelag == min(empVgm$timelag,]
+  tmpEmpVgm <- empVgm[empVgm$spacelag == min(empVgm$timelag),]
   class(tmpEmpVgm) <- c("gstatVariogram","data.frame")
   tmpEmpVgm <- tmpEmpVgm[-1,c("np","timelag","gamma")]
   colnames(tmpEmpVgm) <- c("np", "dist", "gamma")
