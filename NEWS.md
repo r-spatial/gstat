@@ -1,3 +1,7 @@
+# version 2.0-7
+
+* return `NA` as estimate when prediction/simulation fails; #80
+
 # version 2.0-6
 
 * fixes `object 'ret' not found` bug introduced by #63; #65 #66 #70

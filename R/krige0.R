@@ -34,7 +34,10 @@ CHsolve = function(A, b) {
 krige0 <- function(formula, data, newdata, model, beta, y, ..., 
                    computeVar = FALSE, fullCovariance = FALSE) {
   
-  stopifnot(identical(proj4string(data), proj4string(newdata)))
+  if (inherits(data, "ST"))
+  	stopifnot(identical(data@sp@proj4string, newdata@sp@proj4string))
+  else
+  	stopifnot(identical(data@proj4string, newdata@proj4string))
   lst = extractFormula(formula, data, newdata)
   X = lst$X
   x0 = lst$x0

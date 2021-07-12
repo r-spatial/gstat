@@ -1,3 +1,5 @@
+Sys.setenv(TZ = "UTC")
+
 # 0. using sp:
 
 suppressPackageStartupMessages(library(sp))

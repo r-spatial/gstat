@@ -154,7 +154,7 @@ krigeSimCE <- function(formula, data, newdata, model, n = 1, ext = 2) {
   stopifnot(is(model, "variogramModel"))
   stopifnot(gridded(newdata))
   if (!missing(data))
-    stopifnot(identical(proj4string(data), proj4string(newdata)))
+    stopifnot(identical(data@proj4string, newdata@proj4string))
   
   varName <- all.vars(formula[[2]])
   

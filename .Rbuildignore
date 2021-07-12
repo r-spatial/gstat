@@ -14,3 +14,5 @@ ChangeLog
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^docs$
+^\.github$
+tic.R

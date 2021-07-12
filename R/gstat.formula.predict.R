@@ -7,7 +7,7 @@ function (formula, newdata, na.action, BLUE.estimates = FALSE, xlev = NULL)
 		# locs = coordinates(getSpatialPolygonsLabelPoints(newdata)) -- deprecated, now use:
 
 		locs = t(sapply(slot(newdata, "polygons"), function(x) slot(x, "labpt")))
-		SpatialPoints(locs, CRS(proj4string(newdata)))
+		SpatialPoints(locs, slot(newdata, "proj4string"))
 		locs = coordinates(locs)
 
 		colnames(locs) = c("x", "y")
@@ -24,7 +24,7 @@ function (formula, newdata, na.action, BLUE.estimates = FALSE, xlev = NULL)
 			)
 		)
 		ret = t(sapply(ret, function(x) apply(x, 1, mean)))
-		locs = coordinates(SpatialPoints(ret, CRS(proj4string(newdata))))
+		locs = coordinates(SpatialPoints(ret, slot(newdata, "proj4string")))
 		colnames(locs) = c("x", "y")
 
 		if (is(newdata, "SpatialLinesDataFrame"))

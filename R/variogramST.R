@@ -139,7 +139,8 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 					if (progress)
 						setTxtProgressBar(pb, x)
 					return(xx)
-				}
+				},
+				future.seed = NULL # silence warning
 			)
 	}
 	
@@ -236,7 +237,8 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
         stop("For parallelization, future and future.apply packages are required")
       future::plan("multiprocess", workers = cores)
       tmpInd[,3] <- future.apply::future_apply(X = tmpInd[,1:2,drop=FALSE], MARGIN = 1, 
-                                 FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+                                 FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]),
+                                 future.seed = NULL)
     }
     tmpInd[,4] <- diffTimeMat[tmpInd[,1:2, drop=FALSE]]
     
@@ -307,6 +309,7 @@ plot.StVariogram = function(x, model=NULL, ..., col = bpy.colors(), xlab, ylab,
 		if (!is.null(u))
 			ylab = paste(ylab, " (", u, ")", sep="")
 	}
+	x$timelag = as.numeric(x$timelag)
   
   # check for older spatio-temporal variograms and compute avgDist on demand
   if(is.null(x$avgDist)) {
@@ -420,6 +423,7 @@ estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm
   if (!is.na(t.range))
     empVgm <- empVgm[empVgm$timelag <= t.range,]
   
+  empVgm$timelag = as.numeric(empVgm$timelag) # in case it is of class difftime, messes up on R 4.1
   switch(method,
          linear = estiStAni.lin(empVgm, interval),
          range = estiAni.range(empVgm, spatialVgm, temporalVgm),
@@ -434,9 +438,8 @@ estiStAni.lin <- function(empVgm, interval) {
   
   optFun <- function(stAni) {
     sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == min(empVgm$spacelag,]$timelag*stAni)) - empVgm[empVgm$spacelag == min(empVgm$spacelag),]$gamma)^2, na.rm=TRUE))
-  }
   
-  optimise(optFun, interval)$minimum  
+  optimise(optFun, interval, empVgm = empVgm)$minimum  
 }
 
 # range

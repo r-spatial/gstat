@@ -12,7 +12,7 @@
 	for (i in seq(along = object$data)) {
 		d = object$data[[i]]
 		beta[[i]] = d$beta
-		if (i > 1 && !identical(proj4string(object$data[[1]]$data), proj4string(d$data)))
+		if (i > 1 && !identical(object$data[[1]]$data@proj4string, d$data@proj4string))
 			stop("data items in gstat object have different coordinate reference systems")
 		raw = gstat.formula(d$formula, d$data)
 		y[[i]] = raw$y
