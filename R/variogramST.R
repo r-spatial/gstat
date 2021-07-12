@@ -434,10 +434,10 @@ estiStAni <- function(empVgm, interval, method="linear", spatialVgm, temporalVgm
 
 # linear
 estiStAni.lin <- function(empVgm, interval) {
-  lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == min(empVgm$timelag,])
+  lmSp <- lm(gamma~dist, empVgm[empVgm$timelag == min(empVgm$timelag),])
   
   optFun <- function(stAni) {
-    sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == min(empVgm$spacelag,]$timelag*stAni)) - empVgm[empVgm$spacelag == min(empVgm$spacelag),]$gamma)^2, na.rm=TRUE))
+    sqrt(mean((predict(lmSp, newdata = data.frame(dist=empVgm[empVgm$spacelag == min(empVgm$spacelag),]$timelag*stAni)) - empVgm[empVgm$spacelag == min(empVgm$spacelag),]$gamma)^2, na.rm=TRUE))
   
   optimise(optFun, interval, empVgm = empVgm)$minimum  
 }
