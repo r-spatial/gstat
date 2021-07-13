@@ -1,3 +1,17 @@
+2021-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog, man/coalash.Rd, tests/stars.R,
+	tests/stars.Rout.save: update
+
+2021-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/external/no2.csv: add no2.csv
+
+2021-05-19  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/stVariogramModels.R, R/variogramST.R: fixes for R 4.1, related
+	to difftime
+
 2021-03-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, tests/unproj.R, tests/unproj.Rout.save: CRAN
