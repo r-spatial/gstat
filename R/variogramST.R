@@ -442,7 +442,6 @@ estiStAni.lin <- function(empVgm, interval) {
   optimise(optFun, interval, empVgm = empVgm)$minimum  
 }
 
-}
 # range
 estiAni.range <- function(empVgm, spatialVgm, temporalVgm) {
   spEmpVgm <- empVgm[empVgm$timelag == min(empVgm$timelag),]
