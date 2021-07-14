@@ -13,16 +13,12 @@ STsolve = function(A, b, X) {
   # S Y = c0 -> Y = solve(S, c0)
   # L T = Y -> Tt Lt = Yt -> Lt = solve(Tt, Yt)
   #Tm = chol(A$Tm, LINPACK=TRUE)
-  A_Tm = as(A$Tm, 'Matrix')
-  A_Sm = as(A$Sm, 'Matrix')
-  
-  
-  Tm = Matrix::chol(A_Tm)
+  Tm = chol(A$Tm)
   #Sm = chol(A$Sm, LINPACK=TRUE)
-  Sm = Matrix::chol(A_Sm)
+  Sm = chol(A$Sm)
   STbacksolve = function(Tm, Cm, Sm) { 
     MyChSolve = function(A, b)
-      Matrix::solve(A, Matrix::solve(A, b, upper.tri = TRUE, transpose = TRUE))
+      backsolve(A, forwardsolve(A, b, upper.tri = TRUE, transpose = TRUE))
     # Y = MyChSolve(Sm, Cm)
     # L = MyChSolve(Tm, t(Y))
     # as.vector(t(L))
@@ -31,12 +27,12 @@ STsolve = function(A, b, X) {
   # b comes separated:
   ret1 = apply(b$T, 2, function(x1) 
     apply(b$S, 2, function(x2)
-      STbacksolve(Tm, Matrix(x1 %x% x2, nrow(Sm), nrow(Tm)), Sm)))
+      STbacksolve(Tm, matrix(x1 %x% x2, nrow(Sm), nrow(Tm)), Sm)))
   d = dim(ret1)
   dim(ret1) = c(d[1] / ncol(b$S), d[2] * ncol(b$S))
   # X comes full:
   ret2 = apply(X, 2, function(x) 
-    STbacksolve(Tm, Matrix(x, nrow(Sm), nrow(Tm)), Sm))
+    STbacksolve(Tm, matrix(x, nrow(Sm), nrow(Tm)), Sm))
   cbind(ret1, ret2)
 }
 
@@ -171,20 +167,17 @@ krigeST.df <- function(formula, data, newdata, modelList, beta, y, ...,
     npts = length(newdata)
     ViX = skwts[,-(1:npts)]
     skwts = skwts[,1:npts]
-    X = as(X, 'Matrix')
-    ViX = as(ViX, 'Matrix')
-
-    beta = Matrix::solve(t(X) %*% ViX, t(ViX) %*% y)
+    beta = solve(t(X) %*% ViX, t(ViX) %*% y)
     if (computeVar) {
       # get (x0-X'C-1 c0)'(X'C-1X)-1 (x0-X'C-1 c0) -- precompute term 1+3:
       if(is.list(v0)) # in the separable case
-        v0 = Matrix::kronecker(v0$Tm, v0$Sm)
+        v0 = v0$Tm %x% v0$Sm
       Q = t(x0) - t(ViX) %*% v0
       # suggested by Marius Appel
       var = c0 - apply(v0 * skwts, 2, sum) + apply(Q * CHsolve(t(X) %*% ViX, Q), 2, sum)
       if (fullCovariance) {
         corMat <- cov2cor(covfn.ST(newdata, newdata, modelList))
-        var <- corMat*Matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
+        var <- corMat*matrix(sqrt(var) %x% sqrt(var), nrow(corMat), ncol(corMat))
         # var = c0 - t(v0) %*% skwts + t(Q) %*% CHsolve(t(X) %*% ViX, Q)
         # return(list(pred=pred, var=var))
       }
@@ -192,7 +185,6 @@ krigeST.df <- function(formula, data, newdata, modelList, beta, y, ...,
   }
   
   pred = x0 %*% beta + t(skwts) %*% (y - X %*% beta)
-  pred = as(pred, 'matrix')
   
   if(computeVar) {
     if (fullCovariance)
