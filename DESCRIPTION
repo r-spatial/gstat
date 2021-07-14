@@ -11,7 +11,7 @@ Authors@R: c(person(given = "Edzer",
 Description: Variogram modelling; simple, ordinary and universal point or block (co)kriging; spatio-temporal kriging; sequential Gaussian or indicator (co)simulation; variogram and variogram map plotting utility functions; supports sf and stars.
 Depends: R (>= 2.10)
 Imports: utils, stats, graphics, methods, lattice, sp (>= 0.9-72), zoo,
-        spacetime (>= 1.0-0), FNN
+        spacetime (>= 1.0-0), FNN, Matrix
 Suggests: fields, maps, mapdata, maptools, rgdal (>= 0.5.2), rgeos, sf
         (>= 0.7-2), stars (>= 0.3-0), xts, raster, future, future.apply
 License: GPL (>= 2.0)
