@@ -30,6 +30,7 @@ importFrom(zoo, zoo, is.regular)
 import(sp)
 import(spacetime)
 import(FNN)
+import(Matrix)
 
 export(as.vgm.variomodel,
 	cross.name,
