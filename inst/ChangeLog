@@ -1,3 +1,7 @@
+2021-07-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog: update changelog
+
 2021-05-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION, inst/ChangeLog, man/coalash.Rd, tests/stars.R,

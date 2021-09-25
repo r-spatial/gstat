@@ -1,9 +1,12 @@
 /* interface roughly follows meschach; implementation rewritten from scratch */
-
 #include <string.h> /* memcpy, memset */
 #include <math.h> /* fabs */
 
+#define USE_FC_LEN_T
 #include "R_ext/Lapack.h"
+#ifndef FCONE
+# define FCONE
+#endif
 
 #include "defs.h" /* CDECL */
 #include "utils.h" /* efree, emalloc */
@@ -249,7 +252,7 @@ VEC *vm_mlt(MAT *m, VEC *v, VEC *out) { /* out <- v m */
 		double alpha = 1.0, beta = 0.0;
 		int one = 1;
 		F77_CALL(dgemv)("T", (int *) &(m->m), (int *) &(m->n), &alpha, m->v, 
-			(int *) &(m->m), v->ve, &one, &beta, out->ve, &one);
+			(int *) &(m->m), v->ve, &one, &beta, out->ve, &one FCONE);
 	}
 	return(out);
 }
@@ -268,7 +271,7 @@ VEC *mv_mlt(MAT *m, VEC *v, VEC *out) { /* out <- m v */
 		double alpha = 1.0, beta = 0.0;
 		int one = 1;
 		F77_CALL(dgemv)("N", (int *) &(m->m), (int *) &(m->n), &alpha, m->v, 
-			(int *) &(m->m), v->ve, &one, &beta, out->ve, &one);
+			(int *) &(m->m), v->ve, &one, &beta, out->ve, &one FCONE);
 	}
 	return(out);
 }
@@ -290,7 +293,7 @@ MAT *m_mlt(MAT *m1, MAT *m2, MAT *out) { /* out <- m1 %*% m2 */
 		F77_CALL(dgemm)("N", "N", (int *) &(m1->m), (int *) &(m2->n), (int *) &(m1->n), &alpha, 
 			m1->v, (int *)&(m1->m), 
 			m2->v, (int *)&(m2->m), 
-			&beta, out->v, (int *) &(m1->m));
+			&beta, out->v, (int *) &(m1->m) FCONE FCONE);
 	}
 	return(out);
 }
@@ -310,7 +313,7 @@ MAT *mtrm_mlt(MAT *m1, MAT *m2, MAT *out) { /* out <- t(m1) %*% m2 */
 		F77_CALL(dgemm)("T", "N", (int *) &(m1->n), (int *) &(m2->n), (int *) &(m1->m), &alpha, 
 			m1->v, (int *)&(m1->m), 
 			m2->v, (int *)&(m2->m), 
-			&beta, out->v, (int *) &(m1->n));
+			&beta, out->v, (int *) &(m1->n) FCONE FCONE);
 	}
 	return(out);
 }
@@ -329,7 +332,7 @@ MAT *mmtr_mlt(MAT *m1, MAT *m2, MAT *out) { /* out <- m1 m2' */
 		F77_CALL(dgemm)("N", "T", (int *) &(m1->m), (int *) &(m2->m), (int *) &(m1->n), &alpha, 
 			m1->v, (int *)&(m1->m), 
 			m2->v, (int *)&(m2->m), 
-			&beta, out->v, (int *) &(m1->m));
+			&beta, out->v, (int *) &(m1->m) FCONE FCONE);
 	}
 	return(out);
 }
@@ -383,7 +386,7 @@ MAT *CHfactor(MAT *m, PERM *piv, int *info) {
 			ME(m, i, j) = 0.0; /* zero lower triangle of Fortran order */
 
 	if (piv == PNULL) { /* Choleski: */
-		F77_CALL(dpotrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), info);
+		F77_CALL(dpotrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), info, (FC_LEN_T) 5);
 		if (*info != 0) {
 	    	if (*info > 0 && DEBUG_COV)
 				warning("the leading minor of order %d is not positive definite", *info);
@@ -396,10 +399,10 @@ MAT *CHfactor(MAT *m, PERM *piv, int *info) {
 		double w, *work;
 		/* first query for size of work, then allocate work, then factorize m: */
 		int lwork = -1;
-		F77_CALL(dsytrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), (int *) piv->pe, &w, &lwork, info);
+		F77_CALL(dsytrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), (int *) piv->pe, &w, &lwork, info, (FC_LEN_T) 5);
 		lwork = (int) w;
 		work = emalloc(lwork * sizeof(double));
-		F77_CALL(dsytrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), (int *) piv->pe, work, &lwork, info);
+		F77_CALL(dsytrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), (int *) piv->pe, work, &lwork, info, (FC_LEN_T) 5);
 		efree(work);
 		if (*info != 0) {
 	    	if (*info > 0 && DEBUG_COV)
@@ -419,9 +422,9 @@ MAT *CHsolve(MAT *m, MAT *b, MAT *out, PERM *piv) { /* solve A X = B after facto
 		error("CHsolve: b does not match m");
 	out = m_copy(b, out); /* column-major */
 	if (piv == PNULL) /* Choleski */
-		F77_CALL(dpotrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m),          out->v, (int *) &(m->m), &info);
+		F77_CALL(dpotrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m),          out->v, (int *) &(m->m), &info, (FC_LEN_T) 5);
 	else /* LDL' */
-		F77_CALL(dsytrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m), piv->pe, out->v, (int *) &(m->m), &info);
+		F77_CALL(dsytrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m), piv->pe, out->v, (int *) &(m->m), &info, (FC_LEN_T) 5);
 	if (info < 0)
 		error("CHsolve: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
 	return(out);
@@ -435,9 +438,9 @@ VEC *CHsolve1(MAT *m, VEC *b, VEC *out, PERM *piv) { /* solve A x = b after fact
 		error("CHsolve1: vector b does not match m");
 	out = v_copy(b, out);
 	if (piv == PNULL) 
-		F77_CALL(dpotrs)("U", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m),          out->ve, (int *) &(m->m), &info);
+		F77_CALL(dpotrs)("U", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m),          out->ve, (int *) &(m->m), &info FCONE);
 	else
-		F77_CALL(dsytrs)("L", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m), piv->pe, out->ve, (int *) &(m->m), &info);
+		F77_CALL(dsytrs)("L", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m), piv->pe, out->ve, (int *) &(m->m), &info FCONE);
 	if (info < 0)
 		error("CHsolve1: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
 	return(out);

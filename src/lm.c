@@ -197,6 +197,8 @@ static void predict_lm(LM *lm, MAT *X0, double *est) {
 	VEC *blup = VNULL;
 	MAT *tmp = MNULL, *ans = MNULL;
 
+	if (lm->beta == NULL)
+		ErrMsg(ER_IMPOSVAL, "lm->beta NULL: sample too small?");
 	blup = vm_mlt(X0, lm->beta, blup); /* X0' beta = beta'X0 -> vm_ */
 	/*
 	 * Cov(y0^ - y0) = x0'X'X-1 x0 MSErr, or x0'(X'WX)-1 x0 MSErr

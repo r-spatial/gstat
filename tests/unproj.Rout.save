@@ -1,5 +1,5 @@
 
-R version 4.0.4 (2021-02-15) -- "Lost Library Book"
+R version 4.1.1 (2021-08-10) -- "Kick Things"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -84,9 +84,6 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 >   oz = SpatialPointsDataFrame(ozone2$lon.lat, 
 + 		  data.frame(t(ozone2$y)), 
 + 		  proj4string=CRS("+proj=longlat +ellps=WGS84"))
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on WGS84 ellipsoid in Proj4 definition
 >   variogram(X870731~1,oz[!is.na(oz$X870731),])
     np      dist    gamma dir.hor dir.ver   id
 1  197  17.44144 143.5037       0       0 var1
@@ -140,9 +137,6 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 > coordinates(foo) <- ~lon+lat
 > 
 > proj4string(foo) <- CRS('+proj=longlat +ellps=WGS84')
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on WGS84 ellipsoid in Proj4 definition
 > 
 > vg.foo <- variogram(z~1, foo, cloud=TRUE, cutoff=1e10)
 > 
@@ -167,4 +161,4 @@ spDistsN1 Distances:
 > 
 > proc.time()
    user  system elapsed 
-  1.117   0.041   1.151 
+  1.940   0.111   2.065 

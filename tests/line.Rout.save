@@ -1,6 +1,6 @@
 
-R version 3.0.1 (2013-05-16) -- "Good Sport"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 4.1.1 (2021-08-10) -- "Kick Things"
+Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -67,8 +67,11 @@ x 180000 181000
 y 331000 333500
 
 Slot "proj4string":
-CRS arguments: NA 
+Coordinate Reference System:
+Deprecated Proj.4 representation: NA 
 
+Warning message:
+In wkt(x) : CRS object has no comment
 > 
 > points(180333,332167,pch=3,cex=2)
 > 
@@ -138,8 +141,11 @@ x 180000 181000
 y 331000 333500
 
 Slot "proj4string":
-CRS arguments: NA 
+Coordinate Reference System:
+Deprecated Proj.4 representation: NA 
 
+Warning message:
+In wkt(x) : CRS object has no comment
 > compare.krigingLines(log(zinc)~1, meuse, Sl2, v)
 [using ordinary kriging]
 [using ordinary kriging]
@@ -198,9 +204,12 @@ x 180000 181000
 y 331000 333500
 
 Slot "proj4string":
-CRS arguments: NA 
+Coordinate Reference System:
+Deprecated Proj.4 representation: NA 
 
+Warning message:
+In wkt(x) : CRS object has no comment
 > 
 > proc.time()
    user  system elapsed 
-  1.444   0.064   1.513 
+  0.933   0.023   0.950 

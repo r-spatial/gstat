@@ -1,5 +1,5 @@
 
-R version 4.0.4 (2021-02-15) -- "Lost Library Book"
+R version 4.1.1 (2021-08-10) -- "Kick Things"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -108,16 +108,8 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 > meuse.area = SpatialPolygons(list(Polygons(list(Polygon(meuse.area)), "area")))
 
 > proj4string(meuse.area) <- crs
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
 > 
 > v = variogram(log(zinc)~1, meuse_sf)
-Warning messages:
-1: In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on Bessel 1841 ellipsoid in Proj4 definition
-2: In showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
 > (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
   model      psill    range
 1   Nug 0.05066243   0.0000
@@ -127,21 +119,11 @@ Warning messages:
 > 
 > all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = FALSE)
 [1] TRUE
-Warning messages:
-1: In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on Bessel 1841 ellipsoid in Proj4 definition
-2: In showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
 > all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 [1] "Attributes: < Component \"bbox\": Attributes: < Component \"dimnames\": Component 1: 2 string mismatches > >"  
 [2] "Attributes: < Component \"coords\": Attributes: < Component \"dimnames\": Component 2: 2 string mismatches > >"
 [3] "Attributes: < Component \"coords.nrs\": Numeric: lengths (2, 0) differ >"                                      
 [4] "Attributes: < Component \"proj4string\": Attributes: < Component \"comment\": 1 string mismatch > >"           
-Warning messages:
-1: In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on Bessel 1841 ellipsoid in Proj4 definition
-2: In showSRID(SRS_string, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
 > 
 > # 2. using stars for grid:
 > 
@@ -151,14 +133,8 @@ Warning messages:
 > (st0 = setNames(read_stars("meuse.tif"), "dist"))
 stars object with 2 dimensions and 1 attribute
 attribute(s):
-     dist       
- Min.   :0.000  
- 1st Qu.:0.119  
- Median :0.272  
- Mean   :0.297  
- 3rd Qu.:0.440  
- Max.   :0.993  
- NA's   :5009   
+      Min.   1st Qu.   Median      Mean  3rd Qu.     Max. NA's
+dist     0 0.1192915 0.271535 0.2971195 0.440159 0.992607 5009
 dimension(s):
   from  to offset delta              refsys point values x/y
 x    1  78 178440    40 Amersfoort / RD New FALSE   NULL [x]
@@ -255,9 +231,6 @@ PROJCRS["Amersfoort / RD New",
 > 
 > # compare inputs:
 > sp = as(st, "Spatial")
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on Bessel 1841 ellipsoid in Proj4 definition
 > fullgrid(meuse.grid) = TRUE
 > all.equal(sp, meuse.grid["dist"], check.attributes = FALSE)
 [1] "Names: Lengths (5, 1) differ (string compare on first 1)"
@@ -270,7 +243,6 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 [5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
 [6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
 [7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
-[8] "Attributes: < Component 5: Attributes: < Component 2: 1 string mismatch > >"                   
 > 
 > # kriging:
 > st_crs(st) = st_crs(meuse_sf) = NA # GDAL roundtrip messes them up!
@@ -283,14 +255,9 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 > k_st
 stars object with 2 dimensions and 2 attributes
 attribute(s):
-   var1.pred       var1.var     
- Min.   :4.777   Min.   :0.085  
- 1st Qu.:5.238   1st Qu.:0.137  
- Median :5.573   Median :0.162  
- Mean   :5.707   Mean   :0.185  
- 3rd Qu.:6.172   3rd Qu.:0.212  
- Max.   :7.440   Max.   :0.500  
- NA's   :5009    NA's   :5009   
+                Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
+var1.pred  4.7765547 5.2376293 5.5728839 5.7072287 6.1717619 7.4399911 5009
+var1.var   0.0854949 0.1372864 0.1621838 0.1853319 0.2116152 0.5002756 5009
 dimension(s):
   from  to offset delta refsys point values x/y
 x    1  78 178440    40     NA    NA   NULL [x]
@@ -316,14 +283,8 @@ y    1 104 333760   -40 Amersfoort / RD New    NA   NULL [y]
 > st_as_stars(raster::stack(k_sp_grd)) # check
 stars object with 3 dimensions and 1 attribute
 attribute(s):
-   var1.pred    
- Min.   :0.085  
- 1st Qu.:0.212  
- Median :2.000  
- Mean   :2.710  
- 3rd Qu.:5.238  
- Max.   :7.440  
- NA's   :15027  
+                Min.   1st Qu. Median     Mean  3rd Qu.     Max.  NA's
+var1.pred  0.0854949 0.2116778      2 2.710347 5.237542 7.439991 15027
 dimension(s):
      from  to offset delta              refsys point
 x       1  78 178440    40 Amersfoort / RD New    NA
@@ -352,13 +313,8 @@ band var1.pred, var1.var , cls
 > s
 stars object with 3 dimensions and 1 attribute
 attribute(s):
-      foo       
- Min.   : 1.00  
- 1st Qu.:16.75  
- Median :32.50  
- Mean   :32.50  
- 3rd Qu.:48.25  
- Max.   :64.00  
+     Min. 1st Qu. Median Mean 3rd Qu. Max.
+foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
      from to                  offset  delta  refsys point values x/y
 x       1  4                      10    0.5      NA    NA   NULL [x]
@@ -543,13 +499,8 @@ Slot "endTime":
 > (s2 = st_as_stars(s.stfdf))
 stars object with 3 dimensions and 1 attribute
 attribute(s):
-      foo       
- Min.   : 1.00  
- 1st Qu.:16.75  
- Median :32.50  
- Mean   :32.50  
- 3rd Qu.:48.25  
- Max.   :64.00  
+     Min. 1st Qu. Median Mean 3rd Qu. Max.
+foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
      from to                  offset  delta  refsys point values x/y
 x       1  4                      10    0.5      NA    NA   NULL [x]
@@ -574,14 +525,9 @@ drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
 stars object with 3 dimensions and 2 attributes
 attribute(s):
-     zinc             lead        
- Min.   : 101.8   Min.   : 32.78  
- 1st Qu.: 199.6   1st Qu.: 73.03  
- Median : 300.2   Median :107.93  
- Mean   : 399.8   Mean   :133.17  
- 3rd Qu.: 544.0   3rd Qu.:178.82  
- Max.   :1817.2   Max.   :638.94  
- NA's   :25045    NA's   :25045   
+          Min.   1st Qu.   Median     Mean  3rd Qu.      Max.  NA's
+zinc  101.7643 199.59256 300.2140 399.8017 544.0327 1817.2057 25045
+lead   32.7799  73.03151 107.9339 133.1725 178.8162  638.9396 25045
 dimension(s):
        from  to offset delta refsys point        values x/y
 x         1  78 178440    40     NA    NA          NULL [x]
@@ -590,4 +536,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  3.088   0.081   3.162 
+  5.075   0.176   5.243 
