@@ -1,3 +1,9 @@
+2021-09-25  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/gstat.R, inst/ChangeLog, src/lm.c, src/mtrx.c,
+	tests/line.Rout.save, tests/stars.Rout.save, tests/unproj.Rout.save: 
+	add, and use, USE_FC_LEN_T
+
 2021-07-13  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog: update changelog

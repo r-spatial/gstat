@@ -46,13 +46,12 @@ void gstat_error(char *fname, int line, enum Gstat_errno err_nr, const char *msg
 		Rprintf("(%s, line %d)", fname, line);
 
 	if (err_nr == ER_NULL)
-		PROBLEM "NULL error: this indicates a bug, please consider reporting this" ERROR
+		error("NULL error: this indicates a bug, please consider reporting this\n");
 
-	/*	PROBLEM error_messages[level], mess ERROR; */
 	if (msg == NULL)
-		PROBLEM "<NULL> message: indicating a software bug, please report" ERROR
+		error("<NULL> message: indicating a software bug, please report\n");
 	else
-		PROBLEM error_messages[err_nr], msg ERROR
+		error(error_messages[err_nr], msg);
 	return;
 }
 
@@ -80,7 +79,7 @@ void pr_warning(char *fmt, ...) {
 	va_start(args, fmt);
 	vsnprintf(w, ERROR_BUFFER_SIZE, fmt, args);
 	va_end(args);
-	PROBLEM "%s", w WARN
+	warning("%s\n", w);
 }
 
 void printlog(const char *fmt, ...) {

@@ -15,6 +15,8 @@
 #include "debug.h"
 #include "mtrx.h"
 
+#include "R.h"
+
 /* get rid of -0.000000 output: */
 #define _zero_(x) (fabs(x) < 1.e-7 ? 0.0 : x)
 

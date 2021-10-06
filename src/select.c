@@ -39,8 +39,9 @@ static int select_qtree(DATA *d, DPOINT *where)
 	if (IS_GLOBAL(d) || where == NULL) {
 		d->sel = d->list;
 		d->n_sel = d->n_sel_max = d->n_list;
-        if (DEBUG_SEL) 
+        if (DEBUG_SEL) {
         	print_selection(d, where);
+		}
         
 		return d->n_sel;
 	}

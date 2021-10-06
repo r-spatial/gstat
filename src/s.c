@@ -22,7 +22,6 @@
 
 static DATA_GRIDMAP *gstat_S_fillgrid(SEXP gridparams);
 static void gstat_set_block(long i, SEXP block, SEXP block_cols, DPOINT *current);
-static const char VarName[] = "(R Data)";
 int do_print_progress = 0;
 #define NAME_SIZE 20 /* buffer size for name */
 
@@ -67,21 +66,21 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 		ErrMsg(ER_IMPOSVAL, "no data read");
 
 	if (LENGTH(slocs) % n != 0)
-		PROBLEM "dimensions do not match: locations %d and data %ld",
-			(int) LENGTH(slocs), n ERROR;
+		error("dimensions do not match: locations %d and data %ld",
+			(int) LENGTH(slocs), n);
 	dim = LENGTH(slocs) / n;
 	if (dim <= 0)
-		PROBLEM "too few spatial dimensions: %ld", dim ERROR;
+		error("too few spatial dimensions: %ld", dim);
 	if (dim > 3)
-		PROBLEM "too many spatial dimensions: %ld", dim ERROR;
+		error("too many spatial dimensions: %ld", dim);
 	locs = REAL(slocs);
 
 	if (LENGTH(sw) == n)
 		w = REAL(sw);
 
 	if (LENGTH(sX) % n != 0)
-		PROBLEM "dimensions do not match: X %d and data %ld: missing values in data?",
-			(int) LENGTH(sX), n ERROR;
+		error("dimensions do not match: X %d and data %ld: missing values in data?",
+			(int) LENGTH(sX), n);
 	n_X = LENGTH(sX) / n;
 	X = REAL(sX);
 
@@ -126,8 +125,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 		case 3: d[id]->variance_fn = v_bin; break;
 		case 4: d[id]->variance_fn = v_mu2; break;
 		case 5: d[id]->variance_fn = v_mu3; break;
-		default: PROBLEM "unknown variance function %d", 
-				 	INTEGER(vfn)[0] ERROR;
+		default: error("unknown variance function %d", INTEGER(vfn)[0]);
 	}
 	gl_longlat = (INTEGER(is_projected)[0] == 0);
 	d[id]->mode = X_BIT_SET | V_BIT_SET;
@@ -141,19 +139,18 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 	switch(LENGTH(grid)) {
 		case 0: case 1: break; /* empty, i.e., numeric(0) */
 		case 6: d[id]->grid = gstat_S_fillgrid(grid); break;
-		default: PROBLEM 
-			"length of grid topology %d unrecognized", (int) LENGTH(grid) ERROR;
+		default: error("length of grid topology %d unrecognized", (int) LENGTH(grid));
 	}
 	d[id]->polynomial_degree = INTEGER(degree)[0];
 	if (d[id]->polynomial_degree < 0 || d[id]->polynomial_degree > 3) {
-		PROBLEM "polynomial degree should be 0, 1, 2 or 3" ERROR;
+		error("polynomial degree should be 0, 1, 2 or 3");
 	}
 	if (d[id]->polynomial_degree > 0) { 
 		/* we're doing polynomials through degree: */
 		if (id > 0) {
-			PROBLEM "polynomial degree will only work for a single variable" ERROR;
+			error("polynomial degree will only work for a single variable");
 		} if (n_X > 1) {
-			PROBLEM "polynomial degree only works when no other predictors are given" ERROR;
+			error("polynomial degree only works when no other predictors are given");
 		}
 		setup_polynomial_X(d[id]); /* standardized coordinate polynomials */
 	}
@@ -206,9 +203,9 @@ SEXP gstat_new_dummy_data(SEXP loc_dim, SEXP has_intercept, SEXP beta,
 
 	dim = INTEGER(loc_dim)[0];
 	if (dim <= 0)
-		PROBLEM "dimension value impossible: %d", dim ERROR;
+		error("dimension value impossible: %d", dim);
 	if (dim > 3)
-		PROBLEM "too many dimensions: %d", dim ERROR;
+		error("too many dimensions: %d", dim);
 	assert(LENGTH(beta) > 0);
 
 	id = get_n_vars();
@@ -245,8 +242,7 @@ SEXP gstat_new_dummy_data(SEXP loc_dim, SEXP has_intercept, SEXP beta,
 		case 3: d[id]->variance_fn = v_bin; break;
 		case 4: d[id]->variance_fn = v_mu2; break;
 		case 5: d[id]->variance_fn = v_mu3; break;
-		default: PROBLEM "unknown variance function %d", 
-				 	INTEGER(vfn)[0] ERROR;
+		default: error("unknown variance function %d", INTEGER(vfn)[0]);
 	}
 	gl_longlat = (INTEGER(is_projected)[0] == 0);
 	d[id]->vdist = INTEGER(vdist)[0];
@@ -280,17 +276,16 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 	if (n <= 0 || LENGTH(slocs) == 0 || LENGTH(sX) == 0)
 		ErrMsg(ER_IMPOSVAL, "newdata empty or only NA's");
 	if (LENGTH(slocs) % n != 0)
-		PROBLEM "dimensions do not match: locations %d, nrows in X %ld",
-			(int) LENGTH(slocs), n ERROR;
+		error("dimensions do not match: locations %d, nrows in X %ld",
+			(int) LENGTH(slocs), n);
 	dim = LENGTH(slocs) / n;
 	if (dim > 3)
-		PROBLEM "too many spatial dimensions: %ld", dim ERROR;
+		error("too many spatial dimensions: %ld", dim);
 	if (dim <= 0)
-		PROBLEM "too few spatial dimensions: %ld", dim ERROR;
+		error("too few spatial dimensions: %ld", dim);
 	locs = REAL(slocs);
 	if (LENGTH(sX) % n != 0)
-		PROBLEM "dimensions do not match: X %d and data %ld",
-			(int) LENGTH(sX), n ERROR;
+		error("dimensions do not match: X %d and data %ld", (int) LENGTH(sX), n);
 	n_X = LENGTH(sX) / n;
 
 	current.attr = current.x = current.y = current.z = 0.0;
@@ -585,7 +580,7 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 	switch (LENGTH(grid)) {
 		case 0: case 1: break;
 		case 6: vgm->ev->S_grid = gstat_S_fillgrid(grid); break;
-		default: PROBLEM "unrecognized grid length in gstat_variogram" ERROR;
+		default: error("unrecognized grid length in gstat_variogram");
 			break;
 	}
 
@@ -722,7 +717,7 @@ SEXP gstat_variogram_values(SEXP ids, SEXP pars, SEXP covariance, SEXP dist_valu
 	SEXP ret;
 
 	if (LENGTH(pars) != 3 && LENGTH(pars) != 6)
-		PROBLEM "supply three or six distance parameters" ERROR;
+		error("supply three or six distance parameters");
 	from = REAL(pars)[0];
 	to = REAL(pars)[1];
 	n = REAL(pars)[2];

@@ -403,11 +403,12 @@ void free_data(DATA *d) {
 	if (d->grid)
 		free_data_gridmap(d->grid);
 
-    if (d->point_ids)
+    if (d->point_ids != NULL) {
         for (i = d->n_list - 1; i >= 0; i--)
             efree(d->point_ids[i]);
+	}
 
-	if (d->beta)
+	if (d->beta != NULL)
 		efree(d->beta);
 
 	efree(d);
@@ -577,8 +578,9 @@ void logprint_point(const DPOINT *p, const DATA *d) {
 	}
 	for (j = 0; j < d->n_X; j++)
 		printlog("X[%d]: %6g ", j, p->X[j]);
-    if (d->point_ids)
+    if (d->point_ids) {
         printlog("ID: %s ", d->point_ids[GET_INDEX(p)]);
+	}
 	printlog("\n");
 }
 
