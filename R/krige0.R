@@ -35,9 +35,9 @@ krige0 <- function(formula, data, newdata, model, beta, y, ...,
                    computeVar = FALSE, fullCovariance = FALSE) {
   
   if (inherits(data, "ST"))
-  	stopifnot(identical(data@sp@proj4string, newdata@sp@proj4string))
+  	stopifnot(identical(data@sp@proj4string@projargs, newdata@sp@proj4string@projargs))
   else
-  	stopifnot(identical(data@proj4string, newdata@proj4string))
+  	stopifnot(identical(data@proj4string@projargs, newdata@proj4string@projargs))
   lst = extractFormula(formula, data, newdata)
   X = lst$X
   x0 = lst$x0

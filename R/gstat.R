@@ -75,7 +75,7 @@ function (g, id, formula, locations,
         g = list()
         g[["data"]] = list()
         g[["model"]] = list()
-    } else if (!dummy && inherits(g$data[[1]], "Spatial") && !identical(g$data[[1]]$data@proj4string, data@proj4string))
+    } else if (!dummy && inherits(g$data[[1]], "Spatial") && !identical(g$data[[1]]$data@proj4string@projargs, data@proj4string@projargs))
 		stop("data items in gstat object have different coordinate reference systems")
     if (missing(id)) 
         id = paste("var", length(g$data) + 1, sep = "")

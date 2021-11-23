@@ -65,7 +65,7 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     newdata = as(newdata, "STFDF")
     TRUE
   } else {
-    if (!identical(data@sp@proj4string, newdata@sp@proj4string))
+    if (!identical(data@sp@proj4string@projargs, newdata@sp@proj4string@projargs))
   	  message("please verify that the CRSs of data and newdata are identical, or transform them first to make them identical")
     FALSE
   }

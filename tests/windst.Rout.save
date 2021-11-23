@@ -1,5 +1,5 @@
 
-R version 4.0.4 (2021-02-15) -- "Lost Library Book"
+R version 4.1.2 (2021-11-01) -- "Bird Hippie"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -145,4 +145,4 @@ x2 5535500 6309500
 > 
 > proc.time()
    user  system elapsed 
-  3.815   0.096   3.904 
+  4.207   0.127   4.329 
