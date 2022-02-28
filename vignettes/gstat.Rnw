@@ -338,9 +338,9 @@ geostatistics. Applied Statistics 47(3), pp 299-350.
 % geostatistical modelling, prediction and simulation. Computers \&
 % Geosciences, 24 (1), pp. 17--31.
 
-\item Pebesma, E.J., 2004.  Multivariable geostatistics in S: the gstat
-package.  Computers \& Geosciences \htmladdnormallink{30: 683-691}{%
-http://www.sciencedirect.com/science/journal/00983004}.
+\item Pebesma, E.J., 2004.  Multivariable geostatistics
+in S: the gstat package.  Computers \& Geosciences
+\href{http://dx.doi.org/10.1016/j.cageo.2004.03.012}{30: 683-691}.
 
 % \item Ver Hoef, J.M., Cressie, N.A.C, 1993. Multivariable Spatial
 % Prediction.  Mathematical Geology, 25 (2), pp. 219--240.
