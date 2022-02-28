@@ -129,7 +129,7 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 				!requireNamespace("future.apply", quietly = TRUE))
 	  		stop("For parallelization, future and future.apply packages are required")
 
-	  	future::plan('multiprocess', workers = cores)
+	  	future::plan('multicore', workers = cores)
   		ret <- split(seq(along=tlags), seq(along=tlags))
 		ret <- future.apply::future_lapply(X = ret,
 				FUN = function(x){
@@ -235,7 +235,7 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
     } else {
       if(!requireNamespace("future", quietly = TRUE) || !requireNamespace("future.apply", quietly = TRUE))
         stop("For parallelization, future and future.apply packages are required")
-      future::plan("multiprocess", workers = cores)
+      future::plan("multicore", workers = cores)
       tmpInd[,3] <- future.apply::future_apply(X = tmpInd[,1:2,drop=FALSE], MARGIN = 1, 
                                  FUN = function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]),
                                  future.seed = NULL)
