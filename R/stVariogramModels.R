@@ -182,7 +182,7 @@ vgmProdSumOld <- function(model, dist_grid) {
   
   k <- (sum(model$space$psill)+sum(model$time$psill)-(model$sill+model$nugget))/(sum(model$space$psill)*sum(model$time$psill))
   
-  if (k <= 0 | k > 1/max(rev(model$space$psill)[1], rev(model$time$psill)[1])) 
+  if (k <= 0 || k > 1/max(rev(model$space$psill)[1], rev(model$time$psill)[1])) 
     k <- 10^6*abs(k) # distorting the model to let optim "hopefully" find suitable parameters
   
   cbind(dist_grid, "gamma" = as.vector(vs+vt-k*vs*vt+vn))
@@ -197,7 +197,7 @@ covProdSumOld <- function(x, y, model) {
   
   # double check model for validity, i.e. k:
   k <- (sum(model$space$psill)+sum(model$time$psill)-model$sill)/(sum(model$space$psill)*sum(model$time$psill))
-  if (k <= 0 | k > 1/max(model$space$psill[model$space$model!="Nug"], 
+  if (k <= 0 || k > 1/max(model$space$psill[model$space$model!="Nug"], 
                          model$time$psill[model$time$model!="Nug"]))
     stop(paste("k (",k,") is non-positive or too large: no valid model!",sep=""))
   
@@ -219,7 +219,7 @@ covProdSumOld <- function(x, y, model) {
   } 
   
   # the STI case
-  if(inherits(x, "STI") | inherits(y, "STI")) {
+  if(inherits(x, "STI") || inherits(y, "STI")) {
     # make sure that now both are of type STI
     x <- as(x, "STI")
     y <- as(y, "STI")
@@ -317,7 +317,7 @@ covProdSum <- function(x, y, model) {
   } 
   
   # the STI case
-  if(inherits(x, "STI") | inherits(y, "STI")) {
+  if(inherits(x, "STI") || inherits(y, "STI")) {
     # make sure that now both are of type STI
     x <- as(x, "STI")
     y <- as(y, "STI")
@@ -411,7 +411,7 @@ covSumMetric <- function(x, y, model) {
   } 
   
   # the STI case
-  if(inherits(x, "STI") | inherits(y, "STI")) {
+  if(inherits(x, "STI") || inherits(y, "STI")) {
     # make sure that now both are of type STI
     x <- as(x, "STI")
     y <- as(y, "STI")
@@ -555,7 +555,7 @@ covMetric <- function(x, y, model) {
   } 
   
   # the STI case
-  if(inherits(x, "STI") | inherits(y, "STI")) {
+  if(inherits(x, "STI") || inherits(y, "STI")) {
     # make sure that now both are of type STI
     x <- as(x, "STI")
     y <- as(y, "STI")
@@ -649,7 +649,7 @@ fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, uppe
     return(ret)
   }
   
-  if ((fit.method == 7 | fit.method == 11) & is.null(model$stAni) & is.na(stAni)) {
+  if ((fit.method == 7 || fit.method == 11) & is.null(model$stAni) & is.na(stAni)) {
     message("[An uninformed spatio-temporal anisotropy value of '1 (spatial unit)/(temporal unit)' is automatically selected. Consider providing a sensible estimate for stAni or using a different fit.method.]")
     stAni <- 1
   }
