@@ -88,24 +88,20 @@ static void simulate_mvn(const double *est, VEC *result, const int *is_datum) {
 			m_logoutput(M);
 		}
 		/* decompose M: */
-		M = CHfactor(M, PNULL, &info);
+		M = CHfactor(M, PNULL, &info); /* LT is zero */
 		if (info != 0)
 			pr_warning("singular simulation covariance matrix");
 		if (DEBUG_COV) {
-			printlog("# decomposed error covariance matrix:\n");
+			printlog("# decomposed error covariance matrix, with zero LT:\n");
 			m_logoutput(M);
 		}
-		/* zero upper triangle: */
-		for (i = 0; i < M->m; i++) 
-			for (j = i + 1; j < M->m; j++)
-				ME(M, i, j) = 0.0;
 		/* make ind a iid N(0,1) vector */
 		ind = v_resize(ind, dim);
 		for (i = 0; i < dim; i++)
 			ind->ve[i] = r_normal(); /* generate N(0,1) independent samples */
 		/* make MVN */
 		sim = v_resize(sim, dim);
-		sim = mv_mlt(M, ind, sim); /* create zero mean correlated noise */
+		sim = vm_mlt(M, ind, sim); /* create zero mean correlated noise */
 		if (DEBUG_COV) {
 			printlog("# correlated noise vector:\n");
 			v_logoutput(sim);
@@ -123,7 +119,7 @@ static void simulate_mvn(const double *est, VEC *result, const int *is_datum) {
 		printlog("\n# simulated values:\n");
 		if (is_datum != NULL) {
 			for (i = 0; i < result->dim; i++) {
-				printlog("%g (%s)\n", result->ve[i], 
+				printlog("%g # (%s)\n", result->ve[i], 
 					is_datum[i] ? "datum point" : "simulated");
 			}
 		} else {
