@@ -8,14 +8,14 @@
 # define FCONE
 #endif
 
+#include "R.h"
+
 #include "defs.h" /* CDECL */
 #include "utils.h" /* efree, emalloc */
 #include "userio.h" /* ErrMsg */
 #include "glvars.h" /* gl_blas */
 #include "debug.h"
 #include "mtrx.h"
-
-#include "R.h"
 
 /* get rid of -0.000000 output: */
 #define _zero_(x) (fabs(x) < 1.e-7 ? 0.0 : x)
@@ -147,10 +147,10 @@ void m_logoutput(MAT * a) {
 	unsigned int i, j, tmp;
 
 	if (a == (MAT *) NULL) {
-		printlog("Matrix: NULL\n");
+		printlog("#Matrix: NULL\n");
 		return;
 	}
-	printlog("Matrix: %d by %d\n", a->m, a->n);
+	printlog("#Matrix: %d by %d\n", a->m, a->n);
 	if (a->v == NULL) {
 		printlog("NULL\n");
 		return;
@@ -179,10 +179,10 @@ void v_logoutput(VEC * x) {
 	unsigned int i, tmp;
 
 	if (x == (VEC *) NULL) {
-		printlog("Vector: NULL\n");
+		printlog("#Vector: NULL\n");
 		return;
 	}
-	printlog("Vector: dim: %d\n", x->dim);
+	printlog("#Vector: dim: %d\n", x->dim);
 	if (x->ve == NULL) {
 		printlog("NULL\n");
 		return;
