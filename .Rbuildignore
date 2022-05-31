@@ -16,3 +16,4 @@ ChangeLog
 ^docs$
 ^\.github$
 tic.R
+^\.ccache$
