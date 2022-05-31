@@ -1,3 +1,9 @@
+# version 2.1-0
+
+* import `sftime`; modify `krigeST()` variogram functions to accept `sftime` objects as alternative to `STI` or `STIDF`
+
+* fix Gaussian cosimulation, probably introduced in 2016, #106
+
 # version 2.0-7
 
 * return `NA` as estimate when prediction/simulation fails; #80
