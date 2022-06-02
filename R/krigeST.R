@@ -54,7 +54,7 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                     computeVar = FALSE, fullCovariance = FALSE,
                     bufferNmax=2, progress=TRUE) {
   stopifnot(inherits(modelList, "StVariogramModel") || is.function(modelList))
-  return_stars = if (inherits(data, "stars")) {
+  return_stars = if (inherits(data, c("stars"))) {
     if (!requireNamespace("sf", quietly = TRUE))
       stop("sf required: install that first") # nocov
     if (!requireNamespace("stars", quietly = TRUE))
@@ -64,12 +64,27 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     data = as(data, "STFDF")
     newdata = as(newdata, "STFDF")
     TRUE
+  } else if (inherits(data, "sftime")) {
+    if (sf::st_crs(data) != sf::st_crs(newdata))
+      warning("CRS for data and newdata are not identical; assign CRS or use st_transform to correct")
+    data = as(data, "STIDF")
+    if (inherits(newdata, "stars"))
+		newdata = as(newdata, "STFDF")
+    if (inherits(newdata, "sftime"))
+		newdata = as(newdata, "STIDF")
+    TRUE
   } else {
     if (!identical(data@sp@proj4string@projargs, newdata@sp@proj4string@projargs))
   	  message("please verify that the CRSs of data and newdata are identical, or transform them first to make them identical")
     FALSE
   }
-  stopifnot(inherits(data, c("STF", "STS", "STI")) & inherits(newdata, c("STF", "STS", "STI"))) 
+  stopifnot(inherits(data, c("STF", "STS", "STI", "sftime")) && 
+			inherits(newdata, c("STF", "STS", "STI", "sftime"))) 
+  to_sftime = inherits(data, "sftime") # deal with later
+  if (inherits(data, "sftime"))
+    data = as(data, "STIDF")
+  if (inherits(newdata, "sftime"))
+    data = as(data, "STI")
   stopifnot(class(data@time) == class(newdata@time))
   stopifnot(nmax > 0)
   
@@ -225,14 +240,14 @@ krigeST.local <- function(formula, data, newdata, modelList, beta, nmax, stAni=N
   if(!is.null(attr(modelList, "spatial unit")))
     stopifnot((is.projected(data) & (attr(modelList, "spatial unit") %in% c("km","m"))) | (!is.projected(data) & !(attr(modelList, "spatial unit") %in% c("km","m"))))
   
-  if(is(data, "STFDF") || is(data, "STSDF"))
+  if (inherits(data, c("STFDF", "STSDF", "sftime")))
     data <- as(data, "STIDF")
   
   clnd <- class(newdata)
   
-  if(is(newdata, "STFDF") || is(newdata, "STSDF"))
+  if(inherits(newdata, c("STFDF", "STSDF", "sftime")))
     newdata <- as(newdata, "STIDF")
-  if(is(newdata, "STF") || is(newdata, "STS"))
+  if(inherits(newdata, c("STF", "STS")))
     newdata <- as(newdata, "STI")
   
   # from here on every data set is assumed to be STI*

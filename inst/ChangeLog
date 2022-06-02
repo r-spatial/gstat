@@ -1,3 +1,11 @@
+2022-04-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/stVariogramModels.R: replace | with || in if() calls
+
+2022-03-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog: CL
+
 2022-02-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/variogramST.R: future:: maintenance

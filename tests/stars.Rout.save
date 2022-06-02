@@ -141,10 +141,17 @@ x    1  78 178440    40 Amersfoort / RD New FALSE   NULL [x]
 y    1 104 333760   -40 Amersfoort / RD New FALSE   NULL [y]
 > st = st_as_stars(meuse.grid)
 > all.equal(st_dimensions(st0), st_dimensions(st))
-[1] "Component \"x\": Component \"refsys\": Component \"wkt\": 1 string mismatch"           
-[2] "Component \"x\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
-[3] "Component \"y\": Component \"refsys\": Component \"wkt\": 1 string mismatch"           
-[4] "Component \"y\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"
+ [1] "Attributes: < Component \"raster\": Component \"blocksizes\": Modes: numeric, NULL >"                                
+ [2] "Attributes: < Component \"raster\": Component \"blocksizes\": Lengths: 2, 0 >"                                       
+ [3] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < Modes: list, NULL > >"                   
+ [4] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < Lengths: 2, 0 > >"                       
+ [5] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < names for target but not for current > >"
+ [6] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < current is not list-like > >"            
+ [7] "Attributes: < Component \"raster\": Component \"blocksizes\": target is matrix, current is NULL >"                   
+ [8] "Component \"x\": Component \"refsys\": Component \"wkt\": 1 string mismatch"                                         
+ [9] "Component \"x\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"                              
+[10] "Component \"y\": Component \"refsys\": Component \"wkt\": 1 string mismatch"                                         
+[11] "Component \"y\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"                              
 > st_crs(st0)
 Coordinate Reference System:
   User input: Amersfoort / RD New 
@@ -536,4 +543,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  4.922   0.130   5.044 
+  5.171   0.093   5.263 

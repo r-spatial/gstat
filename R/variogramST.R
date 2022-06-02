@@ -97,8 +97,8 @@ variogramST = function(formula, locations, data, ..., tlags = 0:15, cutoff,
 		data$resid = residuals(lm(formula, data, na.action = na.exclude))
 		formula = resid ~ 1
 	}
-	if(is(data, "STIDF"))
-		return(variogramST.STIDF(formula, data, tlags, cutoff, width, 
+	if(inherits(data, c("STIDF", "sftime")))
+		return(variogramST.STIDF(formula, as(data, "STIDF"), tlags, cutoff, width, 
                              boundaries, progress, cores = cores, ...))
   
 	stopifnot(is(data, "STFDF") || is(data, "STSDF"))
