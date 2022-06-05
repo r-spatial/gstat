@@ -68,9 +68,12 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     if (sf::st_crs(data) != sf::st_crs(newdata))
       warning("CRS for data and newdata are not identical; assign CRS or use st_transform to correct")
     data = as(data, "STIDF")
-    if (inherits(newdata, "stars"))
+    if (inherits(newdata, "stars")) {
+		if (length(newdata) == 0)
+			newdata$._dummy = 0.
 		newdata = as(newdata, "STFDF")
-    if (inherits(newdata, "sftime"))
+	}
+	if (inherits(newdata, "sftime"))
 		newdata = as(newdata, "STIDF")
     TRUE
   } else {
@@ -124,10 +127,11 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   # wrapping the predictions in ST*DF again
   if (!fullCovariance) {
     ret = addAttrToGeom(geometry(newdata), df)
-    if (return_stars)
-      stars::st_as_stars(as(ret, "STFDF"))
-    else
-      ret
+    if (return_stars) {
+      ret = stars::st_as_stars(as(ret, "STFDF"))
+	  ret$._dummy = NULL
+	}
+    ret
   } else
     df
 }

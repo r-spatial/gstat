@@ -24,8 +24,8 @@ sft = st_as_sftime(stidf)
 grd = as(SpatialGrid(GridTopology(c(0.025,0.025), c(.05, .05), c(20,20))), "SpatialPixels")
 tgrd = seq(min(t)+10000, max(t)-10000, length.out = 10)
 
-#stf = STF(grd, tgrd)
-stf = STFDF(grd, tgrd, data.frame(x=rep(0,400*10)))
+stf = STF(grd, tgrd)
+#stf = STFDF(grd, tgrd, data.frame(x=rep(0,400*10)))
 
 library(stars)
 st = st_as_stars(stf)
@@ -47,9 +47,9 @@ dg <- data.frame(spacelag=rep(c(0.001,1:10)/10,6),
 #          zlim=c(0,1.2),
 #          main="imposed sum-metric model")
 
-locKrig <- krigeST(z~1, stidf, stf, sumMetricModel, nmax=20, computeVar = T)
 locKrig_sft <- krigeST(z~1, sft, st, sumMetricModel, nmax=20, computeVar = T)
+locKrig <- krigeST(z~1, stidf, stf, sumMetricModel, nmax=20, computeVar = T)
 stplot(locKrig[,,"var1.pred"], col.regions=bpy.colors(), scales=list(draw=T))
-plot(locKrig_sft[2], col = sf.colors(), breaks = "equal")
+plot(locKrig_sft[1], col = sf.colors(), breaks = "equal")
 stplot(locKrig[,,"var1.var"], col.regions=bpy.colors(), scales=list(draw=T))
-plot(locKrig_sft[3], col = sf.colors(), breaks = "equal")
+plot(locKrig_sft[2], col = sf.colors(), breaks = "equal")
