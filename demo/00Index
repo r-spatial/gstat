@@ -16,6 +16,7 @@ krige		sample run of ordinary and universal kriging
 lhs			create latin hypercube sample of Gaussian random field
 lnsim		carry out log-normal kriging, based on conditional simulation
 sic2004		part of sic2004 excercise; see ?sic2004
+sftime 		demo using package sftime, derived from demo(stkrige)
 pcb			pcb North Sea data analysis as used for geoENV2004 paper; see ?pcb
 fulmar		analysis of Fulmaris glacialis data on Dutch part of the North Sea
 uisim		unconditional indicator simulation, 2 and 3 category examples
