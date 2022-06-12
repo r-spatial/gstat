@@ -111,29 +111,30 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                          computeVar = computeVar, fullCovariance = fullCovariance, 
                          bufferNmax = bufferNmax, progress = progress)
 
-    if (return_stars)
-      return(stars::st_as_stars(as(ret, "STFDF")))
-    else
-      return(ret)
-  }
-  
-  df <- krigeST.df(formula = formula, data = data, newdata = newdata, 
+    if (return_stars) {
+	  ret$._dummy = NULL
+      stars::st_as_stars(as(ret, "STFDF"))
+	} else
+      ret
+  } else {
+    df <- krigeST.df(formula = formula, data = data, newdata = newdata, 
                    modelList = modelList, beta = beta, y = y, 
                    ..., 
                    nmax=nmax, stAni=stAni,
                    computeVar = computeVar, fullCovariance = fullCovariance,
                    bufferNmax = bufferNmax, progress = progress)
   
-  # wrapping the predictions in ST*DF again
-  if (!fullCovariance) {
-    ret = addAttrToGeom(geometry(newdata), df)
-    if (return_stars) {
-      ret = stars::st_as_stars(as(ret, "STFDF"))
-	  ret$._dummy = NULL
-	}
-    ret
-  } else
-    df
+    # wrapping the predictions in ST*DF again
+    if (!fullCovariance) {
+      ret = addAttrToGeom(geometry(newdata), df)
+      if (return_stars) {
+        ret = stars::st_as_stars(as(ret, "STFDF"))
+	    ret$._dummy = NULL
+	  }
+      ret
+    } else
+      df
+  }
 }
 
 krigeST.df <- function(formula, data, newdata, modelList, beta, y, ...,
