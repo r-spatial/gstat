@@ -54,6 +54,7 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
                     computeVar = FALSE, fullCovariance = FALSE,
                     bufferNmax=2, progress=TRUE) {
   stopifnot(inherits(modelList, "StVariogramModel") || is.function(modelList))
+  to_sftime = FALSE
   return_stars = if (inherits(data, c("stars"))) {
     if (!requireNamespace("sf", quietly = TRUE))
       stop("sf required: install that first") # nocov
@@ -73,8 +74,10 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
 			newdata$._dummy = 0.
 		newdata = as(newdata, "STFDF")
 	}
-	if (inherits(newdata, "sftime"))
+	if (inherits(newdata, "sftime")) {
+  		to_sftime = TRUE
 		newdata = as(newdata, "STIDF")
+	}
     TRUE
   } else {
     if (!identical(data@sp@proj4string@projargs, newdata@sp@proj4string@projargs))
@@ -83,7 +86,6 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
   }
   stopifnot(inherits(data, c("STF", "STS", "STI", "sftime")) && 
 			inherits(newdata, c("STF", "STS", "STI", "sftime"))) 
-  to_sftime = inherits(data, "sftime") # deal with later
   if (inherits(data, "sftime"))
     data = as(data, "STIDF")
   if (inherits(newdata, "sftime"))
@@ -113,7 +115,10 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
 
     if (return_stars) {
 	  ret$._dummy = NULL
-      stars::st_as_stars(as(ret, "STFDF"))
+  	  if (to_sftime)
+		  sftime::st_as_sftime(ret)
+	  else 
+		  stars::st_as_stars(as(ret, "STFDF"))
 	} else
       ret
   } else {
@@ -128,8 +133,11 @@ krigeST <- function(formula, data, newdata, modelList, beta, y, ...,
     if (!fullCovariance) {
       ret = addAttrToGeom(geometry(newdata), df)
       if (return_stars) {
-        ret = stars::st_as_stars(as(ret, "STFDF"))
 	    ret$._dummy = NULL
+  	  	if (to_sftime)
+		  ret = sftime::st_as_sftime(ret)
+  		else 
+		  ret = stars::st_as_stars(as(ret, "STFDF"))
 	  }
       ret
     } else

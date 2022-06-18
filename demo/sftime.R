@@ -53,3 +53,9 @@ stplot(locKrig[,,"var1.pred"], col.regions=bpy.colors(), scales=list(draw=T))
 plot(locKrig_sft[1], col = sf.colors(), breaks = "equal")
 stplot(locKrig[,,"var1.var"], col.regions=bpy.colors(), scales=list(draw=T))
 plot(locKrig_sft[2], col = sf.colors(), breaks = "equal")
+
+st$foo = 0
+st_as_sf(st, long = TRUE) |> st_as_sftime() -> st.sftime
+locKrig_sft <- krigeST(z~1, sft, st.sftime, sumMetricModel, nmax=20, computeVar = T)
+plot(locKrig_sft["var1.pred"])
+

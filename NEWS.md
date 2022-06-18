@@ -1,6 +1,6 @@
 # version 2.1-0
 
-* import `sftime`; modify `krigeST()` variogram functions to accept `sftime` objects as alternative to `STI` or `STIDF`
+* import `sftime`; modify `krigeST()` variogram functions to accept `sftime` objects for `data` (as alternative to `STI` or `STIDF`), and `stars` or `sftime` objects for `newdata`; #108 with great help from @henningte
 
 * fix Gaussian cosimulation, probably introduced in 2016, #106
 

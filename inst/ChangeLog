@@ -1,3 +1,46 @@
+2022-06-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R: remove ._dummy variable; #108
+
+2022-06-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* demo/00Index: update index
+
+2022-06-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/krigeST.R, demo/sftime.R: also handle stars with 0 arrays as
+	newdata
+
+2022-06-02  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* demo/sftime.R: add demo script
+
+2022-06-02  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, R/krigeST.R, R/stVariogramModels.R, R/variogramST.R,
+	inst/ChangeLog, tests/stars.Rout.save: modifications to use sftime &
+	stars.
+
+2022-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore: tidy
+
+2022-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* NEWS.md: add news
+
+2022-05-31  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/mtrx.c: tidy
+
+2022-05-01  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: GA, see #107
+
+2022-04-29  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/sim.c: fixes #106
+
 2022-04-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/stVariogramModels.R: replace | with || in if() calls
