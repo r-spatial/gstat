@@ -1,6 +1,6 @@
 
-R version 4.1.1 (2021-08-10) -- "Kick Things"
-Copyright (C) 2021 The R Foundation for Statistical Computing
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,110 +20,34 @@ Type 'q()' to quit R.
 > # http://mypage.iu.edu/~srobeson/Pubs/variogram_sphere_mathgeo_2011.pdf
 > 
 > suppressPackageStartupMessages(library(sp))
-> suppressPackageStartupMessages(library(rgdal))
-> suppressPackageStartupMessages(library(fields))
-> data(meuse)
-> coordinates(meuse) = ~x+y
-> proj4string(meuse) = CRS("+init=epsg:28992")
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
-> meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Unknown based on WGS84 ellipsoid in Proj4 definition
-> meuse.ll[1:10,]
-            coordinates cadmium copper lead zinc  elev       dist   om ffreq
-1  (5.759029, 50.99241)    11.7     85  299 1022 7.909 0.00135803 13.6     1
-2  (5.758356, 50.99194)     8.6     81  277 1141 6.983 0.01222430 14.0     1
-3  (5.760348, 50.99175)     6.5     68  199  640 7.800 0.10302900 13.0     1
-4  (5.762239, 50.99126)     2.6     81  116  257 7.655 0.19009400  8.0     1
-5  (5.762356, 50.98988)     2.8     48  117  269 7.480 0.27709000  8.7     1
-6  (5.763533, 50.98924)     3.0     61  137  281 7.791 0.36406700  7.8     1
-7  (5.760336, 50.99024)     3.2     31  132  346 8.217 0.19009400  9.2     1
-8   (5.75837, 50.99019)     2.8     29  150  406 8.490 0.09215160  9.5     1
-9    (5.758831, 50.989)     2.4     37  133  347 8.668 0.18461400 10.6     1
-10 (5.761276, 50.98842)     1.6     24   80  183 9.049 0.30970200  6.3     1
-   soil lime landuse dist.m
-1     1    1      Ah     50
-2     1    1      Ah     30
-3     1    1      Ah    150
-4     2    0      Ga    270
-5     2    0      Ah    380
-6     2    0      Ga    470
-7     2    0      Ah    240
-8     1    0      Ab    120
-9     1    0      Ab    240
-10    2    0       W    420
 > library(gstat)
-> variogram(log(zinc)~1, meuse.ll)
-    np       dist     gamma dir.hor dir.ver   id
-1   57 0.07930064 0.1234479       0       0 var1
-2  299 0.16399059 0.2162185       0       0 var1
-3  419 0.26739245 0.3027859       0       0 var1
-4  457 0.37277392 0.4121448       0       0 var1
-5  548 0.47862430 0.4626633       0       0 var1
-6  533 0.58560071 0.5646904       0       0 var1
-7  573 0.69331179 0.5698718       0       0 var1
-8  566 0.79646175 0.6169183       0       0 var1
-9  587 0.90341511 0.6489406       0       0 var1
-10 544 1.01149382 0.6932668       0       0 var1
-11 500 1.11819049 0.7009152       0       0 var1
-12 479 1.22191097 0.6044300       0       0 var1
-13 450 1.32976764 0.6507175       0       0 var1
-14 456 1.43752185 0.5675707       0       0 var1
-15 415 1.54336201 0.5748227       0       0 var1
 > 
-> cloud1 = variogram(log(zinc)~1, meuse, cloud=T, cutoff=6000)
-> cloud2 = variogram(log(zinc)~1, meuse.ll, cloud=T, cutoff=6)
-> 
-> plot(cloud1$dist/1000, cloud2$dist, xlab="Amersfoort, km", ylab = "Long/lat")
-> abline(0,1)
-> 
->   data(ozone2)
->   oz = SpatialPointsDataFrame(ozone2$lon.lat, 
+> if (require(rgdal, quietly = TRUE) && require(fields, quietly = TRUE)) {
++ data(meuse)
++ coordinates(meuse) = ~x+y
++ proj4string(meuse) = CRS("+init=epsg:28992")
++ meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
++ meuse.ll[1:10,]
++ variogram(log(zinc)~1, meuse.ll)
++ 
++ cloud1 = variogram(log(zinc)~1, meuse, cloud=T, cutoff=6000)
++ cloud2 = variogram(log(zinc)~1, meuse.ll, cloud=T, cutoff=6)
++ 
++ plot(cloud1$dist/1000, cloud2$dist, xlab="Amersfoort, km", ylab = "Long/lat")
++ abline(0,1)
++ 
++   data(ozone2)
++   oz = SpatialPointsDataFrame(ozone2$lon.lat, 
 + 		  data.frame(t(ozone2$y)), 
 + 		  proj4string=CRS("+proj=longlat +ellps=WGS84"))
->   variogram(X870731~1,oz[!is.na(oz$X870731),])
-    np      dist    gamma dir.hor dir.ver   id
-1  197  17.44144 143.5037       0       0 var1
-2  244  40.32542 180.9092       0       0 var1
-3  210  68.99177 132.4888       0       0 var1
-4  275  96.73268 175.9893       0       0 var1
-5  282 122.86300 230.7471       0       0 var1
-6  390 151.23063 317.6391       0       0 var1
-7  360 178.10896 310.1876       0       0 var1
-8  395 206.37465 319.4972       0       0 var1
-9  477 233.51652 336.0833       0       0 var1
-10 477 260.54876 339.5354       0       0 var1
-11 428 287.70593 264.3152       0       0 var1
-12 445 316.02780 302.6589       0       0 var1
-13 467 343.06969 369.1128       0       0 var1
-14 575 370.98370 390.3644       0       0 var1
-15 792 397.87592 480.0129       0       0 var1
->   utm16 = CRS("+proj=utm +zone=16")
->   oz.utm = spTransform(oz, utm16)
->   variogram(X870731~1,oz.utm[!is.na(oz$X870731),])
-    np      dist    gamma dir.hor dir.ver   id
-1  197  17443.99 143.5037       0       0 var1
-2  245  40383.30 180.5144       0       0 var1
-3  211  69178.16 134.2920       0       0 var1
-4  278  97068.08 174.2017       0       0 var1
-5  283 123380.15 232.2221       0       0 var1
-6  393 151741.31 318.7762       0       0 var1
-7  356 178620.56 312.9364       0       0 var1
-8  400 206865.15 314.7740       0       0 var1
-9  485 234294.31 340.8188       0       0 var1
-10 476 261547.41 331.8010       0       0 var1
-11 427 288749.42 267.5269       0       0 var1
-12 452 317219.28 308.6634       0       0 var1
-13 467 344418.75 365.8126       0       0 var1
-14 596 372513.02 395.8868       0       0 var1
-15 784 399259.25 490.6399       0       0 var1
-> 
-> # Timothy Hilton, r-sig-geo, Sept 14, 2008:
-> 
-> foo <-
++   variogram(X870731~1,oz[!is.na(oz$X870731),])
++   utm16 = CRS("+proj=utm +zone=16")
++   oz.utm = spTransform(oz, utm16)
++   variogram(X870731~1,oz.utm[!is.na(oz$X870731),])
++ 
++ # Timothy Hilton, r-sig-geo, Sept 14, 2008:
++ 
++ foo <-
 + structure(list(z = c(-1.95824831109744, -1.9158901643563, 4.22211761150161,
 + 3.23356929459598, 1.12038389231868, 0.34613850821113, 1.12589932643631,
 + 23.517912251617, 3.0519158690268, 3.20261431141517, -2.10947106854739
@@ -133,17 +57,50 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 + 53.916264, 39.063333, 48.307883, 40.0061, 42.537756, 44.448889,
 + 46.242017)), .Names = c("z", "lon", "lat"), row.names = c(NA,
 + -11L), class = "data.frame")
-> 
-> coordinates(foo) <- ~lon+lat
-> 
-> proj4string(foo) <- CRS('+proj=longlat +ellps=WGS84')
-> 
-> vg.foo <- variogram(z~1, foo, cloud=TRUE, cutoff=1e10)
-> 
-> cat('==========\nvariogram:\n')
++ 
++ coordinates(foo) <- ~lon+lat
++ 
++ proj4string(foo) <- CRS('+proj=longlat +ellps=WGS84')
++ 
++ vg.foo <- variogram(z~1, foo, cloud=TRUE, cutoff=1e10)
++ 
++ cat('==========\nvariogram:\n')
++ print(head(vg.foo))
++ 
++ cat('==========\nspDistsN1 Distances:\n')
++ print(spDistsN1(coordinates(foo), coordinates(foo)[1,], longlat=TRUE))
++ }
+Please note that rgdal will be retired by the end of 2023,
+plan transition to sf/stars/terra functions using GDAL and PROJ
+at your earliest convenience.
+
+rgdal: version: 1.5-31, (SVN revision 1171)
+Geospatial Data Abstraction Library extensions to R successfully loaded
+Loaded GDAL runtime: GDAL 3.4.3, released 2022/04/22
+Path to GDAL shared files: /usr/share/gdal
+GDAL binary built with GEOS: TRUE 
+Loaded PROJ runtime: Rel. 8.2.0, November 1st, 2021, [PJ_VERSION: 820]
+Path to PROJ shared files: /home/edzer/.local/share/proj:/usr/share/proj
+PROJ CDN enabled: FALSE
+Linking to sp version:1.4-7
+To mute warnings of possible GDAL/OSR exportToProj4() degradation,
+use options("rgdal_show_exportToProj4_warnings"="none") before loading sp or rgdal.
+Spam version 2.8-0 (2022-01-05) is loaded.
+Type 'help( Spam)' or 'demo( spam)' for a short introduction 
+and overview of this package.
+Help for individual functions is also obtained by adding the
+suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
+
+Attaching package: 'spam'
+
+The following objects are masked from 'package:base':
+
+    backsolve, forwardsolve
+
+
+Try help(fields) to get started.
 ==========
 variogram:
-> print(head(vg.foo))
        dist        gamma dir.hor dir.ver   id left right
 1 3115.1190 8.971063e-04       0       0 var1    2     1
 2 1908.0468 1.909846e+01       0       0 var1    3     1
@@ -151,14 +108,16 @@ variogram:
 4 1837.5667 1.347749e+01       0       0 var1    4     1
 5 1522.8765 1.325847e+01       0       0 var1    4     2
 6  119.9386 4.886139e-01       0       0 var1    4     3
-> 
-> cat('==========\nspDistsN1 Distances:\n')
 ==========
 spDistsN1 Distances:
-> print(spDistsN1(coordinates(foo), coordinates(foo)[1,], longlat=TRUE))
  [1]    0.0000 3115.1190 1908.0468 1837.5667 1481.6293 3775.6751 1480.4477
  [8] 3081.7541 4090.4022  665.9348 2683.1516
+Warning messages:
+1: In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
+  Discarded datum Amersfoort in Proj4 definition
+2: In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
+  Discarded datum Unknown based on WGS84 ellipsoid in Proj4 definition
 > 
 > proc.time()
    user  system elapsed 
-  1.940   0.111   2.065 
+  1.540   0.083   1.622 

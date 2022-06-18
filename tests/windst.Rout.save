@@ -1,6 +1,6 @@
 
-R version 4.1.2 (2021-11-01) -- "Bird Hippie"
-Copyright (C) 2021 The R Foundation for Statistical Computing
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -40,33 +40,31 @@ Type 'q()' to quit R.
 > # proper Euclidian (projected) space:
 > pts = coordinates(wind.loc[match(names(wind[4:15]), wind.loc$Code),])
 > pts = SpatialPoints(pts)
-> #if (require(rgdal) && require(maps)) {
-> proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
-> utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
-> pts = spTransform(pts, utm29)
-> # note the t() in:
-> w = STFDF(pts, wind$time, data.frame(values = as.vector(t(velocities))))
-> 
-> library(mapdata)
-Loading required package: maps
-> library(maptools)
-Checking rgeos availability: TRUE
-> m = map2SpatialLines(
+> if (require(rgdal, quietly = TRUE) && require(maps, quietly = TRUE)) {
++ proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
++ utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
++ pts = spTransform(pts, utm29)
++ # note the t() in:
++ w = STFDF(pts, wind$time, data.frame(values = as.vector(t(velocities))))
++ 
++ library(mapdata)
++ library(maptools)
++ m = map2SpatialLines(
 +     map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5), plot=F))
-> proj4string(m) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
-> m = spTransform(m, utm29)
-> 
-> # setup grid
-> grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),
++ proj4string(m) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
++ m = spTransform(m, utm29)
++ 
++ # setup grid
++ grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),
 + 	proj4string = m@proj4string)
-> # grd$t = rep(1, nrow(grd))
-> #coordinates(grd) = ~x1+x2
-> #gridded(grd)=TRUE
-> 
-> # select april 1961:
-> w = w[, "1961-04"]
-> 
-> covfn = function(x, y = x) { 
++ # grd$t = rep(1, nrow(grd))
++ #coordinates(grd) = ~x1+x2
++ #gridded(grd)=TRUE
++ 
++ # select april 1961:
++ w = w[, "1961-04"]
++ 
++ covfn = function(x, y = x) { 
 + 	du = spDists(coordinates(x), coordinates(y))
 + 	t1 = as.numeric(index(x)) # time in seconds
 + 	t2 = as.numeric(index(y)) # time in seconds
@@ -74,75 +72,76 @@ Checking rgeos availability: TRUE
 + 	# separable, product covariance model:
 + 	0.6 * exp(-du/750000) * exp(-dt / (1.5 * 3600 * 24))
 + }
-> 
-> n = 10
-> tgrd = seq(min(index(w)), max(index(w)), length=n)
-> pred = krige0(sqrt(values)~1, w, STF(grd, tgrd), covfn)
-> layout = list(list("sp.points", pts, first=F, cex=.5),
++ 
++ n = 10
++ tgrd = seq(min(index(w)), max(index(w)), length=n)
++ pred = krige0(sqrt(values)~1, w, STF(grd, tgrd), covfn)
++ layout = list(list("sp.points", pts, first=F, cex=.5),
 + 	list("sp.lines", m, col='grey'))
-> wind.pr0 = STFDF(grd, tgrd, data.frame(var1.pred = pred))
-> 
-> v = vgmST("separable",
++ wind.pr0 = STFDF(grd, tgrd, data.frame(var1.pred = pred))
++ 
++ v = vgmST("separable",
 +           space = vgm(1, "Exp", 750000), 
 +           time = vgm(1, "Exp", 1.5 * 3600 * 24),
 +           sill = 0.6)
-> wind.ST = krigeST(sqrt(values)~1, w, STF(grd, tgrd), v)
-Warning message:
-In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
++ wind.ST = krigeST(sqrt(values)~1, w, STF(grd, tgrd), v)
++ 
++ all.equal(wind.pr0, wind.ST)
++ 
++ # stars:
++ df = data.frame(a = rep(NA, 324*10))
++ s = STF(grd, tgrd)
++ newd = addAttrToGeom(s, df)
++ wind.sta = krigeST(sqrt(values)~1, st_as_stars(w), st_as_stars(newd), v)
++ # 1
++ plot(stars::st_as_stars(wind.ST), breaks = "equal", col = sf.colors())
++ # 2
++ stplot(wind.ST)
++ # 3
++ plot(wind.sta, breaks = "equal", col = sf.colors())
++ st_as_stars(wind.ST)[[1]][1:3,1:3,1]
++ (wind.sta)[[1]][1:3,1:3,1]
++ st_bbox(wind.sta)
++ bbox(wind.ST)
++ all.equal(wind.sta, stars::st_as_stars(wind.ST), check.attributes = FALSE)
++ 
++ # 4: roundtrip wind.sta->STFDF->stars
++ rt = stars::st_as_stars(as(wind.sta, "STFDF"))
++ plot(rt, breaks = "equal", col = sf.colors())
++ # 5:
++ stplot(as(wind.sta, "STFDF"))
++ st_bbox(rt)
++ 
++ # 6:
++ stplot(as(st_as_stars(wind.ST), "STFDF"))
++ }
+Please note that rgdal will be retired by the end of 2023,
+plan transition to sf/stars/terra functions using GDAL and PROJ
+at your earliest convenience.
+
+rgdal: version: 1.5-31, (SVN revision 1171)
+Geospatial Data Abstraction Library extensions to R successfully loaded
+Loaded GDAL runtime: GDAL 3.4.3, released 2022/04/22
+Path to GDAL shared files: /usr/share/gdal
+GDAL binary built with GEOS: TRUE 
+Loaded PROJ runtime: Rel. 8.2.0, November 1st, 2021, [PJ_VERSION: 820]
+Path to PROJ shared files: /home/edzer/.local/share/proj:/usr/share/proj
+PROJ CDN enabled: FALSE
+Linking to sp version:1.4-7
+To mute warnings of possible GDAL/OSR exportToProj4() degradation,
+use options("rgdal_show_exportToProj4_warnings"="none") before loading sp or rgdal.
+Checking rgeos availability: TRUE
+Please note that 'maptools' will be retired by the end of 2023,
+plan transition at your earliest convenience;
+some functionality will be moved to 'sp'.
+Warning messages:
+1: In krigeST(sqrt(values) ~ 1, w, STF(grd, tgrd), v) :
   The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
  The unit 'secs' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.
-> 
-> all.equal(wind.pr0, wind.ST)
-[1] TRUE
-> #}
-> 
-> # stars:
-> df = data.frame(a = rep(NA, 324*10))
-> s = STF(grd, tgrd)
-> newd = addAttrToGeom(s, df)
-> wind.sta = krigeST(sqrt(values)~1, st_as_stars(w), st_as_stars(newd), v)
-Warning message:
-In krigeST(sqrt(values) ~ 1, st_as_stars(w), st_as_stars(newd),  :
+2: In krigeST(sqrt(values) ~ 1, st_as_stars(w), st_as_stars(newd),  :
   The spatio-temporal variogram model does not carry the strongly recommended attribute 'temporal unit'.
  The unit 'secs' has been assumed. krigeST could not check whether the temporal distances between locations and in the variogram coincide.
-> # 1
-> plot(stars::st_as_stars(wind.ST), breaks = "equal", col = sf.colors())
-> # 2
-> stplot(wind.ST)
-> # 3
-> plot(wind.sta, breaks = "equal", col = sf.colors())
-> st_as_stars(wind.ST)[[1]][1:3,1:3,1]
-         [,1]     [,2]     [,3]
-[1,] 1.434574 1.436801 1.441839
-[2,] 1.422832 1.422303 1.424073
-[3,] 1.410405 1.406165 1.402939
-> (wind.sta)[[1]][1:3,1:3,1]
-         [,1]     [,2]     [,3]
-[1,] 1.434574 1.436801 1.441839
-[2,] 1.422832 1.422303 1.424073
-[3,] 1.410405 1.406165 1.402939
-> st_bbox(wind.sta)
-   xmin    ymin    xmax    ymax 
- 398500 5535500 1172500 6309500 
-> bbox(wind.ST)
-       min     max
-x1  398500 1172500
-x2 5535500 6309500
-> all.equal(wind.sta, stars::st_as_stars(wind.ST), check.attributes = FALSE)
-[1] TRUE
-> 
-> # 4: roundtrip wind.sta->STFDF->stars
-> rt = stars::st_as_stars(as(wind.sta, "STFDF"))
-> plot(rt, breaks = "equal", col = sf.colors())
-> # 5:
-> stplot(as(wind.sta, "STFDF"))
-> st_bbox(rt)
-   xmin    ymin    xmax    ymax 
- 398500 5535500 1172500 6309500 
-> 
-> # 6:
-> stplot(as(st_as_stars(wind.ST), "STFDF"))
 > 
 > proc.time()
    user  system elapsed 
-  4.207   0.127   4.329 
+  4.247   0.104   4.343 

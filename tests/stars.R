@@ -25,13 +25,8 @@ all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 
 # 2. using stars for grid:
 
-suppressPackageStartupMessages(library(rgdal))
-writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
 suppressPackageStartupMessages(library(stars))
-(st0 = setNames(read_stars("meuse.tif"), "dist"))
 st = st_as_stars(meuse.grid)
-all.equal(st_dimensions(st0), st_dimensions(st))
-st_crs(st0)
 st_crs(st)
 
 # compare inputs:
@@ -52,9 +47,10 @@ k_st
 # handle factors, when going to stars?
 k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
 st_as_stars(k_sp_grd)
-st_as_stars(raster::stack(k_sp_grd)) # check
-
-all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
+if (require(raster, quietly = TRUE)) {
+ print(st_as_stars(raster::stack(k_sp_grd))) # check
+ print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))
+}
 
 suppressPackageStartupMessages(library(spacetime))
 

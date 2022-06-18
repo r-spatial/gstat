@@ -1,6 +1,6 @@
 
-R version 4.1.2 (2021-11-01) -- "Bird Hippie"
-Copyright (C) 2021 The R Foundation for Statistical Computing
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -127,70 +127,8 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 > 
 > # 2. using stars for grid:
 > 
-> suppressPackageStartupMessages(library(rgdal))
-> writeGDAL(meuse.grid[,"dist"], "meuse.tif", "GTiff")
 > suppressPackageStartupMessages(library(stars))
-> (st0 = setNames(read_stars("meuse.tif"), "dist"))
-stars object with 2 dimensions and 1 attribute
-attribute(s):
-      Min.   1st Qu.   Median      Mean  3rd Qu.     Max. NA's
-dist     0 0.1192915 0.271535 0.2971195 0.440159 0.992607 5009
-dimension(s):
-  from  to offset delta              refsys point values x/y
-x    1  78 178440    40 Amersfoort / RD New FALSE   NULL [x]
-y    1 104 333760   -40 Amersfoort / RD New FALSE   NULL [y]
 > st = st_as_stars(meuse.grid)
-> all.equal(st_dimensions(st0), st_dimensions(st))
- [1] "Attributes: < Component \"raster\": Component \"blocksizes\": Modes: numeric, NULL >"                                
- [2] "Attributes: < Component \"raster\": Component \"blocksizes\": Lengths: 2, 0 >"                                       
- [3] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < Modes: list, NULL > >"                   
- [4] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < Lengths: 2, 0 > >"                       
- [5] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < names for target but not for current > >"
- [6] "Attributes: < Component \"raster\": Component \"blocksizes\": Attributes: < current is not list-like > >"            
- [7] "Attributes: < Component \"raster\": Component \"blocksizes\": target is matrix, current is NULL >"                   
- [8] "Component \"x\": Component \"refsys\": Component \"wkt\": 1 string mismatch"                                         
- [9] "Component \"x\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"                              
-[10] "Component \"y\": Component \"refsys\": Component \"wkt\": 1 string mismatch"                                         
-[11] "Component \"y\": Component \"point\": 'is.NA' value mismatch: 1 in current 0 in target"                              
-> st_crs(st0)
-Coordinate Reference System:
-  User input: Amersfoort / RD New 
-  wkt:
-PROJCRS["Amersfoort / RD New",
-    BASEGEOGCRS["Amersfoort",
-        DATUM["Amersfoort",
-            ELLIPSOID["Bessel 1841",6377397.155,299.152812800003,
-                LENGTHUNIT["metre",1]]],
-        PRIMEM["Greenwich",0,
-            ANGLEUNIT["degree",0.0174532925199433]],
-        ID["EPSG",4289]],
-    CONVERSION["Oblique Stereographic",
-        METHOD["Oblique Stereographic",
-            ID["EPSG",9809]],
-        PARAMETER["Latitude of natural origin",52.1561605555556,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8801]],
-        PARAMETER["Longitude of natural origin",5.38763888888889,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8802]],
-        PARAMETER["Scale factor at natural origin",0.9999079,
-            SCALEUNIT["unity",1],
-            ID["EPSG",8805]],
-        PARAMETER["False easting",155000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8806]],
-        PARAMETER["False northing",463000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8807]]],
-    CS[Cartesian,2],
-        AXIS["easting",east,
-            ORDER[1],
-            LENGTHUNIT["metre",1,
-                ID["EPSG",9001]]],
-        AXIS["northing",north,
-            ORDER[2],
-            LENGTHUNIT["metre",1,
-                ID["EPSG",9001]]]]
 > st_crs(st)
 Coordinate Reference System:
   User input: Amersfoort / RD New 
@@ -287,7 +225,10 @@ dimension(s):
   from  to offset delta              refsys point values x/y
 x    1  78 178440    40 Amersfoort / RD New    NA   NULL [x]
 y    1 104 333760   -40 Amersfoort / RD New    NA   NULL [y]
-> st_as_stars(raster::stack(k_sp_grd)) # check
+> if (require(raster, quietly = TRUE)) {
++  print(st_as_stars(raster::stack(k_sp_grd))) # check
++  print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))
++ }
 stars object with 3 dimensions and 1 attribute
 attribute(s):
                 Min.   1st Qu. Median     Mean  3rd Qu.     Max.  NA's
@@ -301,9 +242,9 @@ band    1   3     NA    NA                  NA    NA
 x                               NULL [x]
 y                               NULL [y]
 band var1.pred, var1.var , cls          
-> 
-> all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE)
 [1] TRUE
+Warning message:
+no function found corresponding to methods exports from 'raster' for: 'area' 
 > 
 > suppressPackageStartupMessages(library(spacetime))
 > 
@@ -543,4 +484,4 @@ sample    1   5     NA    NA     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  5.171   0.093   5.263 
+  5.529   0.089   5.609 

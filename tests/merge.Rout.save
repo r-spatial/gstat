@@ -1,6 +1,6 @@
 
-R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -35,7 +35,7 @@ zero block size
 we're at point X: 1 Y: 1 Z: 0
 
 # X:
-Matrix: 4 by 1
+#Matrix: 4 by 1
 rbind(
 c( 1.000000), # row 1
 c( 1.000000), # row 2
@@ -44,7 +44,7 @@ c( 1.000000)  # row 4
 )
 [using generalized covariances: max_val - semivariance()]
 # Covariances (x_i, x_j) matrix C (upper triangle):
-Matrix: 4 by 4
+#Matrix: 4 by 4
 rbind(
 c( 1.000000,  0.135335,  0.067668,  0.029553), # row 1
 c( 0.135335,  1.000000,  0.029553,  0.067668), # row 2
@@ -53,7 +53,7 @@ c( 0.029553,  0.067668,  0.135335,  1.000000)  # row 4
 )
 
 # glm->C, Choleski decomposed::
-Matrix: 4 by 4
+#Matrix: 4 by 4
 rbind(
 c( 1.000000,  0.135335,  0.067668,  0.029553), # row 1
 c( 0.000000,  0.990800,  0.020584,  0.064259), # row 2
@@ -62,37 +62,37 @@ c( 0.000000,  0.000000,  0.000000,  0.988677)  # row 4
 )
 
 # X'C-1 X:
-Matrix: 1 by 1
+#Matrix: 1 by 1
 rbind(
 c( 3.245289)  # row 1
 )
 
 # beta:
-Vector: dim: 1
+#Vector: dim: 1
 c( 2.500000)
 # Cov(beta), (X'C-1 X)-1:
-Matrix: 1 by 1
+#Matrix: 1 by 1
 rbind(
 c( 0.308139)  # row 1
 )
 
 # Corr(beta):
-Matrix: 1 by 1
+#Matrix: 1 by 1
 rbind(
 c( 1.000000)  # row 1
 )
 
 # X0 (X values at prediction location x0):
-Matrix: 1 by 2
+#Matrix: 1 by 2
 rbind(
 c( 1.000000,  1.000000)  # row 1
 )
 
 # BLUE(mu), E(y(x0)) = X0'beta:
-Vector: dim: 2
+#Vector: dim: 2
 c( 2.500000,  2.500000)
 # Covariances (x_i, x_0), C0:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.243117,  0.121558), # row 1
 c( 0.243117,  0.121558), # row 2
@@ -101,7 +101,7 @@ c( 0.121558,  0.243117)  # row 4
 )
 
 # C-1 C0:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.206482,  0.089387), # row 1
 c( 0.206482,  0.089387), # row 2
@@ -110,38 +110,38 @@ c( 0.089387,  0.206482)  # row 4
 )
 
 # [a] Cov_ij(B,B) or Cov_ij(0,0):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 1.000000,  0.500000), # row 1
 c( 0.500000,  1.000000)  # row 2
 )
 
 # [c] (x0-X'C-1 c0)'(X'C-1 X)-1(x0-X'C-1 c0):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 0.051360,  0.051360), # row 1
 c( 0.051360,  0.051360)  # row 2
 )
 
 # [b] c0'C-1 c0:
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 0.122130,  0.093662), # row 1
 c( 0.093662,  0.122130)  # row 2
 )
 
 # Best Linear Unbiased Predictor:
-Vector: dim: 2
+#Vector: dim: 2
 c( 2.031619,  2.968381)
 # MSPE ([a]-[b]+[c]):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 0.929230,  0.457698), # row 1
 c( 0.457698,  0.929230)  # row 2
 )
 
 # kriging weights:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.308548,  0.191452), # row 1
 c( 0.308548,  0.191452), # row 2
@@ -166,7 +166,7 @@ zero block size
 we're at point X: 1 Y: 1 Z: 0
 
 # X:
-Matrix: 4 by 3
+#Matrix: 4 by 3
 rbind(
 c( 1.000000,  0.000000,  0.000000), # row 1
 c( 1.000000,  2.000000,  0.000000), # row 2
@@ -175,7 +175,7 @@ c( 0.000000,  2.000000,  1.000000)  # row 4
 )
 [using generalized covariances: max_val - semivariance()]
 # Covariances (x_i, x_j) matrix C (upper triangle):
-Matrix: 4 by 4
+#Matrix: 4 by 4
 rbind(
 c( 1.000000,  0.135335,  0.067668,  0.029553), # row 1
 c( 0.135335,  1.000000,  0.029553,  0.067668), # row 2
@@ -184,7 +184,7 @@ c( 0.029553,  0.067668,  0.135335,  1.000000)  # row 4
 )
 
 # glm->C, Choleski decomposed::
-Matrix: 4 by 4
+#Matrix: 4 by 4
 rbind(
 c( 1.000000,  0.135335,  0.067668,  0.029553), # row 1
 c( 0.000000,  0.990800,  0.020584,  0.064259), # row 2
@@ -193,7 +193,7 @@ c( 0.000000,  0.000000,  0.000000,  0.988677)  # row 4
 )
 
 # X'C-1 X:
-Matrix: 3 by 3
+#Matrix: 3 by 3
 rbind(
 c( 1.774607,  1.622645, -0.151962), # row 1
 c( 1.622645,  7.676050,  1.622645), # row 2
@@ -201,10 +201,10 @@ c(-0.151962,  1.622645,  1.774607)  # row 3
 )
 
 # beta:
-Vector: dim: 3
+#Vector: dim: 3
 c( 0.000000,  0.500000,  4.000000)
 # Cov(beta), (X'C-1 X)-1:
-Matrix: 3 by 3
+#Matrix: 3 by 3
 rbind(
 c( 0.793363, -0.225695,  0.274305), # row 1
 c(-0.225695,  0.225695, -0.225695), # row 2
@@ -212,7 +212,7 @@ c( 0.274305, -0.225695,  0.793363)  # row 3
 )
 
 # Corr(beta):
-Matrix: 3 by 3
+#Matrix: 3 by 3
 rbind(
 c( 1.000000, -0.533366,  0.345750), # row 1
 c(-0.533366,  1.000000, -0.533366), # row 2
@@ -220,7 +220,7 @@ c( 0.345750, -0.533366,  1.000000)  # row 3
 )
 
 # X0 (X values at prediction location x0):
-Matrix: 3 by 2
+#Matrix: 3 by 2
 rbind(
 c( 1.000000,  0.000000), # row 1
 c( 1.000000,  1.000000), # row 2
@@ -228,10 +228,10 @@ c( 0.000000,  1.000000)  # row 3
 )
 
 # BLUE(mu), E(y(x0)) = X0'beta:
-Vector: dim: 2
+#Vector: dim: 2
 c( 0.500000,  4.500000)
 # Covariances (x_i, x_0), C0:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.243117,  0.121558), # row 1
 c( 0.243117,  0.121558), # row 2
@@ -240,7 +240,7 @@ c( 0.121558,  0.243117)  # row 4
 )
 
 # C-1 C0:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.206482,  0.089387), # row 1
 c( 0.206482,  0.089387), # row 2
@@ -249,38 +249,38 @@ c( 0.089387,  0.206482)  # row 4
 )
 
 # [a] Cov_ij(B,B) or Cov_ij(0,0):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 1.000000,  0.500000), # row 1
 c( 0.500000,  1.000000)  # row 2
 )
 
 # [c] (x0-X'C-1 c0)'(X'C-1 X)-1(x0-X'C-1 c0):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 0.203564, -0.100844), # row 1
 c(-0.100844,  0.203564)  # row 2
 )
 
 # [b] c0'C-1 c0:
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 0.122130,  0.093662), # row 1
 c( 0.093662,  0.122130)  # row 2
 )
 
 # Best Linear Unbiased Predictor:
-Vector: dim: 2
+#Vector: dim: 2
 c( 0.500000,  4.500000)
 # MSPE ([a]-[b]+[c]):
-Matrix: 2 by 2
+#Matrix: 2 by 2
 rbind(
 c( 1.081434,  0.305494), # row 1
 c( 0.305494,  1.081434)  # row 2
 )
 
 # kriging weights:
-Matrix: 4 by 2
+#Matrix: 4 by 2
 rbind(
 c( 0.500000,  0.000000), # row 1
 c( 0.500000,  0.000000), # row 2
@@ -294,4 +294,4 @@ c( 0.000000,  0.500000)  # row 4
 > 
 > proc.time()
    user  system elapsed 
-  0.484   0.028   0.502 
+  0.551   0.044   0.588 

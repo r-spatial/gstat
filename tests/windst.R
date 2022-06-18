@@ -23,7 +23,7 @@ velocities = apply(windsqrt, 2, function(x) { x - meanwind })
 # proper Euclidian (projected) space:
 pts = coordinates(wind.loc[match(names(wind[4:15]), wind.loc$Code),])
 pts = SpatialPoints(pts)
-#if (require(rgdal) && require(maps)) {
+if (require(rgdal, quietly = TRUE) && require(maps, quietly = TRUE)) {
 proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
 utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
 pts = spTransform(pts, utm29)
@@ -70,7 +70,6 @@ v = vgmST("separable",
 wind.ST = krigeST(sqrt(values)~1, w, STF(grd, tgrd), v)
 
 all.equal(wind.pr0, wind.ST)
-#}
 
 # stars:
 df = data.frame(a = rep(NA, 324*10))
@@ -98,3 +97,4 @@ st_bbox(rt)
 
 # 6:
 stplot(as(st_as_stars(wind.ST), "STFDF"))
+}

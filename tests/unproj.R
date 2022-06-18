@@ -3,14 +3,14 @@
 # http://mypage.iu.edu/~srobeson/Pubs/variogram_sphere_mathgeo_2011.pdf
 
 suppressPackageStartupMessages(library(sp))
-suppressPackageStartupMessages(library(rgdal))
-suppressPackageStartupMessages(library(fields))
+library(gstat)
+
+if (require(rgdal, quietly = TRUE) && require(fields, quietly = TRUE)) {
 data(meuse)
 coordinates(meuse) = ~x+y
 proj4string(meuse) = CRS("+init=epsg:28992")
 meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
 meuse.ll[1:10,]
-library(gstat)
 variogram(log(zinc)~1, meuse.ll)
 
 cloud1 = variogram(log(zinc)~1, meuse, cloud=T, cutoff=6000)
@@ -52,3 +52,4 @@ print(head(vg.foo))
 
 cat('==========\nspDistsN1 Distances:\n')
 print(spDistsN1(coordinates(foo), coordinates(foo)[1,], longlat=TRUE))
+}
