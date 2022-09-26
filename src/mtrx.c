@@ -3,12 +3,12 @@
 #include <math.h> /* fabs */
 
 #define USE_FC_LEN_T
-#include "R_ext/Lapack.h"
+#include <R_ext/Lapack.h>
 #ifndef FCONE
 # define FCONE
 #endif
 
-#include "R.h"
+#include <R.h>
 
 #include "defs.h" /* CDECL */
 #include "utils.h" /* efree, emalloc */

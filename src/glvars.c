@@ -604,21 +604,13 @@ void check_global_variables(void) {
  * Side effects  : none
  * also check Cauchy-Schwartz unequality on cross/variograms.
  */
-	int i, j, nposX, n_merge = 0;
+	int i, j, n_merge = 0;
 	METHOD m;
 	VARIOGRAM *v_tmp;
 
 	/* UK: check if n_masks equals total nr of unbiasedness cond. */
 	if (gl_nblockdiscr < 2)
 		ErrMsg(ER_RANGE, "nblockdiscr must be >= 2");
-	if (method == UKR || method == LSLM) {
-		nposX = 0;
-		for (i = 0; i < get_n_vars(); i++)
-			for (j = 0; j < data[i]->n_X; j++) {
-				if (data[i]->colX[j] > 0)
-					nposX++;
-			}
-	}
     
 	if (method == SPREAD) {
 		for (i = 0; i < get_n_vars(); i++)

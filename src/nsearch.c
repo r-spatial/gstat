@@ -5,7 +5,7 @@
    Remote Sensing Laboratory                 http://www-umea.slu.se/~fjasj/
    Dept. of Forest Resource Mgmt. & Geomatics          Tel: +46 90 16 69 57
    Swedish University of Agricultural Sciences         Fax: +46 90 14 19 15 
-   S-901 83 Umeå, Sweden
+   S-901 83 Umea, Sweden
 
    Distributed freely under the terms of the GNU General Public License
    as a component of:
