@@ -113,7 +113,7 @@ is in error, but I have not corrected anything afterwards.
 \references{ \url{http://www.gstat.org/} 
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers \& Geosciences, 30: 683-691.
+Computers and Geosciences, 30: 683-691.
 
 Deutsch, C.V. and Journel, A.G., 1998.  GSLIB: Geostatistical software
 library and user's guide, second edition, Oxford University Press.

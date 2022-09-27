@@ -10,7 +10,7 @@
 # input: SpatialGrid/SpatialPixels/GridTopology
 # output: extended grid of class GridTopology
 ceExtGrid <- function(grid, ext=2) {
-  if (class(grid) != "GridTopology") {
+  if (!inherits(grid, "GridTopology")) {
     stopifnot(gridded(grid))
     
     grid <- grid@grid

@@ -152,7 +152,7 @@ columns of the conditional Gaussian or indicator simulations
 N.A.C. Cressie, 1993, Statistics for Spatial Data, Wiley. 
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers \& Geosciences, 30: 683-691.
+Computers and Geosciences, 30: 683-691.
 }
 \author{ Edzer Pebesma }
 

@@ -88,7 +88,7 @@ $N_j$; 2: weights equal to $N_j/((gamma(h_j))^2)$; 5 (ignore, use
 \references{ \url{http://www.gstat.org/} 
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers \& Geosciences, 30: 683-691.
+Computers and Geosciences, 30: 683-691.
 }
 
 \author{ Edzer Pebesma }

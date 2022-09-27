@@ -36,7 +36,7 @@ fitted model; else, the fitted model is returned.}
 
 \references{ 
 Mueller, W.G., 1999: Least-squares fitting from the variogram
-cloud. Statistics \& Probability Letters, 43, 93-98.
+cloud. Statistics and Probability Letters, 43, 93-98.
 
 Mueller, W.G., 2007: Collecting Spatial Data. Springer, Heidelberg.
 }

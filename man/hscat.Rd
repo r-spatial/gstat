@@ -37,7 +37,7 @@ Data pairs are plotted once, so the h-scatterplot are not symmetric.
 \references{ \url{http://www.gstat.org/}
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers \& Geosciences, 30: 683-691.
+Computers and Geosciences, 30: 683-691.
 
 }
 \examples{

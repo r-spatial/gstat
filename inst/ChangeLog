@@ -1,3 +1,20 @@
+2022-09-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* src/glvars.c, src/mtrx.c, src/nsearch.c: tidy fixes from clang15
+	warnings
+
+2022-06-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, R/krigeST.R, demo/sftime.R, inst/ChangeLog,
+	man/krigeST.Rd: return sftime object; addresses #104
+
+2022-06-18  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* tests/allier.Rout.save, tests/merge.Rout.save, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save,
+	tests/windst.R, tests/windst.Rout.save: changes to pass check with
+	_R_CHECK_DEPENDS_ONLY_=true
+
 2022-06-12  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/krigeST.R: remove ._dummy variable; #108

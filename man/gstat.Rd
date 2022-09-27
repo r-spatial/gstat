@@ -114,7 +114,7 @@ Its components are:
 }
 \references{ \url{http://www.gstat.org/} 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers \& Geosciences, 30: 683-691.
+Computers and Geosciences, 30: 683-691.
 
 for kriging with known, varying measurement errors (\code{weights}), see e.g.
 Delhomme, J.P.  Kriging in the hydrosciences.  Advances in Water
