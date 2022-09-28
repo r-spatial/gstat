@@ -620,10 +620,8 @@ covSurfMetric <- function(model, dist_grid) {
 
 fit.StVariogram <- function(object, model, ..., method = "L-BFGS-B", lower, upper, fit.method = 6, 
                             stAni=NA, wles) {
-  if (!inherits(object, "StVariogram"))
-    stop("\"object\" must be of class \"StVariogram\"")
-  if (!inherits(model, "StVariogramModel"))
-    stop("\"model\" must be of class \"StVariogramModel\".")
+  stopifnot(inherits(object, "StVariogram"), 
+			inherits(model, "StVariogramModel"))
   
   sunit <- attr(object$spacelag, "units")
   tunit <- attr(object$timelag, "units")
