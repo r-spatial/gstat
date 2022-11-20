@@ -26,6 +26,7 @@ line		examples for lines support prediction
 weight		compute (the expensive way) kriging weights for a single prediction location
 wind		space-time kriging with the Irish wind data sets
 rep			10 x 10 matrix of fitted variograms from 100 simulated fields
+sftime		demonstration for using the classes of sftime, local spatio-temporal kriging
 stkrige		model estimation for Vignette spatio-temporal kriging
 stkrige-prediction		prediction as in Vignette spatio-temporal kriging [!time consuming!]
 stkrige-crossvalidation		crossvalidation as in Vignette spatio-temporal kriging [!very time consuming!]

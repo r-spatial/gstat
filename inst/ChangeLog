@@ -1,3 +1,14 @@
+2022-09-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/stVariogramModels.R: tidy
+
+2022-09-27  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/circEmbed.R, inst/ChangeLog, man/fit.variogram.Rd,
+	man/fit.variogram.gls.Rd, man/gstat.Rd, man/hscat.Rd, man/krige.Rd,
+	man/krigeST.Rd, man/meuse.all.Rd, man/pcb.Rd, man/predict.gstat.Rd,
+	man/variogram.Rd, man/variogramST.Rd, man/vgm.Rd: remove &
+
 2022-09-26  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* src/glvars.c, src/mtrx.c, src/nsearch.c: tidy fixes from clang15
