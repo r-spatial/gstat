@@ -5,7 +5,7 @@ gstat
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-spatial/gstat?branch=master&svg=true)](https://ci.appveyor.com/project/edzerpebesma/gstat)
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/gstat)](https://cran.r-project.org/package=gstat)
-[![cran checks](https://cranchecks.info/badges/worst/gstat)](https://cran.r-project.org/web/checks/check_results_gstat.html)
+[![cran checks](https://badges.cranchecks.info/worst/gstat.svg)](https://cran.r-project.org/web/checks/check_results_gstat.html)
 [![Downloads](http://cranlogs.r-pkg.org/badges/gstat?color=brightgreen)](http://www.r-pkg.org/pkg/gstat)
 <!-- badges: end -->
 
