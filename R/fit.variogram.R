@@ -60,7 +60,7 @@ function (object, model, fit.sills = TRUE, fit.ranges = TRUE,
 	direct = attr(object, "direct")
 	if (!is.null(direct)) {
 		id = unique(object$id)
-		if (direct[direct$id == id, "is.direct"] && any(model$psill < 0)) {
+		if (any(direct[direct$id == id, "is.direct"]) && any(model$psill < 0)) {
 			if (warn.if.neg)
 				warning("partial sill or nugget fixed at zero value")
 			fit.sills = model$psill > 0
