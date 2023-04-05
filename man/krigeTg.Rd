@@ -82,6 +82,7 @@ Wiley.
 \seealso{ \link{gstat}, \link[gstat]{predict} }
 
 \examples{
+\donttest{
 library(sp)
 data(meuse)
 coordinates(meuse) = ~x+y
@@ -98,5 +99,6 @@ x = krigeTg(zinc~1,meuse,meuse.grid,m,lambda=-.25)
 spplot(x["var1TG.pred"], col.regions=bpy.colors())
 summary(meuse$zinc)
 summary(x$var1TG.pred)
+}
 }
 \keyword{ models }

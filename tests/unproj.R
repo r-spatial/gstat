@@ -5,7 +5,7 @@
 suppressPackageStartupMessages(library(sp))
 library(gstat)
 
-if (require(rgdal, quietly = TRUE) && require(fields, quietly = TRUE)) {
+if (require(sp, quietly = TRUE) && require(fields, quietly = TRUE)) {
 data(meuse)
 coordinates(meuse) = ~x+y
 proj4string(meuse) = CRS("+init=epsg:28992")

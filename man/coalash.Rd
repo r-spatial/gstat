@@ -28,7 +28,7 @@ distribution in coal seems by statistical response surface regression
 analysis. U.S. Bureau of Mines Report RI 7377.
 
 see also fields manual: 
-\url{http://www.image.ucar.edu/GSP/Software/Fields/fields.manual.coalashEX.Krig.shtml}
+\url{https://www.image.ucar.edu/GSP/Software/Fields/fields.manual.coalashEX.Krig.shtml}
 }
 \note{ data are also present in package fields, as coalash.  }
 \keyword{datasets}

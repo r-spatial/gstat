@@ -1,6 +1,6 @@
 
-R version 4.2.0 (2022-04-22) -- "Vigorous Calisthenics"
-Copyright (C) 2022 The R Foundation for Statistical Computing
+R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+Copyright (C) 2023 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -55,9 +55,6 @@ Type 'q()' to quit R.
 > meuse.area = SpatialPolygons(list(Polygons(list(Polygon(meuse.area)), "area")))
 
 > proj4string(meuse.area) <- crs
-Warning message:
-In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_proj) :
-  Discarded datum Amersfoort in Proj4 definition
 > suppressPackageStartupMessages(library(gstat))
 > v = variogram(log(zinc)~1, meuse)
 > (v.fit = fit.variogram(v, vgm(1, "Sph", 900, 1)))
@@ -123,15 +120,20 @@ In showSRID(uprojargs, format = "PROJ", multiline = "NO", prefer_proj = prefer_p
 [1] "Attributes: < Component \"bbox\": Attributes: < Component \"dimnames\": Component 1: 2 string mismatches > >"  
 [2] "Attributes: < Component \"coords\": Attributes: < Component \"dimnames\": Component 2: 2 string mismatches > >"
 [3] "Attributes: < Component \"coords.nrs\": Numeric: lengths (2, 0) differ >"                                      
-[4] "Attributes: < Component \"proj4string\": Attributes: < Component \"comment\": 1 string mismatch > >"           
+[4] "Attributes: < Component \"proj4string\": Attributes: < Names: 1 string mismatch > >"                           
+[5] "Attributes: < Component \"proj4string\": Attributes: < Length mismatch: comparison on first 2 components > >"  
+[6] "Attributes: < Component \"proj4string\": Attributes: < Component 2: 1 string mismatch > >"                     
 > 
 > # 2. using stars for grid:
 > 
 > suppressPackageStartupMessages(library(stars))
 > st = st_as_stars(meuse.grid)
+Warning message:
+In CPL_crs_from_input(x) :
+  GDAL Message 1: +init=epsg:XXXX syntax is deprecated. It might return a CRS with a non-EPSG compliant axis order.
 > st_crs(st)
 Coordinate Reference System:
-  User input: Amersfoort / RD New 
+  User input: +init=epsg:28992 
   wkt:
 PROJCRS["Amersfoort / RD New",
     BASEGEOGCRS["Amersfoort",
@@ -181,13 +183,16 @@ PROJCRS["Amersfoort / RD New",
 [1] "Names: Lengths (5, 1) differ (string compare on first 1)"
 [2] "Names: 1 string mismatch"                                
 > all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
-[1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
-[2] "Names: 1 string mismatch"                                                                      
-[3] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
-[4] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
-[5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
-[6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
-[7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
+ [1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
+ [2] "Names: 1 string mismatch"                                                                      
+ [3] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
+ [4] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
+ [5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
+ [6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
+ [7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
+ [8] "Attributes: < Component 5: Attributes: < Names: 1 string mismatch > >"                         
+ [9] "Attributes: < Component 5: Attributes: < Length mismatch: comparison on first 2 components > >"
+[10] "Attributes: < Component 5: Attributes: < Component 2: 1 string mismatch > >"                   
 > 
 > # kriging:
 > st_crs(st) = st_crs(meuse_sf) = NA # GDAL roundtrip messes them up!
@@ -204,9 +209,9 @@ attribute(s):
 var1.pred  4.7765547 5.2376293 5.5728839 5.7072287 6.1717619 7.4399911 5009
 var1.var   0.0854949 0.1372864 0.1621838 0.1853319 0.2116152 0.5002756 5009
 dimension(s):
-  from  to offset delta refsys point values x/y
-x    1  78 178440    40     NA    NA   NULL [x]
-y    1 104 333760   -40     NA    NA   NULL [y]
+  from  to offset delta x/y
+x    1  78 178440    40 [x]
+y    1 104 333760   -40 [y]
 > 
 > # handle factors, when going to stars?
 > k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
@@ -222,29 +227,13 @@ attribute(s):
  Max.   :7.440   Max.   :0.500   NA's :5009  
  NA's   :5009    NA's   :5009                
 dimension(s):
-  from  to offset delta              refsys point values x/y
-x    1  78 178440    40 Amersfoort / RD New    NA   NULL [x]
-y    1 104 333760   -40 Amersfoort / RD New    NA   NULL [y]
+  from  to offset delta              refsys x/y
+x    1  78 178440    40 Amersfoort / RD New [x]
+y    1 104 333760   -40 Amersfoort / RD New [y]
 > if (require(raster, quietly = TRUE)) {
 +  print(st_as_stars(raster::stack(k_sp_grd))) # check
 +  print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))
 + }
-stars object with 3 dimensions and 1 attribute
-attribute(s):
-                Min.   1st Qu. Median     Mean  3rd Qu.     Max.  NA's
-var1.pred  0.0854949 0.2116778      2 2.710347 5.237542 7.439991 15027
-dimension(s):
-     from  to offset delta              refsys point
-x       1  78 178440    40 Amersfoort / RD New    NA
-y       1 104 333760   -40 Amersfoort / RD New    NA
-band    1   3     NA    NA                  NA    NA
-                              values x/y
-x                               NULL [x]
-y                               NULL [y]
-band var1.pred, var1.var , cls          
-[1] TRUE
-Warning message:
-no function found corresponding to methods exports from 'raster' for: 'area' 
 > 
 > suppressPackageStartupMessages(library(spacetime))
 > 
@@ -264,10 +253,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                  offset  delta  refsys point values x/y
-x       1  4                      10    0.5      NA    NA   NULL [x]
-y       1  4                       0   -0.7      NA    NA   NULL [y]
-time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL    
+     from to                  offset  delta  refsys x/y
+x       1  4                      10    0.5      NA [x]
+y       1  4                       0   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
 > 
 > as.data.frame(s)
        x     y                time foo
@@ -450,10 +439,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                  offset  delta  refsys point values x/y
-x       1  4                      10    0.5      NA    NA   NULL [x]
-y       1  4            -1.11022e-16   -0.7      NA    NA   NULL [y]
-time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    NA   NULL    
+     from to                  offset  delta  refsys x/y
+x       1  4                      10    0.5      NA [x]
+y       1  4            -1.11022e-16   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
 > plot(s2, col = sf.colors(), axes = TRUE)
 > all.equal(s, s2, check.attributes = FALSE)
 [1] TRUE
@@ -477,11 +466,11 @@ attribute(s):
 zinc  101.7643 199.59256 300.2140 399.8017 544.0327 1817.2057 25045
 lead   32.7799  73.03151 107.9339 133.1725 178.8162  638.9396 25045
 dimension(s):
-       from  to offset delta refsys point        values x/y
-x         1  78 178440    40     NA    NA          NULL [x]
-y         1 104 333760   -40     NA    NA          NULL [y]
-sample    1   5     NA    NA     NA    NA sim1,...,sim5    
+       from  to offset delta        values x/y
+x         1  78 178440    40          NULL [x]
+y         1 104 333760   -40          NULL [y]
+sample    1   5     NA    NA sim1,...,sim5    
 > 
 > proc.time()
    user  system elapsed 
-  5.529   0.089   5.609 
+  3.077   3.833   2.414 

@@ -1,3 +1,28 @@
+2023-03-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* R/fit.variogram.R: fix bug in if()
+
+2023-02-24  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/CITATION: update
+
+2022-12-04  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* README.md: badge
+
+2022-11-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: CI
+
+2022-11-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: CI
+
+2022-11-20  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* demo/00Index, demo/cokriging.R, inst/ChangeLog: update cokriging
+	script to use sf/stars; #39
+
 2022-09-28  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/stVariogramModels.R: tidy

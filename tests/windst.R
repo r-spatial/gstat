@@ -23,19 +23,17 @@ velocities = apply(windsqrt, 2, function(x) { x - meanwind })
 # proper Euclidian (projected) space:
 pts = coordinates(wind.loc[match(names(wind[4:15]), wind.loc$Code),])
 pts = SpatialPoints(pts)
-if (require(rgdal, quietly = TRUE) && require(maps, quietly = TRUE)) {
+if (require(sp, quietly = TRUE) && require(maps, quietly = TRUE)) {
 proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
-utm29 = CRS("+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84")
-pts = spTransform(pts, utm29)
+utm29 = "+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84"
+pts = as(st_transform(st_as_sf(pts), utm29), "Spatial")
 # note the t() in:
 w = STFDF(pts, wind$time, data.frame(values = as.vector(t(velocities))))
 
 library(mapdata)
-library(maptools)
-m = map2SpatialLines(
-    map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5), plot=F))
-proj4string(m) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
-m = spTransform(m, utm29)
+mp = map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5), plot=FALSE)
+sf = st_transform(st_as_sf(mp, fill = FALSE), utm29)
+m = as(sf, "Spatial")
 
 # setup grid
 grd = SpatialPixels(SpatialPoints(makegrid(m, n = 300)),

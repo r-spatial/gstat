@@ -198,11 +198,11 @@ v
 g = gstat(NULL, "log-zinc", log(zinc)~x+y, meuse, model=v.fit, set = set)
 variogram(g)
 
-if (require(rgdal)) {
+if (require(sf)) {
   proj4string(meuse) = CRS("+init=epsg:28992")
-  meuse.ll = spTransform(meuse, CRS("+proj=longlat +datum=WGS84"))
+  meuse.ll = sf::st_transform(sf::st_as_sf(meuse), sf::st_crs("+proj=longlat +datum=WGS84"))
 # variogram of unprojected data, using great-circle distances, returning km as units
-  variogram(log(zinc) ~ 1, meuse.ll)
+  print(variogram(log(zinc) ~ 1, meuse.ll))
 }
 
 }

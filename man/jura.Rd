@@ -128,26 +128,4 @@ gridded(jura.grid) = TRUE
 jura.pred <- as.data.frame(jura.pred)
 coordinates(jura.pred) = ~ long + lat
 proj4string(jura.pred) = CRS("+init=epsg:4326")
-# display in Google Earth
-\dontrun{
-if (require(maptools)) {
-  kmlPoints(jura.pred,
-		kmlfile="JuraPred.kml",
-		kmlname="Jura Prediction Points",name=row.names(jura.pred@data),
-		description=paste(jura.pred$Landuse, jura.pred$Rock, sep="/"))
-
-
-  if (require(rgdal)) {
-  # transform to UTM 32N
-    jura.pred.utm32n = spTransform(jura.pred,
-                                CRS("+init=epsg:32632"))
-    coordnames(jura.pred.utm32n) = c("E","N")
-
-    # transform to Swiss grid system CH1903 / LV03
-    jura.pred.ch = spTransform(jura.pred,
-                             CRS("+init=epsg:21781"))
-    coordnames(jura.pred.ch) = c("X","Y")
-  }
-}
-}
 }
