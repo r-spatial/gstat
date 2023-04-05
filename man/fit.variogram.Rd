@@ -69,6 +69,12 @@ sample variogram estimate. In this case, again, an infinite number of
 possibilities occur essentially for fitting a line through a single
 (first sample variogram) point. In both cases, fixing one or more of
 the variogram model parameters may help you out.
+
+The function will accept anisotropic sample variograms as input. It will
+fit a model for a given direction interval if the sample variogram 
+only includes this direction. It is not possible to fit 
+a multiple direction model to each direction of the sample variogram, 
+in this case the model will be fitted to an average of all directions.
 }
 
 \details{
