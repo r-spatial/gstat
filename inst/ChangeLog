@@ -1,3 +1,13 @@
+2023-04-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : commit a2fe679ea5043200479253f168dc9a9f596d8baa Author: Edzer
+	Pebesma <edzer.pebesma@uni-muenster.de> Date:   Wed Apr 5 21:40:12
+	2023 +0200
+
+2023-03-23  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #124 from jskoien/main Describing how anisotropic variograms are handled in fit.variogram
+
 2023-03-22  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* R/fit.variogram.R: fix bug in if()

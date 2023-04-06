@@ -234,6 +234,20 @@ y    1 104 333760   -40 Amersfoort / RD New [y]
 +  print(st_as_stars(raster::stack(k_sp_grd))) # check
 +  print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))
 + }
+stars object with 3 dimensions and 1 attribute
+attribute(s):
+                Min.   1st Qu. Median     Mean  3rd Qu.     Max.  NA's
+var1.pred  0.0854949 0.2116778      2 2.710347 5.237542 7.439991 15027
+dimension(s):
+     from  to offset delta              refsys                          values
+x       1  78 178440    40 Amersfoort / RD New                            NULL
+y       1 104 333760   -40 Amersfoort / RD New                            NULL
+band    1   3     NA    NA                  NA var1.pred, var1.var , cls      
+     x/y
+x    [x]
+y    [y]
+band    
+[1] TRUE
 > 
 > suppressPackageStartupMessages(library(spacetime))
 > 
@@ -473,4 +487,4 @@ sample    1   5     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  3.077   3.833   2.414 
+  6.827   3.845   6.117 

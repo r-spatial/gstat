@@ -1,15 +1,16 @@
-# for validity of covariance functions on the sphere, see also:
 # DOI 10.1007/s11004-011-9344-7
 # http://mypage.iu.edu/~srobeson/Pubs/variogram_sphere_mathgeo_2011.pdf
 
 suppressPackageStartupMessages(library(sp))
 library(gstat)
 
-if (require(sp, quietly = TRUE) && require(fields, quietly = TRUE)) {
+if (require(sp, quietly = TRUE) && require(fields, quietly = TRUE) && require(sf, quietly = TRUE)) {
 data(meuse)
 coordinates(meuse) = ~x+y
 proj4string(meuse) = CRS("+init=epsg:28992")
-meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
+ll = "+proj=longlat +ellps=WGS84"
+# meuse.ll = spTransform(meuse, CRS("+proj=longlat +ellps=WGS84"))
+meuse.ll = as(st_transform(sf::st_as_sf(meuse), sf::st_crs(ll)), "Spatial")
 meuse.ll[1:10,]
 variogram(log(zinc)~1, meuse.ll)
 
@@ -24,8 +25,9 @@ abline(0,1)
 		  data.frame(t(ozone2$y)), 
 		  proj4string=CRS("+proj=longlat +ellps=WGS84"))
   variogram(X870731~1,oz[!is.na(oz$X870731),])
-  utm16 = CRS("+proj=utm +zone=16")
-  oz.utm = spTransform(oz, utm16)
+  utm16 = "+proj=utm +zone=16"
+  # oz.utm = spTransform(oz, utm16)
+  oz.utm = as(sf::st_transform(sf::st_as_sf(oz), utm16) , "Spatial")
   variogram(X870731~1,oz.utm[!is.na(oz$X870731),])
 
 # Timothy Hilton, r-sig-geo, Sept 14, 2008:

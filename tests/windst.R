@@ -26,7 +26,7 @@ pts = SpatialPoints(pts)
 if (require(sp, quietly = TRUE) && require(maps, quietly = TRUE)) {
 proj4string(pts) = "+proj=longlat +datum=WGS84 +ellps=WGS84"
 utm29 = "+proj=utm +zone=29 +datum=WGS84 +ellps=WGS84"
-pts = as(st_transform(st_as_sf(pts), utm29), "Spatial")
+pts = as(st_transform(st_as_sfc(pts), utm29), "Spatial")
 # note the t() in:
 w = STFDF(pts, wind$time, data.frame(values = as.vector(t(velocities))))
 

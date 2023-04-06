@@ -2,7 +2,7 @@ citHeader("To cite package gstat in publications use:")
 
 bibentry(bibtype="Article",
 	title = "Multivariable geostatistics in {S}: the gstat package",
-	author = personList(as.person("Edzer J. Pebesma")),
+	author = "Edzer J. Pebesma",
 	journal = "Computers & Geosciences",
 	year	 = 2004,
 	volume = 30,
@@ -13,8 +13,7 @@ bibentry(bibtype="Article",
 )
 bibentry(bibtype="Article",
 	title = "Spatio-Temporal Interpolation using gstat",
-	author = personList(as.person("Benedikt Gräler"), as.person("Edzer Pebesma"),
-		as.person("Gerard Heuvelink")),
+	author = "Benedikt Gräler and Edzer Pebesma and Gerard Heuvelink",
 	year = 2016,
 	journal = "The R Journal",
 	volume = 8,
