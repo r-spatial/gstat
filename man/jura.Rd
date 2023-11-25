@@ -26,13 +26,13 @@ systems.
 	\item{Yloc}{ Y coordinate, local grid km }
 	\item{Landuse}{ see book and below }
 	\item{Rock}{ see book and below }
-	\item{Cd}{ mg cadmium kg^{-1} topsoil }
-	\item{Co}{ mg cobalt kg^{-1} topsoil }
-	\item{Cr}{ mg chromium kg^{-1} topsoil }
-	\item{Cu}{ mg copper kg^{-1} topsoil }
-	\item{Ni}{ mg nickel kg^{-1} topsoil }
-	\item{Pb}{ mg lead kg^{-1} topsoil }
-	\item{Zn}{ mg zinc kg^{-1} topsoil }
+	\item{Cd}{ mg cadmium \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Co}{ mg cobalt \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Cr}{ mg chromium \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Cu}{ mg copper \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Ni}{ mg nickel \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Pb}{ mg lead \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
+	\item{Zn}{ mg zinc \eqn{\mbox{kg}^{-1}}{kg^-1} topsoil }
   }
   The \code{data.frame} juragrid.dat only has the first four fields.
   In addition the \code{data.frame}s jura.pred, jura.val and jura.grid also

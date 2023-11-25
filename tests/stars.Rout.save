@@ -1,5 +1,5 @@
 
-R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
+R version 4.3.2 (2023-10-31) -- "Eye Holes"
 Copyright (C) 2023 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -28,7 +28,7 @@ Type 'q()' to quit R.
 
 > require(sp)
 
-> crs = CRS("+init=epsg:28992")
+> crs = CRS("EPSG:28992")
 
 > data("meuse")
 
@@ -78,7 +78,7 @@ Type 'q()' to quit R.
 
 > require(sp)
 
-> crs = CRS("+init=epsg:28992")
+> crs = CRS("EPSG:28992")
 
 > data("meuse")
 
@@ -120,20 +120,14 @@ Type 'q()' to quit R.
 [1] "Attributes: < Component \"bbox\": Attributes: < Component \"dimnames\": Component 1: 2 string mismatches > >"  
 [2] "Attributes: < Component \"coords\": Attributes: < Component \"dimnames\": Component 2: 2 string mismatches > >"
 [3] "Attributes: < Component \"coords.nrs\": Numeric: lengths (2, 0) differ >"                                      
-[4] "Attributes: < Component \"proj4string\": Attributes: < Names: 1 string mismatch > >"                           
-[5] "Attributes: < Component \"proj4string\": Attributes: < Length mismatch: comparison on first 2 components > >"  
-[6] "Attributes: < Component \"proj4string\": Attributes: < Component 2: 1 string mismatch > >"                     
 > 
 > # 2. using stars for grid:
 > 
 > suppressPackageStartupMessages(library(stars))
 > st = st_as_stars(meuse.grid)
-Warning message:
-In CPL_crs_from_input(x) :
-  GDAL Message 1: +init=epsg:XXXX syntax is deprecated. It might return a CRS with a non-EPSG compliant axis order.
 > st_crs(st)
 Coordinate Reference System:
-  User input: +init=epsg:28992 
+  User input: Amersfoort / RD New 
   wkt:
 PROJCRS["Amersfoort / RD New",
     BASEGEOGCRS["Amersfoort",
@@ -160,21 +154,19 @@ PROJCRS["Amersfoort / RD New",
             ID["EPSG",8806]],
         PARAMETER["False northing",463000,
             LENGTHUNIT["metre",1],
-            ID["EPSG",8807]],
-        ID["EPSG",19914]],
+            ID["EPSG",8807]]],
     CS[Cartesian,2],
-        AXIS["(E)",east,
+        AXIS["easting (X)",east,
             ORDER[1],
-            LENGTHUNIT["metre",1,
-                ID["EPSG",9001]]],
-        AXIS["(N)",north,
+            LENGTHUNIT["metre",1]],
+        AXIS["northing (Y)",north,
             ORDER[2],
-            LENGTHUNIT["metre",1,
-                ID["EPSG",9001]]],
+            LENGTHUNIT["metre",1]],
     USAGE[
-        SCOPE["unknown"],
+        SCOPE["Engineering survey, topographic mapping."],
         AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],
-        BBOX[50.75,3.2,53.7,7.22]]]
+        BBOX[50.75,3.2,53.7,7.22]],
+    ID["EPSG",28992]]
 > 
 > # compare inputs:
 > sp = as(st, "Spatial")
@@ -183,16 +175,13 @@ PROJCRS["Amersfoort / RD New",
 [1] "Names: Lengths (5, 1) differ (string compare on first 1)"
 [2] "Names: 1 string mismatch"                                
 > all.equal(sp, meuse.grid["dist"], check.attributes = TRUE, use.names = FALSE)
- [1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
- [2] "Names: 1 string mismatch"                                                                      
- [3] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
- [4] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
- [5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
- [6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
- [7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
- [8] "Attributes: < Component 5: Attributes: < Names: 1 string mismatch > >"                         
- [9] "Attributes: < Component 5: Attributes: < Length mismatch: comparison on first 2 components > >"
-[10] "Attributes: < Component 5: Attributes: < Component 2: 1 string mismatch > >"                   
+[1] "Names: Lengths (5, 1) differ (string compare on first 1)"                                      
+[2] "Names: 1 string mismatch"                                                                      
+[3] "Attributes: < Component 3: Names: 1 string mismatch >"                                         
+[4] "Attributes: < Component 3: Length mismatch: comparison on first 1 components >"                
+[5] "Attributes: < Component 3: Component 1: Mean relative difference: 1.08298 >"                   
+[6] "Attributes: < Component 4: Attributes: < Component 2: names for current but not for target > >"
+[7] "Attributes: < Component 4: Attributes: < Component 3: names for current but not for target > >"
 > 
 > # kriging:
 > st_crs(st) = st_crs(meuse_sf) = NA # GDAL roundtrip messes them up!
@@ -455,7 +444,7 @@ foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
      from to                  offset  delta  refsys x/y
 x       1  4                      10    0.5      NA [x]
-y       1  4            -1.11022e-16   -0.7      NA [y]
+y       1  4               -1.11e-16   -0.7      NA [y]
 time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
 > plot(s2, col = sf.colors(), axes = TRUE)
 > all.equal(s, s2, check.attributes = FALSE)
@@ -487,4 +476,4 @@ sample    1   5     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  6.827   3.845   6.117 
+  6.463   7.400   5.083 
