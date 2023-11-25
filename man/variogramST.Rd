@@ -45,9 +45,9 @@ are equal then yes, else no; 0: no; 1: yes. }
   used, the second and third different spatial lags. \code{spacelag} is the midpoint in the spatial
   lag intervals as passed by the parameter \code{boundaries}, whereas \code{avgDist} is the average 
   distance between the point pairs found in a distance interval over all temporal lags (i.e. the 
-  averages of the values \code{dist} per temporal lag.) To compute variograms for space lag $h$ and
-  time lag $t$, the pseudo cross variogram $(Z_i(s)-Z_{i+t}(s+h))^2$ is averaged over all time 
-  lagged observation sets $Z_i$ and $Z_{i+t}$ available (weighted by the number of pairs involved).
+  averages of the values \code{dist} per temporal lag.) To compute variograms for space lag \eqn{h} and
+  time lag \eqn{t}, the pseudo cross variogram \eqn{(Z_i(s)-Z_{i+t}(s+h))^2} is averaged over all time 
+  lagged observation sets \eqn{Z_i} and \eqn{Z_{i+t}} available (weighted by the number of pairs involved).
 }
 
 \references{ 
