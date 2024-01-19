@@ -231,7 +231,8 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
     tmpInd[,1] <- ind %% nData  # row number
     tmpInd[,2] <- (ind %/% nData)+1 # col number
     if (cores == 1){
-      tmpInd[,3] <- apply(tmpInd[,1:2,drop=FALSE], 1, function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+      # tmpInd[,3] <- apply(tmpInd[,1:2,drop=FALSE], 1, function(x) spDists(data@sp[x[1]], data@sp[x[2]+x[1],]))
+      tmpInd[,3] <- spDists(data@sp[tmpInd[,1]], data@sp[tmpInd[,2]+tmpInd[,1], ], diagonal = TRUE)
     } else {
       if(!requireNamespace("future", quietly = TRUE) || !requireNamespace("future.apply", quietly = TRUE))
         stop("For parallelization, future and future.apply packages are required")
@@ -252,7 +253,7 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
       
       indSp <- cbind(ind[indSp] %% nData, (ind[indSp] %/% nData)+1)
       np[j,i] <- nrow(indSp) # Issue #7, Thanks to Roelof.
-      gamma[j,i] <- 0.5*mean((data[,,colnames(m)[1]]@data[indSp[,1],1] - data[,,colnames(m)[1]]@data[indSp[,1]+indSp[,2],1])^2,
+      gamma[j,i] <- 0.5*mean((data[,,colnames(m)[1]]@data[indSp[,1],1,drop=TRUE] - data[,,colnames(m)[1]]@data[indSp[,1]+indSp[,2],1,drop=TRUE])^2,
                              na.rm=TRUE)
     }
     if(progress)
