@@ -1,3 +1,46 @@
+2024-01-17  edzer <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: update
+
+2024-01-17  edzer <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/tic.yml: bump GA
+
+2024-01-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #133 from olivroy/patch-2 Update pkgdown config
+
+2024-01-11  olivroy <52606734+olivroy@users.noreply.github.com>
+
+	* .github/workflows/pkgdown.yaml: Create pkgdown.yaml
+
+2024-01-10  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #132 from olivroy/patch-1 Add website to DESCRIPTION
+
+2023-11-25  edzer <edzer.pebesma@uni-muenster.de>
+
+	* man/variogramST.Rd: doc issues
+
+2023-11-25  edzer <edzer.pebesma@uni-muenster.de>
+
+	* demo/pcb_sf.R: start of conversion
+
+2023-11-25  edzer <edzer.pebesma@uni-muenster.de>
+
+	* demo/00Index, man/jura.Rd, tests/stars.Rout.save: clean up tests,
+	CRAN doc NOTE
+
+2023-04-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION: bump version after CRAN release
+
+2023-04-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* inst/CITATION, inst/ChangeLog, man/sic2004.Rd,
+	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save,
+	tests/windst.R, tests/windst.Rout.save: fixes for CRAN release 2.1-1
+
 2023-04-05  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
 
 	* : commit a2fe679ea5043200479253f168dc9a9f596d8baa Author: Edzer

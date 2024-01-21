@@ -189,18 +189,21 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
   m = model.frame(terms(formula), as(data, "data.frame"))
   
   diffTime <- diff(index(data))
-  timeScale <- units(diffTime)
-  if(missing(tunit))
-    warning(paste("The argument 'tunit' is missing: tlags are assumed to be given in ", timeScale, ".",sep=""))
-  else {
-    stopifnot(tunit %in% c("secs", "mins", "hours", "days", "weeks"))
-    units(diffTime) <- tunit
-    timeScale <- tunit
-  }
-  diffTime <- as.numeric(diffTime)
-  if (missing(twindow)) {
-    twindow <- round(2 * max(tlags, na.rm=TRUE)/mean(diffTime,na.rm=TRUE),0)
-  }
+  if (inherits(diffTime, "difftime")) {
+    timeScale <- units(diffTime)
+    if(missing(tunit))
+      warning(paste("The argument 'tunit' is missing: tlags are assumed to be given in ", timeScale, ".",sep=""))
+    else {
+      stopifnot(tunit %in% c("secs", "mins", "hours", "days", "weeks"))
+      units(diffTime) <- tunit
+      timeScale <- tunit
+    }
+    diffTime <- as.numeric(diffTime)
+  } else if (!missing(tunit))
+    stop("'tunit' ignored, as time values are not of class POSIXct or Date")
+  
+  if (missing(twindow))
+    twindow <- round(2 * max(tlags, na.rm=TRUE) / mean(diffTime, na.rm = TRUE), 0)
     
   nData <- nrow(data)
   
