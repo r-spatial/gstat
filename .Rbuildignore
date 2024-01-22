@@ -17,3 +17,5 @@ ChangeLog
 ^\.github$
 tic.R
 ^\.ccache$
+_pkgdown.yml
+attic
