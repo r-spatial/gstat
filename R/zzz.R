@@ -17,4 +17,3 @@
 ## }
  
 variogram <- function(object, ...) UseMethod("variogram")
-units.default <- function(x, ...) base::units.difftime(x)
