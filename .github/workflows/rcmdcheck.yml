@@ -33,7 +33,7 @@ jobs:
       - uses: r-lib/actions/setup-tinytex@v2
 
       - name: Install additional LaTeX packages
-        run: tlmgr install grfext multirow
+        run: tlmgr install grfext multirow caption
 
       - uses: r-lib/actions/setup-pandoc@v2
 
