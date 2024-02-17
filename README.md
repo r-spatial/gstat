@@ -1,7 +1,7 @@
 gstat
 =====
  <!-- badges: start -->
-[![R-CMD-check](https://github.com/r-spatial/gstat/workflows/tic/badge.svg)](https://github.com/r-spatial/gstat/actions)
+[![R-CMD-check](https://github.com/r-spatial/gstat/workflows/rcmdcheck.yml/badge.svg)](https://github.com/r-spatial/gstat/actions/workflows/rcmdcheck.yml)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-spatial/gstat?branch=master&svg=true)](https://ci.appveyor.com/project/edzerpebesma/gstat)
 [![License](http://img.shields.io/badge/license-GPL%20%28%3E=%202%29-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-2.0.html)
 [![CRAN](http://www.r-pkg.org/badges/version/gstat)](https://cran.r-project.org/package=gstat)
