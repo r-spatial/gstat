@@ -20,8 +20,9 @@ as.vgm.variomodel(m)
 }
 \arguments{
 \item{psill}{ (partial) sill of the variogram model component, or model: see Details }
-\item{model}{ model type, e.g. "Exp", "Sph", "Gau", "Mat". Calling vgm() without
-a model argument returns a data.frame with available models. }
+\item{model}{ model type, e.g. "Exp", "Sph", "Gau", or "Mat". Can be a character vector of model 
+types combined with c(), e.g. c("Exp", "Sph"), in which case the best fitting is returned. 
+Calling vgm() without a model argument returns a data.frame with available models. }
 \item{range}{ range parameter of the variogram model component; in case of anisotropy: major range }
 \item{kappa}{ smoothness parameter for the Matern class of variogram 
 models }
@@ -59,7 +60,7 @@ to vgm.
 }
 \author{ Edzer Pebesma }
 \details{ If only the first argument (\code{psill}) is given a
-\code{character} value indicating a model, as in \code{vgm("Sph")},
+\code{character} value/vector indicating one or more models, as in \code{vgm("Sph")},
 then this taken as a shorthand form of \code{vgm(NA,"Sph",NA,NA)},
 i.e. a spherical variogram with nugget and unknown parameter values;
 see examples below. Read \link{fit.variogram} to find out how
