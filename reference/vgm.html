@@ -69,8 +69,9 @@ print.variogramModel prints the essence of a variogram  model."><!-- mathjax -->
 <dd><p>(partial) sill of the variogram model component, or model: see Details</p></dd>
 
 <dt>model</dt>
-<dd><p>model type, e.g. "Exp", "Sph", "Gau", "Mat". Calling vgm() without
-a model argument returns a data.frame with available models.</p></dd>
+<dd><p>model type, e.g. "Exp", "Sph", "Gau", or "Mat". Can be a character vector of model 
+types combined with c(), e.g. c("Exp", "Sph"), in which case the best fitting is returned. 
+Calling vgm() without a model argument returns a data.frame with available models.</p></dd>
 
 <dt>range</dt>
 <dd><p>range parameter of the variogram model component; in case of anisotropy: major range</p></dd>
@@ -148,7 +149,7 @@ to vgm.</p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>If only the first argument (<code>psill</code>) is given a
-<code>character</code> value indicating a model, as in <code>vgm("Sph")</code>,
+<code>character</code> value/vector indicating one or more models, as in <code>vgm("Sph")</code>,
 then this taken as a shorthand form of <code>vgm(NA,"Sph",NA,NA)</code>,
 i.e. a spherical variogram with nugget and unknown parameter values;
 see examples below. Read <a href="fit.variogram.html">fit.variogram</a> to find out how
