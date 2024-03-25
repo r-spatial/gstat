@@ -1,6 +1,9 @@
 extractFormula = function(formula, data, newdata) {
   # extract y and X from data:
-  m = model.frame(terms(formula), as(data, "data.frame"), na.action = na.fail)
+  if (inherits(data, "Spatial"))
+    m = model.frame(terms(formula), as(data, "data.frame"), na.action = na.fail)
+  else
+    m = model.frame(terms(formula), as.data.frame(data), na.action = na.fail)
   y = model.extract(m, "response")
   if (length(y) == 0)
     stop("no response variable present in formula")
@@ -36,8 +39,10 @@ krige0 <- function(formula, data, newdata, model, beta, y, ...,
   
   if (inherits(data, "ST"))
   	stopifnot(identical(data@sp@proj4string@projargs, newdata@sp@proj4string@projargs))
-  else
+  else if (inherits(data, "Spatial"))
   	stopifnot(identical(data@proj4string@projargs, newdata@proj4string@projargs))
+  else
+    stopifnot(st_crs(data) == st_crs(newdata))
   lst = extractFormula(formula, data, newdata)
   X = lst$X
   x0 = lst$x0
