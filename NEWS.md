@@ -1,3 +1,7 @@
+# version 3.0-0
+
+* drop support for sp and spacetime objects, only support spatial data in sf and stars formats
+
 # version 2.1-2
 
 * `variogram()` supports `stars` (raster) objects, benefiting from them being gridded
