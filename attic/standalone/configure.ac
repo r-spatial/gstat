@@ -1,11 +1,12 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(./src/gstat.c)
+AC_INIT
+AC_CONFIG_SRCDIR([./src/gstat.c])
 version=2.5.2
 AC_SUBST(version)
 target=`uname -m`
 AC_SUBST(target)
 
-AC_CONFIG_HEADER(src/config.h:src/config.hin)
+AC_CONFIG_HEADERS([src/config.h:src/config.hin])
 
 dnl cache_file=/dev/null
 
@@ -18,8 +19,7 @@ $2
 GDAL_CONFIG="gdal-config"
 
 AC_ARG_WITH([gdal-config],
-	AC_HELP_STRING([--with-gdal-config=GDAL_CONFIG],
-		[the location of gdal-config]),
+	AS_HELP_STRING([--with-gdal-config=GDAL_CONFIG],[the location of gdal-config]),
 		[gdal_config=$withval])
 if test [ -n "$gdal_config" ] ; then
     AC_SUBST([GDAL_CONFIG],["${gdal_config}"])
@@ -39,10 +39,18 @@ dnl Checks for programs.
 AC_PROG_CC
 AC_PROG_RANLIB
 AC_PROG_INSTALL
-# AC_ISC_POSIX
-# AC_AIX
+# AC_SEARCH_LIBS([strerror],[cposix])
+# AC_USE_SYSTEM_EXTENSIONS
 
-AC_HEADER_STDC
+m4_warn([obsolete],
+[The preprocessor macro `STDC_HEADERS' is obsolete.
+  Except in unusual embedded environments, you can safely include all
+  ISO C90 headers unconditionally.])dnl
+# Autoupdate added the next two lines to ensure that your configure
+# script's behavior did not change.  They are probably safe to remove.
+AC_CHECK_INCLUDES_DEFAULT
+AC_PROG_EGREP
+
 AM_C_PROTOTYPES
 AC_C_CONST
 dnl this shell variable is set to no if above failed to set
@@ -66,7 +74,20 @@ dnl Checks for typedefs, structures, and compiler characteristics.
 # no checks
 
 # check for <sys/time.h>, for gettimeofday function
-AC_HEADER_TIME
+m4_warn([obsolete],
+[Update your code to rely only on HAVE_SYS_TIME_H,
+then remove this warning and the obsolete code below it.
+All current systems provide time.h; it need not be checked for.
+Not all systems provide sys/time.h, but those that do, all allow
+you to include it and time.h simultaneously.])dnl
+AC_CHECK_HEADERS_ONCE([sys/time.h])
+# Obsolete code to be removed.
+if test $ac_cv_header_sys_time_h = yes; then
+  AC_DEFINE([TIME_WITH_SYS_TIME],[1],[Define to 1 if you can safely include both <sys/time.h>
+	     and <time.h>.  This macro is obsolete.])
+fi
+# End of obsolete code.
+
 
 dnl Checks for library functions:
 AC_FUNC_MEMCMP
@@ -259,4 +280,6 @@ LIBS="$LIBS -lm"
 # AC_CHECK_LIB(readline, main)
 
 # process target files, apart from the config.h files:
-AC_OUTPUT(makefile src/makefile doc/tex/makefile)
+#AC_CONFIG_FILES([makefile src/makefile doc/tex/makefile])
+AC_CONFIG_FILES([makefile src/makefile])
+AC_OUTPUT

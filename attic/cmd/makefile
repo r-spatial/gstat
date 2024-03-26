@@ -44,7 +44,7 @@ RESULT_MAPS = id_pr \
 
 RESULT_ASCII = zinc_ok.out zincmap.eas
 
-BINDIR = ../src/
+BINDIR = ../standalone/src/
 
 REFDIR = ../dos
 
