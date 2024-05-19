@@ -1,3 +1,9 @@
+# version 2.1-2
+
+* `variogram()` supports `stars` (raster) objects, benefiting from them being gridded
+
+# version 2.1-1
+
 # version 2.1-0
 
 * import `sftime`; modify `krigeST()` variogram functions to accept `sftime` objects for `data` (as alternative to `STI` or `STIDF`), and `stars` or `sftime` objects for `newdata`; #108 with great help from @henningte

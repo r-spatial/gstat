@@ -3,7 +3,7 @@
 "variogram.formula" <-
 function (object, locations = coordinates(data), data, ...) 
 {
-	if ((missing(locations) && inherits(data, "sf")) || (inherits(locations, "sf"))) {
+	if ((missing(locations) && inherits(data, c("sf", "stars"))) || (inherits(locations, c("sf", "stars")))) {
 		if (!requireNamespace("sf", quietly = TRUE))
        		stop("sf required: install that first") # nocov
 		if (missing(locations))

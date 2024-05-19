@@ -1,6 +1,6 @@
 
-R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
-Copyright (C) 2023 The R Foundation for Statistical Computing
+R version 4.3.3 (2024-02-29) -- "Angel Food Cake"
+Copyright (C) 2024 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -21,7 +21,9 @@ Type 'q()' to quit R.
 > suppressPackageStartupMessages(library(sp))
 > library(gstat)
 > 
-> if (require(sp, quietly = TRUE) && require(fields, quietly = TRUE) && require(sf, quietly = TRUE)) {
+> if (require(sp, quietly = TRUE) && 
++ 	suppressPackageStartupMessages(require(fields, quietly = TRUE)) && 
++ 	suppressPackageStartupMessages(require(sf, quietly = TRUE))) {
 + data(meuse)
 + coordinates(meuse) = ~x+y
 + proj4string(meuse) = CRS("+init=epsg:28992")
@@ -72,21 +74,6 @@ Type 'q()' to quit R.
 + cat('==========\nspDistsN1 Distances:\n')
 + print(spDistsN1(coordinates(foo), coordinates(foo)[1,], longlat=TRUE))
 + }
-Spam version 2.9-1 (2022-08-07) is loaded.
-Type 'help( Spam)' or 'demo( spam)' for a short introduction 
-and overview of this package.
-Help for individual functions is also obtained by adding the
-suffix '.spam' to the function name, e.g. 'help( chol.spam)'.
-
-Attaching package: 'spam'
-
-The following objects are masked from 'package:base':
-
-    backsolve, forwardsolve
-
-
-Try help(fields) to get started.
-Linking to GEOS 3.11.1, GDAL 3.6.2, PROJ 9.1.1; sf_use_s2() is TRUE
 ==========
 variogram:
        dist        gamma dir.hor dir.ver   id left right
@@ -106,4 +93,4 @@ In CPL_crs_from_input(x) :
 > 
 > proc.time()
    user  system elapsed 
-  2.028   0.818   1.946 
+  1.466   1.314   1.282 
