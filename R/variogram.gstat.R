@@ -9,7 +9,7 @@
 	beta = list()
 	grid = list()
 	projected = TRUE
-	for (i in seq(along = object$data)) {
+	for (i in seq(along.with = object$data)) {
 		d = object$data[[i]]
 		beta[[i]] = d$beta
 		if (i > 1 && !identical(object$data[[1]]$data@proj4string@projargs, d$data@proj4string@projargs))

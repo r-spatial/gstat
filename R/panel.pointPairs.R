@@ -19,7 +19,7 @@ function (x, y, type = "p", pch = plot.symbol$pch, col, col.line =
         plot.line = trellis.par.get("plot.line")
         lpoints(x = x, y = y, cex = cex, col = col.symbol, pch = pch, ...)
         if (!missing(pairs)) {
-			for (i in seq(along = pairs[,1])) {
+			for (i in seq(along.with = pairs[,1])) {
 				xx = c(x[pairs[i,1]], x[pairs[i,2]])
 				yy = c(y[pairs[i,1]], y[pairs[i,2]])
             	llines(x = xx, y = yy, lty = lty, col = col.line, lwd = lwd)

@@ -105,7 +105,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		block = matrix(NA, 0, 2)
 		nd = as(newdata, "SpatialPolygons")
 		block.cols = rep(as.numeric(NA), length(pol))
-		for (i in seq(along = pol)) {
+		for (i in seq(along.with = pol)) {
 			sps.args$x = nd[i]
 			cc = coordinates(do.call("spsample", sps.args))
 			cc[,1] = cc[,1] - raw$locations[i,1]
@@ -122,7 +122,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		block = matrix(NA, 0, 2)
 		nd = as(newdata, "SpatialLines")
 		block.cols = rep(as.numeric(NA), length(lin))
-		for (i in seq(along = lin)) {
+		for (i in seq(along.with = lin)) {
 			sps.args$x = nd[i]
 			cc = coordinates(do.call("spsample", sps.args))
 			cc[,1] = cc[,1] - raw$locations[i,1]
@@ -156,7 +156,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 		if (indicators == TRUE)
 			nsim = -abs(nsim)
 	# random path: randomly permute row indices
-		perm = sample(seq(along = new.X[, 1]))
+		perm = sample(seq(along.with = new.X[, 1]))
 		ret = .Call(gstat_predict, as.integer(nrow(as.matrix(new.X))),
 			as.double(as.vector(raw$locations[perm, ])),
 			as.double(as.vector(new.X[perm,])),
