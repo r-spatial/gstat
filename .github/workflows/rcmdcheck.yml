@@ -32,6 +32,9 @@ jobs:
 
       - uses: r-lib/actions/setup-tinytex@v2
 
+      - name: Update tlmgr
+        run: tlmgr update --self
+
       - name: Install additional LaTeX packages
         run: tlmgr install grfext multirow caption setspace
 
