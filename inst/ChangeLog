@@ -1,3 +1,71 @@
+2024-06-19  edzer <edzer.pebesma@uni-muenster.de>
+
+	* .github/workflows/rcmdcheck.yml: update tlmgr
+
+2024-06-19  edzer <edzer.pebesma@uni-muenster.de>
+
+	* R/panel.pointPairs.R, R/predict.gstat.R, R/variogram.gstat.R,
+	R/variogramST.R: along -> along.with
+
+2024-03-26  edzer <edzer.pebesma@uni-muenster.de>
+
+	* tests/unproj.R, tests/unproj.Rout.save: clean test noise output
+
+2024-03-21  edzer <edzer.pebesma@uni-muenster.de>
+
+	* : commit c8be3e8e2c5adc18c0834fee62ebaaf2cbe63112 Author: edzer
+	<edzer.pebesma@uni-muenster.de> Date:   Thu Mar 21 19:32:27 2024
+	+0100
+
+2024-03-14  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #139 from AMBarbosa/main vgm: state that 'model' can be a chr vector
+
+2024-02-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #138 from kadyb/main fix URL in README
+
+2024-02-21  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #136 from kadyb/main Create new rcmdcheck workflow
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .travis.yml: Delete .travis.yml
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* tic.R: Delete tic.R
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/tic.yml: Delete .github/workflows/tic.yml
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/rcmdcheck.yml: add LaTeX package
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/rcmdcheck.yml: add LaTeX package
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/rcmdcheck.yml: install LaTeX packages
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/rcmdcheck.yml: add TinyTeX
+
+2024-02-17  Krzysztof Dyba <35004826+kadyb@users.noreply.github.com>
+
+	* .github/workflows/rcmdcheck.yml: create rcmdcheck workflow
+
+2024-01-21  edzer <edzer.pebesma@uni-muenster.de>
+
+	* .Rbuildignore, R/variogramST.R, inst/ChangeLog: allow non-POSIXct
+	and non-Date times; #135
+
 2024-01-17  edzer <edzer.pebesma@uni-muenster.de>
 
 	* .github/workflows/tic.yml: update

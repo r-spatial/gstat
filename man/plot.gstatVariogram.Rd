@@ -41,7 +41,7 @@ graph, using color, colored lines and symbols to distinguish them }
 each plotted semivariance symbol, if FALSE these are omitted. 
 If numeric, TRUE is assumed and the value is passed as the relative distance to be used between symbols
 and numeric text values (default 0.03). }
-\item{scales}{ optional argument that will be passed to \code{xyplot} in
+\item{scales}{ optional argument that will be passed to \code{\link[lattice]{xyplot}} in
 case of the plotting of variograms and cross variograms; use the value
 \code{list(relation = "same")} if y-axes need to share scales }
 \item{ids}{ ids of the data variables and variable pairs }
@@ -49,7 +49,7 @@ case of the plotting of variograms and cross variograms; use the value
 if TRUE, panels divide direction and colors indicate variables
 (ids), if FALSE panels divide variables/variable pairs and colors
 indicate direction}
-\item{skip}{ logical; can be used to arrange panels, see \code{xyplot}}
+\item{skip}{ logical; can be used to arrange panels, see \code{\link[lattice]{xyplot}}}
 \item{layout}{ integer vector; can be used to set panel layout: c(ncol,nrow) }
 \item{np}{ logical (only for plotting variogram maps); if TRUE, plot number of point pairs, if FALSE plot
 semivariances }
@@ -62,7 +62,7 @@ than threshold will not be plotted}
 \item{convertMonths}{logical; if TRUE, \code{yearmon} time lags will
 be unit converted and plotted as (integer) months, and no longer match the
 numeric representation of \code{yearmon}, which has years as unit }
-\item{as.table}{controls the plotting order for multiple panels, see \code{\link{xyplot}} for details.}
+\item{as.table}{controls the plotting order for multiple panels, see \code{\link[lattice]{xyplot}} for details.}
 \item{wireframe}{logical; if TRUE, produce a wireframe plot}
 \item{diff}{logical; if TRUE, plot difference between model and sample variogram; ignores \code{all}.}
 \item{all}{logical; if TRUE, plot sample and model variogram(s) in single wireframes.}

@@ -45,7 +45,7 @@ krigeTg(formula, locations, newdata, model = NULL, ...,
 }
 \details{
 Function \code{krigeTg} uses transGaussian kriging as explained in
-\url{http://www.math.umd.edu/~bnk/bak/Splus/kriging.html}. 
+\url{https://www.math.umd.edu/~bnk/bak/Splus/kriging.html}. 
 
 As it uses the R/gstat krige function to derive everything, it needs in
 addition to ordinary kriging on the transformed scale a simple kriging

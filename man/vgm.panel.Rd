@@ -39,7 +39,7 @@ panel.pointPairs(x, y, type = "p", pch = plot.symbol$pch, col, col.line =
 \item{line.pch}{ symbol type to be used for point of selected point pairs, e.g.
 to highlight point pairs with distance close to zero }
 \item{pairs}{ two-column matrix with pair indexes to be highlighted }
-\item{...}{ parameters that get passed to \link{lpoints} }
+\item{...}{ parameters that get passed to \link[lattice]{lpoints} }
 }
 \value{
 ignored; the enclosing function returns a plot of class \code{trellis}

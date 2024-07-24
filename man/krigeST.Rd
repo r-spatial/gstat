@@ -73,7 +73,7 @@ krigeSTTg(formula, data, newdata, modelList, y, nmax=Inf, stAni=NULL,
 
 \value{
  An object of the same class as \code{newdata} (deriving from 
- \code{\linkS4class{ST}}). Attributes columns contain prediction and prediction 
+ \code{\link[spacetime:ST-class]{ST}}). Attributes columns contain prediction and prediction 
  variance.
 }
 
@@ -88,8 +88,7 @@ Wiley.
 \url{http://www.gstat.org/}
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
-Computers and Geosciences, 30: 683-691.
-}
+Computers and Geosciences, 30: 683-691.  }
 \author{ Edzer Pebesma, Benedikt Graeler }
 
 \seealso{ \code{\link{krige0}}, \code{\link{gstat}}, \code{\link[gstat]{predict}}, \code{\link{krigeTg}} }
