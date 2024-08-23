@@ -381,7 +381,7 @@ MAT *m_sub(MAT *m1, MAT *m2, MAT *out) { /* out <- m1 - m2 */
 /* 4: matrix factorisation, solving systems of equations */
 MAT *CHfactor(MAT *m, PERM *piv, int *info) {
     if (m->m != m->n) 
-		error("CHfactor: 'm' must be a square matrix");
+		Rf_error("CHfactor: 'm' must be a square matrix");
 
 	for (int i = 1; i < m->m; i++)
 		for (int j = 0; j < i; j++)
@@ -391,13 +391,13 @@ MAT *CHfactor(MAT *m, PERM *piv, int *info) {
 		F77_CALL(dpotrf)("Upper", (int *)&(m->n), m->v, (int *)&(m->n), info, (FC_LEN_T) 5);
 		if (*info != 0) {
 	    	if (*info > 0 && DEBUG_COV)
-				warning("the leading minor of order %d is not positive definite", *info);
+				Rf_warning("the leading minor of order %d is not positive definite", *info);
 	    	if (*info < 0)
-				error("argument %d of Lapack routine %s had invalid value", -(*info), "dpotrf");
+				Rf_error("argument %d of Lapack routine %s had invalid value", -(*info), "dpotrf");
 		}
 	} else { /* LDL': */
     	if (piv->size != m->n) 
-			error("CHfactor: 'piv' must have dimension equal to m->n");
+			Rf_error("CHfactor: 'piv' must have dimension equal to m->n");
 		double w, *work;
 		/* first query for size of work, then allocate work, then factorize m: */
 		int lwork = -1;
@@ -408,9 +408,9 @@ MAT *CHfactor(MAT *m, PERM *piv, int *info) {
 		efree(work);
 		if (*info != 0) {
 	    	if (*info > 0 && DEBUG_COV)
-				warning("D[%d,%d] is exactly zero, meaning that D is singular", *info, *info);
+				Rf_warning("D[%d,%d] is exactly zero, meaning that D is singular", *info, *info);
 	    	if (*info < 0)
-				error("argument %d of Lapack routine %s had invalid value", -(*info), "dsytrf");
+				Rf_error("argument %d of Lapack routine %s had invalid value", -(*info), "dsytrf");
 		}
 	}
 	return(m);
@@ -419,32 +419,32 @@ MAT *CHfactor(MAT *m, PERM *piv, int *info) {
 MAT *CHsolve(MAT *m, MAT *b, MAT *out, PERM *piv) { /* solve A X = B after factorizing A */
 	int info;
 	if (m->m != m->n) 
-		error("CHsolve: 'm' must be a square matrix");
+		Rf_error("CHsolve: 'm' must be a square matrix");
 	if (m->m != b->m) 
-		error("CHsolve: b does not match m");
+		Rf_error("CHsolve: b does not match m");
 	out = m_copy(b, out); /* column-major */
 	if (piv == PNULL) /* Choleski */
 		F77_CALL(dpotrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m),          out->v, (int *) &(m->m), &info, (FC_LEN_T) 5);
 	else /* LDL' */
 		F77_CALL(dsytrs)("Upper", (int *) &(m->m), (int *) &(b->n), m->v, (int *) &(m->m), piv->pe, out->v, (int *) &(m->m), &info, (FC_LEN_T) 5);
 	if (info < 0)
-		error("CHsolve: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
+		Rf_error("CHsolve: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
 	return(out);
 }
 
 VEC *CHsolve1(MAT *m, VEC *b, VEC *out, PERM *piv) { /* solve A x = b after factorizing A */
 	int one = 1, info;
 	if (m->m != m->n) 
-		error("CHsolve1: 'm' must be a square matrix");
+		Rf_error("CHsolve1: 'm' must be a square matrix");
 	if (m->m != b->dim) 
-		error("CHsolve1: vector b does not match m");
+		Rf_error("CHsolve1: vector b does not match m");
 	out = v_copy(b, out);
 	if (piv == PNULL) 
 		F77_CALL(dpotrs)("U", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m),          out->ve, (int *) &(m->m), &info FCONE);
 	else
 		F77_CALL(dsytrs)("L", (int *) &(m->m), (int *) &one, m->v, (int *) &(m->m), piv->pe, out->ve, (int *) &(m->m), &info FCONE);
 	if (info < 0)
-		error("CHsolve1: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
+		Rf_error("CHsolve1: argument %d of Lapack routine %s had invalid value", -info, piv == NULL ? "dpotrs" : "dsytrs");
 	return(out);
 }
 

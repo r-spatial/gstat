@@ -59,27 +59,27 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 	DATA **d;
 	char name[NAME_SIZE];
 
-	PROTECT(sy = coerceVector(sy, REALSXP));
+	PROTECT(sy = Rf_coerceVector(sy, REALSXP));
 	n = LENGTH(sy);
 	y = REAL(sy);
 	if (n == 0)
 		ErrMsg(ER_IMPOSVAL, "no data read");
 
 	if (LENGTH(slocs) % n != 0)
-		error("dimensions do not match: locations %d and data %ld",
+		Rf_error("dimensions do not match: locations %d and data %ld",
 			(int) LENGTH(slocs), n);
 	dim = LENGTH(slocs) / n;
 	if (dim <= 0)
-		error("too few spatial dimensions: %ld", dim);
+		Rf_error("too few spatial dimensions: %ld", dim);
 	if (dim > 3)
-		error("too many spatial dimensions: %ld", dim);
+		Rf_error("too many spatial dimensions: %ld", dim);
 	locs = REAL(slocs);
 
 	if (LENGTH(sw) == n)
 		w = REAL(sw);
 
 	if (LENGTH(sX) % n != 0)
-		error("dimensions do not match: X %d and data %ld: missing values in data?",
+		Rf_error("dimensions do not match: X %d and data %ld: missing values in data?",
 			(int) LENGTH(sX), n);
 	n_X = LENGTH(sX) / n;
 	X = REAL(sX);
@@ -125,7 +125,7 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 		case 3: d[id]->variance_fn = v_bin; break;
 		case 4: d[id]->variance_fn = v_mu2; break;
 		case 5: d[id]->variance_fn = v_mu3; break;
-		default: error("unknown variance function %d", INTEGER(vfn)[0]);
+		default: Rf_error("unknown variance function %d", INTEGER(vfn)[0]);
 	}
 	gl_longlat = (INTEGER(is_projected)[0] == 0);
 	d[id]->mode = X_BIT_SET | V_BIT_SET;
@@ -139,18 +139,18 @@ SEXP gstat_new_data(SEXP sy, SEXP slocs, SEXP sX, SEXP has_intercept,
 	switch(LENGTH(grid)) {
 		case 0: case 1: break; /* empty, i.e., numeric(0) */
 		case 6: d[id]->grid = gstat_S_fillgrid(grid); break;
-		default: error("length of grid topology %d unrecognized", (int) LENGTH(grid));
+		default: Rf_error("length of grid topology %d unrecognized", (int) LENGTH(grid));
 	}
 	d[id]->polynomial_degree = INTEGER(degree)[0];
 	if (d[id]->polynomial_degree < 0 || d[id]->polynomial_degree > 3) {
-		error("polynomial degree should be 0, 1, 2 or 3");
+		Rf_error("polynomial degree should be 0, 1, 2 or 3");
 	}
 	if (d[id]->polynomial_degree > 0) { 
 		/* we're doing polynomials through degree: */
 		if (id > 0) {
-			error("polynomial degree will only work for a single variable");
+			Rf_error("polynomial degree will only work for a single variable");
 		} if (n_X > 1) {
-			error("polynomial degree only works when no other predictors are given");
+			Rf_error("polynomial degree only works when no other predictors are given");
 		}
 		setup_polynomial_X(d[id]); /* standardized coordinate polynomials */
 	}
@@ -203,9 +203,9 @@ SEXP gstat_new_dummy_data(SEXP loc_dim, SEXP has_intercept, SEXP beta,
 
 	dim = INTEGER(loc_dim)[0];
 	if (dim <= 0)
-		error("dimension value impossible: %d", dim);
+		Rf_error("dimension value impossible: %d", dim);
 	if (dim > 3)
-		error("too many dimensions: %d", dim);
+		Rf_error("too many dimensions: %d", dim);
 	assert(LENGTH(beta) > 0);
 
 	id = get_n_vars();
@@ -242,7 +242,7 @@ SEXP gstat_new_dummy_data(SEXP loc_dim, SEXP has_intercept, SEXP beta,
 		case 3: d[id]->variance_fn = v_bin; break;
 		case 4: d[id]->variance_fn = v_mu2; break;
 		case 5: d[id]->variance_fn = v_mu3; break;
-		default: error("unknown variance function %d", INTEGER(vfn)[0]);
+		default: Rf_error("unknown variance function %d", INTEGER(vfn)[0]);
 	}
 	gl_longlat = (INTEGER(is_projected)[0] == 0);
 	d[id]->vdist = INTEGER(vdist)[0];
@@ -276,16 +276,16 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 	if (n <= 0 || LENGTH(slocs) == 0 || LENGTH(sX) == 0)
 		ErrMsg(ER_IMPOSVAL, "newdata empty or only NA's");
 	if (LENGTH(slocs) % n != 0)
-		error("dimensions do not match: locations %d, nrows in X %ld",
+		Rf_error("dimensions do not match: locations %d, nrows in X %ld",
 			(int) LENGTH(slocs), n);
 	dim = LENGTH(slocs) / n;
 	if (dim > 3)
-		error("too many spatial dimensions: %ld", dim);
+		Rf_error("too many spatial dimensions: %ld", dim);
 	if (dim <= 0)
-		error("too few spatial dimensions: %ld", dim);
+		Rf_error("too few spatial dimensions: %ld", dim);
 	locs = REAL(slocs);
 	if (LENGTH(sX) % n != 0)
-		error("dimensions do not match: X %d and data %ld", (int) LENGTH(sX), n);
+		Rf_error("dimensions do not match: X %d and data %ld", (int) LENGTH(sX), n);
 	n_X = LENGTH(sX) / n;
 
 	current.attr = current.x = current.y = current.z = 0.0;
@@ -443,11 +443,11 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 		R_CheckUserInterrupt();
 	}
 	print_progress(100, 100);
-	PROTECT(ret = allocVector(VECSXP, 1));
-	PROTECT(retvector_dim = allocVector(REALSXP, 2));
+	PROTECT(ret = Rf_allocVector(VECSXP, 1));
+	PROTECT(retvector_dim = Rf_allocVector(REALSXP, 2));
 	REAL(retvector_dim)[0] = n; /* nrows */
 	if (gl_nsim > 1) {
-		PROTECT(retvector = allocVector(REALSXP, gl_nsim * nvars * n));
+		PROTECT(retvector = Rf_allocVector(REALSXP, gl_nsim * nvars * n));
 		msim = get_msim();
 		for (i = pos = 0; i < nvars; i++)
 			for (j = 0; j < gl_nsim; j++) 
@@ -459,7 +459,7 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 				}
 		REAL(retvector_dim)[1] = nvars * gl_nsim; /* ncols */
 	} else {
-		PROTECT(retvector = allocVector(REALSXP, n * nest));
+		PROTECT(retvector = Rf_allocVector(REALSXP, n * nest));
 		for (j = pos = 0; j < nest; j++) {
 			for (i = 0; i < n; i++) {
 				if (is_mv_double(&(est_all[i][j])))
@@ -474,7 +474,7 @@ SEXP gstat_predict(SEXP sn, SEXP slocs, SEXP sX, SEXP block_cols, SEXP block,
 	if (gl_nsim > 0)
 		free_simulations();
 	/* SET_DIM(retvector, retvector_dim); */
-	setAttrib(retvector, R_DimSymbol, retvector_dim);
+	Rf_setAttrib(retvector, R_DimSymbol, retvector_dim);
 	SET_VECTOR_ELT(ret, 0, retvector);
 	for (i = 0; i < n; i++)
 		efree(est_all[i]);
@@ -580,20 +580,20 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 	switch (LENGTH(grid)) {
 		case 0: case 1: break;
 		case 6: vgm->ev->S_grid = gstat_S_fillgrid(grid); break;
-		default: error("unrecognized grid length in gstat_variogram");
+		default: Rf_error("unrecognized grid length in gstat_variogram");
 			break;
 	}
 
 	calc_variogram(vgm, NULL);
 
 	if (vgm->ev->S_grid != NULL) {
-		PROTECT(ret = allocVector(VECSXP, 4));
+		PROTECT(ret = Rf_allocVector(VECSXP, 4));
 		m = vgm->ev->map;
 		n = m->rows * m->cols;
-		PROTECT(np = allocVector(REALSXP, n));
-		PROTECT(gamma = allocVector(REALSXP, n));
-		PROTECT(sx = allocVector(REALSXP, n));
-		PROTECT(sy = allocVector(REALSXP, n));
+		PROTECT(np = Rf_allocVector(REALSXP, n));
+		PROTECT(gamma = Rf_allocVector(REALSXP, n));
+		PROTECT(sx = Rf_allocVector(REALSXP, n));
+		PROTECT(sy = Rf_allocVector(REALSXP, n));
 
 		for (row = i = 0; row < m->rows; row++) {
 			for (col = 0; col < m->cols; col++) {
@@ -622,15 +622,15 @@ SEXP gstat_variogram(SEXP s_ids, SEXP cutoff, SEXP width, SEXP direction,
 			else 
 				nest = vgm->ev->n_est - 1;
 		}
-		PROTECT(ret = allocVector(VECSXP, 4));
+		PROTECT(ret = Rf_allocVector(VECSXP, 4));
 		if (nest <= 0) {
 			UNPROTECT(1);
 			return(ret);
 		}
-		PROTECT(np = allocVector(REALSXP, nest));
-		PROTECT(dist = allocVector(REALSXP, nest));
-		PROTECT(gamma = allocVector(REALSXP, nest));
-		PROTECT(ev_parameters = allocVector(REALSXP, 4));
+		PROTECT(np = Rf_allocVector(REALSXP, nest));
+		PROTECT(dist = Rf_allocVector(REALSXP, nest));
+		PROTECT(gamma = Rf_allocVector(REALSXP, nest));
+		PROTECT(ev_parameters = Rf_allocVector(REALSXP, 4));
 		REAL(ev_parameters)[0] = vgm->ev->cutoff;
 		REAL(ev_parameters)[1] = vgm->ev->iwidth;
 		REAL(ev_parameters)[2] = vgm->ev->pseudo;
@@ -717,7 +717,7 @@ SEXP gstat_variogram_values(SEXP ids, SEXP pars, SEXP covariance, SEXP dist_valu
 	SEXP ret;
 
 	if (LENGTH(pars) != 3 && LENGTH(pars) != 6)
-		error("supply three or six distance parameters");
+		Rf_error("supply three or six distance parameters");
 	from = REAL(pars)[0];
 	to = REAL(pars)[1];
 	n = REAL(pars)[2];
@@ -734,8 +734,8 @@ SEXP gstat_variogram_values(SEXP ids, SEXP pars, SEXP covariance, SEXP dist_valu
 	vgm = get_vgm(LTI(id1,id2));
 
 	if (ndist > 0) {
-		PROTECT(dist = allocVector(REALSXP, ndist));
-		PROTECT(gamma = allocVector(REALSXP, ndist));
+		PROTECT(dist = Rf_allocVector(REALSXP, ndist));
+		PROTECT(gamma = Rf_allocVector(REALSXP, ndist));
 		for (i = 0; i < ndist; i++) {
 			d = REAL(dist_values)[i];
 			REAL(dist)[i] = d;
@@ -744,8 +744,8 @@ SEXP gstat_variogram_values(SEXP ids, SEXP pars, SEXP covariance, SEXP dist_valu
 				get_semivariance(vgm, d * x, d * y, d * z));
 		}
 	} else {
-		PROTECT(dist = allocVector(REALSXP, n));
-		PROTECT(gamma = allocVector(REALSXP, n));
+		PROTECT(dist = Rf_allocVector(REALSXP, n));
+		PROTECT(gamma = Rf_allocVector(REALSXP, n));
 		for (i = 0; i < n; i++) {
 			d = from;
 			if (i > 0) /* implies n > 1 */
@@ -756,7 +756,7 @@ SEXP gstat_variogram_values(SEXP ids, SEXP pars, SEXP covariance, SEXP dist_valu
 				get_semivariance(vgm, d * x, d * y, d * z));
 		}
 	}
-	PROTECT(ret = allocVector(VECSXP, 2));
+	PROTECT(ret = Rf_allocVector(VECSXP, 2));
 	SET_VECTOR_ELT(ret, 0, dist);
 	SET_VECTOR_ELT(ret, 1, gamma);
 	UNPROTECT(3);
@@ -779,8 +779,8 @@ SEXP get_covariance_list(SEXP ids, SEXP covariance, SEXP dist_list) {
 	id2 = INTEGER(ids)[1];
 	vgm = get_vgm(LTI(id1,id2));
 
-	PROTECT(dist = allocVector(REALSXP, length_list));
-	PROTECT(gamma = allocVector(REALSXP, length_list));
+	PROTECT(dist = Rf_allocVector(REALSXP, length_list));
+	PROTECT(gamma = Rf_allocVector(REALSXP, length_list));
 	for (i = 0; i < length_list; i++) {
 		d = REAL(dist_list)[i];
 		REAL(dist)[i] = d;
@@ -788,7 +788,7 @@ SEXP get_covariance_list(SEXP ids, SEXP covariance, SEXP dist_list) {
 			get_covariance(vgm, d * x, d * y, d * z) : 
 			get_semivariance(vgm, d * x, d * y, d * z));
 	}
-	PROTECT(ret = allocVector(VECSXP, 2));
+	PROTECT(ret = Rf_allocVector(VECSXP, 2));
 	SET_VECTOR_ELT(ret, 0, dist);
 	SET_VECTOR_ELT(ret, 1, gamma);
 	UNPROTECT(3);
@@ -803,10 +803,10 @@ SEXP gstat_get_variogram_models(SEXP dolong) {
 		n++;
 
 	do_long = INTEGER(dolong)[0];
-	PROTECT(ret = allocVector(STRSXP, n));
+	PROTECT(ret = Rf_allocVector(STRSXP, n));
 	for (i = 1; v_models[i].model != NOT_SP; i++)
 		SET_STRING_ELT(ret, i-1, 
-				mkChar(do_long ? v_models[i].name_long : v_models[i].name));
+				Rf_mkChar(do_long ? v_models[i].name_long : v_models[i].name));
 	UNPROTECT(1);
 	return(ret);
 }
@@ -864,22 +864,22 @@ SEXP gstat_fit_variogram(SEXP fit, SEXP fit_sill, SEXP fit_range) {
 	if (DEBUG_VGMFIT)
 		logprint_variogram(vgm, 1);
 
-	PROTECT(sills = allocVector(REALSXP, vgm->n_models));
-	PROTECT(ranges = allocVector(REALSXP, vgm->n_models));
+	PROTECT(sills = Rf_allocVector(REALSXP, vgm->n_models));
+	PROTECT(ranges = Rf_allocVector(REALSXP, vgm->n_models));
 	for (i = 0; i < vgm->n_models; i++) {
 		REAL(sills)[i] = vgm->part[i].sill;
 		REAL(ranges)[i] = vgm->part[i].range[0];
 	}
 
-	PROTECT(ret = allocVector(VECSXP, 4));
+	PROTECT(ret = Rf_allocVector(VECSXP, 4));
 	SET_VECTOR_ELT(ret, 0, sills);
 	SET_VECTOR_ELT(ret, 1, ranges);
 
-	PROTECT(fit_is_singular = allocVector(REALSXP, 1));
+	PROTECT(fit_is_singular = Rf_allocVector(REALSXP, 1));
 	REAL(fit_is_singular)[0] = vgm->fit_is_singular;
 	SET_VECTOR_ELT(ret, 2, fit_is_singular);
 
-	PROTECT(SSErr = allocVector(REALSXP, 1));
+	PROTECT(SSErr = Rf_allocVector(REALSXP, 1));
 	REAL(SSErr)[0] = vgm->SSErr;
 	SET_VECTOR_ELT(ret, 3, SSErr);
 
@@ -971,15 +971,15 @@ SEXP gstat_set_set(SEXP arg, SEXP val) {
 
 	switch (set_options[i].what) {
 		case IS_INT: 
-			*((int *) set_options[i].ptr) = asInteger(val);
-			/* Rprintf("int arg: %s val %d\n", name, asInteger(val)); */
+			*((int *) set_options[i].ptr) = Rf_asInteger(val);
+			/* Rprintf("int arg: %s val %d\n", name, Rf_asInteger(val)); */
 			break;
 		case IS_UINT: 
-			*((unsigned int *) set_options[i].ptr) = (unsigned int) asInteger(val);
-			/* Rprintf("uint arg: %s val %d\n", name, asInteger(val)); */
+			*((unsigned int *) set_options[i].ptr) = (unsigned int) Rf_asInteger(val);
+			/* Rprintf("uint arg: %s val %d\n", name, Rf_asInteger(val)); */
 			break;
 		case IS_REAL: 
-			*((double *) set_options[i].ptr) = asReal(val);
+			*((double *) set_options[i].ptr) = Rf_asReal(val);
 			/* Rprintf("real arg: %s val %d\n", name, asReal(val)); */
 			break; 
 		case IS_STRING: 
@@ -995,12 +995,12 @@ SEXP gstat_set_set(SEXP arg, SEXP val) {
 SEXP gstat_set_merge(SEXP a, SEXP b, SEXP c, SEXP d) { /* merge a(b) with c(d); */
 	DATA **dpp;
 	int id, id1, id2, col1, col2;
-	id1 = asInteger(a);
-	id2 = asInteger(c);
+	id1 = Rf_asInteger(a);
+	id2 = Rf_asInteger(c);
 	if (id1 >= get_n_vars() || id2 >= get_n_vars() || id1 < 0 || id2 < 0)
 		ErrMsg(ER_IMPOSVAL, "id values out of range");
-	col1 = asInteger(b);
-	col2 = asInteger(d);
+	col1 = Rf_asInteger(b);
+	col2 = Rf_asInteger(d);
 	if (id1 < id2) { /* swap id and col */
 		id = id1; id1 = id2; id2 = id;
 		id = col1; col1 = col2; col2 = id;
