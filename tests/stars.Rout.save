@@ -1,7 +1,7 @@
 
-R version 4.3.2 (2023-10-31) -- "Eye Holes"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R version 4.4.1 (2024-06-14) -- "Race for Your Life"
+Copyright (C) 2024 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -256,10 +256,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                  offset  delta  refsys x/y
-x       1  4                      10    0.5      NA [x]
-y       1  4                       0   -0.7      NA [y]
-time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
+     from to                        offset  delta  refsys x/y
+x       1  4                            10    0.5      NA [x]
+y       1  4                             0   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 Universal 1 secs POSIXct    
 > 
 > as.data.frame(s)
        x     y                time foo
@@ -431,8 +431,8 @@ Slot "time":
 2019-02-25 15:37:28         4
 
 Slot "endTime":
-[1] "2019-02-25 15:37:26 UTC" "2019-02-25 15:37:27 UTC"
-[3] "2019-02-25 15:37:28 UTC" "2019-02-25 15:37:29 UTC"
+[1] "2019-02-25 15:37:26 Universal" "2019-02-25 15:37:27 Universal"
+[3] "2019-02-25 15:37:28 Universal" "2019-02-25 15:37:29 Universal"
 
 > stplot(s.stfdf, scales = list(draw = TRUE))
 > 
@@ -442,10 +442,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                  offset  delta  refsys x/y
-x       1  4                      10    0.5      NA [x]
-y       1  4               -1.11e-16   -0.7      NA [y]
-time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
+     from to                        offset  delta  refsys x/y
+x       1  4                            10    0.5      NA [x]
+y       1  4                     -1.11e-16   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 Universal 1 secs POSIXct    
 > plot(s2, col = sf.colors(), axes = TRUE)
 > all.equal(s, s2, check.attributes = FALSE)
 [1] TRUE
@@ -476,4 +476,4 @@ sample    1   5     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  6.463   7.400   5.083 
+  5.792   7.819   4.934 
