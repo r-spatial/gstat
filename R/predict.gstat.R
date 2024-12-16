@@ -162,7 +162,7 @@ function (object, newdata, block = numeric(0), nsim = 0, indicators = FALSE,
 			as.double(as.vector(new.X[perm,])),
 			as.integer(block.cols), as.vector(block), as.vector(bl_weights),
 			as.integer(nsim), as.integer(BLUE))[[1]]
-		if (nsim == 1)
+		if (abs(nsim) == 1)
 			colsel = seq(1, by=2, length.out=nvars) # pred1 var1 pred2 var2 ...
 		else
 			colsel = TRUE
