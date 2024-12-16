@@ -240,7 +240,6 @@ band
 > 
 > suppressPackageStartupMessages(library(spacetime))
 > 
-> Sys.setenv(TZ="")
 > tm = as.POSIXct("2019-02-25 15:37:24 CET")
 > n = 4
 > s = stars:::st_stars(list(foo = array(1:(n^3), rep(n,3))),
@@ -256,10 +255,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                        offset  delta  refsys x/y
-x       1  4                            10    0.5      NA [x]
-y       1  4                             0   -0.7      NA [y]
-time    1  4 2019-02-25 15:37:25 Universal 1 secs POSIXct    
+     from to                  offset  delta  refsys x/y
+x       1  4                      10    0.5      NA [x]
+y       1  4                       0   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
 > 
 > as.data.frame(s)
        x     y                time foo
@@ -431,8 +430,8 @@ Slot "time":
 2019-02-25 15:37:28         4
 
 Slot "endTime":
-[1] "2019-02-25 15:37:26 Universal" "2019-02-25 15:37:27 Universal"
-[3] "2019-02-25 15:37:28 Universal" "2019-02-25 15:37:29 Universal"
+[1] "2019-02-25 15:37:26 UTC" "2019-02-25 15:37:27 UTC"
+[3] "2019-02-25 15:37:28 UTC" "2019-02-25 15:37:29 UTC"
 
 > stplot(s.stfdf, scales = list(draw = TRUE))
 > 
@@ -442,10 +441,10 @@ attribute(s):
      Min. 1st Qu. Median Mean 3rd Qu. Max.
 foo     1   16.75   32.5 32.5   48.25   64
 dimension(s):
-     from to                        offset  delta  refsys x/y
-x       1  4                            10    0.5      NA [x]
-y       1  4                     -1.11e-16   -0.7      NA [y]
-time    1  4 2019-02-25 15:37:25 Universal 1 secs POSIXct    
+     from to                  offset  delta  refsys x/y
+x       1  4                      10    0.5      NA [x]
+y       1  4               -1.11e-16   -0.7      NA [y]
+time    1  4 2019-02-25 15:37:25 UTC 1 secs POSIXct    
 > plot(s2, col = sf.colors(), axes = TRUE)
 > all.equal(s, s2, check.attributes = FALSE)
 [1] TRUE
@@ -460,6 +459,7 @@ time    1  4 2019-02-25 15:37:25 Universal 1 secs POSIXct
 > g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
 > g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
 > set.seed(123)
+> ## IGNORE_RDIFF_BEGIN
 > (p = predict(g, meuse.grid, nsim = 5))
 drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
@@ -473,7 +473,8 @@ dimension(s):
 x         1  78 178440    40          NULL [x]
 y         1 104 333760   -40          NULL [y]
 sample    1   5     NA    NA sim1,...,sim5    
+> ## IGNORE_RDIFF_END
 > 
 > proc.time()
    user  system elapsed 
-  5.792   7.819   4.934 
+  5.561   8.100   4.738 

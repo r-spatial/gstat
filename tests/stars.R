@@ -54,7 +54,6 @@ if (require(raster, quietly = TRUE)) {
 
 suppressPackageStartupMessages(library(spacetime))
 
-Sys.setenv(TZ="")
 tm = as.POSIXct("2019-02-25 15:37:24 CET")
 n = 4
 s = stars:::st_stars(list(foo = array(1:(n^3), rep(n,3))),
@@ -85,4 +84,6 @@ meuse_sf = st_as_sf(meuse, coords = c("x", "y"))
 g = gstat(NULL, "zinc", zinc~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10)
 g = gstat(g, "lead", lead~1, meuse_sf, model = vgm(1, "Exp", 300), nmax = 10, fill.cross = TRUE)
 set.seed(123)
+## IGNORE_RDIFF_BEGIN
 (p = predict(g, meuse.grid, nsim = 5))
+## IGNORE_RDIFF_END
