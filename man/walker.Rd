@@ -26,11 +26,8 @@ Applied Geostatistics
 by Edward H. Isaaks, R. Mohan Srivastava;
 Oxford University Press.
 }
-\note{
-This data sets was obtained from the data sets on
-ai-geostats,
-\url{https://wiki.52north.org/bin/view/AI_GEOSTATS/WebHome}
-}
+\note{ This data sets was obtained from the data sets on
+ai-geostats (link no longer functioning) }
 \keyword{datasets}
 \examples{
 library(sp)

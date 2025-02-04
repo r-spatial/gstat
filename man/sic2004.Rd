@@ -95,10 +95,6 @@ Data: the German Federal Office for Radiation Protection (BfS),
 data provided by Gregoire Dubois, R compilation
 by Edzer Pebesma.  }
 
-\references{
-\url{https://wiki.52north.org/bin/view/AI_GEOSTATS/WebHome}
-}
-
 \keyword{datasets}
 \examples{
 data(sic2004) 

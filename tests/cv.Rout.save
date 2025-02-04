@@ -1,7 +1,7 @@
 
-R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
-Copyright (C) 2019 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R Under development (unstable) (2025-02-03 r87683 ucrt) -- "Unsuffered Consequences"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -80,7 +80,7 @@ Intrinsic Correlation found. Good.
 Intrinsic Correlation found. Good.
 [using ordinary cokriging]
  log.zinc.pred    log.zinc.var         observed        residual         
- Min.   :4.644   Min.   :0.002371   Min.   :4.727   Min.   :-0.4190977  
+ Min.   :4.644   Min.   :0.002371   Min.   :4.727   Min.   :-0.4190976  
  1st Qu.:5.308   1st Qu.:0.004975   1st Qu.:5.288   1st Qu.:-0.0773273  
  Median :5.777   Median :0.005875   Median :5.787   Median : 0.0006165  
  Mean   :5.883   Mean   :0.006609   Mean   :5.886   Mean   : 0.0026164  
@@ -99,4 +99,4 @@ In checkNames(value) :
 > 
 > proc.time()
    user  system elapsed 
-  0.614   0.050   0.655 
+   1.31    0.09    1.39 

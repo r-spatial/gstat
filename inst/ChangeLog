@@ -1,3 +1,16 @@
+2025-01-27  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION: CRAN NOTE: packages used in demo
+
+2024-12-16  edzer <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, tests/stars.R, tests/stars.Rout.save,
+	tests/vdist.R, tests/vdist.Rout.save: tidy
+
+2024-12-16  edzer <edzer.pebesma@uni-muenster.de>
+
+	* R/predict.gstat.R: fix #145
+
 2024-09-03  edzer <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog, tests/stars.Rout.save: clean test output
