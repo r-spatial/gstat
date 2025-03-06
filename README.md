@@ -24,3 +24,18 @@ and simulation. Computers & Geosciences 24 (1),
 [17–31](http://www.sciencedirect.com/science/article/pii/S0098300497000824).
 
 describes material that is now archived in branch [attic](https://github.com/r-spatial/gstat/tree/attic)
+
+## Installing
+
+Install either from CRAN with
+
+``` r
+install.packages("gstat")
+``` 
+
+or development version from GitHub with
+
+``` r
+library(remotes)
+install_github("r-spatial/gstat")
+``` 
