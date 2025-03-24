@@ -7,6 +7,7 @@ bibentry(bibtype="Article",
 	year	 = 2004,
 	volume = 30,
 	pages	= "683-691",
+	url = "https://doi.org/10.1016/j.cageo.2004.03.012",
 	textVersion = 
 	paste("Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.",
 	"Computers & Geosciences, 30: 683-691.")
