@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2025-02-03 r87683 ucrt) -- "Unsuffered Consequences"
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
 Copyright (C) 2025 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -16,6 +16,11 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > Sys.setenv(TZ = "UTC")
+> 
+> Sys.unsetenv("KMP_DEVICE_THREAD_LIMIT")
+> Sys.unsetenv("KMP_ALL_THREADS")
+> Sys.unsetenv("KMP_TEAMS_THREAD_LIMIT")
+> Sys.unsetenv("OMP_THREAD_LIMIT")
 > 
 > # 0. using sp:
 > 
@@ -466,8 +471,8 @@ drawing 5 multivariate GLS realisations of beta...
 stars object with 3 dimensions and 2 attributes
 attribute(s):
           Min.   1st Qu.   Median     Mean  3rd Qu.      Max.  NA's
-zinc  101.7643 199.48523 300.2140 399.7954 544.0229 1817.2057 25045
-lead   32.7799  73.01782 107.9339 133.1702 178.8162  638.9396 25045
+zinc  101.7643 199.59256 300.2140 399.8017 544.0327 1817.2057 25045
+lead   32.7799  73.03151 107.9339 133.1725 178.8162  638.9396 25045
 dimension(s):
        from  to offset delta        values x/y
 x         1  78 178440    40          NULL [x]
@@ -477,4 +482,4 @@ sample    1   5     NA    NA sim1,...,sim5
 > 
 > proc.time()
    user  system elapsed 
-  11.81    0.64   12.45 
+  6.205   8.037   5.303 

@@ -1,5 +1,10 @@
 Sys.setenv(TZ = "UTC")
 
+Sys.unsetenv("KMP_DEVICE_THREAD_LIMIT")
+Sys.unsetenv("KMP_ALL_THREADS")
+Sys.unsetenv("KMP_TEAMS_THREAD_LIMIT")
+Sys.unsetenv("OMP_THREAD_LIMIT")
+
 # 0. using sp:
 
 suppressPackageStartupMessages(library(sp))

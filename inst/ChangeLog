@@ -1,3 +1,19 @@
+2025-03-24  edzer <edzer.pebesma@uni-muenster.de>
+
+	* : commit 1dedc91ce29c75c299977aa6d73d01d4ed985c4a Author: edzer
+	<edzer.pebesma@uni-muenster.de> Date:   Mon Mar 24 18:58:48 2025
+	+0100
+
+2025-03-06  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #147 from agila5/add-install-instructions Add installation instructions to README
+
+2025-02-04  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog, man/sic2004.Rd, man/sic97.Rd,
+	man/walker.Rd, tests/cv.Rout.save, tests/cv3d.Rout.save,
+	tests/stars.Rout.save: CRAN r-devel notes/diffs
+
 2025-01-27  edzer <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION: CRAN NOTE: packages used in demo
