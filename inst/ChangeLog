@@ -1,3 +1,9 @@
+2025-06-30  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save: unset
+	OMP etc env variables for fedora
+
 2025-03-24  edzer <edzer.pebesma@uni-muenster.de>
 
 	* : commit 1dedc91ce29c75c299977aa6d73d01d4ed985c4a Author: edzer
