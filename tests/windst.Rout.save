@@ -1,7 +1,7 @@
 
-R version 4.2.3 (2023-03-15) -- "Shortstop Beagle"
-Copyright (C) 2023 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -19,6 +19,11 @@ Type 'q()' to quit R.
 > suppressPackageStartupMessages(library(spacetime))
 > suppressPackageStartupMessages(library(gstat))
 > suppressPackageStartupMessages(library(stars))
+> 
+> Sys.unsetenv("KMP_DEVICE_THREAD_LIMIT")
+> Sys.unsetenv("KMP_ALL_THREADS")
+> Sys.unsetenv("KMP_TEAMS_THREAD_LIMIT")
+> Sys.unsetenv("OMP_THREAD_LIMIT")
 > 
 > data(wind)
 > wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
@@ -123,4 +128,4 @@ Warning messages:
 > 
 > proc.time()
    user  system elapsed 
-  4.489   3.497   3.766 
+  4.184   6.669   3.573 

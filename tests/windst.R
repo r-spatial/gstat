@@ -3,6 +3,11 @@ suppressPackageStartupMessages(library(spacetime))
 suppressPackageStartupMessages(library(gstat))
 suppressPackageStartupMessages(library(stars))
 
+Sys.unsetenv("KMP_DEVICE_THREAD_LIMIT")
+Sys.unsetenv("KMP_ALL_THREADS")
+Sys.unsetenv("KMP_TEAMS_THREAD_LIMIT")
+Sys.unsetenv("OMP_THREAD_LIMIT")
+
 data(wind)
 wind.loc$y = as.numeric(char2dms(as.character(wind.loc[["Latitude"]])))
 wind.loc$x = as.numeric(char2dms(as.character(wind.loc[["Longitude"]])))

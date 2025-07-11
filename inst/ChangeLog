@@ -1,5 +1,9 @@
 2025-06-30  edzer <edzer.pebesma@uni-muenster.de>
 
+	* inst/ChangeLog: CL
+
+2025-06-30  edzer <edzer.pebesma@uni-muenster.de>
+
 	* DESCRIPTION, inst/ChangeLog, tests/stars.R,
 	tests/stars.Rout.save, tests/unproj.R, tests/unproj.Rout.save: unset
 	OMP etc env variables for fedora
