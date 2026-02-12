@@ -199,7 +199,7 @@ PROJCRS["Amersfoort / RD New",
 > k_st
 stars object with 2 dimensions and 2 attributes
 attribute(s):
-                Min.   1st Qu.    Median      Mean   3rd Qu.      Max. NA's
+                Min.   1st Qu.    Median      Mean   3rd Qu.      Max.  NAs
 var1.pred  4.7765547 5.2376293 5.5728839 5.7072287 6.1717619 7.4399911 5009
 var1.var   0.0854949 0.1372864 0.1621838 0.1853319 0.2116152 0.5002756 5009
 dimension(s):
@@ -218,8 +218,8 @@ attribute(s):
  Median :5.573   Median :0.1622   (6,7]: 962  
  Mean   :5.707   Mean   :0.1853   (7,8]:  47  
  3rd Qu.:6.172   3rd Qu.:0.2116   (8,9]:   0  
- Max.   :7.440   Max.   :0.5003   NA's :5009  
- NA's   :5009    NA's   :5009                 
+ Max.   :7.440   Max.   :0.5003   NAs  :5009  
+ NAs    :5009    NAs    :5009                 
 dimension(s):
   from  to offset delta              refsys x/y
 x    1  78 178440    40 Amersfoort / RD New [x]
@@ -230,7 +230,7 @@ y    1 104 333760   -40 Amersfoort / RD New [y]
 + }
 stars object with 3 dimensions and 1 attribute
 attribute(s):
-                Min.   1st Qu. Median     Mean  3rd Qu.     Max.  NA's
+                Min.   1st Qu. Median     Mean  3rd Qu.     Max.   NAs
 var1.pred  0.0854949 0.2116778      2 2.710347 5.237542 7.439991 15027
 dimension(s):
      from  to offset delta              refsys                          values
@@ -470,7 +470,7 @@ drawing 5 multivariate GLS realisations of beta...
 [using conditional Gaussian simulation]
 stars object with 3 dimensions and 2 attributes
 attribute(s):
-          Min.   1st Qu.   Median     Mean  3rd Qu.      Max.  NA's
+          Min.   1st Qu.   Median     Mean  3rd Qu.      Max.   NAs
 zinc  101.7643 199.59256 300.2140 399.8017 544.0327 1817.2057 25045
 lead   32.7799  73.03151 107.9339 133.1725 178.8162  638.9396 25045
 dimension(s):
