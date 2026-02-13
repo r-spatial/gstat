@@ -73,8 +73,6 @@ an SpatialPointsDataFrame object containing the fields:
 \references{ N.A.C. Cressie, 1993, Statistics for Spatial Data,
 Wiley. 
 
-\url{http://www.gstat.org/}
-
 }
 
 \author{ Edzer Pebesma }

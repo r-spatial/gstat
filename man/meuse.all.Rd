@@ -50,7 +50,6 @@ Mathieu Rikken; data compiled for R by Edzer Pebesma }
 P.A. Burrough, R.A. McDonnell, 1998. Principles of Geographical Information
 Systems. Oxford University Press.
 
-\url{http://www.gstat.org/}
 }
 \note{ \code{sample} refers to original sample number.  Eight samples
 were left out because they were not indicative for the metal content of

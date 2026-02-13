@@ -91,7 +91,6 @@ residuals, zscore (residual divided by kriging standard error), and fold.
 If \code{all.residuals} is true, a data frame with residuals for all
 variables is returned, without coordinates. }
 
-\references{ \url{http://www.gstat.org/} }
 \author{ Edzer Pebesma }
 \note{ Leave-one-out cross validation seems to be much faster in plain
 (stand-alone) gstat, apparently quite a bit of the effort is spent moving 

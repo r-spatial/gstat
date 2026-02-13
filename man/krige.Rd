@@ -157,8 +157,6 @@ on argument \code{fullCovariance}).
 \references{ N.A.C. Cressie, 1993, Statistics for Spatial Data,
 Wiley. 
 
-\url{http://www.gstat.org/}
-
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers and Geosciences, 30: 683-691.
 }

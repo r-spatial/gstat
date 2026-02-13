@@ -88,11 +88,9 @@ last five values of \code{object$gamma}.
 Values for \code{fit.method} are 1: weights equal to
 $N_j$; 2: weights equal to $N_j/((gamma(h_j))^2)$; 5 (ignore, use
 \link{fit.variogram.reml}); 6: unweighted (OLS); 7: $N_j/(h_j^2)$. 
-(from: \url{http://www.gstat.org/gstat.pdf}, table 4.2).
 }
 
-\references{ \url{http://www.gstat.org/} 
-
+\references{
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers and Geosciences, 30: 683-691.
 }

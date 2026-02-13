@@ -30,9 +30,6 @@ variances (named var.beta.1, var.beta.2, ...) and covariances
 (named cov.beta.1.2, cov.beta.1.3, ...)
 }
 
-\references{ 
-\url{http://www.gstat.org/}
-}
 \author{ Edzer Pebesma }
 \seealso{\link[gstat]{predict}}
 

@@ -41,7 +41,6 @@ large range value (larger than the study area?) to be of some value.
 If plot is FALSE, a data frame with the data prepared to plot
 is being returned.
 }
-\references{ \url{http://www.gstat.org}}
 \author{ Edzer Pebesma }
 \note{ the \code{min} argument is supplied because the variogram
 function may be discontinuous at distance zero, surely when a positive

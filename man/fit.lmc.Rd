@@ -32,7 +32,6 @@ to e.g. 1.01 }
 \value{
 returns an object of class \code{gstat}, with fitted variograms;
 }
-\references{ \url{http://www.gstat.org/} }
 \author{ Edzer Pebesma }
 \note{ This function does not use the iterative procedure proposed by
 M. Goulard and M. Voltz (Math. Geol., 24(3): 269-286; reproduced in

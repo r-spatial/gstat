@@ -112,14 +112,14 @@ Its components are:
  \item{set}{list; named list, corresponding to set \code{name}=\code{value};
  gstat commands (look up the set command in the gstat manual for a full list)}
 }
-\references{ \url{http://www.gstat.org/} 
+\references{
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers and Geosciences, 30: 683-691.
 
 for kriging with known, varying measurement errors (\code{weights}), see e.g.
 Delhomme, J.P.  Kriging in the hydrosciences.  Advances in Water
 Resources, 1(5):251-266, 1978; see also the section Kriging with known
-measurement errors in the gstat user's manual, \url{http://www.gstat.org/}
+measurement errors in the gstat user's manual.
 }
 \author{ Edzer Pebesma }
 \note{ 

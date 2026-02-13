@@ -1,3 +1,25 @@
+2026-02-12  edzer <edzer.pebesma@uni-muenster.de>
+
+	* tests/stars.Rout.save: NA's -> NAs CRAN NOTE
+
+2026-01-22  edzer <edzer.pebesma@uni-muenster.de>
+
+	* vignettes/st.Rnw: fix #149
+
+2026-01-06  edzer <edzer.pebesma@uni-muenster.de>
+
+	* vignettes/st.Rnw: fixes #149
+
+2025-10-23  edzer <edzer.pebesma@uni-muenster.de>
+
+	* R/variogramLine.R, man/variogram.Rd: remove references to
+	variogram.line (CRAN NOTE)
+
+2025-07-11  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, inst/ChangeLog, tests/windst.R,
+	tests/windst.Rout.save: update windst.R to meet CRAN errors
+
 2025-06-30  edzer <edzer.pebesma@uni-muenster.de>
 
 	* inst/ChangeLog: CL

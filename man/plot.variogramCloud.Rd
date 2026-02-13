@@ -50,9 +50,6 @@ with \code{digitize} set to FALSE, to plot the digitized line.
 In both of the \code{keep = TRUE} cases, the attribute \code{ppairs} of
 class \code{pointPairs} is present, containing the point pairs identified.
 }
-\references{ 
-\url{http://www.gstat.org/}
-}
 \author{ Edzer Pebesma }
 \seealso{
 \link{variogram},

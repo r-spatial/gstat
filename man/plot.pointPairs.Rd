@@ -32,7 +32,6 @@ will be used as plotting symbol (pch) }
 plots the data locations, with lines connecting the point pairs identified
 (and refered to by indices in) x
 }
-\references{ \url{http://www.gstat.org}}
 \author{ Edzer Pebesma }
 \seealso{
 \link{plot.variogramCloud}

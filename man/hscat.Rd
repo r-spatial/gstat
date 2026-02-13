@@ -34,11 +34,9 @@ an object of class trellis; normally the h scatter plot
 Data pairs are plotted once, so the h-scatterplot are not symmetric.
 }
 
-\references{ \url{http://www.gstat.org/}
-
+\references{ 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers and Geosciences, 30: 683-691.
-
 }
 \examples{
 library(sp)

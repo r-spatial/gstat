@@ -48,7 +48,7 @@ Starting 2003, a group of programmers developed a set of classes
 and methods for dealing with spatial data in R (points, lines,
 polygons, grids), which was supported by the publications
 of the well-known ASDAR book (Bivand et al. 2008; see also
-\url{http://www.asdar-book.org/}) and helped convergence in the user
+\url{https://www.asdar-book.org/}) and helped convergence in the user
 community, with in 2011 over 2000 subscribers on the {\tt r-sig-geo}
 mailing list.  Package \code{gstat} was one of the first packages
 that adopted and benefited from these classes.
@@ -353,9 +353,7 @@ which is shown in Figure~\ref{fig:wire}. Further spatio-temporal model
 definitions can be found in the help pages of {\tt fit.StVariogram} 
 and {\tt variogramSurface}. The demo {\tt stkrige} presents further 
 examples and illustrates an interactive 3D-plot of sample variogram 
-and the fitted variogram model. An interactive variogram exploration
-web-tool is avaialble at 
-\url{http://giv-graeler.uni-muenster.de:3838/spacetime/}.
+and the fitted variogram model. 
 \begin{figure}[hbt]
 \begin{center}
 <<fig=TRUE,echo=FALSE,width=8,height=8>>=

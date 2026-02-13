@@ -72,7 +72,6 @@ returns (or plots) the variogram plot
 }
 \details{Please note that in the spatio-temporal case the levelplot and wireframe plots use the spatial distances averaged for each time lag \code{avgDist}. For strongly varying spatial locations over time, please check the distance columns \code{dist} and \code{avgDist} of the spatio-temporal sample variogram. The \code{lattice::cloud} function is one option to plot irregular 3D data.}
 
-\references{ \url{http://www.gstat.org}}
 \author{ Edzer Pebesma }
 \note{ currently, plotting models and/or point pair numbers is not
 supported when a variogram is both directional and multivariable; also,

@@ -111,7 +111,7 @@ the gslib (probably 1992) code.  I have seen a paper where it is argued
 that the 3D anisotropy code implemented in gslib (and so in gstat)
 is in error, but I have not corrected anything afterwards.
 }
-\references{ \url{http://www.gstat.org/} 
+\references{
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat package.
 Computers and Geosciences, 30: 683-691.
