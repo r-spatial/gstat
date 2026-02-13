@@ -48,7 +48,7 @@ Starting 2003, a group of programmers developed a set of classes
 and methods for dealing with spatial data in R (points, lines,
 polygons, grids), which was supported by the publications
 of the well-known ASDAR book (Bivand et al. 2008; see also
-\url{https://www.asdar-book.org/}) and helped convergence in the user
+\url{https://asdar-book.org/}) and helped convergence in the user
 community, with in 2011 over 2000 subscribers on the {\tt r-sig-geo}
 mailing list.  Package \code{gstat} was one of the first packages
 that adopted and benefited from these classes.
@@ -424,7 +424,7 @@ Data. Wiley.
 
 \item Pebesma, E., 2012. spacetime: Spatio-Temporal Data
 in R. Journal of Statistical Software, volume 51, issue 7;
-\href{http://www.jstatsoft.org/v51/i07/}{1-30}.
+\href{https://www.jstatsoft.org/v51/i07/}{1-30}.
 
 \item Pebesma, E.J., Wesseling, C.G., 1998. Gstat, a program for
 geostatistical modelling, prediction and simulation. Computers \&

@@ -20,7 +20,7 @@ bibentry(bibtype="Article",
 	volume = 8,
 	issue = 1,
 	pages = "204-218",
-	url = "https://journal.r-project.org/archive/2016/RJ-2016-014/index.html",
+	url = "https://journal.r-project.org/articles/RJ-2016-014/index.html",
 	textVersion = 
 	paste("Benedikt Gräler, Edzer Pebesma and Gerard Heuvelink, 2016.",
 		"Spatio-Temporal Interpolation using gstat.  The R Journal 8(1), 204-218")

@@ -1,3 +1,15 @@
+2026-02-13  edzer <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, man/fit.lmc.Rd, man/fit.variogram.Rd,
+	man/get.contr.Rd, man/gstat.Rd, man/hscat.Rd, man/krige.Rd,
+	man/krige.cv.Rd, man/krigeST.Rd, man/krigeTg.Rd, man/meuse.all.Rd,
+	man/meuse.alt.Rd, man/plot.gstatVariogram.Rd,
+	man/plot.pointPairs.Rd, man/plot.variogramCloud.Rd,
+	man/show.vgms.Rd, man/variogram.Rd, man/variogramST.Rd, man/vgm.Rd,
+	man/vgm.panel.Rd, vignettes/spatio-temporal-kriging.Rnw,
+	vignettes/spatio-temporal-kriging.bib, vignettes/st.Rnw: address
+	CRAN NOTEs
+
 2026-02-12  edzer <edzer.pebesma@uni-muenster.de>
 
 	* tests/stars.Rout.save: NA's -> NAs CRAN NOTE
