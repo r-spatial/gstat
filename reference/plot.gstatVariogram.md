@@ -156,10 +156,6 @@ variogram. The
 [`lattice::cloud`](https://rdrr.io/pkg/lattice/man/cloud.html) function
 is one option to plot irregular 3D data.
 
-## References
-
-<http://www.gstat.org>
-
 ## Author
 
 Edzer Pebesma

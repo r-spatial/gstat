@@ -162,8 +162,6 @@ error, but I have not corrected anything afterwards.
 
 ## References
 
-<http://www.gstat.org/>
-
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat
 package. Computers and Geosciences, 30: 683-691.
 

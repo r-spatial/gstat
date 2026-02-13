@@ -193,13 +193,13 @@ are:
 
 ## References
 
-<http://www.gstat.org/> Pebesma, E.J., 2004. Multivariable geostatistics
-in S: the gstat package. Computers and Geosciences, 30: 683-691.
+Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat
+package. Computers and Geosciences, 30: 683-691.
 
 for kriging with known, varying measurement errors (`weights`), see e.g.
 Delhomme, J.P. Kriging in the hydrosciences. Advances in Water
 Resources, 1(5):251-266, 1978; see also the section Kriging with known
-measurement errors in the gstat user's manual, <http://www.gstat.org/>
+measurement errors in the gstat user's manual.
 
 ## Author
 

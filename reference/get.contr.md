@@ -44,10 +44,6 @@ squares estimates (named beta.1, beta.2, ...), their variances (named
 var.beta.1, var.beta.2, ...) and covariances (named cov.beta.1.2,
 cov.beta.1.3, ...)
 
-## References
-
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma

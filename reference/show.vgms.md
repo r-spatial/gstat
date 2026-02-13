@@ -71,10 +71,6 @@ value (larger than the study area?) to be of some value.
 If plot is FALSE, a data frame with the data prepared to plot is being
 returned.
 
-## References
-
-<http://www.gstat.org>
-
 ## Author
 
 Edzer Pebesma

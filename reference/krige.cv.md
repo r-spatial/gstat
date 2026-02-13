@@ -135,10 +135,6 @@ of cross validated data points, observed values, residuals, zscore
 If `all.residuals` is true, a data frame with residuals for all
 variables is returned, without coordinates.
 
-## References
-
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma

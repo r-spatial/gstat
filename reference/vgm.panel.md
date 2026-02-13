@@ -105,10 +105,6 @@ panel.pointPairs(x, y, type = "p", pch = plot.symbol$pch, col, col.line =
 
 ignored; the enclosing function returns a plot of class `trellis`
 
-## References
-
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma

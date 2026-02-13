@@ -63,10 +63,6 @@ ylab = "y coordinate", col.line = 2, line.pch = 0, main = "selected point pairs"
 plots the data locations, with lines connecting the point pairs
 identified (and refered to by indices in) x
 
-## References
-
-<http://www.gstat.org>
-
 ## Author
 
 Edzer Pebesma

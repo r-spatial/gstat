@@ -27,10 +27,6 @@ This data frame contains the following columns:
 
   altitude in m. above NAP (Dutch zero for sea level)
 
-## References
-
-<http://www.gstat.org/>
-
 ## See also
 
 [meuse.all](meuse.all.md)

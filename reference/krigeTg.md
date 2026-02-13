@@ -109,8 +109,6 @@ transformed scale; `var1TG.pred` the transGaussian kriging predictor;
 
 N.A.C. Cressie, 1993, Statistics for Spatial Data, Wiley.
 
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma

@@ -110,11 +110,9 @@ the mean of the last five values of `object$gamma`.
 Values for `fit.method` are 1: weights equal to \$N_j\$; 2: weights
 equal to \$N_j/((gamma(h_j))^2)\$; 5 (ignore, use
 [fit.variogram.reml](fit.variogram.reml.md)); 6: unweighted (OLS); 7:
-\$N_j/(h_j^2)\$. (from: <http://www.gstat.org/gstat.pdf>, table 4.2).
+\$N_j/(h_j^2)\$.
 
 ## References
-
-<http://www.gstat.org/>
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat
 package. Computers and Geosciences, 30: 683-691.

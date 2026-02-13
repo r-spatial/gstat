@@ -127,11 +127,9 @@ columns contain prediction and prediction variance.
 
 Benedikt Graeler, Edzer Pebesma, Gerard Heuvelink. Spatio-Temporal
 Geostatistics using gstat. The R Journal 8(1), 204–218.
-<https://journal.r-project.org/archive/2016/RJ-2016-014/index.html>
+<https://journal.r-project.org/articles/RJ-2016-014/index.html>
 
 N.A.C. Cressie, 1993, Statistics for Spatial Data, Wiley.
-
-<http://www.gstat.org/>
 
 Pebesma, E.J., 2004. Multivariable geostatistics in S: the gstat
 package. Computers and Geosciences, 30: 683-691.

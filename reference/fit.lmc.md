@@ -54,10 +54,6 @@ correct.diagonal = 1.0, ...)
 
 returns an object of class `gstat`, with fitted variograms;
 
-## References
-
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma

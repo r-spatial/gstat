@@ -102,8 +102,6 @@ Rikken; data compiled for R by Edzer Pebesma
 P.A. Burrough, R.A. McDonnell, 1998. Principles of Geographical
 Information Systems. Oxford University Press.
 
-<http://www.gstat.org/>
-
 ## Note
 
 `sample` refers to original sample number. Eight samples were left out

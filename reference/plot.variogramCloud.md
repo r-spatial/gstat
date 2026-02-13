@@ -77,10 +77,6 @@ which will be used in subsequent calls to plot.variogramCloud with
 In both of the `keep = TRUE` cases, the attribute `ppairs` of class
 `pointPairs` is present, containing the point pairs identified.
 
-## References
-
-<http://www.gstat.org/>
-
 ## Author
 
 Edzer Pebesma
