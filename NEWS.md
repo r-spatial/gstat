@@ -1,3 +1,7 @@
+# version 2.1-6
+
+* clean test output
+
 # version 2.1-2
 
 * `variogram()` supports `stars` (raster) objects, benefiting from them being gridded

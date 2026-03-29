@@ -32,7 +32,6 @@ all.equal(k_sp, as(k_sf, "Spatial"), check.attributes = TRUE)
 
 suppressPackageStartupMessages(library(stars))
 st = st_as_stars(meuse.grid)
-st_crs(st)
 
 # compare inputs:
 sp = as(st, "Spatial")
@@ -51,7 +50,6 @@ k_st
 
 # handle factors, when going to stars?
 k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
-st_as_stars(k_sp_grd)
 if (require(raster, quietly = TRUE)) {
  print(st_as_stars(raster::stack(k_sp_grd))) # check
  print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))

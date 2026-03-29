@@ -130,48 +130,6 @@ Type 'q()' to quit R.
 > 
 > suppressPackageStartupMessages(library(stars))
 > st = st_as_stars(meuse.grid)
-> st_crs(st)
-Coordinate Reference System:
-  User input: Amersfoort / RD New 
-  wkt:
-PROJCRS["Amersfoort / RD New",
-    BASEGEOGCRS["Amersfoort",
-        DATUM["Amersfoort",
-            ELLIPSOID["Bessel 1841",6377397.155,299.1528128,
-                LENGTHUNIT["metre",1]]],
-        PRIMEM["Greenwich",0,
-            ANGLEUNIT["degree",0.0174532925199433]],
-        ID["EPSG",4289]],
-    CONVERSION["RD New",
-        METHOD["Oblique Stereographic",
-            ID["EPSG",9809]],
-        PARAMETER["Latitude of natural origin",52.1561605555556,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8801]],
-        PARAMETER["Longitude of natural origin",5.38763888888889,
-            ANGLEUNIT["degree",0.0174532925199433],
-            ID["EPSG",8802]],
-        PARAMETER["Scale factor at natural origin",0.9999079,
-            SCALEUNIT["unity",1],
-            ID["EPSG",8805]],
-        PARAMETER["False easting",155000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8806]],
-        PARAMETER["False northing",463000,
-            LENGTHUNIT["metre",1],
-            ID["EPSG",8807]]],
-    CS[Cartesian,2],
-        AXIS["easting (X)",east,
-            ORDER[1],
-            LENGTHUNIT["metre",1]],
-        AXIS["northing (Y)",north,
-            ORDER[2],
-            LENGTHUNIT["metre",1]],
-    USAGE[
-        SCOPE["Engineering survey, topographic mapping."],
-        AREA["Netherlands - onshore, including Waddenzee, Dutch Wadden Islands and 12-mile offshore coastal zone."],
-        BBOX[50.75,3.2,53.7,7.22]],
-    ID["EPSG",28992]]
 > 
 > # compare inputs:
 > sp = as(st, "Spatial")
@@ -209,21 +167,6 @@ y    1 104 333760   -40 [y]
 > 
 > # handle factors, when going to stars?
 > k_sp_grd$cls = cut(k_sp_grd$var1.pred, c(0, 5, 6, 7, 8, 9))
-> st_as_stars(k_sp_grd)
-stars object with 2 dimensions and 3 attributes
-attribute(s):
-   var1.pred       var1.var           cls      
- Min.   :4.777   Min.   :0.08549   (0,5]: 316  
- 1st Qu.:5.238   1st Qu.:0.13729   (5,6]:1778  
- Median :5.573   Median :0.16218   (6,7]: 962  
- Mean   :5.707   Mean   :0.18533   (7,8]:  47  
- 3rd Qu.:6.172   3rd Qu.:0.21162   (8,9]:   0  
- Max.   :7.440   Max.   :0.50028   NAs  :5009  
- NAs    :5009    NAs    :5009                  
-dimension(s):
-  from  to offset delta              refsys x/y
-x    1  78 178440    40 Amersfoort / RD New [x]
-y    1 104 333760   -40 Amersfoort / RD New [y]
 > if (require(raster, quietly = TRUE)) {
 +  print(st_as_stars(raster::stack(k_sp_grd))) # check
 +  print(all.equal(st_redimension(st_as_stars(k_sp_grd)), st_as_stars(raster::stack(k_sp_grd)), check.attributes=FALSE))
