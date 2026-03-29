@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gstat</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1-5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.1-6</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -161,7 +161,7 @@ Wiley.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       0       0       0       0       0       0 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x2</span><span class="op">$</span><span class="va">var1.pred</span><span class="op">-</span><span class="va">x1</span><span class="op">$</span><span class="va">var1TG.pred</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> -2.274e-13 -5.684e-14  0.000e+00 -8.573e-15  0.000e+00  4.547e-13 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -4.547e-13  0.000e+00  0.000e+00 -8.903e-15  0.000e+00  2.274e-13 </span>
 <span class="r-in"><span><span class="va">lambda</span> <span class="op">=</span> <span class="op">-</span><span class="fl">0.25</span></span></span>
 <span class="r-in"><span><span class="va">m</span> <span class="op">=</span> <span class="fu"><a href="fit.variogram.html">fit.variogram</a></span><span class="op">(</span><span class="fu"><a href="variogram.html">variogram</a></span><span class="op">(</span><span class="op">(</span><span class="va">zinc</span><span class="op">^</span><span class="va">lambda</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span><span class="op">/</span><span class="va">lambda</span> <span class="op">~</span> <span class="fl">1</span>,<span class="va">meuse</span><span class="op">)</span>, <span class="fu"><a href="vgm.html">vgm</a></span><span class="op">(</span><span class="fl">1</span>, <span class="st">"Exp"</span>, <span class="fl">300</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu">krigeTg</span><span class="op">(</span><span class="va">zinc</span><span class="op">~</span><span class="fl">1</span>,<span class="va">meuse</span>,<span class="va">meuse.grid</span>,<span class="va">m</span>,lambda<span class="op">=</span><span class="op">-</span><span class="fl">.25</span><span class="op">)</span></span></span>

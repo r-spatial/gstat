@@ -1,5 +1,9 @@
 # Changelog
 
+## version 2.1-6
+
+- clean test output
+
 ## version 2.1-2
 
 CRAN release: 2024-09-05

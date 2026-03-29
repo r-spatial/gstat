@@ -138,7 +138,7 @@ summary(x2$var1.var-x1$var1TG.var)
 #>       0       0       0       0       0       0 
 summary(x2$var1.pred-x1$var1TG.pred)
 #>       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
-#> -2.274e-13 -5.684e-14  0.000e+00 -8.573e-15  0.000e+00  4.547e-13 
+#> -4.547e-13  0.000e+00  0.000e+00 -8.903e-15  0.000e+00  2.274e-13 
 lambda = -0.25
 m = fit.variogram(variogram((zinc^lambda-1)/lambda ~ 1,meuse), vgm(1, "Exp", 300))
 x = krigeTg(zinc~1,meuse,meuse.grid,m,lambda=-.25)

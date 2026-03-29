@@ -189,19 +189,19 @@ summary(out)
 #> Number of points: 155
 #> Data attributes:
 #>     zn.pred          zn.var           observed        residual        
-#>  Min.   :4.666   Min.   :0.04154   Min.   :4.727   Min.   :-1.001650  
-#>  1st Qu.:5.317   1st Qu.:0.05093   1st Qu.:5.288   1st Qu.:-0.141232  
-#>  Median :5.779   Median :0.05487   Median :5.787   Median : 0.013259  
-#>  Mean   :5.890   Mean   :0.05608   Mean   :5.886   Mean   :-0.004677  
-#>  3rd Qu.:6.420   3rd Qu.:0.05963   3rd Qu.:6.514   3rd Qu.: 0.151577  
-#>  Max.   :7.670   Max.   :0.09842   Max.   :7.517   Max.   : 0.546276  
+#>  Min.   :4.660   Min.   :0.04106   Min.   :4.727   Min.   :-1.046096  
+#>  1st Qu.:5.314   1st Qu.:0.05054   1st Qu.:5.288   1st Qu.:-0.133537  
+#>  Median :5.775   Median :0.05452   Median :5.787   Median : 0.006930  
+#>  Mean   :5.882   Mean   :0.05632   Mean   :5.886   Mean   : 0.003514  
+#>  3rd Qu.:6.403   3rd Qu.:0.06034   3rd Qu.:6.514   3rd Qu.: 0.160171  
+#>  Max.   :7.687   Max.   :0.09869   Max.   :7.517   Max.   : 0.518525  
 #>      zscore              fold      
-#>  Min.   :-4.01868   Min.   :1.000  
-#>  1st Qu.:-0.59539   1st Qu.:2.000  
-#>  Median : 0.05399   Median :3.000  
-#>  Mean   :-0.01693   Mean   :2.987  
-#>  3rd Qu.: 0.63170   3rd Qu.:4.000  
-#>  Max.   : 2.35554   Max.   :5.000  
+#>  Min.   :-4.22112   Min.   :1.000  
+#>  1st Qu.:-0.53431   1st Qu.:2.000  
+#>  Median : 0.03024   Median :3.000  
+#>  Mean   : 0.01530   Mean   :2.942  
+#>  3rd Qu.: 0.67320   3rd Qu.:4.000  
+#>  Max.   : 2.45696   Max.   :5.000  
 out = gstat.cv(meuse.fit, nmax = 40, nfold = c(rep(1,100), rep(2,55))) 
 #> Linear Model of Coregionalization found. Good.
 #> [using ordinary cokriging]
