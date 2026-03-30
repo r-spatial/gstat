@@ -62,12 +62,6 @@ data(tull)
 Werner G. Müller, Collecting Spatial Data, 3rd edition.
 Springer Verlag, Heidelberg, 2007
 }
-\note{
-This data set was obtained on May 6, 2008 from
-\url{ http://www.ifas.jku.at/e5361/index_ger.html }.
-The author of the book that uses it is found at:
-\url{ http://www.ifas.jku.at/e2571/e2604/index_ger.html }
-}
 \keyword{datasets}
 \examples{
 data(tull)

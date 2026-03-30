@@ -1,3 +1,8 @@
+2026-03-29  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md, inst/ChangeLog, tests/stars.R,
+	tests/stars.Rout.save: address CRAN NOTEs
+
 2026-02-13  edzer <edzer.pebesma@uni-muenster.de>
 
 	* inst/CITATION, inst/ChangeLog, tests/stars.Rout.save,
