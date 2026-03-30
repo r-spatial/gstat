@@ -2,6 +2,8 @@
 
 ## version 2.1-6
 
+CRAN release: 2026-03-30
+
 - clean test output
 
 ## version 2.1-2

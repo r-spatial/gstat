@@ -173,13 +173,6 @@ The data frames contain the following columns:
 Werner G. Müller, Collecting Spatial Data, 3rd edition. Springer Verlag,
 Heidelberg, 2007
 
-## Note
-
-This data set was obtained on May 6, 2008 from
-[http://www.ifas.jku.at/e5361/index_ger.html](http://www.ifas.jku.at/e5361/index_ger.html%20)
-. The author of the book that uses it is found at:
-[http://www.ifas.jku.at/e2571/e2604/index_ger.html](http://www.ifas.jku.at/e2571/e2604/index_ger.html%20)
-
 ## Examples
 
 ``` r
