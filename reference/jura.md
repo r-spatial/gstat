@@ -176,7 +176,7 @@ summary(transect.dat)
 #>  Mean   :3.625   Mean   :2.047   Mean   :19.988   Mean   :1.486  
 #>  3rd Qu.:4.938   3rd Qu.:2.000   3rd Qu.:23.565   3rd Qu.:1.961  
 #>  Max.   :6.250   Max.   :4.000   Max.   :37.047   Max.   :3.925  
-#>                                                   NA's   :96     
+#>                                                   NAs    :96     
 #>        Ni       
 #>  Min.   : 4.20  
 #>  1st Qu.:13.31  
@@ -184,7 +184,7 @@ summary(transect.dat)
 #>  Mean   :19.62  
 #>  3rd Qu.:24.98  
 #>  Max.   :43.68  
-#>  NA's   :90     
+#>  NAs    :90     
 summary(juragrid.dat)
 #>       Xloc            Yloc          Landuse               Rock     
 #>  Min.   :0.300   Min.   :0.100   Forest : 986   Argovian    :1185  

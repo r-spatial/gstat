@@ -212,7 +212,7 @@ summary(Chlorid92)
 #>  Mean   :1994-08-31 06:16:46   Mean   :15.30   Mean   :59.31   Mean   :58.26  
 #>  3rd Qu.:1996-01-15 23:00:00   3rd Qu.:17.20   3rd Qu.:61.48   3rd Qu.:60.00  
 #>  Max.   :1997-03-24 23:00:00   Max.   :24.30   Max.   :65.00   Max.   :62.30  
-#>                                NA's   :119     NA's   :121     NA's   :124    
+#>                                NAs    :119     NAs    :121     NAs    :124    
 #>       S854           S1502           S1584           S1591      
 #>  Min.   :56.70   Min.   :21.90   Min.   :45.00   Min.   : 6.80  
 #>  1st Qu.:65.38   1st Qu.:51.25   1st Qu.:50.08   1st Qu.: 8.70  
@@ -220,7 +220,7 @@ summary(Chlorid92)
 #>  Mean   :70.22   Mean   :57.39   Mean   :53.90   Mean   :11.07  
 #>  3rd Qu.:73.47   3rd Qu.:65.95   3rd Qu.:56.88   3rd Qu.:12.30  
 #>  Max.   :86.90   Max.   :71.00   Max.   :65.00   Max.   :20.10  
-#>  NA's   :137     NA's   :119     NA's   :131     NA's   :140    
+#>  NAs    :137     NAs    :119     NAs    :131     NAs    :140    
 #>      S2046           S2047           S2048            S2049      
 #>  Min.   :10.70   Min.   :4.700   Min.   : 4.400   Min.   :17.90  
 #>  1st Qu.:11.60   1st Qu.:5.900   1st Qu.: 5.700   1st Qu.:20.20  
@@ -228,7 +228,7 @@ summary(Chlorid92)
 #>  Mean   :14.58   Mean   :6.626   Mean   : 7.297   Mean   :24.14  
 #>  3rd Qu.:17.70   3rd Qu.:7.200   3rd Qu.: 9.030   3rd Qu.:26.90  
 #>  Max.   :19.00   Max.   :8.830   Max.   :10.800   Max.   :30.90  
-#>  NA's   :140     NA's   :140     NA's   :140      NA's   :140    
+#>  NAs    :140     NAs    :140     NAs    :140      NAs    :140    
 #>      S2051           S2052           S2053           S2054      
 #>  Min.   :16.40   Min.   :31.30   Min.   :20.60   Min.   :25.00  
 #>  1st Qu.:28.10   1st Qu.:35.40   1st Qu.:29.10   1st Qu.:33.80  
@@ -236,7 +236,7 @@ summary(Chlorid92)
 #>  Mean   :29.37   Mean   :36.92   Mean   :36.32   Mean   :38.72  
 #>  3rd Qu.:31.20   3rd Qu.:38.70   3rd Qu.:38.80   3rd Qu.:40.60  
 #>  Max.   :46.20   Max.   :41.90   Max.   :68.60   Max.   :66.90  
-#>  NA's   :140     NA's   :140     NA's   :140     NA's   :140    
+#>  NAs    :140     NAs    :140     NAs    :140     NAs    :140    
 #>      S2055           S2057          S2058           S2059           S2060      
 #>  Min.   :39.20   Min.   :16.4   Min.   :21.00   Min.   : 8.00   Min.   :41.60  
 #>  1st Qu.:40.50   1st Qu.:33.1   1st Qu.:29.73   1st Qu.:14.40   1st Qu.:47.40  
@@ -244,7 +244,7 @@ summary(Chlorid92)
 #>  Mean   :45.83   Mean   :38.9   Mean   :38.80   Mean   :23.99   Mean   :52.52  
 #>  3rd Qu.:47.58   3rd Qu.:45.4   3rd Qu.:45.10   3rd Qu.:30.00   3rd Qu.:54.45  
 #>  Max.   :63.70   Max.   :49.0   Max.   :70.80   Max.   :50.00   Max.   :72.20  
-#>  NA's   :141     NA's   :140    NA's   :141     NA's   :140     NA's   :142    
+#>  NAs    :141     NAs    :140    NAs    :141     NAs    :140     NAs    :142    
 #>      S2061           S2062           S2063           S2064      
 #>  Min.   :44.50   Min.   :49.10   Min.   :36.60   Min.   :50.70  
 #>  1st Qu.:49.90   1st Qu.:65.30   1st Qu.:49.20   1st Qu.:61.20  
@@ -252,7 +252,7 @@ summary(Chlorid92)
 #>  Mean   :63.59   Mean   :66.52   Mean   :52.24   Mean   :66.52  
 #>  3rd Qu.:68.05   3rd Qu.:70.45   3rd Qu.:58.20   3rd Qu.:66.60  
 #>  Max.   :90.80   Max.   :73.40   Max.   :61.20   Max.   :97.50  
-#>  NA's   :137     NA's   :142     NA's   :140     NA's   :140    
+#>  NAs    :137     NAs    :142     NAs    :140     NAs    :140    
 #>      S2065           S2066            S2067           S2070      
 #>  Min.   :30.40   Min.   : 29.80   Min.   :30.00   Min.   : 8.70  
 #>  1st Qu.:57.50   1st Qu.: 44.35   1st Qu.:37.60   1st Qu.: 9.50  
@@ -260,7 +260,7 @@ summary(Chlorid92)
 #>  Mean   :61.49   Mean   : 64.69   Mean   :41.38   Mean   :10.47  
 #>  3rd Qu.:70.10   3rd Qu.: 70.95   3rd Qu.:41.20   3rd Qu.:11.10  
 #>  Max.   :79.40   Max.   :242.00   Max.   :90.10   Max.   :16.30  
-#>  NA's   :140     NA's   :142      NA's   :140     NA's   :142    
+#>  NAs    :140     NAs    :142      NAs    :140     NAs    :142    
 #>      S2071           S2072           S2128           S5319      
 #>  Min.   :11.70   Min.   :78.50   Min.   :5.300   Min.   :50.30  
 #>  1st Qu.:13.20   1st Qu.:82.10   1st Qu.:6.500   1st Qu.:52.95  
@@ -268,7 +268,7 @@ summary(Chlorid92)
 #>  Mean   :14.81   Mean   :84.12   Mean   :7.418   Mean   :54.37  
 #>  3rd Qu.:16.00   3rd Qu.:86.50   3rd Qu.:8.300   3rd Qu.:56.40  
 #>  Max.   :18.80   Max.   :89.90   Max.   :9.600   Max.   :57.20  
-#>  NA's   :140     NA's   :140     NA's   :140     NA's   :158    
+#>  NAs    :140     NAs    :140     NAs    :140     NAs    :158    
 #>      S5320           S5321         S5322           S5323      
 #>  Min.   :114.0   Min.   :119   Min.   :28.50   Min.   :46.20  
 #>  1st Qu.:115.5   1st Qu.:119   1st Qu.:41.90   1st Qu.:53.05  
@@ -276,7 +276,7 @@ summary(Chlorid92)
 #>  Mean   :116.0   Mean   :119   Mean   :47.97   Mean   :55.57  
 #>  3rd Qu.:117.0   3rd Qu.:119   3rd Qu.:57.70   3rd Qu.:60.25  
 #>  Max.   :117.0   Max.   :119   Max.   :60.10   Max.   :60.60  
-#>  NA's   :158     NA's   :160   NA's   :158     NA's   :158    
+#>  NAs    :158     NAs    :160   NAs    :158     NAs    :158    
 
 # stack & join data to x,y,Date,Chloride form:
 cl.st = stack(Chlorid92[-1])
@@ -295,7 +295,7 @@ summary(cl.st)
 #>  Mean   : 41.89   S854   : 161   Mean   :1994-08-31 06:16:46  
 #>  3rd Qu.: 59.90   S1502  : 161   3rd Qu.:1996-01-15 23:00:00  
 #>  Max.   :242.00   S1584  : 161   Max.   :1997-03-24 23:00:00  
-#>  NA's   :5050     (Other):4830                                
+#>  NAs    :5050     (Other):4830                                
 #>        x                   y           
 #>  Min.   :-0.770000   Min.   :-0.12951  
 #>  1st Qu.:-0.203624   1st Qu.:-0.02397  

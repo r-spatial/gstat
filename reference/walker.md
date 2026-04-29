@@ -69,7 +69,7 @@ summary(walker)
 #>  Mean   :235.5   Mean   : 435.3   Mean   : 604.08   Mean   :1.904  
 #>  3rd Qu.:352.8   3rd Qu.: 640.9   3rd Qu.: 844.55   3rd Qu.:2.000  
 #>  Max.   :470.0   Max.   :1528.1   Max.   :5190.10   Max.   :2.000  
-#>                                   NA's   :195                      
+#>                                   NAs    :195                      
 summary(walker.exh)
 #> Object of class SpatialGridDataFrame
 #> Coordinates:

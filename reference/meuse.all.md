@@ -141,7 +141,7 @@ summary(meuse.all)
 #>  Mean   : 294.2   Mean   : 7.291   Mean   :1.604   Mean   :1.463  
 #>  3rd Qu.: 450.0   3rd Qu.: 8.950   3rd Qu.:2.000   3rd Qu.:2.000  
 #>  Max.   :1000.0   Max.   :17.000   Max.   :3.000   Max.   :3.000  
-#>                   NA's   :2                                       
+#>                   NAs    :2                                       
 #>       lime           landuse     in.pit        in.meuse155      in.BMcD       
 #>  Min.   :0.0000   W      :54   Mode :logical   Mode :logical   Mode :logical  
 #>  1st Qu.:0.0000   Ah     :42   FALSE:156       FALSE:9         FALSE:66       
@@ -149,5 +149,5 @@ summary(meuse.all)
 #>  Mean   :0.2988   Fw     :10                                                  
 #>  3rd Qu.:1.0000   Ab     : 8                                                  
 #>  Max.   :1.0000   (Other):27                                                  
-#>                   NA's   : 1                                                  
+#>                   NAs    : 1                                                  
 ```
