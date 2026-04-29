@@ -84,11 +84,12 @@ coordinates(wind.loc) = ~x+y
 
 \dontrun{
 # fig 1:
-library(maps)
-library(mapdata)
-map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
-points(wind.loc, pch=16)
-text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
+if (require(mapdata, quietly = TRUE)) {
+  library(mapdata)
+  map("worldHires", xlim = c(-11,-5.4), ylim = c(51,55.5))
+  points(wind.loc, pch=16)
+  text(coordinates(wind.loc), pos=1, label=wind.loc$Station)
+}
 }
 
 wind$time = ISOdate(wind$year+1900, wind$month, wind$day)
