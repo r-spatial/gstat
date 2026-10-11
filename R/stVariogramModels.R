@@ -284,7 +284,7 @@ covSurfProdSumOld <- function(model, dist_grid) {
 
 vgmProdSum <- function(model, dist_grid) {
   if(!is.null(model$sill)) # backwards compatibility
-    vgmProdSumOld(model, dist_grid)
+    return(vgmProdSumOld(model, dist_grid)) # fix backwards compatibility
   vs = variogramLine(model$space, dist_vector=dist_grid$spacelag)$gamma
   vt = variogramLine(model$time, dist_vector=dist_grid$timelag)$gamma
   
@@ -299,7 +299,7 @@ covProdSum <- function(x, y, model) {
   stopifnot(inherits(x, c("STF", "STS", "STI", "sftime")) &&
 			inherits(y, c("STF", "STS", "STI", "sftime")))
   if(!is.null(model$sill)) # backwards compatibility
-    covProdSumOld(x, y, model)
+    return(covProdSumOld(x, y, model)) # fix backwards compatibility
   
   # the STF case
   if (inherits(x, "STF") && inherits(y, "STF")) {
@@ -369,6 +369,9 @@ covProdSum <- function(x, y, model) {
 
 # covariance for the circulant embedding in ST
 covSurfProdSum <- function(model, dist_grid) {
+  if(!is.null(model$sill)) # backwards compatibility
+    return(covSurfProdSumOld(model, dist_grid)) 
+  
   vs = variogramLine(model$space, dist_vector = dist_grid$spacelag, covariance = TRUE)$gamma
   vt = variogramLine(model$time, dist_vector = dist_grid$timelag, covariance = TRUE)$gamma
   
