@@ -1,5 +1,10 @@
 # Changelog
 
+## version 2.1-7
+
+- fixes backwards compatibility of prodSum model;
+  [\#150](https://github.com/r-spatial/gstat/issues/150)
+
 ## version 2.1-6
 
 CRAN release: 2026-03-30
