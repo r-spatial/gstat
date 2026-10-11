@@ -1,3 +1,7 @@
+# version 2.1-7
+
+* fixes backwards compatibility of prodSum model; #150 
+
 # version 2.1-6
 
 * clean test output
