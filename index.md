@@ -36,12 +36,14 @@ describes material that is now archived in branch
 Install either from CRAN with
 
 ``` r
+
 install.packages("gstat")
 ```
 
 or development version from GitHub with
 
 ``` r
+
 library(remotes)
 install_github("r-spatial/gstat")
 ```
