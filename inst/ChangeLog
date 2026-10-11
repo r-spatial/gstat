@@ -1,3 +1,22 @@
+2026-10-11  edzer <edzer.pebesma@uni-muenster.de>
+
+	* DESCRIPTION, NEWS.md: for #150
+
+2026-10-11  Edzer Pebesma <edzer.pebesma@uni-muenster.de>
+
+	* : Merge pull request #150 from BenGraeler/main fixes backwards compatibility of prodSum model
+
+2026-04-29  edzer <edzer.pebesma@uni-muenster.de>
+
+	* man/wind.Rd, tests/windst.R, tests/windst.Rout.save: tighten
+	checks
+
+2026-03-30  edzer <edzer.pebesma@uni-muenster.de>
+
+	* inst/ChangeLog, inst/external/no2a.csv, man/tull.Rd,
+	vignettes/spatio-temporal-kriging.Rnw: add no2a, updated EEA data;
+	links fixes
+
 2026-03-29  edzer <edzer.pebesma@uni-muenster.de>
 
 	* DESCRIPTION, NEWS.md, inst/ChangeLog, tests/stars.R,
