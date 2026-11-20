@@ -226,5 +226,5 @@ gridded(jura.grid) = TRUE
 jura.pred <- as.data.frame(jura.pred)
 coordinates(jura.pred) = ~ long + lat
 proj4string(jura.pred) = CRS("+init=epsg:4326")
-#> Warning: GDAL Message 1: +init=epsg:XXXX syntax is deprecated. It might return a CRS with a non-EPSG compliant axis order.
+#> Warning: GDAL Message 1: +init=epsg:XXXX syntax is deprecated. It might return a CRS with a non-EPSG compliant axis order. Further messages of this type will be suppressed.
 ```
