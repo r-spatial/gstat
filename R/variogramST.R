@@ -255,7 +255,7 @@ variogramST.STIDF <- function (formula, data, tlags, cutoff,
       
       indSp <- cbind(ind[indSp] %% nData, (ind[indSp] %/% nData)+1)
       np[j,i] <- nrow(indSp) # Issue #7, Thanks to Roelof.
-      gamma[j,i] <- 0.5*mean((data[,,colnames(m)[1], drop=T]@data[indSp[,1],1, drop=T] - data[,,colnames(m)[1], drop=T]@data[indSp[,1]+indSp[,2],1, drop=T])^2,
+      gamma[j,i] <- 0.5*mean((data[,,colnames(m)[1], drop=TRUE]@data[indSp[,1],1, drop=TRUE] - data[,,colnames(m)[1], drop=TRUE]@data[indSp[,1]+indSp[,2],1, drop=TRUE])^2,
                              na.rm=TRUE) # Issue #128
     }
     if(progress)
